@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DayReport xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/DelitaTrade.Models">
+	<_dayReportID>2024-08-21</_dayReportID>
+	<_invoices>
+		<Invoice>
+			<_amount>44.32</_amount>
+			<_companyName>Тити Трейд ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001161075</_invoiceID>
+			<_objectName>Тити Трейд - Пазарджик</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>27.5</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>662.89</_amount>
+			<_companyName>Тити Трейд ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001161006</_invoiceID>
+			<_objectName>Тити Трейд - Пазарджик</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>107.5</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>835.28</_amount>
+			<_companyName>Тити Трейд ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001160975</_invoiceID>
+			<_objectName>Тити Трейд - Пазарджик</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>177.462</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>935.09</_amount>
+			<_companyName>Тити Трейд ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001161003</_invoiceID>
+			<_objectName>Тити Трейд - Пазарджик</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>103</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>385.61</_amount>
+			<_companyName>Грейс и Ко ООД</_companyName>
+			<_income>385.61</_income>
+			<_invoiceID>1001161015</_invoiceID>
+			<_objectName>Ирон - Пазарджик</_objectName>
+			<_payMethod>В брой</_payMethod>
+			<_weight>127.4</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>225.9</_amount>
+			<_companyName>Лазур и Ко ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001160977</_invoiceID>
+			<_objectName>Ресторант Лазур - Пещера</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>114.4</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>4173.32</_amount>
+			<_companyName>Атик ООД</_companyName>
+			<_income>4173.32</_income>
+			<_invoiceID>1001161064</_invoiceID>
+			<_objectName>Атик - Пловдив</_objectName>
+			<_payMethod>В брой</_payMethod>
+			<_weight>636.129</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>1224.18</_amount>
+			<_companyName>Брадърс Комерс ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001161023</_invoiceID>
+			<_objectName>Брадърс Комерс Пловдив</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>107.365</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>491.8</_amount>
+			<_companyName>Брадърс Комерс ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001161026</_invoiceID>
+			<_objectName>Брадърс Комерс Смолян</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>69.5</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>2886.28</_amount>
+			<_companyName>Арте Хотел ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001160990</_invoiceID>
+			<_objectName>Хотел Арте - Велинград</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>313.555</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>3417.5</_amount>
+			<_companyName>Велина ЕАД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001160981</_invoiceID>
+			<_objectName>Хотел Кашмир - Велинград</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>301.367</_weight>
+		</Invoice>
+	</_invoices>
+	<_payDesk>
+		<_amount>4559.00</_amount>
+		<_banknotes xmlns:d3p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.01</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.02</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.05</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.1</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.2</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.5</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>1.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>2.0</d3p1:Key>
+				<d3p1:Value>12</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>5.0</d3p1:Key>
+				<d3p1:Value>1</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>10.0</d3p1:Key>
+				<d3p1:Value>16</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>20.0</d3p1:Key>
+				<d3p1:Value>201</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>50.0</d3p1:Key>
+				<d3p1:Value>7</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>100.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+		</_banknotes>
+	</_payDesk>
+	<_totalAmaunt>15282.17</_totalAmaunt>
+	<_totalExpenses>0</_totalExpenses>
+	<_totalIncome>4558.93</_totalIncome>
+	<_totalNonPay>0</_totalNonPay>
+	<_totalOldInvoice>0</_totalOldInvoice>
+	<_totalWeight>2085.1780000000003</_totalWeight>
+	<_transmissionDate>21-08-2024</_transmissionDate>
+	<_vehicle>СВ 2241 КК</_vehicle>
+</DayReport>

@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DayReport xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/DelitaTrade.Models">
+	<_dayReportID>2024-08-09</_dayReportID>
+	<_invoices>
+		<Invoice>
+			<_amount>257.93</_amount>
+			<_companyName>Експрес Фууд Трейд ООД</_companyName>
+			<_income>257.93</_income>
+			<_invoiceID>1001158681</_invoiceID>
+			<_objectName>Борса Станев</_objectName>
+			<_payMethod>В брой</_payMethod>
+			<_weight>22.265</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>638.93</_amount>
+			<_companyName>Експрес Фууд Трейд ООД</_companyName>
+			<_income>638.93</_income>
+			<_invoiceID>1001158640</_invoiceID>
+			<_objectName>Борса Станев</_objectName>
+			<_payMethod>В брой</_payMethod>
+			<_weight>132</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>526.32</_amount>
+			<_companyName>Ния 2016 ООД</_companyName>
+			<_income>526.32</_income>
+			<_invoiceID>1001158816</_invoiceID>
+			<_objectName>Ени Тайм Летище</_objectName>
+			<_payMethod>В брой</_payMethod>
+			<_weight>95.255</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>1131.55</_amount>
+			<_companyName>Галатея ЕН 99 ООД</_companyName>
+			<_income>1131.55</_income>
+			<_invoiceID>1001158814</_invoiceID>
+			<_objectName>Галатея</_objectName>
+			<_payMethod>В брой</_payMethod>
+			<_weight>75.42</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>550.55</_amount>
+			<_companyName>Влад Инженеринг Груп ЕООД</_companyName>
+			<_income>550.55</_income>
+			<_invoiceID>1001159008</_invoiceID>
+			<_objectName>Басейн Банкя</_objectName>
+			<_payMethod>В брой</_payMethod>
+			<_weight>100</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>442.44</_amount>
+			<_companyName>Фууд ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001158822</_invoiceID>
+			<_objectName>БДС - 2</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>89.97</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>248.5</_amount>
+			<_companyName>Култ Гурме Кетъринг ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001158815</_invoiceID>
+			<_objectName>Кулинарен цех</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>39.592</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>140.62</_amount>
+			<_companyName>Водолей 72 ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001158820</_invoiceID>
+			<_objectName>Водолей Булгарплод</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>6.6</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>148.8</_amount>
+			<_companyName>Едис Кетъринг ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001158818</_invoiceID>
+			<_objectName>Едис Терминал 2</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>24</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>181.01</_amount>
+			<_companyName>Лагардер Травъл Ритейл ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001158810</_invoiceID>
+			<_objectName>Онда Терминал 2</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>8.04</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>1173.49</_amount>
+			<_companyName>Фили Вайб АД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001158817</_invoiceID>
+			<_objectName>Пица Лаб</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>264</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>328.68</_amount>
+			<_companyName>Еско Трейд АД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001159007</_invoiceID>
+			<_objectName>Лекербек - Божурище</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>101</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>0</_amount>
+			<_companyName>Стария Чинар София ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>0000907043</_invoiceID>
+			<_objectName>Стария Чинар</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>50.325</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>0</_amount>
+			<_companyName>Раковски и Петкова ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>0000907042</_invoiceID>
+			<_objectName>Скара Бар - Парк Заимов</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>0</_weight>
+		</Invoice>
+	</_invoices>
+	<_payDesk>
+		<_amount>3105.30</_amount>
+		<_banknotes xmlns:d3p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.01</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.02</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.05</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.1</d3p1:Key>
+				<d3p1:Value>1</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.2</d3p1:Key>
+				<d3p1:Value>1</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.5</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>1.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>2.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>5.0</d3p1:Key>
+				<d3p1:Value>3</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>10.0</d3p1:Key>
+				<d3p1:Value>1</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>20.0</d3p1:Key>
+				<d3p1:Value>69</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>50.0</d3p1:Key>
+				<d3p1:Value>22</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>100.0</d3p1:Key>
+				<d3p1:Value>6</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+		</_banknotes>
+	</_payDesk>
+	<_totalAmaunt>5768.82</_totalAmaunt>
+	<_totalExpenses>0</_totalExpenses>
+	<_totalIncome>3105.28</_totalIncome>
+	<_totalNonPay>0</_totalNonPay>
+	<_totalOldInvoice>0</_totalOldInvoice>
+	<_totalWeight>1008.467</_totalWeight>
+	<_transmissionDate>12-08-2024</_transmissionDate>
+	<_vehicle>СВ 8507 МВ</_vehicle>
+</DayReport>

@@ -1,0 +1,229 @@
+16.5.2024 г. 21:11:18 - The day report is already exists
+DelitaTrade
+System.Collections.ListDictionaryInternal
+16.5.2024 г. 21:15:58 - The day report is already exists
+DelitaTrade
+System.Collections.ListDictionaryInternal
+   at DelitaTrade.Models.DayReportDataBase.IsNewDayReport(String dayReportId) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 187
+
+
+-2147024809
+16.5.2024 г. 21:19:40 - The day report is already exists
+DelitaTrade
+System.Collections.ListDictionaryInternal
+   at DelitaTrade.Models.DayReportDataBase.IsNewDayReport(String dayReportId) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 187
+
+16.5.2024 г. 21:22:39 - The day report is already exists
+DelitaTrade
+System.Collections.ListDictionaryInternal
+   at DelitaTrade.Models.DayReportDataBase.IsNewDayReport(String dayReportId) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 187
+
+--------------------------------------------------
+16.5.2024 г. 22:06:04 - The day report is already exists
+System.ArgumentException: The day report is already exists
+   at DelitaTrade.Models.DayReportDataBase.IsNewDayReport(String dayReportId) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 187
+DelitaTrade
+System.Collections.ListDictionaryInternal
+   at DelitaTrade.Models.DayReportDataBase.IsNewDayReport(String dayReportId) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 187
+
+--------------------------------------------------
+16.5.2024 г. 22:10:22 - The day report is already exists
+System.ArgumentException: The day report is already exists
+   at DelitaTrade.Models.DayReportDataBase.IsNewDayReport(String dayReportId) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 187
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReportDataBase.IsNewDayReport(String dayReportId) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 187
+InnerExceptioon - 
+--------------------------------------------------
+17.5.2024 г. 20:33:09 - The day report is already exists
+System.ArgumentException: The day report is already exists
+   at DelitaTrade.Models.DayReportDataBase.IsNewDayReport(String dayReportId) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 187
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReportDataBase.IsNewDayReport(String dayReportId) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 187
+InnerExceptioon - 
+--------------------------------------------------
+17.5.2024 г. 20:35:54 - The day report is already exists
+System.ArgumentException: The day report is already exists
+   at DelitaTrade.Models.DayReportDataBase.IsNewDayReport(String dayReportId) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 187
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReportDataBase.IsNewDayReport(String dayReportId) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 187
+InnerExceptioon - 
+--------------------------------------------------
+17.5.2024 г. 20:38:35 - The day report is already exists
+System.ArgumentException: The day report is already exists
+   at DelitaTrade.Models.DayReportDataBase.IsNewDayReport(String dayReportId) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 187
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReportDataBase.IsNewDayReport(String dayReportId) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 187
+InnerExceptioon - 
+--------------------------------------------------
+17.5.2024 г. 20:46:25 - The day report is already exists
+System.ArgumentException: The day report is already exists
+   at DelitaTrade.Models.DayReportDataBase.IsNewDayReport(String dayReportId) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 187
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReportDataBase.IsNewDayReport(String dayReportId) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 187
+InnerExceptioon - 
+--------------------------------------------------
+18.5.2024 г. 16:08:07 - The invoice is already exists!
+System.ArgumentException: The invoice is already exists!
+   at DelitaTrade.Models.DayReportDataBase.AddNewInvoice(Invoice invoice) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 216
+   at DelitaTrade.Models.DelitaTradeDayReport.AddInvoice(Invoice invoice) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 101
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReportDataBase.AddNewInvoice(Invoice invoice) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 216
+   at DelitaTrade.Models.DelitaTradeDayReport.AddInvoice(Invoice invoice) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 101
+InnerExceptioon - 
+--------------------------------------------------
+18.5.2024 г. 17:15:23 - Value cannot be null. (Parameter 'There is not day report name set')
+System.ArgumentNullException: Value cannot be null. (Parameter 'There is not day report name set')
+   at DelitaTrade.Models.DelitaTradeDayReport.GetAllInvoices() in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 143
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DelitaTradeDayReport.GetAllInvoices() in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 143
+InnerExceptioon - 
+--------------------------------------------------
+18.5.2024 г. 17:15:57 - Value cannot be null. (Parameter 'There is not day report name set')
+System.ArgumentNullException: Value cannot be null. (Parameter 'There is not day report name set')
+   at DelitaTrade.Models.DelitaTradeDayReport.GetAllInvoices() in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 143
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DelitaTradeDayReport.GetAllInvoices() in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 143
+InnerExceptioon - 
+--------------------------------------------------
+18.5.2024 г. 17:18:09 - Value cannot be null. (Parameter 'There is not day report name set')
+System.ArgumentNullException: Value cannot be null. (Parameter 'There is not day report name set')
+   at DelitaTrade.Models.DelitaTradeDayReport.GetAllInvoices() in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 143
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DelitaTradeDayReport.GetAllInvoices() in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 143
+InnerExceptioon - 
+--------------------------------------------------
+18.5.2024 г. 19:48:40 - The invoice is already exists!
+System.ArgumentException: The invoice is already exists!
+   at DelitaTrade.Models.DayReportDataBase.AddNewInvoice(Invoice invoice) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 279
+   at DelitaTrade.Models.DelitaTradeDayReport.AddInvoice(Invoice invoice) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 125
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReportDataBase.AddNewInvoice(Invoice invoice) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 279
+   at DelitaTrade.Models.DelitaTradeDayReport.AddInvoice(Invoice invoice) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 125
+InnerExceptioon - 
+--------------------------------------------------
+18.5.2024 г. 21:05:29 - Value cannot be null. (Parameter 'The invoice is not exists!')
+System.ArgumentNullException: Value cannot be null. (Parameter 'The invoice is not exists!')
+   at DelitaTrade.Models.DayReportDataBase.UpdateInvoice(Invoice invoice) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 306
+   at DelitaTrade.Models.DelitaTradeDayReport.UpdateInvoice(Invoice invoice) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 105
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReportDataBase.UpdateInvoice(Invoice invoice) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 306
+   at DelitaTrade.Models.DelitaTradeDayReport.UpdateInvoice(Invoice invoice) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 105
+InnerExceptioon - 
+--------------------------------------------------
+19.5.2024 г. 18:26:42 - Value cannot be null. (Parameter 'Day report is not select')
+System.ArgumentNullException: Value cannot be null. (Parameter 'Day report is not select')
+   at DelitaTrade.Models.DayReportDataBase.SetTransmissionDate(String date) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 387
+   at DelitaTrade.Models.DelitaTradeDayReport.SetTransmissionDate(String date) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 301
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReportDataBase.SetTransmissionDate(String date) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 387
+   at DelitaTrade.Models.DelitaTradeDayReport.SetTransmissionDate(String date) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 301
+InnerExceptioon - 
+--------------------------------------------------
+19.5.2024 г. 18:27:04 - Value cannot be null. (Parameter 'Day report is not select')
+System.ArgumentNullException: Value cannot be null. (Parameter 'Day report is not select')
+   at DelitaTrade.Models.DayReportDataBase.SetTransmissionDate(String date) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 387
+   at DelitaTrade.Models.DelitaTradeDayReport.SetTransmissionDate(String date) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 301
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReportDataBase.SetTransmissionDate(String date) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 387
+   at DelitaTrade.Models.DelitaTradeDayReport.SetTransmissionDate(String date) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 301
+InnerExceptioon - 
+--------------------------------------------------
+21.5.2024 г. 18:31:17 - The given key '0.01' was not present in the dictionary.
+System.Collections.Generic.KeyNotFoundException: The given key '0.01' was not present in the dictionary.
+   at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at DelitaTrade.ViewModels.PayDeskViewModel.GetAllBanknotes() in C:\Users\sasho\OneDrive\Документы\DelitaTrade\ViewModels\PayDeskViewModel.cs:line 41
+   at DelitaTrade.Models.DelitaTradeDayReport.OnDayReportDataChanged() in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 37
+   at DelitaTrade.Models.DelitaTradeDayReport.CreateDayReport(String dayReportId) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 169
+Source - System.Private.CoreLib
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at DelitaTrade.ViewModels.PayDeskViewModel.GetAllBanknotes() in C:\Users\sasho\OneDrive\Документы\DelitaTrade\ViewModels\PayDeskViewModel.cs:line 41
+   at DelitaTrade.Models.DelitaTradeDayReport.OnDayReportDataChanged() in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 37
+   at DelitaTrade.Models.DelitaTradeDayReport.CreateDayReport(String dayReportId) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 169
+InnerExceptioon - 
+--------------------------------------------------
+21.5.2024 г. 18:31:24 - The given key '0.01' was not present in the dictionary.
+System.Collections.Generic.KeyNotFoundException: The given key '0.01' was not present in the dictionary.
+   at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at DelitaTrade.ViewModels.PayDeskViewModel.GetAllBanknotes() in C:\Users\sasho\OneDrive\Документы\DelitaTrade\ViewModels\PayDeskViewModel.cs:line 41
+   at DelitaTrade.Models.DelitaTradeDayReport.OnDayReportDataChanged() in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 37
+   at DelitaTrade.Models.DelitaTradeDayReport.LoadDayReport(String dayReportID) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 184
+Source - System.Private.CoreLib
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at DelitaTrade.ViewModels.PayDeskViewModel.GetAllBanknotes() in C:\Users\sasho\OneDrive\Документы\DelitaTrade\ViewModels\PayDeskViewModel.cs:line 41
+   at DelitaTrade.Models.DelitaTradeDayReport.OnDayReportDataChanged() in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 37
+   at DelitaTrade.Models.DelitaTradeDayReport.LoadDayReport(String dayReportID) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 184
+InnerExceptioon - 
+--------------------------------------------------
+27.5.2024 г. 17:43:23 - The invoice is already exists!
+System.ArgumentException: The invoice is already exists!
+   at DelitaTrade.Models.DayReportDataBase.AddNewInvoice(Invoice invoice) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 332
+   at DelitaTrade.Models.DelitaTradeDayReport.AddInvoice(Invoice invoice) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 250
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReportDataBase.AddNewInvoice(Invoice invoice) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 332
+   at DelitaTrade.Models.DelitaTradeDayReport.AddInvoice(Invoice invoice) in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 250
+InnerExceptioon - 
+--------------------------------------------------
+27.5.2024 г. 18:16:23 - Value cannot be null. (Parameter 'There is not day report name set')
+System.ArgumentNullException: Value cannot be null. (Parameter 'There is not day report name set')
+   at DelitaTrade.Models.DelitaTradeDayReport.GetAllInvoices() in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 302
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DelitaTradeDayReport.GetAllInvoices() in C:\Users\sasho\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 302
+InnerExceptioon - 
+--------------------------------------------------
+9.7.2024 г. 6:00:04 - The invoice is already exists!
+System.ArgumentException: The invoice is already exists!
+   at DelitaTrade.Models.DayReportDataBase.AddNewInvoice(Invoice invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 332
+   at DelitaTrade.Models.DelitaTradeDayReport.AddInvoice(Invoice invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 280
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReportDataBase.AddNewInvoice(Invoice invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 332
+   at DelitaTrade.Models.DelitaTradeDayReport.AddInvoice(Invoice invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 280
+InnerExceptioon - 
+--------------------------------------------------
+31.8.2024 г. 15:53:05 - Day report is not exists in data base.
+System.ArgumentException: Day report is not exists in data base.
+   at DelitaTrade.Models.DayReportDataBase.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 326
+   at DelitaTrade.Models.DelitaTradeDayReport.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 239
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReportDataBase.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 326
+   at DelitaTrade.Models.DelitaTradeDayReport.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 239
+InnerExceptioon - 
+--------------------------------------------------
+31.8.2024 г. 15:53:20 - Day report is not exists in data base.
+System.ArgumentException: Day report is not exists in data base.
+   at DelitaTrade.Models.DayReportDataBase.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 326
+   at DelitaTrade.Models.DelitaTradeDayReport.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 239
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReportDataBase.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 326
+   at DelitaTrade.Models.DelitaTradeDayReport.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 239
+InnerExceptioon - 
+--------------------------------------------------
+31.8.2024 г. 15:53:25 - Day report is not exists in data base.
+System.ArgumentException: Day report is not exists in data base.
+   at DelitaTrade.Models.DayReportDataBase.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 326
+   at DelitaTrade.Models.DelitaTradeDayReport.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 239
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReportDataBase.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 326
+   at DelitaTrade.Models.DelitaTradeDayReport.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 239
+InnerExceptioon - 
+--------------------------------------------------

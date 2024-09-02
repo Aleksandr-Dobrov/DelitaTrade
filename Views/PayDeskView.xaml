@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="DelitaTrade.Views.PayDeskView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DelitaTrade.Views"
+             xmlns:component="clr-namespace:DelitaTrade.Components" xmlns:viewmodels="clr-namespace:DelitaTrade.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:PayDeskViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Left"  Margin="5">
+            <component:BanknoteView DataContext="{Binding BanknoteViewModel[100]}" />
+            <component:BanknoteView DataContext="{Binding BanknoteViewModel[50]}"/>
+            <component:BanknoteView DataContext="{Binding BanknoteViewModel[20]}"/>
+            <component:BanknoteView DataContext="{Binding BanknoteViewModel[10]}"/>
+            <component:BanknoteView DataContext="{Binding BanknoteViewModel[5]}"/>
+        </StackPanel>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Center" Margin="5">
+                    <component:BanknoteView DataContext="{Binding BanknoteViewModel[2]}" />
+                    <component:BanknoteView DataContext="{Binding BanknoteViewModel[1]}"/>
+                    <component:BanknoteView DataContext="{Binding BanknoteViewModel[0.5]}"/>
+                    <component:BanknoteView DataContext="{Binding BanknoteViewModel[0.2]}"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Right"  Margin="5">
+                    <component:BanknoteView DataContext="{Binding BanknoteViewModel[0.1]}" />
+                    <component:BanknoteView DataContext="{Binding BanknoteViewModel[0.05]}"/>
+                    <component:BanknoteView DataContext="{Binding BanknoteViewModel[0.02]}"/>
+                    <component:BanknoteView DataContext="{Binding BanknoteViewModel[0.01]}"/>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" HorizontalAlignment="Right">
+                    <TextBlock Text="Reported:" FontSize="30" FontWeight="Medium" Margin="0 7 0 0" HorizontalAlignment="Right"/>
+                    <TextBlock Text="Need/Total:" FontSize="30" FontWeight="Medium" Margin=" 0 10 0 0"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                    <TextBlock Text="{Binding Amount}" HorizontalAlignment="Left"  FontSize="40" FontWeight="ExtraBold"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding NeededAmount}" Background="{Binding NeededColor}"  HorizontalAlignment="Left"  FontSize="30" FontWeight="Normal" Margin="0 4 10 0"/>
+                        <TextBlock Text="{Binding Income}" HorizontalAlignment="Left"  FontSize="35" FontWeight="Medium"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

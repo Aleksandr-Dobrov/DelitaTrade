@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DayReport xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/DelitaTrade.Models">
+	<_dayReportID>2024-08-24</_dayReportID>
+	<_invoices>
+		<Invoice>
+			<_amount>957.51</_amount>
+			<_companyName>Грийн Марк ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001161891</_invoiceID>
+			<_objectName>Грийн Марк</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>134.4</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>15399.44</_amount>
+			<_companyName>Грийн Марк ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001161952</_invoiceID>
+			<_objectName>Грийн Марк</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>2322.535</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>2251.33</_amount>
+			<_companyName>Жанет ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001161930</_invoiceID>
+			<_objectName>Жанет - Несебър</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>532</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>2119.58</_amount>
+			<_companyName>Жанет ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001161931</_invoiceID>
+			<_objectName>Жанет - Несебър</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>370.8</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>2604.1</_amount>
+			<_companyName>Росси ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001161932</_invoiceID>
+			<_objectName>Росси</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>337</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>98.88</_amount>
+			<_companyName>Грийн Марк ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001161948</_invoiceID>
+			<_objectName>Грийн Марк</_objectName>
+			<_payMethod>Кредитно</_payMethod>
+			<_weight>0</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>20.35</_amount>
+			<_companyName>Грийн Марк ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001161947</_invoiceID>
+			<_objectName>Грийн Марк</_objectName>
+			<_payMethod>Кредитно</_payMethod>
+			<_weight>0</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>63.28</_amount>
+			<_companyName>Грийн Марк ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001161946</_invoiceID>
+			<_objectName>Грийн Марк</_objectName>
+			<_payMethod>Кредитно</_payMethod>
+			<_weight>0</_weight>
+		</Invoice>
+	</_invoices>
+	<_payDesk>
+		<_amount>0</_amount>
+		<_banknotes xmlns:d3p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.01</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.02</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.05</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.1</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.2</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.5</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>1.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>2.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>5.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>10.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>20.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>50.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>100.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+		</_banknotes>
+	</_payDesk>
+	<_totalAmaunt>23331.96</_totalAmaunt>
+	<_totalExpenses>0</_totalExpenses>
+	<_totalIncome>0</_totalIncome>
+	<_totalNonPay>0</_totalNonPay>
+	<_totalOldInvoice>0</_totalOldInvoice>
+	<_totalWeight>3696.735</_totalWeight>
+	<_transmissionDate>26-08-2024</_transmissionDate>
+	<_vehicle>СВ 2241 КК</_vehicle>
+</DayReport>

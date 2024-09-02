@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DayReport xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/DelitaTrade.Models">
+	<_dayReportID>2024-07-11</_dayReportID>
+	<_invoices>
+		<Invoice>
+			<_amount>2800.78</_amount>
+			<_companyName>Фуудс 1990 ООД</_companyName>
+			<_income>2800.78</_income>
+			<_invoiceID>1001152405</_invoiceID>
+			<_objectName>Ресторант Данте</_objectName>
+			<_payMethod>В брой</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>5097.62</_amount>
+			<_companyName>Едеа Ритейл АД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001152435</_invoiceID>
+			<_objectName>Едеа Магарин Русе</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>766.96</_amount>
+			<_companyName>Море 2020 ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001152396</_invoiceID>
+			<_objectName>Стария Чинар</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>768.71</_amount>
+			<_companyName>Порт Варна ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001152398</_invoiceID>
+			<_objectName>Стария чинар Варна</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>29.57</_amount>
+			<_companyName>Триада -ГТ ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001152511</_invoiceID>
+			<_objectName>Дистрибутор Триада</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>9191.65</_amount>
+			<_companyName>Триада -ГТ ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001152447</_invoiceID>
+			<_objectName>Дистрибутор Триада</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>31.45</_amount>
+			<_companyName>Триада -ГТ ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001152408</_invoiceID>
+			<_objectName>Дистрибутор Триада</_objectName>
+			<_payMethod>Кредитно</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>520.13</_amount>
+			<_companyName>Лагардер Травъл Ритейл ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001152438</_invoiceID>
+			<_objectName>Барико Просеко Бар</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>0</_amount>
+			<_companyName>Лагардер Травъл Ритейл ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001152387</_invoiceID>
+			<_objectName>Барико Просеко Бар</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>19.49</_amount>
+			<_companyName>Железов 2017 ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001151648</_invoiceID>
+			<_objectName>Борса Дева</_objectName>
+			<_payMethod>Кредитно</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>3087.64</_amount>
+			<_companyName>Железов 2017 ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001152454</_invoiceID>
+			<_objectName>Борса Дева</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>985.91</_amount>
+			<_companyName>Железов 2017 ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001152461</_invoiceID>
+			<_objectName>Борса Дева</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>838.95</_amount>
+			<_companyName>Железов 2017 ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001152460</_invoiceID>
+			<_objectName>Борса Дева</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>1540.54</_amount>
+			<_companyName>Трънчев ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001152423</_invoiceID>
+			<_objectName>Магазин Булмаг</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>9.96</_amount>
+			<_companyName>Трънчев ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001151018</_invoiceID>
+			<_objectName>Магазин Булмаг</_objectName>
+			<_payMethod>Кредитно</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>7.25</_amount>
+			<_companyName>Трънчев ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001152407</_invoiceID>
+			<_objectName>Магазин Булмаг</_objectName>
+			<_payMethod>Кредитно</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>408.5</_amount>
+			<_companyName>Живис ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001152386</_invoiceID>
+			<_objectName>Живис</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>830.74</_amount>
+			<_companyName>Хепи Лейди ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001152459</_invoiceID>
+			<_objectName>Хепи кухня майка</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>1763.54</_amount>
+			<_companyName>Сабросо 2012 ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001152473</_invoiceID>
+			<_objectName>Бурата</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+	</_invoices>
+	<_payDesk>
+		<_amount>2800.80</_amount>
+		<_banknotes xmlns:d3p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.01</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.02</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.05</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.1</d3p1:Key>
+				<d3p1:Value>1</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.2</d3p1:Key>
+				<d3p1:Value>1</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.5</d3p1:Key>
+				<d3p1:Value>1</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>1.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>2.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>5.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>10.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>20.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>50.0</d3p1:Key>
+				<d3p1:Value>20</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>100.0</d3p1:Key>
+				<d3p1:Value>18</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+		</_banknotes>
+	</_payDesk>
+	<_totalAmaunt>28631.24</_totalAmaunt>
+	<_totalExpenses>0</_totalExpenses>
+	<_totalIncome>2800.78</_totalIncome>
+	<_totalNonPay>0</_totalNonPay>
+	<_totalOldInvoice>0</_totalOldInvoice>
+	<_transmissionDate>12-07-2024</_transmissionDate>
+	<_vehicle>СВ 2241 КК</_vehicle>
+</DayReport>

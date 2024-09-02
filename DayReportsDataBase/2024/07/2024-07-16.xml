@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DayReport xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/DelitaTrade.Models">
+	<_dayReportID>2024-07-16</_dayReportID>
+	<_invoices>
+		<Invoice>
+			<_amount>3993.98</_amount>
+			<_companyName>Пи Ем Дистрибюшън ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001153423</_invoiceID>
+			<_objectName>Валмилк Бургас</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>2116.97</_amount>
+			<_companyName>Пи Ем Дистрибюшън ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001153426</_invoiceID>
+			<_objectName>Валмилк Бургас</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>93.46</_amount>
+			<_companyName>Пи Ем Дистрибюшън ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001153442</_invoiceID>
+			<_objectName>Валмилк Бургас</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>2988.62</_amount>
+			<_companyName>Понс-Комерс ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001153437</_invoiceID>
+			<_objectName>Понс Комерс</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>3061.21</_amount>
+			<_companyName>Понс-Комерс ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001153429</_invoiceID>
+			<_objectName>Понс Комерс</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>4082.83</_amount>
+			<_companyName>Интерфууд Средец ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001153406</_invoiceID>
+			<_objectName>Интерфууд Бургас</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>336.61</_amount>
+			<_companyName>Интерфууд Средец ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001153428</_invoiceID>
+			<_objectName>Интерфууд Бургас</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>47.78</_amount>
+			<_companyName>Интерфууд Средец ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001153433</_invoiceID>
+			<_objectName>Интерфууд Бургас</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>628.42</_amount>
+			<_companyName>Фиоре ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001153404</_invoiceID>
+			<_objectName>Фиоре</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>866.83</_amount>
+			<_companyName>Ахелой Проджект ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001153401</_invoiceID>
+			<_objectName>Хотел Уейв</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>804.72</_amount>
+			<_companyName>Юлен АД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001153410</_invoiceID>
+			<_objectName>Гарфилд</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>54.14</_amount>
+			<_companyName>Юлен АД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001152494</_invoiceID>
+			<_objectName>Гарфилд</_objectName>
+			<_payMethod>Кредитно</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>5223.18</_amount>
+			<_companyName>Флора Фууд ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001153409</_invoiceID>
+			<_objectName>Флора бар и грил - Слънчев бряг</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>1195.86</_amount>
+			<_companyName>Вип Кетъринг ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001153415</_invoiceID>
+			<_objectName>Вип Кетъринг - Слънчев бряг</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>177.36</_amount>
+			<_companyName>Българска Корпорация Семена АД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001153416</_invoiceID>
+			<_objectName>Фор Пойнтс Шератон</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>737.52</_amount>
+			<_companyName>Българска Корпорация Семена АД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001153417</_invoiceID>
+			<_objectName>Фор Пойнтс Шератон</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>329.14</_amount>
+			<_companyName>Мистрал Холидейс ООД</_companyName>
+			<_income>329.14</_income>
+			<_invoiceID>1001153435</_invoiceID>
+			<_objectName>Мистрал - Свети Влас</_objectName>
+			<_payMethod>В брой</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>393.95</_amount>
+			<_companyName>Лъки ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001153421</_invoiceID>
+			<_objectName>Борса Лъки</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+		<Invoice>
+			<_amount>2832.88</_amount>
+			<_companyName>Лъки ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001153422</_invoiceID>
+			<_objectName>Борса Лъки</_objectName>
+			<_payMethod>Банка</_payMethod>
+		</Invoice>
+	</_invoices>
+	<_payDesk>
+		<_amount>329.15</_amount>
+		<_banknotes xmlns:d3p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.01</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.02</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.05</d3p1:Key>
+				<d3p1:Value>1</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.1</d3p1:Key>
+				<d3p1:Value>1</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.2</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.5</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>1.0</d3p1:Key>
+				<d3p1:Value>2</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>2.0</d3p1:Key>
+				<d3p1:Value>1</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>5.0</d3p1:Key>
+				<d3p1:Value>1</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>10.0</d3p1:Key>
+				<d3p1:Value>2</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>20.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>50.0</d3p1:Key>
+				<d3p1:Value>6</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>100.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+		</_banknotes>
+	</_payDesk>
+	<_totalAmaunt>29911.32</_totalAmaunt>
+	<_totalExpenses>0</_totalExpenses>
+	<_totalIncome>329.14</_totalIncome>
+	<_totalNonPay>0</_totalNonPay>
+	<_totalOldInvoice>0</_totalOldInvoice>
+	<_transmissionDate>16-07-2024</_transmissionDate>
+	<_vehicle>СВ 2241 КК</_vehicle>
+</DayReport>
