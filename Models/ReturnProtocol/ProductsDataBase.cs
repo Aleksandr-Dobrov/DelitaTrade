@@ -1,20 +1,21 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections;
+using System.Runtime.Serialization;
 
 namespace DelitaTrade.Models.ReturnProtocol
 {
     [DataContract]
-    public class ProductsNameUnitDataBase
+    public class ProductsDataBase : IEnumerable
     {
         [DataMember]
-        private HashSet<ProductNameUnit> _products;
+        private HashSet<Product> _products;
 
         public event Action DataBaseChange;
 
-        public ProductsNameUnitDataBase()
+        public ProductsDataBase()
         {
             DataBaseChange += () => { };
         }
-        public void AddProductToDataBase(ProductNameUnit product)
+        public void AddProductToDataBase(Product product)
         {
             if (product != null)
             {
@@ -25,18 +26,18 @@ namespace DelitaTrade.Models.ReturnProtocol
                 }
                 else 
                 {
-                    throw new ArgumentException("Product nameUnit is already exists");
+                    throw new ArgumentException("Product is already exists");
                 }
             }
             else 
             {
-                throw new ArgumentNullException("Product nameUnit is null");
+                throw new ArgumentNullException("Product is null");
             }
         }
-
-        public IEnumerable<ProductNameUnit> GetProducts() 
+        
+        public IEnumerator GetEnumerator()
         {
-            return _products;
+            yield return _products.GetEnumerator();
         }
     }
 }

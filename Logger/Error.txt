@@ -1564,3 +1564,25 @@ StackTrace -    at System.IO.FileSystem.CopyFile(String sourceFullPath, String d
    at DelitaTrade.Models.DelitaTradeDayReport.ExportExcelDayReport() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 193
 InnerExceptioon - 
 --------------------------------------------------
+6.9.2024 г. 1:14:16 - Microsoft Excel cannot access the file 'C:\Users\aleks\OneDrive\Документы\DelitaTrade\DayReportsDataBase\ExportFiles\ExportedDayReport.xlsx'. There are several possible reasons:
+
+• The file name or path does not exist.
+• The file is being used by another program.
+• The workbook you are trying to save has the same name as a currently open workbook.
+System.Runtime.InteropServices.COMException (0x800A03EC): Microsoft Excel cannot access the file 'C:\Users\aleks\OneDrive\Документы\DelitaTrade\DayReportsDataBase\ExportFiles\ExportedDayReport.xlsx'. There are several possible reasons:
+
+• The file name or path does not exist.
+• The file is being used by another program.
+• The workbook you are trying to save has the same name as a currently open workbook.
+   at Microsoft.Office.Interop.Excel.Workbooks.Open(String Filename, Object UpdateLinks, Object ReadOnly, Object Format, Object Password, Object WriteResPassword, Object IgnoreReadOnlyRecommended, Object Origin, Object Delimiter, Object Editable, Object Notify, Object Converter, Object AddToMru, Object Local, Object CorruptLoad)
+   at DelitaTrade.Models.Builder.DayReportBuilder.OpenFile() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\Builder\DayReportBuilder.cs:line 49
+   at DelitaTrade.Models.Builder.DayReportBuilder.CreateDayReport(DayReport dayReport) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\Builder\DayReportBuilder.cs:line 67
+   at DelitaTrade.Models.DelitaTradeDayReport.ExportExcelDayReport() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 194
+Source - Microsoft Excel
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at Microsoft.Office.Interop.Excel.Workbooks.Open(String Filename, Object UpdateLinks, Object ReadOnly, Object Format, Object Password, Object WriteResPassword, Object IgnoreReadOnlyRecommended, Object Origin, Object Delimiter, Object Editable, Object Notify, Object Converter, Object AddToMru, Object Local, Object CorruptLoad)
+   at DelitaTrade.Models.Builder.DayReportBuilder.OpenFile() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\Builder\DayReportBuilder.cs:line 49
+   at DelitaTrade.Models.Builder.DayReportBuilder.CreateDayReport(DayReport dayReport) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\Builder\DayReportBuilder.cs:line 67
+   at DelitaTrade.Models.DelitaTradeDayReport.ExportExcelDayReport() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 194
+InnerExceptioon - 
+--------------------------------------------------

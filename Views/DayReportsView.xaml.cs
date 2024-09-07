@@ -1,19 +1,9 @@
-﻿using DelitaTrade.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DelitaTrade.Components.ComponetsViewModel.ViewComponets;
+using DelitaTrade.Models.Loggers;
+using DelitaTrade.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace DelitaTrade.Views
 {
@@ -22,20 +12,16 @@ namespace DelitaTrade.Views
     /// </summary>
     public partial class DayReportsView : UserControl
     {
-        enum Direction
-        {
-            Left = -1,
-            Right = 1
-        }
-
-        private int _textBoxIDIndex;
-        private Stack<List<string>> _textBoxItems;
-        private string _textBoxInitialValue;
+        private InputViewComponent _invoiceIdViewComponet;
+        private CurrencyInputViewComponent _amauntViewComponent;
+        private CurrencyInputViewComponent _incomeViewComponent;
+       
         public DayReportsView()
         {
             InitializeComponent();
-            _textBoxItems = new Stack<List<string>>();
-            _textBoxInitialValue = string.Empty;
+            _invoiceIdViewComponet = new InputViewComponent();
+            _amauntViewComponent = new CurrencyInputViewComponent();
+            _incomeViewComponent = new CurrencyInputViewComponent();
         }
 
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -52,46 +38,17 @@ namespace DelitaTrade.Views
 
         private void TextBoxIDGotFocusSelectIndex(object sender, RoutedEventArgs e)
         {
-            TextBox textBox = sender as TextBox;
-            _textBoxInitialValue = textBox?.Text;
-            TextBoxSetStartPosition(sender);
+            _invoiceIdViewComponet.TextBoxIDGotFocusSelectIndex(sender, e);            
         }
 
-        private void TextBoxSetStartPosition(object sender)
+        private void TextBoxAmountGotFocus(object sender, RoutedEventArgs e)
         {
-            TextBox textBox = sender as TextBox;
-            if (textBox != null)
-            {
-                _textBoxIDIndex = textBox.Text.Length - 1;
-                textBox.Select(_textBoxIDIndex, 1);
-                _textBoxItems.Clear();
-            }
+            _amauntViewComponent.TextBoxIDGotFocusSelectIndex(sender, e);
         }
 
-        private void TextBoxResetValue(object sender)
+        private void TextBoxIncomeGotFocus(object sender, RoutedEventArgs e)
         {
-            _textBoxItems.Clear();
-            TextBox textBox = sender as TextBox;
-            if (textBox != null)
-            {
-                textBox.Text = _textBoxInitialValue;
-            }
-        }
-
-        private void TextBoxIndexMove(object sender, Direction direction)
-        {
-            TextBox textBox = sender as TextBox;
-            if (textBox != null)
-            {
-                int maxLength = textBox.Text.Length - 1;
-               
-                if ((direction == Direction.Right && _textBoxIDIndex < maxLength) || (direction == Direction.Left && _textBoxIDIndex > 0))
-                {   
-                    _textBoxIDIndex += (int)direction;
-                }
-
-                textBox.Select(_textBoxIDIndex, 1);
-            }
+            _incomeViewComponent.TextBoxIDGotFocusSelectIndex(sender, e);
         }
 
         private void ListView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -121,41 +78,32 @@ namespace DelitaTrade.Views
 
         private void InvoiceId_KeyUp(object sender, KeyEventArgs e)
         {
-            TextBox textBox = sender as TextBox;
-            switch (e.Key)
+            _invoiceIdViewComponet.InvoiceId_KeyDown(sender, e);            
+        }
+
+        private void AmountKeyDown(object sender, KeyEventArgs e)
+        {
+            try
             {
-                case Key.Tab:
-                    break;
-                case Key.Escape:
-                    textBox.Text = _textBoxInitialValue;
-                    TextBoxSetStartPosition(sender);
-                    break;
-                case Key.Back:
-                    if (_textBoxItems.Count > 0)
-                    {
-                        var backData = _textBoxItems.Pop();
-                        _textBoxIDIndex = int.Parse(backData[0]);
-                        textBox.Text = backData[1];
-                    }
-                    else if (_textBoxItems.Count == 0)
-                    {
-                        textBox.Text = _textBoxInitialValue;
-                    }
-                    textBox.Select(_textBoxIDIndex, 1);
-                    break;
-                case Key.Right:
-                    TextBoxIndexMove(sender, Direction.Right);
-                    break;
-                    case Key.Left:
-                    TextBoxIndexMove(sender, Direction.Left);
-                        break;
-                default:
-                    if (textBox != null)
-                    {
-                        _textBoxItems.Push(new List<string>([_textBoxIDIndex.ToString(), textBox.Text]));               
-                    }
-                    TextBoxIndexMove(sender, Direction.Left);
-                    break;
+                _amauntViewComponent.InvoiceId_KeyDown(sender, e);
+            }
+            catch(OverflowException ex) 
+            {
+                new MessageBoxLogger().Log(ex, Logger.LogLevel.Error);
+                _amauntViewComponent.ResetCurrencyValue(sender);
+            }
+        }
+
+        private void IncomeKeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                _incomeViewComponent.InvoiceId_KeyDown(sender, e);
+            }
+            catch (OverflowException ex)
+            {
+                new MessageBoxLogger().Log(ex, Logger.LogLevel.Error);
+                _incomeViewComponent.ResetCurrencyValue(sender);
             }
         }
     }

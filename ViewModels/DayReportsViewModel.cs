@@ -1,9 +1,12 @@
 ﻿using DelitaTrade.Commands;
 using DelitaTrade.Components.ComponetsViewModel;
 using DelitaTrade.Models;
+using DelitaTrade.Models.DataProviders;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Globalization;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -12,6 +15,7 @@ namespace DelitaTrade.ViewModels
 {
     public class DayReportsViewModel : ViewModelBase
     {
+        private CurrencyProvider _currencyProvider;
         private AddNewCompanyViewModel _addNewCompanyViewModel;
 
         private PayMethodBoxViewModel _payMethodBoxViewModel;
@@ -47,6 +51,7 @@ namespace DelitaTrade.ViewModels
 
         public DayReportsViewModel(DelitaTradeDayReport delitaTradeDayReport ,ViewModelBase addNewCompanyViewModel)
         {
+            _currencyProvider = new CurrencyProvider();
             _delitaTradeDayReport = delitaTradeDayReport;
             _addNewCompanyViewModel = (AddNewCompanyViewModel?)addNewCompanyViewModel;
             _payMethodBoxViewModel = new PayMethodBoxViewModel();
@@ -296,7 +301,7 @@ namespace DelitaTrade.ViewModels
             }
             else
             {
-                Income = "0";
+                Income = $"0";
             }
         }
 
@@ -359,10 +364,10 @@ namespace DelitaTrade.ViewModels
 
         public string Amount
         {
-            get => $"{_amount:f2} лв.";
+            get => $"{_amount:C2}";
             set
             {
-                decimal.TryParse(value, out _amount);
+                _amount = _currencyProvider.GetDecimalValue(value);
                 OnAmountChange();
                 OnPropertyChange();
             }
@@ -372,10 +377,10 @@ namespace DelitaTrade.ViewModels
 
         public string Income
         {
-            get => $"{_income:C}";
+            get => $"{_income:C2}";
             set
             {
-                decimal.TryParse(value, out _income);
+                _income = _currencyProvider.GetDecimalValue(value);
                 SetIncomeViaPaymentStatus(PayMethodBox.PayMethodText);
                 OnPropertyChange();
             }
@@ -415,7 +420,7 @@ namespace DelitaTrade.ViewModels
                 _income *= -1;
             }
         }
-
+        
         private void SetIncomeViaPaymentStatus(string paymentStatus)
         {
             switch (paymentStatus) 

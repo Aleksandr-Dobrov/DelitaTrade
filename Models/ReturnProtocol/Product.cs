@@ -32,5 +32,19 @@ namespace DelitaTrade.Models.ReturnProtocol
         {
             _description = description;
         }
+
+        public string ItemName => _itemName;
+        public string Unit => _unit;
+
+        public override int GetHashCode()
+        {
+            return $"{_itemName}{_unit}".GetHashCode();
+        }
+
+        public override bool Equals(object? obj)
+        {
+            var product = obj as Product;
+            return product?.ItemName == _itemName && product.Unit == _unit;
+        }
     }
 }

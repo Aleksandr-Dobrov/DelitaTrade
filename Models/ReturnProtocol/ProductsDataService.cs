@@ -1,23 +1,24 @@
-﻿using System.IO;
+﻿using System.Collections;
+using System.IO;
 
 namespace DelitaTrade.Models.ReturnProtocol
 {
-    public class ProductsNameUnitDataService
+    public class ProductsDataService : IEnumerable
     {
-        private ProductsNameUnitDataBase _productsData;
+        private ProductsDataBase _productsData;
 
-        private IDataBase<ProductsNameUnitDataBase> _productsDataBase;
+        private IDataBase<ProductsDataBase> _productsDataBase;
 
         private string _productsDataBaseFilePath;
 
         public event Action ProductsDataChange;
 
-        public ProductsNameUnitDataService(string dataBaseFilePath)
+        public ProductsDataService(string dataBaseFilePath)
         {
-            _productsDataBase = new XmlDataBase<ProductsNameUnitDataBase>();
+            _productsDataBase = new XmlDataBase<ProductsDataBase>();
             _productsDataBaseFilePath = dataBaseFilePath;
             _productsDataBase.Path = _productsDataBaseFilePath;
-            _productsData = TryLoadDataBase();
+            TryLoadDataBase();
             _productsData.DataBaseChange += SaveDataBase;
             ProductsDataChange += () => { };
             _productsData.DataBaseChange += ProductDataChanged;
@@ -28,15 +29,15 @@ namespace DelitaTrade.Models.ReturnProtocol
             ProductsDataChange.Invoke();
         }
 
-        private ProductsNameUnitDataBase TryLoadDataBase()
+        private void TryLoadDataBase()
         {
             if (File.Exists(_productsDataBaseFilePath))
             {
-                return _productsDataBase.LoadAllData();
+                _productsData = _productsDataBase.LoadAllData();
             }
             else
             {
-                return new ProductsNameUnitDataBase();
+                _productsData = new ProductsDataBase();
             }
         }
 
@@ -45,15 +46,15 @@ namespace DelitaTrade.Models.ReturnProtocol
             _productsDataBase.SaveAllData(_productsData);
         }
 
-        public void AddProduct(ProductNameUnit product)
+        public void AddProduct(Product product)
         {
             _productsData.AddProductToDataBase(product);
             _productsDataBase.SaveAllData(_productsData);
         }
 
-        public IEnumerable<ProductNameUnit> GetProducts() 
+        public IEnumerator GetEnumerator()
         {
-            return _productsData.GetProducts();
+            return  _productsData.GetEnumerator();
         }
     }
 }

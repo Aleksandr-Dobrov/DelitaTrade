@@ -95,9 +95,13 @@
                              GotFocus="TextBoxIDGotFocusSelectIndex" 
                              PreviewKeyUp="InvoiceId_KeyUp"/>
                     <TextBox Grid.Column="4" MinWidth="80" Text="{Binding Weight}" GotFocus="TextBox_GotFocus"/>
-                    <TextBox Grid.Column="5" MinWidth="80" Text="{Binding Amount}" GotFocus="TextBox_GotFocus"  MouseDoubleClick="TextBox_MouseDoubleClick"/>
+                    <TextBox Grid.Column="5" MinWidth="80" Text="{Binding Amount}"                             
+                             GotFocus="TextBoxAmountGotFocus"
+                             PreviewKeyDown="AmountKeyDown"/>
                     <components:PayMethodBox Grid.Column="6" DataContext="{Binding PayMethodBox}"/>
-                    <TextBox Grid.Column="7" MinWidth="80" Text="{Binding Income}" GotFocus="TextBox_GotFocus"/>
+                    <TextBox Grid.Column="7" MinWidth="80" Text="{Binding Income}"
+                             GotFocus="TextBoxIncomeGotFocus"
+                             PreviewKeyDown="IncomeKeyDown"/>
                 </Grid>
             </Grid>
             <Grid Grid.Column="1">

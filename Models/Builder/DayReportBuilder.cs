@@ -10,7 +10,7 @@ namespace DelitaTrade.Models.Builder
 
         private DayReport _dayReport;
 
-        private _Application excel = new _Excel.Application();
+        private _Application excel;
         private Workbook wb;
         private Worksheet ws;
 
@@ -20,6 +20,7 @@ namespace DelitaTrade.Models.Builder
 
         public DayReportBuilder(string inputPath, string path)
         {
+            excel = new _Excel.Application();
             _builder = new ExcelBuilder();            
             _inputPath = inputPath;
             Path = path;
