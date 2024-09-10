@@ -229,7 +229,7 @@
 		</Invoice>
 	</_invoices>
 	<_payDesk>
-		<_amount>4720.00</_amount>
+		<_amount>4725.60</_amount>
 		<_banknotes xmlns:d3p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>0.01</d3p1:Key>
@@ -245,7 +245,7 @@
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>0.1</d3p1:Key>
-				<d3p1:Value>0</d3p1:Value>
+				<d3p1:Value>1</d3p1:Value>
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>0.2</d3p1:Key>
@@ -253,7 +253,7 @@
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>0.5</d3p1:Key>
-				<d3p1:Value>0</d3p1:Value>
+				<d3p1:Value>1</d3p1:Value>
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>1.0</d3p1:Key>
@@ -265,19 +265,19 @@
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>5.0</d3p1:Key>
-				<d3p1:Value>0</d3p1:Value>
-			</d3p1:KeyValueOfdecimalint>
-			<d3p1:KeyValueOfdecimalint>
-				<d3p1:Key>10.0</d3p1:Key>
 				<d3p1:Value>1</d3p1:Value>
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>10.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>20.0</d3p1:Key>
-				<d3p1:Value>3</d3p1:Value>
+				<d3p1:Value>1</d3p1:Value>
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>50.0</d3p1:Key>
-				<d3p1:Value>15</d3p1:Value>
+				<d3p1:Value>16</d3p1:Value>
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>100.0</d3p1:Key>
@@ -291,6 +291,6 @@
 	<_totalNonPay>624.24</_totalNonPay>
 	<_totalOldInvoice>0</_totalOldInvoice>
 	<_totalWeight>2400.4725999999996</_totalWeight>
-	<_transmissionDate i:nil="true" />
+	<_transmissionDate>09-09-2024</_transmissionDate>
 	<_vehicle>СВ 2241 КК</_vehicle>
 </DayReport>

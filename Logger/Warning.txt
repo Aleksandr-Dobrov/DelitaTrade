@@ -227,3 +227,73 @@ StackTrace -    at DelitaTrade.Models.DayReportDataBase.LoadDayReport(String day
    at DelitaTrade.Models.DelitaTradeDayReport.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 239
 InnerExceptioon - 
 --------------------------------------------------
+9.9.2024 г. 18:15:03 - Value cannot be null. (Parameter 'Day report is not select')
+System.ArgumentNullException: Value cannot be null. (Parameter 'Day report is not select')
+   at DelitaTrade.Models.DayReportDataBase.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 438
+   at DelitaTrade.Models.DelitaTradeDayReport.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 363
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReportDataBase.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 438
+   at DelitaTrade.Models.DelitaTradeDayReport.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 363
+InnerExceptioon - 
+--------------------------------------------------
+9.9.2024 г. 18:15:04 - Value cannot be null. (Parameter 'Day report is not select')
+System.ArgumentNullException: Value cannot be null. (Parameter 'Day report is not select')
+   at DelitaTrade.Models.DayReportDataBase.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 438
+   at DelitaTrade.Models.DelitaTradeDayReport.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 363
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReportDataBase.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 438
+   at DelitaTrade.Models.DelitaTradeDayReport.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 363
+InnerExceptioon - 
+--------------------------------------------------
+9.9.2024 г. 18:15:08 - Value cannot be null. (Parameter 'Day report is not select')
+System.ArgumentNullException: Value cannot be null. (Parameter 'Day report is not select')
+   at DelitaTrade.Models.DayReportDataBase.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 438
+   at DelitaTrade.Models.DelitaTradeDayReport.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 363
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReportDataBase.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 438
+   at DelitaTrade.Models.DelitaTradeDayReport.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 363
+InnerExceptioon - 
+--------------------------------------------------
+9.9.2024 г. 18:15:12 - Value cannot be null. (Parameter 'Day report is not select')
+System.ArgumentNullException: Value cannot be null. (Parameter 'Day report is not select')
+   at DelitaTrade.Models.DayReportDataBase.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 438
+   at DelitaTrade.Models.DelitaTradeDayReport.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 363
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReportDataBase.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 438
+   at DelitaTrade.Models.DelitaTradeDayReport.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 363
+InnerExceptioon - 
+--------------------------------------------------
+9.9.2024 г. 18:15:17 - Value cannot be null. (Parameter 'Day report is not select')
+System.ArgumentNullException: Value cannot be null. (Parameter 'Day report is not select')
+   at DelitaTrade.Models.DayReportDataBase.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 438
+   at DelitaTrade.Models.DelitaTradeDayReport.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 363
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReportDataBase.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 438
+   at DelitaTrade.Models.DelitaTradeDayReport.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 363
+InnerExceptioon - 
+--------------------------------------------------
+9.9.2024 г. 18:15:20 - Value cannot be null. (Parameter 'Day report is not select')
+System.ArgumentNullException: Value cannot be null. (Parameter 'Day report is not select')
+   at DelitaTrade.Models.DayReportDataBase.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 438
+   at DelitaTrade.Models.DelitaTradeDayReport.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 363
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReportDataBase.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 438
+   at DelitaTrade.Models.DelitaTradeDayReport.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 363
+InnerExceptioon - 
+--------------------------------------------------
+9.9.2024 г. 18:15:24 - Value cannot be null. (Parameter 'Day report is not select')
+System.ArgumentNullException: Value cannot be null. (Parameter 'Day report is not select')
+   at DelitaTrade.Models.DayReportDataBase.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 438
+   at DelitaTrade.Models.DelitaTradeDayReport.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 363
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReportDataBase.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 438
+   at DelitaTrade.Models.DelitaTradeDayReport.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 363
+InnerExceptioon - 
+--------------------------------------------------

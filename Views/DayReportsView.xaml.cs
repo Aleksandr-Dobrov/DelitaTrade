@@ -98,7 +98,7 @@ namespace DelitaTrade.Views
         {
             try
             {
-                _incomeViewComponent.InvoiceId_KeyDown(sender, e);
+                _incomeViewComponent.InvoiceId_KeyDown(sender, e);                
             }
             catch (OverflowException ex)
             {

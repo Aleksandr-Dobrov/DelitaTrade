@@ -1,29 +1,36 @@
 ﻿using DelitaTrade.Commands;
-using DelitaTrade.ViewModels;
 using DelitaTrade.Models;
-using System.ComponentModel;
 using System.Windows;
 using DelitaTrade.Models.Loggers;
+using DelitaTrade.Models.DataProviders;
 
 namespace DelitaTrade.Components.ComponentsCommands
 {
     class PrintDayReportCommand : CommandBase
     {  
         private DelitaTradeDayReport _delitaTradeDayReport;
+        private InternetProvider _internetProvider;
        
         public PrintDayReportCommand(DelitaTradeDayReport delitaTradeDayReport)
         {
             _delitaTradeDayReport = delitaTradeDayReport;
+            _internetProvider = new InternetProvider();
             _delitaTradeDayReport.CurentDayReportSelect += CurrentDayReportChanged;
             _delitaTradeDayReport.CurrentDayReportUnselected += CurrentDayReportChanged;
             _delitaTradeDayReport.DayReportDataChanged += CurrentDayReportChanged;
             _delitaTradeDayReport.VehiclesChanged += CurrentDayReportChanged;
             _delitaTradeDayReport.TransmisionDateChange += CurrentDayReportChanged;
+            _internetProvider.NetworkStatusChange += CurrentDayReportChangedAsync;
         }
-
+       
         private void CurrentDayReportChanged()
         {
             OnCanExecuteChanged();
+        }
+
+        private void CurrentDayReportChangedAsync()
+        {
+            Application.Current.Dispatcher.Invoke(new Action(OnCanExecuteChanged));
         }
 
         public override bool CanExecute(object? parameter)
@@ -32,6 +39,7 @@ namespace DelitaTrade.Components.ComponentsCommands
                 &&_delitaTradeDayReport.CurentDayReportId != null
                 && _delitaTradeDayReport.TransmissionDate != null
                 && _delitaTradeDayReport.Vehicle != null
+                && _internetProvider.CheckForInternetConnection()
                && base.CanExecute(parameter);
         }
 
