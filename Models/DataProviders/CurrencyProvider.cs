@@ -38,7 +38,7 @@ namespace DelitaTrade.Models.DataProviders
 
             for (int i = 0; i < currency.Length; i++)
             {
-                if (char.IsDigit(currency[i]) == false  && char.IsWhiteSpace(currency[i]) == false)
+                if (char.IsDigit(currency[i]) == false  && char.IsWhiteSpace(currency[i]) == false && currency[i] != '-')
                 {
                     separator = currency[i];
                     indexOfSeparator = i;
@@ -47,7 +47,7 @@ namespace DelitaTrade.Models.DataProviders
             }
             
             for (int i = currency.Length - 1; i > 0; i--)
-            {
+            { 
                 if (char.IsDigit(currency[i]))
                 {
                     indexOfCurrency = i + 1;

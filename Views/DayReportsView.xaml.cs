@@ -51,31 +51,6 @@ namespace DelitaTrade.Views
             _incomeViewComponent.TextBoxIDGotFocusSelectIndex(sender, e);
         }
 
-        private void ListView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            var item = (sender as ListView)?.SelectedItem;
-            if (item != null)
-            {
-                if (item is InvoiceViewModel invoice)
-                {
-                    invoiceId.Text = invoice.InvoiceID;
-                }
-
-            }
-        }
-
-        private void ListView_PreviewKeyUp(object sender, KeyEventArgs e)
-        {
-            var item = (sender as ListView)?.SelectedItem;
-            if(item != null && e.Key == Key.Enter)
-            {
-                if (item is InvoiceViewModel invoice)
-                {
-                    invoiceId.Text = invoice.InvoiceID;
-                }
-            }
-        }
-
         private void InvoiceId_KeyUp(object sender, KeyEventArgs e)
         {
             _invoiceIdViewComponet.InvoiceId_KeyDown(sender, e);            
@@ -105,6 +80,11 @@ namespace DelitaTrade.Views
                 new MessageBoxLogger().Log(ex, Logger.LogLevel.Error);
                 _incomeViewComponent.ResetCurrencyValue(sender);
             }
+        }
+
+        private void ListView_Selected(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

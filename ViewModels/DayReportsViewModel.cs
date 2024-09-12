@@ -25,7 +25,8 @@ namespace DelitaTrade.ViewModels
         private DayReportTotalsViewModel _dayReportTotalsViewModel;
 
         private ObservableCollection<InvoiceViewModel> _invoices;
-
+        private InvoiceViewModel _selectedInvoiceViewModel;
+       
         private DelitaTradeDayReport _delitaTradeDayReport;
 
         private CurrentDayReportViewModel _currentDayReportViewModel;
@@ -33,9 +34,7 @@ namespace DelitaTrade.ViewModels
         private ObservableCollection<string> _dayReporsId;
 
         private DayReportIdViewModel _dayReportIdViewModel;
-
-        private SavedInvoiceViewModel _savedInvoiceViewModel;
-
+                
         private DateTime _date = DateTime.Now.Date;        
 
         private string _addOrUpdateCommand = "Add";
@@ -64,11 +63,19 @@ namespace DelitaTrade.ViewModels
             CreateNewDayReportCommand = new CreateNewDayReportCommand(_delitaTradeDayReport, this);
             LoadDayReportCommand = new LoadDayReportCommand(_delitaTradeDayReport, this);
             DeleteDayReportCommand = new DeleteDayReportCommand(_delitaTradeDayReport, this);
-            RemoveInvoiceCommand = new RemoveInvoiceCommand(_delitaTradeDayReport, this);
-            _savedInvoiceViewModel = new SavedInvoiceViewModel();
+            RemoveInvoiceCommand = new RemoveInvoiceCommand(_delitaTradeDayReport, this);           
             OnEnable();
         }
 
+        public InvoiceViewModel SelectedInvoiceViewModel
+        {
+            get { return _selectedInvoiceViewModel; }
+            set 
+            { 
+                _selectedInvoiceViewModel = value;
+                OnPropertyChange();
+            }
+        }
         public SearchBoxViewModel SearchBox => _addNewCompanyViewModel.SearchBox;
 
         public SearchBoxObjectViewModel SearchBoxObject => _addNewCompanyViewModel.SearchBoxObject;
@@ -93,7 +100,7 @@ namespace DelitaTrade.ViewModels
 
         public event Action PaymentChange;
 
-        public event Action LoadInvoiceToInput;
+        public event Action LoadInvoice;
         
         public event Action AmountChange;
 
@@ -118,12 +125,12 @@ namespace DelitaTrade.ViewModels
             UpdateDayReportsId();
             DayReportIdViewModel.DayReportIdExists += LoadDayReport;
             PropertyChanged += OnCurentViewModelPropertyChanged;
-            LoadInvoiceToInput += LoadInvoiceByClick;
+            LoadInvoice += LoadInvoiceFromList;
         }
 
-        private void OnLoadInvoiceToInput()
+        private void OnLoadInvoiceFromList()
         {
-            LoadInvoiceToInput?.Invoke();
+            LoadInvoice?.Invoke();
         }
 
         private void OnAmountChange()
@@ -139,48 +146,28 @@ namespace DelitaTrade.ViewModels
 
         private void OnCurentViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(InvoiceID))
+            if (e.PropertyName == nameof(SelectedInvoiceViewModel))
             {
-                OnLoadInvoiceToInput();
+                OnLoadInvoiceFromList();
             }
         }
 
-        private void LoadInvoiceByClick()
+        private void LoadInvoiceFromList()
         {
-            SaveInvoiceDataBeforeLoad();
-            var invoice = Invoices.FirstOrDefault(i => i.InvoiceID == InvoiceID);
-            if (invoice != null)
-            {   
-                int index = invoice.CompanyName.LastIndexOf(' ');
-
-                SearchBox.InputText = invoice.CompanyName[..index];
-                SearchBoxObject.InputTextObject = invoice.ObjectName;
-
-                if (invoice.PayMethod == "Разход")
-                {
-                    _isPayMethodLoad = true;
-                }
-                PayMethodBox.PayMethodText = invoice.PayMethod;
-
-                Amount = invoice.Amount.ToString();
-                Income = invoice.Income.ToString();
-                Weight = invoice.Weight.ToString();
+            if (SelectedInvoiceViewModel != null)
+            {                
+                int index = SelectedInvoiceViewModel.CompanyName.LastIndexOf(' ');
                 
-            }
-            else if (_payMethodBoxViewModel.PayMethodText != "Разход")
-            {
-                _savedInvoiceViewModel.LoadInvoiceData(this);
-            }
+                SearchBox.InputText = SelectedInvoiceViewModel.CompanyName[..index];
+                SearchBoxObject.InputTextObject = SelectedInvoiceViewModel.ObjectName;
+                PayMethodBox.PayMethodText = SelectedInvoiceViewModel.PayMethod;
+                InvoiceID = SelectedInvoiceViewModel.InvoiceID;
+                Weight = SelectedInvoiceViewModel.Weight.ToString();
+                Amount = SelectedInvoiceViewModel.Amount.ToString();
+                Income = SelectedInvoiceViewModel.Income.ToString();
+            }           
         }
-
-        private void SaveInvoiceDataBeforeLoad()
-        {
-            if (_payMethodBoxViewModel.PayMethodText != "Разход")
-            { 
-                _savedInvoiceViewModel.SaveInvoiceData(this);
-            }    
-        }
-
+              
         private void OnCurentDayReportChanged()
         {
             OnPropertyChange(nameof(DayReportId));            
@@ -459,7 +446,7 @@ namespace DelitaTrade.ViewModels
                 }
             }
         }
-
+       
         public ICommand AddOrUpdateInvoiceCommand { get; }
 
         public ICommand RemoveInvoiceCommand { get; }

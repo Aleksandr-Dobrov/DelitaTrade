@@ -71,8 +71,8 @@
                     <TextBlock Grid.Column="0" Text="Company" MinWidth="180" Width="auto" TextAlignment="Center"/>
                     <TextBlock Grid.Column="1" Text="Type" MinWidth="60" Width="auto" TextAlignment="Center"/>
                     <TextBlock Grid.Column="2" Text="Object" MinWidth="140" Width="auto" TextAlignment="Center"/>
-                    <TextBlock Grid.Column="3" Text="Document ID" MinWidth="80" Width="auto" TextAlignment="Center"/>
-                    <TextBlock Grid.Column="4" Text="Weight" MinWidth="80" Width="auto" TextAlignment="Center"/>
+                    <TextBlock Grid.Column="3" Text="Weight" MinWidth="80" Width="auto" TextAlignment="Center"/>
+                    <TextBlock Grid.Column="4" Text="Document ID" MinWidth="80" Width="auto" TextAlignment="Center"/>
                     <TextBlock Grid.Column="5" Text="Amount" MinWidth="80" Width="auto" TextAlignment="Center"/>
                     <TextBlock Grid.Column="6" Text="Pay Method" MinWidth="80" Width="auto" TextAlignment="Center"/>
                     <TextBlock Grid.Column="7" Text="Income" MinWidth="80" Width="auto" TextAlignment="Center"/>
@@ -82,24 +82,24 @@
                         <ColumnDefinition Width="2*"/>
                         <ColumnDefinition Width="60"/>
                         <ColumnDefinition Width="1.5*"/>
-                        <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="60"/>
                         <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="80"/>
                     </Grid.ColumnDefinitions>
-                    <components:SearchBox Grid.Column="0" MinWidth="180"  DataContext="{Binding SearchBox}"/>
-                    <TextBox Grid.Column="1" MinWidth="60" Text="{Binding CompanyType, UpdateSourceTrigger=PropertyChanged}"/>
-                    <components:SearchBoxObject Grid.Column="2" MinWidth="140" DataContext="{Binding SearchBoxObject}"/>
-                    <TextBox Grid.Column="3" Name="invoiceId" MinWidth="80" Text="{Binding InvoiceID, UpdateSourceTrigger=PropertyChanged}" 
+                    <components:SearchBox Grid.Column="0" MinWidth="180" x:Name="company"  DataContext="{Binding SearchBox}"/>
+                    <TextBox Grid.Column="1" MinWidth="60" Name="type" Text="{Binding CompanyType, UpdateSourceTrigger=PropertyChanged}"/>
+                    <components:SearchBoxObject Grid.Column="2" MinWidth="140" x:Name="companyObject" DataContext="{Binding SearchBoxObject}"/>
+                    <TextBox Grid.Column="3" MinWidth="80" Name="weight" Text="{Binding Weight}" GotFocus="TextBox_GotFocus"/>
+                    <TextBox Grid.Column="4" Name="invoiceId" MinWidth="80" Text="{Binding InvoiceID, UpdateSourceTrigger=PropertyChanged}" 
                              GotFocus="TextBoxIDGotFocusSelectIndex" 
                              PreviewKeyUp="InvoiceId_KeyUp"/>
-                    <TextBox Grid.Column="4" MinWidth="80" Text="{Binding Weight}" GotFocus="TextBox_GotFocus"/>
-                    <TextBox Grid.Column="5" MinWidth="80" Text="{Binding Amount}"                             
+                    <TextBox Grid.Column="5" MinWidth="80" Name="amount" Text="{Binding Amount}"                             
                              GotFocus="TextBoxAmountGotFocus"
                              PreviewKeyDown="AmountKeyDown"/>
-                    <components:PayMethodBox Grid.Column="6" DataContext="{Binding PayMethodBox}"/>
-                    <TextBox Grid.Column="7" MinWidth="80" Text="{Binding Income}"
+                    <components:PayMethodBox Grid.Column="6" x:Name="payMethod" DataContext="{Binding PayMethodBox}"/>
+                    <TextBox Grid.Column="7" MinWidth="80" Name="income" Text="{Binding Income}"
                              GotFocus="TextBoxIncomeGotFocus"
                              PreviewKeyDown="IncomeKeyDown"/>
                 </Grid>
@@ -117,12 +117,13 @@
         </Grid>
         <Grid Grid.Row="2" Background="AliceBlue">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" MinWidth="650"/>
+                <ColumnDefinition Width="213*" MinWidth="650"/>
+                <ColumnDefinition Width="167*"/>
                 <ColumnDefinition Width="170"/>
             </Grid.ColumnDefinitions>
-            <ListView Grid.Column="0" PreviewMouseLeftButtonUp="ListView_PreviewMouseLeftButtonDown"
-                      PreviewKeyUp="ListView_PreviewKeyUp"
-                    ItemsSource="{Binding Invoices}">
+            <ListView Grid.Column="0" 
+                      SelectedItem="{Binding SelectedInvoiceViewModel, UpdateSourceTrigger=PropertyChanged}"
+                    ItemsSource="{Binding Invoices}" Grid.ColumnSpan="2">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Company" Width="180">
@@ -170,9 +171,9 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <Grid Grid.Column="1">
+            <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>                    
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <components:DayReportTotals DataContext="{Binding DayReportTotalsViewModel}"/>
             </Grid>

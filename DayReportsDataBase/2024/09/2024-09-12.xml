@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DayReport xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/DelitaTrade.Models">
+	<_dayReportID>2024-09-12</_dayReportID>
+	<_invoices>
+		<Invoice>
+			<_amount>2807.98</_amount>
+			<_companyName>Едеа Ритейл АД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001165796</_invoiceID>
+			<_objectName>Едеа Магарин Русе</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>322.66</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>751.63</_amount>
+			<_companyName>Вазаро Комерс ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001165820</_invoiceID>
+			<_objectName>Дистрибутор Вазаро</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>115</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>221.63</_amount>
+			<_companyName>Бизнес Клуб - Валентина Петрова ЕООД</_companyName>
+			<_income>221.63</_income>
+			<_invoiceID>1001165819</_invoiceID>
+			<_objectName>Бизнес хотел Валентина</_objectName>
+			<_payMethod>В брой</_payMethod>
+			<_weight>15.695</_weight>
+		</Invoice>
+	</_invoices>
+	<_payDesk>
+		<_amount>0</_amount>
+		<_banknotes xmlns:d3p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.01</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.02</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.05</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.1</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.2</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.5</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>1.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>2.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>5.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>10.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>20.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>50.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>100.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+		</_banknotes>
+	</_payDesk>
+	<_totalAmaunt>3781.24</_totalAmaunt>
+	<_totalExpenses>0</_totalExpenses>
+	<_totalIncome>221.63</_totalIncome>
+	<_totalNonPay>0</_totalNonPay>
+	<_totalOldInvoice>0</_totalOldInvoice>
+	<_totalWeight>453.355</_totalWeight>
+	<_transmissionDate i:nil="true" />
+	<_vehicle i:nil="true" />
+</DayReport>
