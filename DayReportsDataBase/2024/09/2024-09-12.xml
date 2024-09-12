@@ -65,6 +65,33 @@
 			<_payMethod>В брой</_payMethod>
 			<_weight>15.695</_weight>
 		</Invoice>
+		<Invoice>
+			<_amount>203.03</_amount>
+			<_companyName>Трънчев ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001165832</_invoiceID>
+			<_objectName>Магазин Булмаг</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>14.3</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>1645.93</_amount>
+			<_companyName>Трънчев ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001165804</_invoiceID>
+			<_objectName>Магазин Булмаг</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>95.359</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>10.72</_amount>
+			<_companyName>Трънчев ООД</_companyName>
+			<_income>0.00</_income>
+			<_invoiceID>1001165564</_invoiceID>
+			<_objectName>Магазин Булмаг</_objectName>
+			<_payMethod>Кредитно</_payMethod>
+			<_weight>0</_weight>
+		</Invoice>
 	</_invoices>
 	<_payDesk>
 		<_amount>0</_amount>
@@ -123,12 +150,12 @@
 			</d3p1:KeyValueOfdecimalint>
 		</_banknotes>
 	</_payDesk>
-	<_totalAmaunt>11654.69</_totalAmaunt>
+	<_totalAmaunt>13503.65</_totalAmaunt>
 	<_totalExpenses>0.00</_totalExpenses>
 	<_totalIncome>221.63</_totalIncome>
 	<_totalNonPay>0.00</_totalNonPay>
 	<_totalOldInvoice>0</_totalOldInvoice>
-	<_totalWeight>1469.201</_totalWeight>
+	<_totalWeight>1578.86</_totalWeight>
 	<_transmissionDate i:nil="true" />
 	<_vehicle i:nil="true" />
 </DayReport>

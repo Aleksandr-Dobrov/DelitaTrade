@@ -69,6 +69,7 @@ namespace DelitaTrade.Models
             {
                 decimal amount = 0;
                 decimal totalIncome = 0;
+                string payMetod = string.Empty;
                 foreach (var day in dayReportId)
                 {
                     _dayReportDataProvider.Path = SetDayReportFilePath(dayReportId[^1]);
@@ -79,8 +80,10 @@ namespace DelitaTrade.Models
                     { 
                         amount = invoice.Amount;
                     }
+                    payMetod = invoice.PayMethod;
                 }
-                if (amount > totalIncome)
+                if ((payMetod == "В брой" || payMetod == "С карта" || payMetod == "Стара сметка") 
+                    && amount > totalIncome)
                 {
                     return true;
                 }

@@ -327,3 +327,13 @@ StackTrace -    at DelitaTrade.Models.DayReportDataBase.AddNewInvoice(Invoice in
    at DelitaTrade.Models.DelitaTradeDayReport.AddInvoice(Invoice invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 292
 InnerExceptioon - 
 --------------------------------------------------
+12.9.2024 г. 17:41:38 - The invoice is already exists!
+System.ArgumentException: The invoice is already exists!
+   at DelitaTrade.Models.DayReportDataBase.AddNewInvoice(Invoice invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 457
+   at DelitaTrade.Models.DelitaTradeDayReport.AddInvoice(Invoice invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 292
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReportDataBase.AddNewInvoice(Invoice invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 457
+   at DelitaTrade.Models.DelitaTradeDayReport.AddInvoice(Invoice invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 292
+InnerExceptioon - 
+--------------------------------------------------
