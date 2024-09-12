@@ -17,7 +17,7 @@ namespace DelitaTrade.Models
 
         private List<string> _dayReportsID;
 
-        private Dictionary<string, string> _invoicesId;
+        private Dictionary<string, List<string>> _invoicesId;
 
         private List<string> _vehicles;
 
@@ -60,6 +60,59 @@ namespace DelitaTrade.Models
         private bool IsNewInvoice(string invoiceId)
         {
             return _invoicesId.ContainsKey(invoiceId) == false;
+        }
+
+        private bool IsUnpaidInvoice(string invoiceId)
+        {
+            List<string> dayReportId;
+            if (_invoicesId.TryGetValue(invoiceId, out dayReportId))
+            {
+                decimal amount = 0;
+                decimal totalIncome = 0;
+                foreach (var day in dayReportId)
+                {
+                    _dayReportDataProvider.Path = SetDayReportFilePath(dayReportId[^1]);
+                    var dayReport = _dayReportDataProvider.LoadAllData();
+                    var invoice = dayReport.GetAllInvoices().First(i => i.InvoiceID == invoiceId);
+                    totalIncome += invoice.Income;
+                    if (invoice.Amount > amount)
+                    { 
+                        amount = invoice.Amount;
+                    }
+                }
+                if (amount > totalIncome)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            throw new ArgumentException("Invoice is not exists in databa");
+        }
+
+        private decimal GetTotalIncomeFromInvoice(string invoiceId)
+        {
+            List<string> dayReportId;
+            if (_invoicesId.TryGetValue(invoiceId, out dayReportId))
+            {
+                decimal amount = 0;
+                decimal totalIncome = 0;
+                foreach (var day in dayReportId)
+                {
+                    _dayReportDataProvider.Path = SetDayReportFilePath(dayReportId[^1]);
+                    var dayReport = _dayReportDataProvider.LoadAllData();
+                    var invoice = dayReport.GetAllInvoices().First(i => i.InvoiceID == invoiceId);
+                    totalIncome += invoice.Income;
+                    if (invoice.Amount > amount)
+                    {
+                        amount = invoice.Amount;
+                    }
+                }
+                return totalIncome;
+            }
+            throw new InvalidOperationException("Invoice not found");
         }
 
         private void EncryptDataBaseFile(string filePath)
@@ -151,25 +204,41 @@ namespace DelitaTrade.Models
         {
             if (File.Exists(_invoicesIdFilePath))
             {
-                _invoicesId = new Dictionary<string, string>();
+                _invoicesId = new Dictionary<string, List<string>>();
                 EncryptDataBaseFile(_invoicesIdFilePath);
                 string[] loadData = File.ReadAllLines(_invoicesIdFilePath);
                 EncryptDataBaseFile(_invoicesIdFilePath);
                 foreach (string line in loadData)
                 {
-                    string[] split = line.Split('=');
-                    _invoicesId.Add(split[0], split[1]);
+                    string[] invoiceIdDayReportIds = line.Split('=');
+                    if (_invoicesId.ContainsKey(invoiceIdDayReportIds[0]))
+                    {
+                        _invoicesId[invoiceIdDayReportIds[0]].Add(invoiceIdDayReportIds[1]);
+                    }
+                    else
+                    {
+                        List<string> values = [invoiceIdDayReportIds[1]];
+                        _invoicesId.Add(invoiceIdDayReportIds[0], values);
+                    }                    
                 }
             }
             else
             {
-                _invoicesId = new Dictionary<string, string>();
+                _invoicesId = new Dictionary<string, List<string>>();
             }
         }
         
         private void SaveInvoiceIdToDataBase(string invoiceId, string dayReportId)
         {
-            _invoicesId.Add(invoiceId, dayReportId);
+            if (_invoicesId.ContainsKey(invoiceId))
+            {
+                _invoicesId[invoiceId].Add(dayReportId);
+            }
+            else
+            {
+                List<string> values = [dayReportId];
+                _invoicesId.Add(invoiceId, values);
+            }
             EncryptDataBaseFile(_invoicesIdFilePath);
             using (StreamWriter safeInvoiceId = new StreamWriter(_invoicesIdFilePath, true))
             {
@@ -185,7 +254,10 @@ namespace DelitaTrade.Models
             {
                 foreach (var invoice in _invoicesId)
                 {
-                    safeInvoiceId.WriteLine($"{invoice.Key}={invoice.Value}");
+                    foreach (var dayReportId in invoice.Value)
+                    {
+                        safeInvoiceId.WriteLine($"{invoice.Key}={dayReportId}");
+                    }
                 }
             }
             EncryptDataBaseFile(_invoicesIdFilePath);
@@ -276,6 +348,25 @@ namespace DelitaTrade.Models
             DayReportIdsLoad.Invoke(dayReportIds);
         }
 
+        private void RemoveInvoiceIdFromDayReport(string dayReportId, string invoiceId)
+        {
+            if (_invoicesId.ContainsKey(invoiceId) && _invoicesId[invoiceId].Contains(dayReportId))
+            {
+                if (_invoicesId[invoiceId].Count > 1)
+                {
+                    _invoicesId[invoiceId].Remove(dayReportId);
+                }
+                else
+                {
+                    _invoicesId.Remove(invoiceId);
+                }
+            }
+            else 
+            {
+                throw new InvalidOperationException("Invoice can`t be remove!");
+            }
+        }
+
         private void OnDayReportIdAdd(string dayReportId)
         {
             DayReportIdAdd.Invoke(dayReportId);
@@ -332,10 +423,10 @@ namespace DelitaTrade.Models
             if (IsNewDayReport(dayReportId) == false)
             {
                 _dayReportsID.Remove(dayReportId);
-                Dictionary<string, string> invoiceToDelete = _invoicesId.Where(i => i.Value == dayReportId).ToDictionary();
+                Dictionary<string, List<string>> invoiceToDelete = _invoicesId.Where(i => i.Value.Contains(dayReportId)).ToDictionary();
                 foreach (var item in invoiceToDelete)
                 {
-                    _invoicesId.Remove(item.Key);
+                    RemoveInvoiceIdFromDayReport(dayReportId, item.Key);
                 }
 
                 File.Delete(SetDayReportFilePath(dayReportId));
@@ -352,7 +443,7 @@ namespace DelitaTrade.Models
 
         public void AddNewInvoice(Invoice invoice) 
         {
-            if (IsNewInvoice(invoice.InvoiceID))
+            if (IsNewInvoice(invoice.InvoiceID) || IsUnpaidInvoice(invoice.InvoiceID))
             {
                 _dayReport.AddInvoice(invoice);
                 SaveDayReportToDataBase(_dayReport);
@@ -370,9 +461,9 @@ namespace DelitaTrade.Models
             {
                 _dayReport.RemoveInvoice(invoice);
                 SaveDayReportToDataBase(_dayReport);
-                _invoicesId.Remove(invoice);
+                RemoveInvoiceIdFromDayReport(_dayReport.DayReportID, invoice);
                 SaveAllInvoiceIdToDataBase();
-            }
+            }           
             else
             {
                 throw new ArgumentNullException("The invoice is not exists!");

@@ -21,6 +21,42 @@
 			<_weight>115</_weight>
 		</Invoice>
 		<Invoice>
+			<_amount>583.33</_amount>
+			<_companyName>Живис ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001165797</_invoiceID>
+			<_objectName>Живис</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>118.8</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>7.21</_amount>
+			<_companyName>Живис ООД</_companyName>
+			<_income>0.00</_income>
+			<_invoiceID>1001165582</_invoiceID>
+			<_objectName>Живис</_objectName>
+			<_payMethod>Кредитно</_payMethod>
+			<_weight>0</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>3587.56</_amount>
+			<_companyName>Железов 2017 ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001165884</_invoiceID>
+			<_objectName>Борса Дева</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>423.1</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>3702.56</_amount>
+			<_companyName>Железов 2017 ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001165861</_invoiceID>
+			<_objectName>Борса Дева</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>473.946</_weight>
+		</Invoice>
+		<Invoice>
 			<_amount>221.63</_amount>
 			<_companyName>Бизнес Клуб - Валентина Петрова ЕООД</_companyName>
 			<_income>221.63</_income>
@@ -87,12 +123,12 @@
 			</d3p1:KeyValueOfdecimalint>
 		</_banknotes>
 	</_payDesk>
-	<_totalAmaunt>3781.24</_totalAmaunt>
-	<_totalExpenses>0</_totalExpenses>
+	<_totalAmaunt>11654.69</_totalAmaunt>
+	<_totalExpenses>0.00</_totalExpenses>
 	<_totalIncome>221.63</_totalIncome>
-	<_totalNonPay>0</_totalNonPay>
+	<_totalNonPay>0.00</_totalNonPay>
 	<_totalOldInvoice>0</_totalOldInvoice>
-	<_totalWeight>453.355</_totalWeight>
+	<_totalWeight>1469.201</_totalWeight>
 	<_transmissionDate i:nil="true" />
 	<_vehicle i:nil="true" />
 </DayReport>
