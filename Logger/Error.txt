@@ -1586,3 +1586,27 @@ StackTrace -    at Microsoft.Office.Interop.Excel.Workbooks.Open(String Filename
    at DelitaTrade.Models.DelitaTradeDayReport.ExportExcelDayReport() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 194
 InnerExceptioon - 
 --------------------------------------------------
+13.9.2024 г. 9:41:48 - Index was out of range. Must be non-negative and less than the size of the collection. (Parameter 'index')
+System.ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection. (Parameter 'index')
+   at System.Collections.Generic.List`1.get_Item(Int32 index)
+   at DelitaTrade.ViewModels.DayReportsViewModel.OnDayReportIdColectionChange(Object sender, NotifyCollectionChangedEventArgs e) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\ViewModels\DayReportsViewModel.cs:line 326
+   at System.Collections.ObjectModel.ObservableCollection`1.OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+   at DelitaTrade.ViewModels.DayReportsViewModel.UpdateDayReportsId() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\ViewModels\DayReportsViewModel.cs:line 179
+   at DelitaTrade.Models.DelitaTradeDayReport.OnDayReportsIdChanged() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 43
+   at DelitaTrade.Models.DayReportDataBase.OnDayReportsIdChanged() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 346
+   at DelitaTrade.Models.DayReportDataBase.SaveAllReportIdToDataBase() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 293
+   at DelitaTrade.Models.DayReportDataBase.DeleteDayReport(String dayReportId) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 438
+   at DelitaTrade.Models.DelitaTradeDayReport.DeleteDayReport(String dayReportId) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 253
+Source - System.Private.CoreLib
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at System.Collections.Generic.List`1.get_Item(Int32 index)
+   at DelitaTrade.ViewModels.DayReportsViewModel.OnDayReportIdColectionChange(Object sender, NotifyCollectionChangedEventArgs e) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\ViewModels\DayReportsViewModel.cs:line 326
+   at System.Collections.ObjectModel.ObservableCollection`1.OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+   at DelitaTrade.ViewModels.DayReportsViewModel.UpdateDayReportsId() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\ViewModels\DayReportsViewModel.cs:line 179
+   at DelitaTrade.Models.DelitaTradeDayReport.OnDayReportsIdChanged() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 43
+   at DelitaTrade.Models.DayReportDataBase.OnDayReportsIdChanged() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 346
+   at DelitaTrade.Models.DayReportDataBase.SaveAllReportIdToDataBase() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 293
+   at DelitaTrade.Models.DayReportDataBase.DeleteDayReport(String dayReportId) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 438
+   at DelitaTrade.Models.DelitaTradeDayReport.DeleteDayReport(String dayReportId) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 253
+InnerExceptioon - 
+--------------------------------------------------

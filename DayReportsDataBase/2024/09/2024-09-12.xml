@@ -92,9 +92,99 @@
 			<_payMethod>Кредитно</_payMethod>
 			<_weight>0</_weight>
 		</Invoice>
+		<Invoice>
+			<_amount>1219.06</_amount>
+			<_companyName>Сабросо 2012 ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001165857</_invoiceID>
+			<_objectName>Бурата</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>42.45</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>2572.43</_amount>
+			<_companyName>Море 2020 ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001165800</_invoiceID>
+			<_objectName>Стария Чинар</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>33</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>1383.91</_amount>
+			<_companyName>Хепи Лейди ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001165878</_invoiceID>
+			<_objectName>Хепи кухня майка</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>54.6</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>2747.63</_amount>
+			<_companyName>Хепи Лейди ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001165802</_invoiceID>
+			<_objectName>Хепи кухня майка</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>84</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>322.50</_amount>
+			<_companyName>Лагардер Травъл Ритейл ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001165798</_invoiceID>
+			<_objectName>Уан минът ЕС253 Добрич</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>33.8</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>537.80</_amount>
+			<_companyName>Триада -ГТ ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001165862</_invoiceID>
+			<_objectName>Дистрибутор Триада</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>13.2</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>3565.20</_amount>
+			<_companyName>Триада -ГТ ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001165801</_invoiceID>
+			<_objectName>Дистрибутор Триада</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>292.45</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>3305.50</_amount>
+			<_companyName>Фуудс 1990 ООД</_companyName>
+			<_income>3305.50</_income>
+			<_invoiceID>1001165799</_invoiceID>
+			<_objectName>Ресторант Данте</_objectName>
+			<_payMethod>В брой</_payMethod>
+			<_weight>385.475</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>624.24</_amount>
+			<_companyName>Фуудс 1990 ООД</_companyName>
+			<_income>0.00</_income>
+			<_invoiceID>1001165583</_invoiceID>
+			<_objectName>Ресторант Данте</_objectName>
+			<_payMethod>Кредитно</_payMethod>
+			<_weight>0</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>560.60</_amount>
+			<_companyName>Лагардер Травъл Ритейл ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001165818</_invoiceID>
+			<_objectName>Барико Просеко Бар</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>32.6</_weight>
+		</Invoice>
 	</_invoices>
 	<_payDesk>
-		<_amount>0</_amount>
+		<_amount>3527.15</_amount>
 		<_banknotes xmlns:d3p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>0.01</d3p1:Key>
@@ -106,11 +196,11 @@
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>0.05</d3p1:Key>
-				<d3p1:Value>0</d3p1:Value>
+				<d3p1:Value>1</d3p1:Value>
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>0.1</d3p1:Key>
-				<d3p1:Value>0</d3p1:Value>
+				<d3p1:Value>1</d3p1:Value>
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>0.2</d3p1:Key>
@@ -122,7 +212,7 @@
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>1.0</d3p1:Key>
-				<d3p1:Value>0</d3p1:Value>
+				<d3p1:Value>2</d3p1:Value>
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>2.0</d3p1:Key>
@@ -130,32 +220,32 @@
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>5.0</d3p1:Key>
-				<d3p1:Value>0</d3p1:Value>
+				<d3p1:Value>1</d3p1:Value>
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>10.0</d3p1:Key>
-				<d3p1:Value>0</d3p1:Value>
+				<d3p1:Value>25</d3p1:Value>
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>20.0</d3p1:Key>
-				<d3p1:Value>0</d3p1:Value>
+				<d3p1:Value>1</d3p1:Value>
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>50.0</d3p1:Key>
-				<d3p1:Value>0</d3p1:Value>
+				<d3p1:Value>37</d3p1:Value>
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>100.0</d3p1:Key>
-				<d3p1:Value>0</d3p1:Value>
+				<d3p1:Value>14</d3p1:Value>
 			</d3p1:KeyValueOfdecimalint>
 		</_banknotes>
 	</_payDesk>
-	<_totalAmaunt>13503.65</_totalAmaunt>
+	<_totalAmaunt>29718.28</_totalAmaunt>
 	<_totalExpenses>0.00</_totalExpenses>
-	<_totalIncome>221.63</_totalIncome>
+	<_totalIncome>3527.13</_totalIncome>
 	<_totalNonPay>0.00</_totalNonPay>
 	<_totalOldInvoice>0</_totalOldInvoice>
-	<_totalWeight>1578.86</_totalWeight>
-	<_transmissionDate i:nil="true" />
-	<_vehicle i:nil="true" />
+	<_totalWeight>2550.4349999999995</_totalWeight>
+	<_transmissionDate>13-09-2024</_transmissionDate>
+	<_vehicle>СВ 2241 КК</_vehicle>
 </DayReport>

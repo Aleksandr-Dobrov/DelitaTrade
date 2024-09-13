@@ -126,6 +126,7 @@ namespace DelitaTrade.ViewModels
             DayReportIdViewModel.DayReportIdExists += LoadDayReport;
             PropertyChanged += OnCurentViewModelPropertyChanged;
             LoadInvoice += LoadInvoiceFromList;
+            _dayReporsId.CollectionChanged += OnDayReportIdColectionChange;
         }
 
         private void OnLoadInvoiceFromList()
@@ -315,6 +316,18 @@ namespace DelitaTrade.ViewModels
 
         public string DayReportColor => _dayReportColor;
 
+        private string GetNextDayReportId()
+        {
+            return DateTime.Today.AddDays(1).ToString("yyyy-MM-dd");
+        }
+
+        private void OnDayReportIdColectionChange(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (_dayReporsId.Count > 0 && _dayReporsId[^1] == DateTime.Now.Date.ToString("yyyy-MM-dd"))
+            {
+                Date = GetNextDayReportId();
+            }
+        }
         private void OnSelectDayReportColorCanged()
         {
             _dayReportColor = "#FF3BEB23";

@@ -8,12 +8,12 @@ namespace DelitaTrade.Models.ReturnProtocol
     {
         [DataMember]
         private HashSet<Product> _products;
-
+        
         public event Action DataBaseChange;
 
         public ProductsDataBase()
         {
-            DataBaseChange += () => { };
+            DataBaseChange += () => { };            
         }
         public void AddProductToDataBase(Product product)
         {
