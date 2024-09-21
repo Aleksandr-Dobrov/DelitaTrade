@@ -27,31 +27,31 @@ namespace DelitaTrade.ViewModels
             _banknoteViewModels = new Dictionary<decimal, BanknoteViewModel>();
             _dayReportCreator = delitaTradeDayReport;
             _banknoteViewModels[0.01m] = new BanknoteViewModel(delitaTradeDayReport,
-               0.01m, $"{iconPath}0.01lv.jpg");
+               0.01m, $"{iconPath}0.01lv.png");
             _banknoteViewModels[0.02m] = new BanknoteViewModel(delitaTradeDayReport,
-                0.02m, $"{iconPath}0.02lv.jpg");
+                0.02m, $"{iconPath}0.02lv.png");
             _banknoteViewModels[0.05m] = new BanknoteViewModel(delitaTradeDayReport,
-                0.05m, $"{iconPath}0.05lv.jpg");
+                0.05m, $"{iconPath}0.05lv.png");
             _banknoteViewModels[0.1m] = new BanknoteViewModel(delitaTradeDayReport,
-                0.1m, $"{iconPath}0.1lv.jpg");
+                0.1m, $"{iconPath}0.1lv.png");
             _banknoteViewModels[0.2m] = new BanknoteViewModel(delitaTradeDayReport,
-                0.2m, $"{iconPath}0.2lv.jpg");
+                0.2m, $"{iconPath}0.2lv.png");
             _banknoteViewModels[0.5m] = new BanknoteViewModel(delitaTradeDayReport,
-                0.5m, $"{iconPath}0.5lv.jpg");
+                0.5m, $"{iconPath}0.5lv.png");
             _banknoteViewModels[1m] = new BanknoteViewModel(delitaTradeDayReport,
-                1m, $"{iconPath}1lv.jpg");
+                1m, $"{iconPath}1lv.png");
             _banknoteViewModels[2m] = new BanknoteViewModel(delitaTradeDayReport,
-                2m, $"{iconPath}2lv.jpg");
+                2m, $"{iconPath}2lv.png");
             _banknoteViewModels[5m] = new BanknoteViewModel(delitaTradeDayReport,
-                5m, $"{iconPath}5lv.jpg");
+                5m, $"{iconPath}5lv.png");
             _banknoteViewModels[10m] = new BanknoteViewModel(delitaTradeDayReport,
-                10m, $"{iconPath}10lv.jpg");
+                10m, $"{iconPath}10lv.png");
             _banknoteViewModels[20m] = new BanknoteViewModel(delitaTradeDayReport,
-                20m, $"{iconPath}20lv.jpg");
+                20m, $"{iconPath}20lv.png");
             _banknoteViewModels[50m] = new BanknoteViewModel(delitaTradeDayReport,
-                50m, $"{iconPath}50lv.jpg");
+                50m, $"{iconPath}50lv.png");
             _banknoteViewModels[100m] = new BanknoteViewModel(delitaTradeDayReport,
-                100m, $"{iconPath}100lv.jpg");
+                100m, $"{iconPath}100lv.png");
             delitaTradeDayReport.DayReportDataChanged += GetAllBanknotes;
             delitaTradeDayReport.TotalsChanged += OnDayReportTotalsChanged;
             this.PropertyChanged += OnViewModelPropertyChanged;            

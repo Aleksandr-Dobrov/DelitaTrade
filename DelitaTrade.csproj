@@ -10,9 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Components\ComponentAssets\DayReport\add.png" />
+    <None Remove="Components\ComponentAssets\DayReport\delete-file_40456.png" />
+    <None Remove="Components\ComponentAssets\DayReport\remove.png" />
+    <None Remove="Components\ComponentAssets\DayReport\update.png" />
     <None Remove="Components\delitaTradeLogo.png" />
-    <None Remove="Views\add.png" />
-    <None Remove="Views\updated_5625789.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,13 +34,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Components\ComponentAssets\DayReport\add.png" />
+    <Resource Include="Components\ComponentAssets\DayReport\delete-file_40456.png" />
+    <Resource Include="Components\ComponentAssets\DayReport\remove.png" />
+    <Resource Include="Components\ComponentAssets\DayReport\update.png" />
     <Resource Include="Components\delitaTradeLogo.png" />
-    <Resource Include="Views\add.png" />
-    <Resource Include="Views\updated_5625789.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Assets\Banknotes\" />
+    <Folder Include="Assets\Command\" />
     <Folder Include="DayReportsDataBase\ExportFiles\" />
   </ItemGroup>
 

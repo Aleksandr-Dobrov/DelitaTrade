@@ -2,6 +2,7 @@
 using DelitaTrade.Components.ComponetsViewModel;
 using DelitaTrade.Models;
 using DelitaTrade.Models.DataProviders;
+using DelitaTrade.ViewModels.FileDirectoryProvider;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -461,6 +462,13 @@ namespace DelitaTrade.ViewModels
             }
         }
 
+        public string DeleteDayReportButtonImage => FileSoursePath.GetFullFilePath("Components\\ComponentAssets\\DayReport\\delete-file_40456.png");
+        public string CreateDayReportButtonImage => FileSoursePath.GetFullFilePath("Components\\ComponentAssets\\DayReport\\add-document.png");
+        public string AddInvoiceButtonImage => FileSoursePath.GetFullFilePath("Components\\ComponentAssets\\DayReport\\add.png");
+        public string UpdateInvoiceButtonImage => FileSoursePath.GetFullFilePath("Components\\ComponentAssets\\DayReport\\update.png");
+        public string DeleteInvoiceButtonImage => FileSoursePath.GetFullFilePath("Components\\ComponentAssets\\DayReport\\remove.png");
+
+
         public bool CheckIsUnpaidInvoice(string invoiceId)
         {
             if (invoiceId != null && CheckIsNewInvoice(invoiceId) == false) 
@@ -486,7 +494,7 @@ namespace DelitaTrade.ViewModels
 
         public ICommand LoadDayReportCommand { get; }
 
-        public ICommand DeleteDayReportCommand { get;}
+        public ICommand DeleteDayReportCommand { get; }
 
         public ICommand UpdateInvoiceCommand { get; }
     }

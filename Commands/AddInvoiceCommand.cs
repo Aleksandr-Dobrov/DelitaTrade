@@ -1,4 +1,6 @@
-﻿using DelitaTrade.Models;
+﻿using DelitaTrade.Components;
+using DelitaTrade.Components.ComponetsViewModel;
+using DelitaTrade.Models;
 using DelitaTrade.ViewModels;
 using System.ComponentModel;
 
@@ -18,11 +20,13 @@ namespace DelitaTrade.Commands
             _dayReportsViewModel = dayReportsViewModel;
             _addNewCompanyViewModel = addNewCompanyViewModel;
             _dayReportsViewModel.PropertyChanged += OnViewModelPropertyChanged;
+            _dayReportsViewModel.SearchBox.PropertyChanged += OnViewModelPropertyChanged;
         }
 
         private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(DayReportsViewModel.InvoiceID))               
+            if (e.PropertyName == nameof(DayReportsViewModel.InvoiceID) 
+                || e.PropertyName == nameof(SearchBoxViewModel.InputText))               
             {
                 OnCanExecuteChanged();                
             }
@@ -30,7 +34,8 @@ namespace DelitaTrade.Commands
 
         public override bool CanExecute(object? parameter)
         {
-            return _dayReportsViewModel.InvoiceID.Length == 10                 
+            return string.IsNullOrEmpty(_dayReportsViewModel.SearchBox.InputText) == false
+                && _dayReportsViewModel.InvoiceID.Length == 10                 
                 && _dayReportsViewModel.InvoiceID.All(char.IsDigit)                
                 && (_dayReportsViewModel.CheckIsUnpaidInvoice(_dayReportsViewModel.InvoiceID) 
                     || _dayReportsViewModel.CheckIsNewInvoice(_dayReportsViewModel.InvoiceID))
