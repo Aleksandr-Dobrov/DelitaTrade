@@ -6,6 +6,8 @@ namespace DelitaTrade.Models
     public class Invoice
     {
         [DataMember]
+        private int _id;
+        [DataMember]
         private string _companyName;
         [DataMember]
         private string _objectName;
@@ -29,7 +31,14 @@ namespace DelitaTrade.Models
             _payMethod = payMethod;
             _amount = amount;
             _income = income;
-            _weight = weight;
+            _weight = weight;            
+        }
+
+        public Invoice (int id, string companyName, string objectName, string invoiceID,
+                       string payMethod, decimal amount, decimal income, double weight)
+            : this (companyName, objectName, invoiceID, payMethod, amount, income, weight)
+        {
+            _id = id;            
         }
 
         public string CompanyName => _companyName;
@@ -39,6 +48,7 @@ namespace DelitaTrade.Models
         public decimal Income => _income;
         public string PayMethod => _payMethod;
         public double Weight => _weight;
+        public int Id => _id;
 
     }
 }

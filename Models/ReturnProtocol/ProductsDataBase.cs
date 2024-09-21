@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Runtime.Serialization;
+using DelitaTrade.Interfaces.ReturnProtocol;
 
 namespace DelitaTrade.Models.ReturnProtocol
 {
@@ -7,21 +8,22 @@ namespace DelitaTrade.Models.ReturnProtocol
     public class ProductsDataBase : IEnumerable
     {
         [DataMember]
-        private HashSet<Product> _products;
+        private HashSet<ProductBase> _products;
         
         public event Action DataBaseChange;
 
         public ProductsDataBase()
         {
+            _products = new HashSet<ProductBase>();
             DataBaseChange += () => { };            
         }
-        public void AddProductToDataBase(Product product)
+        public void AddProductToDataBase(IProduct product)
         {
             if (product != null)
             {
-                if (_products.Contains(product) == false)
+                if (product is ProductBase &&_products.Contains(product) == false)
                 {
-                    _products.Add(product);
+                    _products.Add(product as ProductBase);
                     DataBaseChange.Invoke();
                 }
                 else 
@@ -33,6 +35,11 @@ namespace DelitaTrade.Models.ReturnProtocol
             {
                 throw new ArgumentNullException("Product is null");
             }
+        }
+
+        public bool Contains(IProduct product)
+        {
+            return _products.Contains(product);
         }
         
         public IEnumerator GetEnumerator()

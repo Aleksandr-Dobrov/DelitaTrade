@@ -1,9 +1,10 @@
 ﻿using System.Runtime.Serialization;
+using DelitaTrade.Interfaces.ReturnProtocol;
 
 namespace DelitaTrade.Models.ReturnProtocol
 {
     [DataContract]
-    public class Product
+    public class Product : ProductBase
     {
         [DataMember]
         private string _itemName;
@@ -18,11 +19,9 @@ namespace DelitaTrade.Models.ReturnProtocol
         [DataMember]
         private string _description;
 
-        public Product(string itemName, double quantity, string unit, string batch, string bestBefore)
+        public Product(string itemName, double quantity, string unit, string batch, string bestBefore) : base(itemName,unit)
         {
-            _itemName = itemName;
-            _quantity = quantity;
-            _unit = unit;
+            _quantity = quantity;           
             _batch = batch;
             _bestBefore = bestBefore;
         }
@@ -36,15 +35,22 @@ namespace DelitaTrade.Models.ReturnProtocol
         public string ItemName => _itemName;
         public string Unit => _unit;
 
+        public string Batch => _batch;
+
         public override int GetHashCode()
         {
-            return $"{_itemName}{_unit}".GetHashCode();
+            return $"{_itemName}{_unit}{_batch}".GetHashCode();
         }
 
         public override bool Equals(object? obj)
         {
             var product = obj as Product;
-            return product?.ItemName == _itemName && product.Unit == _unit;
+            return product?.ItemName == _itemName && product.Unit == _unit && product.Batch == _batch;
+        }
+
+        public override string ToString()
+        {
+            return $"{ItemName}-{Unit}-{Batch}";
         }
     }
 }

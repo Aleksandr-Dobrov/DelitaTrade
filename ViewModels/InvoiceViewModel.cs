@@ -10,7 +10,8 @@ namespace DelitaTrade.ViewModels
         {
             _invoice = invoice;
         }
-
+        
+        public int Id => _invoice.Id;
         public string CompanyName => _invoice.CompanyName;
         public string ObjectName => _invoice.ObjectName;
         public string InvoiceID => _invoice.InvoiceID;

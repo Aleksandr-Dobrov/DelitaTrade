@@ -1,9 +1,136 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <DayReport xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/DelitaTrade.Models">
 	<_dayReportID>2024-09-13</_dayReportID>
-	<_invoices />
+	<_invoices>
+		<Invoice>
+			<_amount>4905.98</_amount>
+			<_companyName>Ваклинов ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001166259</_invoiceID>
+			<_objectName>Старбъкс - Фригосток</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>374</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>283.69</_amount>
+			<_companyName>Ем Еф Би ООД</_companyName>
+			<_income>283.69</_income>
+			<_invoiceID>1001166414</_invoiceID>
+			<_objectName>Американско Училище - Лозен</_objectName>
+			<_payMethod>В брой</_payMethod>
+			<_weight>23.516</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>184.64</_amount>
+			<_companyName>ВМ Естейт ООД</_companyName>
+			<_income>184.64</_income>
+			<_invoiceID>1001166254</_invoiceID>
+			<_objectName>Бистро Европа 11</_objectName>
+			<_payMethod>В брой</_payMethod>
+			<_weight>26</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>186.00</_amount>
+			<_companyName>Едис Кетъринг ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001166218</_invoiceID>
+			<_objectName>Едис Терминал 2</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>30</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>135.76</_amount>
+			<_companyName>Лагардер Травъл Ритейл ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001166408</_invoiceID>
+			<_objectName>Онда Терминал 2</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>6.03</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>62.99</_amount>
+			<_companyName>Лагардер Травъл Ритейл ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001166219</_invoiceID>
+			<_objectName>Онда Терминал 1 ЕС240</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>8.8</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>92.68</_amount>
+			<_companyName>Силвър Уингс България ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001166241</_invoiceID>
+			<_objectName>Силвър Уингс България</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>3.3</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>1759.93</_amount>
+			<_companyName>Саза Тур ЕООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001166450</_invoiceID>
+			<_objectName>Премиер Хотел</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>53.8962</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>186.55</_amount>
+			<_companyName>Далас ЕООД</_companyName>
+			<_income>186.55</_income>
+			<_invoiceID>1001166443</_invoiceID>
+			<_objectName>Борса Далас</_objectName>
+			<_payMethod>В брой</_payMethod>
+			<_weight>33.625</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>5675.75</_amount>
+			<_companyName>Грийн Марк Логистика ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001166439</_invoiceID>
+			<_objectName>Грийн Марк</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>376.68</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>318.42</_amount>
+			<_companyName>Грийн Марк Логистика ООД</_companyName>
+			<_income>0</_income>
+			<_invoiceID>1001166447</_invoiceID>
+			<_objectName>Грийн Марк</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>12.8</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>363.32</_amount>
+			<_companyName>Еъртрейд АД</_companyName>
+			<_income>363.32</_income>
+			<_invoiceID>1001166448</_invoiceID>
+			<_objectName>Корията</_objectName>
+			<_payMethod>В брой</_payMethod>
+			<_weight>141.25</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>296.09</_amount>
+			<_companyName>Сан Суси 2010 ООД</_companyName>
+			<_income>296.09</_income>
+			<_invoiceID>1001166237</_invoiceID>
+			<_objectName>Ученически стол и бюфет 171 ОУ - Нови Искър</_objectName>
+			<_payMethod>В брой</_payMethod>
+			<_weight>29.302</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>0</_amount>
+			<_companyName>СВ 2241 КК </_companyName>
+			<_income>-5.00</_income>
+			<_invoiceID>0130920240</_invoiceID>
+			<_objectName>Вход Борса Къра</_objectName>
+			<_payMethod>Разход</_payMethod>
+			<_weight>0</_weight>
+		</Invoice>
+	</_invoices>
 	<_payDesk>
-		<_amount>0</_amount>
+		<_amount>1309.30</_amount>
 		<_banknotes xmlns:d3p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>0.01</d3p1:Key>
@@ -19,19 +146,19 @@
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>0.1</d3p1:Key>
-				<d3p1:Value>0</d3p1:Value>
+				<d3p1:Value>1</d3p1:Value>
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>0.2</d3p1:Key>
-				<d3p1:Value>0</d3p1:Value>
+				<d3p1:Value>1</d3p1:Value>
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>0.5</d3p1:Key>
-				<d3p1:Value>0</d3p1:Value>
+				<d3p1:Value>2</d3p1:Value>
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>1.0</d3p1:Key>
-				<d3p1:Value>0</d3p1:Value>
+				<d3p1:Value>3</d3p1:Value>
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>2.0</d3p1:Key>
@@ -39,32 +166,32 @@
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>5.0</d3p1:Key>
-				<d3p1:Value>0</d3p1:Value>
+				<d3p1:Value>1</d3p1:Value>
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>10.0</d3p1:Key>
-				<d3p1:Value>0</d3p1:Value>
+				<d3p1:Value>6</d3p1:Value>
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>20.0</d3p1:Key>
-				<d3p1:Value>0</d3p1:Value>
+				<d3p1:Value>7</d3p1:Value>
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>50.0</d3p1:Key>
-				<d3p1:Value>0</d3p1:Value>
+				<d3p1:Value>18</d3p1:Value>
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>100.0</d3p1:Key>
-				<d3p1:Value>0</d3p1:Value>
+				<d3p1:Value>2</d3p1:Value>
 			</d3p1:KeyValueOfdecimalint>
 		</_banknotes>
 	</_payDesk>
-	<_totalAmaunt>0</_totalAmaunt>
-	<_totalExpenses>0</_totalExpenses>
-	<_totalIncome>0</_totalIncome>
+	<_totalAmaunt>14451.80</_totalAmaunt>
+	<_totalExpenses>5.00</_totalExpenses>
+	<_totalIncome>1309.29</_totalIncome>
 	<_totalNonPay>0</_totalNonPay>
 	<_totalOldInvoice>0</_totalOldInvoice>
-	<_totalWeight>0</_totalWeight>
-	<_transmissionDate i:nil="true" />
-	<_vehicle i:nil="true" />
+	<_totalWeight>1119.1991999999998</_totalWeight>
+	<_transmissionDate>16-09-2024</_transmissionDate>
+	<_vehicle>СВ 2241 КК</_vehicle>
 </DayReport>

@@ -34,8 +34,10 @@ namespace DelitaTrade.Commands
 
         public override bool CanExecute(object? parameter)
         {
-            return (_dayReportsViewModel.Invoices
-                    .FirstOrDefault(i => i.InvoiceID == _dayReportsViewModel.InvoiceID) != null)
+            return _dayReportsViewModel.SelectedInvoiceViewModel != null
+               && (_dayReportsViewModel.Invoices
+                    .FirstOrDefault(i => i.InvoiceID == _dayReportsViewModel.InvoiceID 
+                                            && i.Id == _dayReportsViewModel.Id) != null)
                && base.CanExecute(parameter);
         }
 
@@ -45,7 +47,7 @@ namespace DelitaTrade.Commands
                                                        , "Delete?", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (boxResult == MessageBoxResult.Yes)
             {
-                _dayReport.RemoveInvoice(_dayReportsViewModel.InvoiceID);
+                _dayReport.RemoveInvoice(_dayReportsViewModel.InvoiceID, _dayReportsViewModel.Id);
             }
         }
     }

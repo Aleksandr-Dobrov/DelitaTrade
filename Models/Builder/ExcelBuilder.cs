@@ -9,16 +9,19 @@ namespace DelitaTrade.Models.Builder
         private ExcelWriter _writer;
         private ExcelDrawing _drawing;
 
+        private List<InvoiceMarker> _invoiceMarker;
+
         private decimal _totalSum = 0;
         private int _startRow;
         private int _row;
         private int _counter = 1;
-        private int _pageCount = 0;
+        private int _pageCount = 0;        
 
         public ExcelBuilder()
         {
             _writer = new ExcelWriter();
             _drawing = new ExcelDrawing();
+            _invoiceMarker = new List<InvoiceMarker>();
         }
 
         private void InitializeData()
@@ -63,7 +66,7 @@ namespace DelitaTrade.Models.Builder
             BuildBodyHeather(ws);
         }
 
-        private void BuildBodyComponent(Worksheet ws, string name, ref bool isInitialized, ref bool nonPayExists, Invoice invoice, List<string> nonPayInvoices)
+        private void BuildBodyComponent(Worksheet ws, string name, ref bool isInitialized, ref bool nonPayExists, Invoice invoice, List<string> nonPayInvoices, Func<Invoice, bool> isNonPayInvoice, Func<string, int> repeatInvoiceCount)
         {
             if (isInitialized && IsNewPage(1))
             {
@@ -76,7 +79,7 @@ namespace DelitaTrade.Models.Builder
                 SetNewBodyPage(ws);
             }
 
-            if (isInitialized && (name == "Плащане в брой" && IsNonPayInvoice(invoice)) == false)
+            if (isInitialized && (name == "Плащане в брой" && isNonPayInvoice(invoice)) == false)
             {
                 isInitialized = false;
                 _drawing.BackgroundColorRange(ws, XlRgbColor.rgbLightGrey, _row, 1, _row, 8);
@@ -88,12 +91,15 @@ namespace DelitaTrade.Models.Builder
             switch (name)
             {
                 case "Плащане по банка":
-                case "Плащане с карта":
                     _writer.WriteDataToCell(ws, invoice.Amount.ToString("C"), _row, 6);
                     _writer.WriteDataToCell(ws, invoice.PayMethod, _row, 7);
                     break;
+                case "Плащане с карта":
+                    _writer.WriteDataToCell(ws, invoice.Amount.ToString("C"), _row, 6);
+                    _writer.WriteDataToCell(ws, invoice.Income.ToString("C"), _row, 7);
+                    break;
                 case "Плащане в брой":
-                    if (IsNonPayInvoice(invoice))
+                    if (isNonPayInvoice(invoice))
                     {
                         nonPayExists = true;
                         nonPayInvoices.Add($"{invoice.Amount:C} -- {invoice.Income:C} -- {invoice.CompanyName} -- {invoice.PayMethod} -- {invoice.InvoiceID}");
@@ -128,7 +134,30 @@ namespace DelitaTrade.Models.Builder
             }
 
             _writer.WriteDataToCell(ws, _counter.ToString(), _row, 1);
-            _writer.WriteDataToCell(ws, $"{invoice.CompanyName}", _row, 2);
+            if (repeatInvoiceCount(invoice.InvoiceID) > 1)
+            {
+                InvoiceMarker marker;
+
+                if (_invoiceMarker.Count == 0)
+                {
+                    marker = new InvoiceMarker(invoice.InvoiceID);
+                    _invoiceMarker.Add(marker);
+                }
+                else if (_invoiceMarker.FirstOrDefault(m => m.InvoiceId == invoice.InvoiceID) == null)
+                {
+                    marker = new InvoiceMarker(_invoiceMarker[^1]);
+                    _invoiceMarker.Add(new InvoiceMarker(marker));
+                }
+                else 
+                {
+                    marker = _invoiceMarker.FirstOrDefault(m => m.InvoiceId == invoice.InvoiceID);
+                }
+                _writer.WriteDataToCell(ws, $"{marker}{invoice.CompanyName}", _row, 2);
+            }
+            else 
+            {
+                _writer.WriteDataToCell(ws, $"{invoice.CompanyName}", _row, 2);
+            }
             _writer.WriteDataToRange(ws, invoice.ObjectName, false, 11, false, XlHAlign.xlHAlignLeft, XlVAlign.xlVAlignTop, _row, 3, _row, 4);
             _writer.WriteDataToCell(ws, invoice.InvoiceID, false, 11, XlHAlign.xlHAlignLeft, XlVAlign.xlVAlignTop, _row, 5);
 
@@ -454,28 +483,28 @@ namespace DelitaTrade.Models.Builder
                 switch (invoice.PayMethod)
                 {
                     case "Банка":
-                        BuildBodyComponent(ws, "Плащане по банка", ref bankPay, ref nonPayExists, invoice, nonPayInvoices);                        
+                        BuildBodyComponent(ws, "Плащане по банка", ref bankPay, ref nonPayExists, invoice, nonPayInvoices, dayReport.IsNonPayInvoice, dayReport.GetId);                        
                         break;
                     case "С карта":
-                        BuildBodyComponent(ws, "Плащане с карта", ref cardPay, ref nonPayExists, invoice, nonPayInvoices);
+                        BuildBodyComponent(ws, "Плащане с карта", ref cardPay, ref nonPayExists, invoice, nonPayInvoices, dayReport.IsNonPayInvoice, dayReport.GetId);
                         
                         break;
                     case "В брой":
                     case "За кредитно":
                     case "За анулиране":
-                        BuildBodyComponent(ws, "Плащане в брой", ref cashPay, ref nonPayExists, invoice, nonPayInvoices);
+                        BuildBodyComponent(ws, "Плащане в брой", ref cashPay, ref nonPayExists, invoice, nonPayInvoices, dayReport.IsNonPayInvoice, dayReport.GetId);
                        
                         break;
                     case "Кредитно":
-                        BuildBodyComponent(ws, "Кредитни известия", ref creditNote, ref nonPayExists, invoice, nonPayInvoices);
+                        BuildBodyComponent(ws, "Кредитни известия", ref creditNote, ref nonPayExists, invoice, nonPayInvoices, dayReport.IsNonPayInvoice, dayReport.GetId);
                         
                         break;
                     case "Разход":
-                        BuildBodyComponent(ws, "Разходи", ref expenses, ref nonPayExists, invoice, nonPayInvoices);
+                        BuildBodyComponent(ws, "Разходи", ref expenses, ref nonPayExists, invoice, nonPayInvoices, dayReport.IsNonPayInvoice, dayReport.GetId);
                         
                         break;
                     case "Стара сметка":
-                        BuildBodyComponent(ws, "Стари сметки", ref oldInvoice, ref nonPayExists, invoice, nonPayInvoices);
+                        BuildBodyComponent(ws, "Стари сметки", ref oldInvoice, ref nonPayExists, invoice, nonPayInvoices, dayReport.IsNonPayInvoice, dayReport.GetId);
                         
                         break;
                 }
@@ -492,6 +521,7 @@ namespace DelitaTrade.Models.Builder
             {
                 _drawing.BordersAroundDraw(ws, _startRow + 2, 1, _row - 1, 8, XlLineStyle.xlContinuous, XlBorderWeight.xlMedium, "#A6A6A6");
             }
+            _invoiceMarker = new List<InvoiceMarker>();
         }
 
         public void BuildFooter(Worksheet ws, DayReport dayReport)

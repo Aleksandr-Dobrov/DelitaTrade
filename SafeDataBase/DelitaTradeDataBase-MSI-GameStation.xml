@@ -418,15 +418,8 @@
 					<_name>Барико Просеко Бар - Летище Бургас</_name>
 					<_trader i:nil="true" />
 				</CompanyObject>
-				<CompanyObject>
-					<_adrress>София бул. Мария Луиза 100 Централна гара</_adrress>
-					<_bankPay>true</_bankPay>
-					<_company i:nil="true" />
-					<_name>Онда Кафе - Кухня Майка</_name>
-					<_trader>Каролина Костадинова</_trader>
-				</CompanyObject>
 			</_objects>
-			<_objectsCount>8</_objectsCount>
+			<_objectsCount>7</_objectsCount>
 			<_type>ЕООД</_type>
 		</Company>
 		<Company>
@@ -782,15 +775,8 @@
 					<_name>Смяна на гума</_name>
 					<_trader></_trader>
 				</CompanyObject>
-				<CompanyObject>
-					<_adrress></_adrress>
-					<_bankPay>false</_bankPay>
-					<_company i:nil="true" />
-					<_name>Заден стоп</_name>
-					<_trader></_trader>
-				</CompanyObject>
 			</_objects>
-			<_objectsCount>7</_objectsCount>
+			<_objectsCount>6</_objectsCount>
 			<_type></_type>
 		</Company>
 		<Company>
@@ -1384,7 +1370,7 @@
 					<_bankPay>true</_bankPay>
 					<_company i:nil="true" />
 					<_name>Фууд Маркет</_name>
-					<_trader>Атанас Колев</_trader>
+					<_trader i:nil="true" />
 				</CompanyObject>
 			</_objects>
 			<_objectsCount>1</_objectsCount>
@@ -1401,15 +1387,8 @@
 					<_name>Ями - Ями Пежо</_name>
 					<_trader i:nil="true" />
 				</CompanyObject>
-				<CompanyObject>
-					<_adrress>София ул. Челопешко шосе 52</_adrress>
-					<_bankPay>true</_bankPay>
-					<_company i:nil="true" />
-					<_name>Ями-Ями Силвър Стар</_name>
-					<_trader>Каролина Костадинова</_trader>
-				</CompanyObject>
 			</_objects>
-			<_objectsCount>2</_objectsCount>
+			<_objectsCount>1</_objectsCount>
 			<_type>ЕООД</_type>
 		</Company>
 		<Company>
@@ -2126,15 +2105,8 @@
 					<_name>Тейст кофи енд мор</_name>
 					<_trader i:nil="true" />
 				</CompanyObject>
-				<CompanyObject>
-					<_adrress>София ул. Малашевска 8 склад D7 Mistral</_adrress>
-					<_bankPay>true</_bankPay>
-					<_company i:nil="true" />
-					<_name>Тейст кофи енд мор - София</_name>
-					<_trader>Call center</_trader>
-				</CompanyObject>
 			</_objects>
-			<_objectsCount>2</_objectsCount>
+			<_objectsCount>1</_objectsCount>
 			<_type>ЕООД</_type>
 		</Company>
 		<Company>
@@ -2942,111 +2914,6 @@
 					<_company i:nil="true" />
 					<_name>Суит Грийн - Перник</_name>
 					<_trader>Ася Иванова</_trader>
-				</CompanyObject>
-			</_objects>
-			<_objectsCount>1</_objectsCount>
-			<_type>ЕООД</_type>
-		</Company>
-		<Company>
-			<_bulstad>BG122047217</_bulstad>
-			<_name>Ваклинов</_name>
-			<_objects>
-				<CompanyObject>
-					<_adrress>София ул. Първа Българска армия 80</_adrress>
-					<_bankPay>true</_bankPay>
-					<_company i:nil="true" />
-					<_name>Старбъкс - Фригосток</_name>
-					<_trader>Атанас Колев</_trader>
-				</CompanyObject>
-			</_objects>
-			<_objectsCount>1</_objectsCount>
-			<_type>ЕООД</_type>
-		</Company>
-		<Company>
-			<_bulstad>BG202876019</_bulstad>
-			<_name>Ем Еф Би</_name>
-			<_objects>
-				<CompanyObject>
-					<_adrress>Лозен</_adrress>
-					<_bankPay>false</_bankPay>
-					<_company i:nil="true" />
-					<_name>Американско Училище - Лозен</_name>
-					<_trader>Виржиния Александрова</_trader>
-				</CompanyObject>
-			</_objects>
-			<_objectsCount>1</_objectsCount>
-			<_type>ООД</_type>
-		</Company>
-		<Company>
-			<_bulstad>BG201183898</_bulstad>
-			<_name>Сан Суси 2010</_name>
-			<_objects>
-				<CompanyObject>
-					<_adrress>София Нови Искър ул. Светлина 26</_adrress>
-					<_bankPay>false</_bankPay>
-					<_company i:nil="true" />
-					<_name>Ученически стол и бюфет 171 ОУ - Нови Искър</_name>
-					<_trader>Каролина Костадинова</_trader>
-				</CompanyObject>
-			</_objects>
-			<_objectsCount>1</_objectsCount>
-			<_type>ООД</_type>
-		</Company>
-		<Company>
-			<_bulstad>206423525</_bulstad>
-			<_name>Кинт Груп</_name>
-			<_objects>
-				<CompanyObject>
-					<_adrress>София Ботевградско шосе</_adrress>
-					<_bankPay>false</_bankPay>
-					<_company i:nil="true" />
-					<_name>Хепи Чикън - Джъмбо</_name>
-					<_trader></_trader>
-				</CompanyObject>
-			</_objects>
-			<_objectsCount>1</_objectsCount>
-			<_type>ЕООД</_type>
-		</Company>
-		<Company>
-			<_bulstad>BG207928765</_bulstad>
-			<_name>Идел Трейд БГ</_name>
-			<_objects>
-				<CompanyObject>
-					<_adrress>София Булгарплод кл.228</_adrress>
-					<_bankPay>false</_bankPay>
-					<_company i:nil="true" />
-					<_name>Борса Бакоев</_name>
-					<_trader>Цветомир Митрев</_trader>
-				</CompanyObject>
-			</_objects>
-			<_objectsCount>1</_objectsCount>
-			<_type>ЕООД</_type>
-		</Company>
-		<Company>
-			<_bulstad>BG203781660</_bulstad>
-			<_name>Лукс Инвест София</_name>
-			<_objects>
-				<CompanyObject>
-					<_adrress>София ул. Инжинер Георги Белов 17</_adrress>
-					<_bankPay>false</_bankPay>
-					<_company i:nil="true" />
-					<_name>Лукс Инвест Кетъринг</_name>
-					<_trader>Виржиния Александрова</_trader>
-				</CompanyObject>
-			</_objects>
-			<_objectsCount>1</_objectsCount>
-			<_type>ЕООД</_type>
-		</Company>
-		<Company>
-			<_bulstad>BG207675881</_bulstad>
-			<_name>А.Вивалди</_name>
-			<_objects>
-				<CompanyObject>
-					<_adrress>София бул. Христофор Колумб 64</_adrress>
-					<_bankPay>false</_bankPay>
-					<_company i:nil="true" />
-					<_name>Амор Кантийн</_name>
-					<_trader>Каролина Костадинова</_trader>
 				</CompanyObject>
 			</_objects>
 			<_objectsCount>1</_objectsCount>

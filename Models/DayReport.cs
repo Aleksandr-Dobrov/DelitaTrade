@@ -20,13 +20,13 @@ namespace DelitaTrade.Models
 
         [DataMember]
         private decimal _totalAmaunt;
-               
+
         [DataMember]
         private decimal _totalIncome;
 
         [DataMember]
         private decimal _totalExpenses;
-        
+
         [DataMember]
         private decimal _totalNonPay;
 
@@ -46,15 +46,23 @@ namespace DelitaTrade.Models
         {
             _dayReportID = dayReportID;
             _invoices = new List<Invoice>();
-            _payDesk = new PayDesk();            
+            _payDesk = new PayDesk();
+        }
+
+        private bool IsFirstInvoice(Invoice invoice)
+        {
+            return invoice.Id == 0;
         }
 
         private void SumInvoice(Invoice invoice)
         {
-            switch(invoice.PayMethod)
+            switch (invoice.PayMethod)
             {
                 case "Банка":
-                    _totalAmaunt += invoice.Amount;
+                    if (IsFirstInvoice(invoice))
+                    {
+                        _totalAmaunt += invoice.Amount;
+                    }
                     break;
                 case "В брой":
                 case "За кредитно":
@@ -62,7 +70,10 @@ namespace DelitaTrade.Models
                     {
                         _totalNonPay += invoice.Amount - invoice.Income;
                     }
-                    _totalAmaunt += invoice.Amount;
+                    if (IsFirstInvoice(invoice))
+                    {
+                        _totalAmaunt += invoice.Amount;
+                    }
                     _totalIncome += invoice.Income;
                     break;
                 case "Стара сметка":
@@ -70,7 +81,10 @@ namespace DelitaTrade.Models
                     _totalIncome += invoice.Income;
                     break;
                 case "С карта":
-                    _totalAmaunt += invoice.Amount;
+                    if (IsFirstInvoice(invoice))
+                    {
+                        _totalAmaunt += invoice.Amount;
+                    }
                     break;
                 case "Кредитно":
                     _totalExpenses += invoice.Income * -1;
@@ -83,6 +97,7 @@ namespace DelitaTrade.Models
                 default:
                     break;
             }
+
         }
 
         private void SubtractInvoice(Invoice invoice)
@@ -90,7 +105,10 @@ namespace DelitaTrade.Models
             switch (invoice.PayMethod)
             {
                 case "Банка":
-                    _totalAmaunt -= invoice.Amount;
+                    if(IsFirstInvoice(invoice))
+                    {
+                        _totalAmaunt -= invoice.Amount;
+                    }
                     break;
                 case "В брой":
                 case "За кредитно":
@@ -98,7 +116,10 @@ namespace DelitaTrade.Models
                     {
                         _totalNonPay -= invoice.Amount - invoice.Income;
                     }
-                    _totalAmaunt -= invoice.Amount;
+                    if (IsFirstInvoice(invoice))
+                    {
+                        _totalAmaunt -= invoice.Amount;
+                    }
                     _totalIncome -= invoice.Income;
                     break;
                 case "Стара сметка":
@@ -106,7 +127,10 @@ namespace DelitaTrade.Models
                     _totalIncome -= invoice.Income;
                     break;
                 case "С карта":
-                    _totalAmaunt -= invoice.Amount;
+                    if (IsFirstInvoice(invoice))
+                    {
+                        _totalAmaunt -= invoice.Amount;
+                    }
                     break;
                 case "Кредитно":
                     _totalExpenses -= invoice.Income * -1;
@@ -119,6 +143,7 @@ namespace DelitaTrade.Models
                 default:
                     break;
             }
+
         }
 
         private void TotalWeightCalcilate()
@@ -127,10 +152,13 @@ namespace DelitaTrade.Models
 
             foreach (var invoice in _invoices)
             {
-                _totalWeight += invoice.Weight;
+                if (invoice.Id == 0)
+                {
+                    _totalWeight += invoice.Weight;
+                }
             }
         }
-        
+
         public string DayReportID => _dayReportID;
 
         public decimal TotalAmaunt => _totalAmaunt;
@@ -151,7 +179,7 @@ namespace DelitaTrade.Models
         public string Vehicle
         {
             get => _vehicle;
-            set 
+            set
             {
                 _vehicle = value;
             }
@@ -160,9 +188,9 @@ namespace DelitaTrade.Models
         public string TransmissionDate
         {
             get => _transmissionDate;
-            set 
+            set
             {
-                _transmissionDate = value;               
+                _transmissionDate = value;
             }
         }
         public decimal BankPayTotal()
@@ -184,10 +212,31 @@ namespace DelitaTrade.Models
             {
                 return true;
             }
-            else 
+            else
             {
                 return false;
             }
+        }
+
+        public bool IsNonPayInvoice(Invoice invoice)
+        {
+            decimal totalIncome = 0;
+            List<Invoice> invoices = _invoices.Where(i => i.InvoiceID == invoice.InvoiceID).ToList();
+            foreach (var item in invoices)
+            {
+                totalIncome += item.Income;
+            }
+            return invoice.Amount > totalIncome;
+        }
+
+        public int GetId(string invoiceID)
+        {
+            if (_invoices.FirstOrDefault(i => i.InvoiceID == invoiceID) == null)
+            {
+                return 0;
+            }
+            List<Invoice> invoices = _invoices.Where(i => i.InvoiceID == invoiceID).ToList();
+            return invoices.Count;
         }
 
         public void AddInvoice(Invoice invoice)
@@ -199,7 +248,7 @@ namespace DelitaTrade.Models
 
         public void UpdateInvoice(Invoice invoice)
         {
-            Invoice invoiceToUpdate = _invoices.FirstOrDefault(i => i.InvoiceID == invoice.InvoiceID);
+            Invoice invoiceToUpdate = _invoices.FirstOrDefault(i => i.InvoiceID == invoice.InvoiceID && i.Id == invoice.Id);
             if (invoiceToUpdate != null)
             {
                 _invoices.Remove(invoiceToUpdate);
@@ -214,9 +263,9 @@ namespace DelitaTrade.Models
             }
         }
 
-        public void RemoveInvoice(string invoiceId)
+        public void RemoveInvoice(string invoiceId, int id)
         {
-            Invoice invoiceToRemove = _invoices.FirstOrDefault(i => i.InvoiceID == invoiceId);
+            Invoice invoiceToRemove = _invoices.FirstOrDefault(i => i.InvoiceID == invoiceId && i.Id == id);
             if (invoiceToRemove != null)
             {
                 _invoices.Remove(invoiceToRemove);
@@ -240,7 +289,7 @@ namespace DelitaTrade.Models
         }
 
         public IEnumerable<Invoice> GetAllInvoices()
-        {  
+        {
             return _invoices;
         }
 

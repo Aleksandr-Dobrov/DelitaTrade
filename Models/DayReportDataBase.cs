@@ -70,11 +70,15 @@ namespace DelitaTrade.Models
                 decimal amount = 0;
                 decimal totalIncome = 0;
                 string payMetod = string.Empty;
-                foreach (var day in dayReportId)
+
+                for (int i = (dayReportId.Count) - 1; i >= 0; i--)
                 {
-                    _dayReportDataProvider.Path = SetDayReportFilePath(dayReportId[^1]);
-                    var dayReport = _dayReportDataProvider.LoadAllData();
-                    var invoice = dayReport.GetAllInvoices().First(i => i.InvoiceID == invoiceId);
+                    string[] invoices = dayReportId[i].Split(",", StringSplitOptions.RemoveEmptyEntries);
+                    
+                    _dayReportDataProvider.Path = SetDayReportFilePath(invoices[0]);                    
+                    var dayReport = _dayReportDataProvider.LoadAllData();                    
+                    var invoice = dayReport.GetAllInvoices().First(i => i.InvoiceID == invoiceId && i.Id == int.Parse(invoices[1]));
+
                     totalIncome += invoice.Income;
                     if (invoice.Amount > amount)
                     { 
@@ -82,6 +86,8 @@ namespace DelitaTrade.Models
                     }
                     payMetod = invoice.PayMethod;
                 }
+
+                
                 if ((payMetod == "В брой" || payMetod == "С карта" || payMetod == "Стара сметка") 
                     && amount > totalIncome)
                 {
@@ -231,21 +237,21 @@ namespace DelitaTrade.Models
             }
         }
         
-        private void SaveInvoiceIdToDataBase(string invoiceId, string dayReportId)
+        private void SaveInvoiceIdToDataBase(string invoiceId, string dayReportId, int id)
         {
             if (_invoicesId.ContainsKey(invoiceId))
             {
-                _invoicesId[invoiceId].Add(dayReportId);
+                _invoicesId[invoiceId].Add($"{dayReportId},{id}");
             }
             else
             {
-                List<string> values = [dayReportId];
+                List<string> values = [$"{dayReportId},{id}"];
                 _invoicesId.Add(invoiceId, values);
             }
             EncryptDataBaseFile(_invoicesIdFilePath);
             using (StreamWriter safeInvoiceId = new StreamWriter(_invoicesIdFilePath, true))
             {
-                safeInvoiceId.WriteLine($"{invoiceId}={dayReportId}");
+                safeInvoiceId.WriteLine($"{invoiceId}={dayReportId},{id}");
             }
             EncryptDataBaseFile(_invoicesIdFilePath);
         }
@@ -351,13 +357,13 @@ namespace DelitaTrade.Models
             DayReportIdsLoad.Invoke(dayReportIds);
         }
 
-        private void RemoveInvoiceIdFromDayReport(string dayReportId, string invoiceId)
+        private void RemoveInvoiceIdFromDayReport(string dayReportId, string invoiceId, int id)
         {
-            if (_invoicesId.ContainsKey(invoiceId) && _invoicesId[invoiceId].Contains(dayReportId))
+            if (_invoicesId.ContainsKey(invoiceId) && _invoicesId[invoiceId].Contains($"{dayReportId},{id}"))
             {
                 if (_invoicesId[invoiceId].Count > 1)
                 {
-                    _invoicesId[invoiceId].Remove(dayReportId);
+                    _invoicesId[invoiceId].Remove($"{dayReportId},{id}");
                 }
                 else
                 {
@@ -426,10 +432,18 @@ namespace DelitaTrade.Models
             if (IsNewDayReport(dayReportId) == false)
             {
                 _dayReportsID.Remove(dayReportId);
-                Dictionary<string, List<string>> invoiceToDelete = _invoicesId.Where(i => i.Value.Contains(dayReportId)).ToDictionary();
+                Dictionary<string, List<string>> invoiceToDelete = _invoicesId
+                    .Where(i => i.Value
+                        .All(r => r
+                            .Split(",", StringSplitOptions.RemoveEmptyEntries)[0] == dayReportId))
+                    .ToDictionary();
                 foreach (var item in invoiceToDelete)
                 {
-                    RemoveInvoiceIdFromDayReport(dayReportId, item.Key);
+                    foreach (var invoice in item.Value)
+                    {
+                        string[] dayReportPairId = invoice.Split(",", StringSplitOptions.RemoveEmptyEntries);
+                        RemoveInvoiceIdFromDayReport(dayReportId, item.Key, int.Parse(dayReportPairId[1]));
+                    }
                 }
 
                 File.Delete(SetDayReportFilePath(dayReportId));
@@ -450,7 +464,7 @@ namespace DelitaTrade.Models
             {
                 _dayReport.AddInvoice(invoice);
                 SaveDayReportToDataBase(_dayReport);
-                SaveInvoiceIdToDataBase(invoice.InvoiceID, _dayReport.DayReportID);
+                SaveInvoiceIdToDataBase(invoice.InvoiceID, _dayReport.DayReportID, invoice.Id);
             }
             else
             {
@@ -458,13 +472,13 @@ namespace DelitaTrade.Models
             }
         }
 
-        public void RemoveInvoice(string invoice)
+        public void RemoveInvoice(string invoice, int id)
         {
             if (invoice != null && (IsNewInvoice(invoice) == false))
             {
-                _dayReport.RemoveInvoice(invoice);
+                _dayReport.RemoveInvoice(invoice, id);
                 SaveDayReportToDataBase(_dayReport);
-                RemoveInvoiceIdFromDayReport(_dayReport.DayReportID, invoice);
+                RemoveInvoiceIdFromDayReport(_dayReport.DayReportID, invoice, id);
                 SaveAllInvoiceIdToDataBase();
             }           
             else
@@ -531,6 +545,16 @@ namespace DelitaTrade.Models
             {
                 throw new ArgumentNullException("Day report is not select");
             }
+        }
+
+        public bool CheckIsUnpaidInvoice(string invoiceId)
+        {
+            return IsUnpaidInvoice(invoiceId);
+        }
+
+        public bool CheckIsNewInvoice(string invoiceId)
+        {
+            return IsNewInvoice(invoiceId);
         }
 
         private bool IsValidLicencePlate(string vehicle)

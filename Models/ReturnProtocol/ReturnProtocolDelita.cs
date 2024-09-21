@@ -1,9 +1,10 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections;
+using System.Runtime.Serialization;
 
 namespace DelitaTrade.Models.ReturnProtocol
 {
     [DataContract]
-    public class ReturnProtocolDelita
+    public class ReturnProtocolDelita : IEnumerable
     {
         [DataMember]
         private readonly string _id;
@@ -55,13 +56,24 @@ namespace DelitaTrade.Models.ReturnProtocol
 
         public void UpdateProduct(Product productToUpdate, Product updatedProduct)
         {
-            _products.Remove(productToUpdate);
-            _products.Add(updatedProduct);
+            if (_products.Remove(productToUpdate))
+            {
+                _products.Add(updatedProduct);
+            }
+            else 
+            {
+                throw new ArgumentException($"{productToUpdate} not exists in list.");
+            }
+        }
+                
+        public IEnumerator GetEnumerator()
+        {
+            yield return _products.GetEnumerator();
         }
 
-        public IEnumerable<Product> GetAllProducts()
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            return _products;
+            return GetEnumerator();
         }
     }
 }

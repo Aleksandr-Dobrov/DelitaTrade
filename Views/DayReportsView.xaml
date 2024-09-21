@@ -109,8 +109,22 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Button Grid.Row="0" Margin="6" Width="80" Content="{Binding AddOrUpdateTextCommand}" FontSize="14" FontWeight="Medium"
-                        Command="{Binding AddOrUpdateInvoiceCommand}"/>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Margin="6 1 1 2 " Width="38" 
+                    FontSize="12" FontWeight="Medium"                             
+                    Command="{Binding AddInvoiceCommand}">
+                        <Image Source="/Views/add.png"/>
+                    </Button>
+                    <Button Grid.Column="1" Margin="1 1 6 2" Width="38" 
+                    Content="Upd" FontSize="12" FontWeight="Medium"                    
+                    Command="{Binding UpdateInvoiceCommand}">                       
+                    </Button>
+                </Grid>
+                
                 <Button Grid.Row="1" Margin="6" Width="80" Content="Remove" FontSize="14" FontWeight="Medium"
         Command="{Binding RemoveInvoiceCommand}"/>
             </Grid>

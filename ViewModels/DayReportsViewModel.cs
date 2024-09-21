@@ -58,7 +58,8 @@ namespace DelitaTrade.ViewModels
             _currentDayReportViewModel = new CurrentDayReportViewModelNull();            
             _dayReportTotalsViewModel = new DayReportTotalsViewModel(delitaTradeDayReport);
             _invoices = new ObservableCollection<InvoiceViewModel>();
-            AddOrUpdateInvoiceCommand = new AddOrUpdateInvoiceCommand(_delitaTradeDayReport, _addNewCompanyViewModel, this);
+            AddInvoiceCommand = new AddInvoiceCommand(_delitaTradeDayReport, _addNewCompanyViewModel, this);
+            UpdateInvoiceCommand = new UpdateInvoiceCommand(_delitaTradeDayReport, _addNewCompanyViewModel, this);
             _dayReportIdViewModel = new DayReportIdViewModel(delitaTradeDayReport.DayReportIdDataBese);
             CreateNewDayReportCommand = new CreateNewDayReportCommand(_delitaTradeDayReport, this);
             LoadDayReportCommand = new LoadDayReportCommand(_delitaTradeDayReport, this);
@@ -459,8 +460,25 @@ namespace DelitaTrade.ViewModels
                 }
             }
         }
+
+        public bool CheckIsUnpaidInvoice(string invoiceId)
+        {
+            if (invoiceId != null && CheckIsNewInvoice(invoiceId) == false) 
+            {
+                return _delitaTradeDayReport.CheckIsUnpaidInvoice(invoiceId);
+            }
+            return false;
+        }
+
+        public bool CheckIsNewInvoice(string invoiceId)
+        {
+            if (invoiceId == null) return false;
+            return _delitaTradeDayReport.CheckIsNewInvoice(invoiceId);
+        }
+
+        public int Id => _selectedInvoiceViewModel.Id;
        
-        public ICommand AddOrUpdateInvoiceCommand { get; }
+        public ICommand AddInvoiceCommand { get; }
 
         public ICommand RemoveInvoiceCommand { get; }
 
@@ -469,5 +487,7 @@ namespace DelitaTrade.ViewModels
         public ICommand LoadDayReportCommand { get; }
 
         public ICommand DeleteDayReportCommand { get;}
+
+        public ICommand UpdateInvoiceCommand { get; }
     }
 }

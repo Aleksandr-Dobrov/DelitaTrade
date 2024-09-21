@@ -11,6 +11,8 @@
 
   <ItemGroup>
     <None Remove="Components\delitaTradeLogo.png" />
+    <None Remove="Views\add.png" />
+    <None Remove="Views\updated_5625789.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +33,8 @@
 
   <ItemGroup>
     <Resource Include="Components\delitaTradeLogo.png" />
+    <Resource Include="Views\add.png" />
+    <Resource Include="Views\updated_5625789.png" />
   </ItemGroup>
 
   <ItemGroup>

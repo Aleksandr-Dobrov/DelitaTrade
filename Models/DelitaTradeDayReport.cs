@@ -283,6 +283,16 @@ namespace DelitaTrade.Models
             }
         }
 
+        public bool CheckIsUnpaidInvoice(string invoiceId)
+        {
+            return _dayReportData.CheckIsUnpaidInvoice(invoiceId);
+        }
+
+        public bool CheckIsNewInvoice(string invoiceId)
+        {
+            return _dayReportData.CheckIsNewInvoice(invoiceId);
+        }
+
         public void AddInvoice(Invoice invoice)
         {
             try
@@ -303,13 +313,13 @@ namespace DelitaTrade.Models
             }
         }
 
-        public void RemoveInvoice(string invoiceId)
+        public void RemoveInvoice(string invoiceId, int id)
         {
             try
             {
                 if (_dayReport != null)
                 {
-                    _dayReportData.RemoveInvoice(invoiceId);
+                    _dayReportData.RemoveInvoice(invoiceId, id);
                     OnDayReportDataChanged();
                 }
                 else

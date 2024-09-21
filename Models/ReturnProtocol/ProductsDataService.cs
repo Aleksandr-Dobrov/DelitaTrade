@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.IO;
+using System.Runtime.Serialization;
+using DelitaTrade.Interfaces.ReturnProtocol;
 
 namespace DelitaTrade.Models.ReturnProtocol
 {
     public class ProductsDataService : IEnumerable
     {
+        [DataMember]
         private ProductsDataBase _productsData;
 
         private IDataBase<ProductsDataBase> _productsDataBase;
@@ -46,10 +49,23 @@ namespace DelitaTrade.Models.ReturnProtocol
             _productsDataBase.SaveAllData(_productsData);
         }
 
-        public void AddProduct(Product product)
+        public void AddProduct(IProduct product)
         {
-            _productsData.AddProductToDataBase(product);
-            _productsDataBase.SaveAllData(_productsData);
+            _productsData.AddProductToDataBase(product);           
+        }
+
+        public bool TryAddProduct(IProduct product)
+        {
+            if (_productsData.Contains(product) == false)
+            {
+                _productsData.AddProductToDataBase(product);
+                _productsDataBase.SaveAllData(_productsData);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public IEnumerator GetEnumerator()

@@ -1,4 +1,5 @@
-﻿using DelitaTrade.Models.Loggers;
+﻿using DelitaTrade.Interfaces.ReturnProtocol;
+using DelitaTrade.Models.Loggers;
 using System.IO;
 
 namespace DelitaTrade.Models.ReturnProtocol
@@ -11,10 +12,9 @@ namespace DelitaTrade.Models.ReturnProtocol
 
         private int _protocolId;
 
+        private ReturnProtocolProductDataService _productDataService;
         private ReturnProtocolDataServices _protocolDataServices;
-
         private ReturnProtocolDelita _curentReturnProtocol;
-
         private Stack<ReturnProtocolDelita> _deletedReturnProtocols;
 
         public ReturnProtocolServices()
@@ -43,7 +43,7 @@ namespace DelitaTrade.Models.ReturnProtocol
         {
             try 
             {
-                _curentReturnProtocol = new ReturnProtocolDelita(company, companyObject, _userName, SetProtocolId());
+                LoadCurentReturnProtocolDataService(new ReturnProtocolDelita(company, companyObject, _userName, SetProtocolId()));                
                 _protocolDataServices.SaveReturnProtocolToDataBase(_curentReturnProtocol);
             }
             catch (Exception ex)
@@ -54,6 +54,8 @@ namespace DelitaTrade.Models.ReturnProtocol
 
         public int DeletedProtocolsCount => _deletedReturnProtocols.Count;
 
+        public IReturnProtokolProduct ReturnProtokolProductDataService => _productDataService;
+
         public void DeleteReturnProtocol()
         {
             try 
@@ -61,6 +63,7 @@ namespace DelitaTrade.Models.ReturnProtocol
                 _protocolDataServices.DeleteReturnProtocolFromDataBase(_curentReturnProtocol);
                 _deletedReturnProtocols.Push(_curentReturnProtocol);
                 _curentReturnProtocol = null;
+                _productDataService = null;
             }
             catch (Exception ex)
             {
@@ -72,7 +75,7 @@ namespace DelitaTrade.Models.ReturnProtocol
         {
             try 
             {
-                _curentReturnProtocol = _deletedReturnProtocols.Pop();
+                LoadCurentReturnProtocolDataService(_deletedReturnProtocols.Pop());                
                 _protocolDataServices.SaveReturnProtocolToDataBase(_curentReturnProtocol);
             }
             catch (Exception ex)
@@ -85,12 +88,18 @@ namespace DelitaTrade.Models.ReturnProtocol
         {
             try
             {
-                _curentReturnProtocol = _protocolDataServices.LoadReturnaProtocolFromDataBase(returnProtocolId);
+                LoadCurentReturnProtocolDataService(_protocolDataServices.LoadReturnaProtocolFromDataBase(returnProtocolId));                
             }
             catch (Exception ex)
             {
                 new MessageBoxLogger().Log(ex, Logger.LogLevel.Error).Log(ex, Logger.LogLevel.Error);
             }
+        }
+
+        private void LoadCurentReturnProtocolDataService(ReturnProtocolDelita loadedReturnProtocol)
+        {
+            _curentReturnProtocol = loadedReturnProtocol;
+            _productDataService = new ReturnProtocolProductDataService(_curentReturnProtocol);
         }
     }
 }

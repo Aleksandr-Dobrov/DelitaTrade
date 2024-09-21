@@ -347,3 +347,25 @@ StackTrace -    at DelitaTrade.Models.DayReportDataBase.AddNewInvoice(Invoice in
    at DelitaTrade.Models.DelitaTradeDayReport.AddInvoice(Invoice invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 292
 InnerExceptioon - 
 --------------------------------------------------
+20.9.2024 г. 1:28:44 - Invoice can`t be remove!
+System.InvalidOperationException: Invoice can`t be remove!
+   at DelitaTrade.Models.DayReportDataBase.RemoveInvoiceIdFromDayReport(String dayReportId, String invoiceId, Int32 id) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 375
+   at DelitaTrade.Models.DayReportDataBase.RemoveInvoice(String invoice, Int32 id) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 481
+   at DelitaTrade.Models.DelitaTradeDayReport.RemoveInvoice(String invoiceId, Int32 id) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 312
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReportDataBase.RemoveInvoiceIdFromDayReport(String dayReportId, String invoiceId, Int32 id) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 375
+   at DelitaTrade.Models.DayReportDataBase.RemoveInvoice(String invoice, Int32 id) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 481
+   at DelitaTrade.Models.DelitaTradeDayReport.RemoveInvoice(String invoiceId, Int32 id) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 312
+InnerExceptioon - 
+--------------------------------------------------
+20.9.2024 г. 1:44:30 - The invoice is already exists!
+System.ArgumentException: The invoice is already exists!
+   at DelitaTrade.Models.DayReportDataBase.AddNewInvoice(Invoice invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 471
+   at DelitaTrade.Models.DelitaTradeDayReport.AddInvoice(Invoice invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 292
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReportDataBase.AddNewInvoice(Invoice invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 471
+   at DelitaTrade.Models.DelitaTradeDayReport.AddInvoice(Invoice invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 292
+InnerExceptioon - 
+--------------------------------------------------
