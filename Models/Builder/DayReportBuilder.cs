@@ -14,7 +14,7 @@ namespace DelitaTrade.Models.Builder
         }
 
         public void CreateDayReport(DayReport dayReport)
-        {            
+        {
             _builder.InitializedExporter(dayReport);
             _builder.BuildHeather();
             _builder.BuildBody();

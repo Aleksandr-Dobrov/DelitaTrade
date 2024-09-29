@@ -2,6 +2,7 @@
 using System.IO;
 using _Excel = Microsoft.Office.Interop.Excel;
 using System.IO;
+using System.Reflection;
 
 namespace DelitaTrade.Models.Builder
 {
@@ -38,8 +39,31 @@ namespace DelitaTrade.Models.Builder
         }
         private void Save()
         {
-            wb.Save();
-            wb.Close();
+            wb.Save();            
+        }
+
+        private void Close()
+        {
+            wb.Close(true, _excelPath, Missing.Value);
+            excel.DisplayAlerts = true;
+            excel.Quit();
+            Release(ws);
+            Release(wb);
+            Release(excel);
+            ws = null;
+            wb = null;
+            excel = null;
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+        }
+
+        private void Release(object obj)
+        {
+            try 
+            {
+                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(obj);
+            }
+            catch { }
         }
 
         private void OpenFile()
@@ -68,7 +92,8 @@ namespace DelitaTrade.Models.Builder
         }
         public void Export()
         {
-            Save();
+            Save(); 
+            Close();
         }
         public string Path
         {
