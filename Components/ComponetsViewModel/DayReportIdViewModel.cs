@@ -3,8 +3,9 @@ using DelitaTrade.Models;
 using DelitaTrade.Interfaces;
 using DelitaTrade.Interfaces.DayReport;
 using System.ComponentModel;
+using DelitaTrade.ViewModels;
 
-namespace DelitaTrade.ViewModels
+namespace DelitaTrade.Components.ComponetsViewModel
 {
     public class DayReportIdViewModel : ViewModelBase
     {
@@ -60,7 +61,7 @@ namespace DelitaTrade.ViewModels
                 {
                     year = _yearMonthDay.Keys.Order();
                 }
-                else 
+                else
                 {
                     year = new List<string>();
                 }
@@ -69,7 +70,7 @@ namespace DelitaTrade.ViewModels
             }
         }
 
-        public IEnumerable<string> Months 
+        public IEnumerable<string> Months
         {
             get
             {
@@ -78,7 +79,7 @@ namespace DelitaTrade.ViewModels
                 {
                     months = _yearMonthDay[Year].Keys.Order();
                 }
-                else 
+                else
                 {
                     months = new List<string>();
                 }
@@ -87,20 +88,20 @@ namespace DelitaTrade.ViewModels
             }
         }
 
-        public IEnumerable<string> Days 
-        { 
+        public IEnumerable<string> Days
+        {
             get
             {
                 IEnumerable<string> days;
-                if ((string.IsNullOrEmpty(Year) == false) && string.IsNullOrEmpty(Month) == false && _yearMonthDay[Year][Month].Count > 0)
+                if (string.IsNullOrEmpty(Year) == false && string.IsNullOrEmpty(Month) == false && _yearMonthDay[Year][Month].Count > 0)
                 {
                     days = _yearMonthDay[Year][Month].Order();
                 }
                 else
                 {
-                    days = new List<string>();                    
+                    days = new List<string>();
                 }
-                
+
                 return days;
             }
         }
@@ -126,7 +127,7 @@ namespace DelitaTrade.ViewModels
             _yearMonthDay.Clear();
             foreach (var day in dayReportIds)
             {
-                AddDayToYearMontDay(day);              
+                AddDayToYearMontDay(day);
             }
             UpdateDateProperties();
         }

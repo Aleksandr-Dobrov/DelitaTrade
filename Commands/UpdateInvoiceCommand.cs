@@ -37,8 +37,6 @@ namespace DelitaTrade.Commands
         public override bool CanExecute(object? parameter)
         {
             return _dayReportsViewModel.SelectedInvoiceViewModel != null
-                && _dayReportsViewModel.InvoiceID.Length == 10
-                && _dayReportsViewModel.InvoiceID.All(char.IsDigit)
                 && base.CanExecute(parameter);
         }
 
@@ -46,7 +44,7 @@ namespace DelitaTrade.Commands
         {
             Invoice invoice = new Invoice($"{_dayReportsViewModel.SearchBox.InputText} {_dayReportsViewModel.CompanyType}",
                                                     _dayReportsViewModel.SearchBoxObject.InputTextObject,
-                                                    _dayReportsViewModel.InvoiceID,
+                                                    _dayReportsViewModel.SelectedInvoiceViewModel.InvoiceID,
                                                     _dayReportsViewModel.PayMethodBox.PayMethodText,
                                                     _dayReportsViewModel.DecimalAmount,
                                                     _dayReportsViewModel.DecimalIncome,

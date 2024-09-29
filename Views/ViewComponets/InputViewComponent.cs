@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace DelitaTrade.Components.ComponetsViewModel.ViewComponets
+namespace DelitaTrade.Views.ViewComponets
 {
     public class InputViewComponent
     {
@@ -61,7 +61,7 @@ namespace DelitaTrade.Components.ComponetsViewModel.ViewComponets
             if (textBox != null)
             {
                 int maxLength = textBox.Text.Length - 1;
-                if ((direction == Direction.Right && _textBoxIDIndex < maxLength) || (direction == Direction.Left && _textBoxIDIndex > 0))
+                if (direction == Direction.Right && _textBoxIDIndex < maxLength || direction == Direction.Left && _textBoxIDIndex > 0)
                 {
                     _textBoxIDIndex += (int)direction;
                 }
@@ -112,12 +112,12 @@ namespace DelitaTrade.Components.ComponetsViewModel.ViewComponets
                 case Key.D9:
                     if (textBox != null)
                     {
-                        _textBoxItems.Push(new List<string>([_textBoxIDIndex.ToString(), textBox.Text]));                        
+                        _textBoxItems.Push(new List<string>([_textBoxIDIndex.ToString(), textBox.Text]));
                     }
                     TextBoxIndexMove(sender, Direction.Left);
                     break;
                 default:
-                    
+
                     break;
             }
         }

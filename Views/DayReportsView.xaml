@@ -19,6 +19,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <SolidColorBrush x:Key="AddButton.Static.Background" Color="{Binding AddButtonColor}"/>
         <SolidColorBrush x:Key="Button.Static.Background" Color="LightGreen"/>
         <SolidColorBrush x:Key="Button.Static.Border" Color="Green"/>
         <SolidColorBrush x:Key="Button.MouseOver.Background" Color="Green"/>
@@ -80,14 +81,14 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="ButtonStyleAddUpdate" TargetType="{x:Type Button}">
+        <Style x:Key="ButtonStyleAdd" TargetType="{x:Type Button}">
             <Style.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="20"/>
                 </Style>
             </Style.Resources>
             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="Background" Value="{StaticResource AddButton.Static.Background}"/>
             <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
             <Setter Property="BorderThickness" Value="1"/>            
@@ -119,6 +120,51 @@
                             </Trigger>
                             <Trigger Property="IsFocused" Value="True">
                                 <Setter Property="Background" Value="{StaticResource Button.MouseOver.Background}"/>                                 
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ButtonStyleUpdate" TargetType="{x:Type Button}">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="20"/>
+                </Style>
+            </Style.Resources>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ButtonBase}">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Button.IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="Background" Value="{StaticResource Button.MouseOver.Background}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -284,12 +330,12 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Button Style="{DynamicResource ButtonStyleAddUpdate}"  Grid.Column="0" 
+                    <Button Style="{DynamicResource ButtonStyleAdd}"  Grid.Column="0" 
                             Margin="6 -5 1 1 " Width="38"                           
                             Command="{Binding AddInvoiceCommand}">
                         <Image Source="{Binding AddInvoiceButtonImage}" Margin="0 0.3 0 0"/>
                     </Button>
-                    <Button Style="{DynamicResource ButtonStyleAddUpdate}" Grid.Column="1"
+                    <Button Style="{DynamicResource ButtonStyleUpdate}" Grid.Column="1"
                             Margin="1 -5 6 1" Width="38"                     
                             Command="{Binding UpdateInvoiceCommand}">
                         <Image Source="{Binding UpdateInvoiceButtonImage}" Margin="0.9"/>

@@ -1,9 +1,11 @@
-﻿using System.Runtime.Serialization;
+﻿using DelitaTrade.Interfaces.ReturnProtocol;
+using DelitaTrade.Models.ReturnProtocol;
+using System.Runtime.Serialization;
 
 namespace DelitaTrade.Models
 {
     [DataContract]
-    public class Company
+    public class Company : ICompany, ISearchParametr
     {
         [DataMember]
         private readonly string _name;
@@ -24,7 +26,8 @@ namespace DelitaTrade.Models
             _bulstad = bulstad;
             _objects = new List<CompanyObject>();
         }
-
+        public string SearchParametr => FullName;
+        public string FullName => $"{Name} {Type}";
         public string Name { get => _name; }
         public string Type { get => _type; }
         public string Bulstad { get => _bulstad; }
@@ -71,6 +74,11 @@ namespace DelitaTrade.Models
         public IEnumerable<CompanyObject> GetAllCompanyObjects()
         { 
             return _objects;
+        }
+
+        public SearchMethod GetSearchMethod()
+        {
+            return SearchMethod.CompanyName;
         }
     }
 }

@@ -1,8 +1,11 @@
 ﻿using DelitaTrade.Interfaces.DayReport;
 using DelitaTrade.Models.Builder;
 using DelitaTrade.Models.Loggers;
+using DelitaTrade.Models.Configurations;
 using System.Diagnostics;
 using System.Windows;
+using DelitaTrade.Services;
+using DelitaTrade.Models.Interfaces.Sound;
 
 namespace DelitaTrade.Models
 {
@@ -14,6 +17,8 @@ namespace DelitaTrade.Models
 
         private DayReportBuilder _dayReportBuilder;
 
+        private readonly DelitaSoundService _soundService;
+
         private decimal _totalAmound;
 
         private decimal _totalIncome;
@@ -23,14 +28,16 @@ namespace DelitaTrade.Models
         private double _totalWeight;
         private string _transmissionDate;
 
-        public DelitaTradeDayReport(IDataBase<DayReport> dataBase)
+        public DelitaTradeDayReport(IDataBase<DayReport> dataBase, DelitaSoundService soundPlayer)
         {
+            _soundService = soundPlayer;
             _dayReportData = new DayReportDataBase(dataBase, this);
             _dayReportData.DayReportsIdChanged += OnDayReportsIdChanged;
             CurentDayReportSelect += SetTotalsToDayReportVievModel;
             DayReportDataChanged += SetTotalsToDayReportVievModel;
             CurentDayReportSelect += SetTransmissionDateToDayReportViewModel;
             CurrentDayReportUnselected += ResetTotals;
+            MoneyChanged += PlayMoneyChangeSound;
             _dayReportBuilder = new DayReportBuilder("../../../Models/Exporters/DayReport.xlsx", "../../../DayReportsDataBase/ExportFiles/ExportedDayReport.xlsx");
         }
         private string DateConverter(string date)
@@ -68,6 +75,17 @@ namespace DelitaTrade.Models
             TotalsChanged?.Invoke();
         }
 
+        private void PlayMoneyChangeSound()
+        {
+            try 
+            {
+                _soundService.PlaySound(SoundEfect.Cash);
+            }
+            catch(ArgumentException ex) 
+            {
+                new FileLogger().Log(ex,Logger.LogLevel.Error);
+            }
+        }
         private void OnTransmisionDateChanged()
         {
             TransmisionDateChange?.Invoke();
@@ -101,6 +119,7 @@ namespace DelitaTrade.Models
         }
 
         public DayReport DayReport => _dayReport;
+        public DelitaSoundService DelitaSoundService => _soundService;        
 
         public event System.Action DayReportDataChanged;
 
@@ -300,6 +319,7 @@ namespace DelitaTrade.Models
                 if (_dayReport != null)
                 {
                     _dayReportData.AddNewInvoice(invoice);
+                    _soundService.PlaySound(SoundEfect.AddInvoice);
                     OnDayReportDataChanged();
                 }
                 else
@@ -320,6 +340,7 @@ namespace DelitaTrade.Models
                 if (_dayReport != null)
                 {
                     _dayReportData.RemoveInvoice(invoiceId, id);
+                    _soundService.PlaySound(SoundEfect.DeleteInvoice);
                     OnDayReportDataChanged();
                 }
                 else

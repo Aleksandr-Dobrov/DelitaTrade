@@ -1,8 +1,6 @@
 ﻿using DelitaTrade.Commands;
 using DelitaTrade.Components.ComponetsViewModel;
 using DelitaTrade.Models;
-using System.ComponentModel;
-
 namespace DelitaTrade.Components.ComponentsCommands
 {
     public class AddBanknotesCommand : CommandBase

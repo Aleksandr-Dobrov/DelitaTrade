@@ -1,8 +1,6 @@
 ﻿using DelitaTrade.Components.ComponetsViewModel;
 using DelitaTrade.Models;
-using System.ComponentModel;
 using System.IO;
-using System.Security.Policy;
 
 namespace DelitaTrade.ViewModels
 {
@@ -53,8 +51,7 @@ namespace DelitaTrade.ViewModels
             _banknoteViewModels[100m] = new BanknoteViewModel(delitaTradeDayReport,
                 100m, $"{iconPath}100lv.png");
             delitaTradeDayReport.DayReportDataChanged += GetAllBanknotes;
-            delitaTradeDayReport.TotalsChanged += OnDayReportTotalsChanged;
-            this.PropertyChanged += OnViewModelPropertyChanged;            
+            delitaTradeDayReport.TotalsChanged += OnDayReportTotalsChanged;                     
         }
 
         private void GetIconFilePath()
@@ -95,14 +92,6 @@ namespace DelitaTrade.ViewModels
                 case < 0:
                     NeededColor = "#edf239";
                     break;
-            }
-        }
-
-        private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == NeededAmount)
-            {
-                
             }
         }
 

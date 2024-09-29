@@ -38,7 +38,6 @@
     <Resource Include="Components\ComponentAssets\DayReport\delete-file_40456.png" />
     <Resource Include="Components\ComponentAssets\DayReport\remove.png" />
     <Resource Include="Components\ComponentAssets\DayReport\update.png" />
-    <Resource Include="Components\delitaTradeLogo.png" />
   </ItemGroup>
 
   <ItemGroup>

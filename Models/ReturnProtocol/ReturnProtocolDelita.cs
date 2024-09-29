@@ -1,21 +1,26 @@
-﻿using System.Collections;
+﻿using DelitaTrade.Interfaces.ReturnProtocol;
+using System.Collections;
 using System.Runtime.Serialization;
 
 namespace DelitaTrade.Models.ReturnProtocol
 {
     [DataContract]
-    public class ReturnProtocolDelita : IEnumerable
+    public class ReturnProtocolDelita : IEnumerable, IReturnProtocolData
     {
         [DataMember]
         private readonly string _id;
         [DataMember]
-        private readonly string _companyName;
+        private string _companyFullName;
         [DataMember]
-        private readonly string _objectName;
+        private string _objectName;
         [DataMember]
-        private readonly string _objectAddress;
+        private string _objectAddress;
         [DataMember]
-        private readonly string _userName;
+        private string _userName;
+        [DataMember]
+        private bool _bankPay;
+        [DataMember]
+        private string _payMethod;
 
         [DataMember]
         private string _trader;
@@ -25,24 +30,48 @@ namespace DelitaTrade.Models.ReturnProtocol
         [DataMember]
         private List<Product> _products;
 
-        public ReturnProtocolDelita(Company company, CompanyObject companyObject, string userName, string id)
+        public ReturnProtocolDelita(ICompany company, ICompanyObject companyObject, string userName, string id)
         {
-            _companyName = $"{company.Name} {company.Type}";
+            _companyFullName = company.FullName;
             _objectName = companyObject.Name;
             _objectAddress = companyObject.Adrress;
+            _bankPay = companyObject.BankPay;
             _userName = userName;
             _id = id;
             _date = DateOnly.Parse(DateTime.Now.ToString("dd-MM-yyyy"));
             _products = new List<Product>();
+            _trader = companyObject.Trader;
+        }
+
+        public ReturnProtocolDelita(ICompany company, ICompanyObject companyObject, string userName, string id, string trader)
+                             : this(company, companyObject, userName, id)
+        {
+            _trader = trader;
         }
 
         public string ID => _id;
-        public string CompanyName => _companyName;
+        public string CompanyFullName => _companyFullName;
         public string ObjectName => _objectName;
         public string ObjectAddress => _objectAddress;
         public string UserName => _userName;
-        public string Trader => _trader;
-        public DateOnly Date => _date;
+        public string DateString => _date.ToString("dd-MM-yyyy");
+        public string Trader
+        {
+            get => _trader;
+            set => _trader = value;
+        }
+
+        public DateOnly Date 
+        {
+            get => _date;
+            //ToDo - do date validation.
+            set => _date = value;
+        }
+        public string PayMethod
+        {
+            get => _payMethod;
+            set => _payMethod = value;
+        }
 
         public void AddProduct(Product product)
         {

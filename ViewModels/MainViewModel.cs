@@ -22,7 +22,8 @@ namespace DelitaTrade.ViewModels
             ViewModelBase dayReportViewModel = new DayReportsViewModel(dayReportCreator, addCompanyViewModel);
             ViewModelBase payDeskViewModel = new PayDeskViewModel(dayReportCreator);
             ViewModelBase returnProtocolViewModel = new ReturnProtocolViewModel(addCompanyViewModel);
-            _viewModelsStore = new ViewModelsStore([addCompanyViewModel, dayReportViewModel, payDeskViewModel, returnProtocolViewModel]);
+            ViewModelBase optionsViewModel = new OptionsViewModel(dayReportCreator);
+            _viewModelsStore = new ViewModelsStore([addCompanyViewModel, dayReportViewModel, payDeskViewModel, returnProtocolViewModel, optionsViewModel]);
             _viewModelsStore.ViewModelChanged += OnViewModelChanged;
             _navigationBarViewModel = new NavigationBarViewModel(_viewModelsStore);
             _viewModelsStore.SetViewModel<AddNewCompanyViewModel>();

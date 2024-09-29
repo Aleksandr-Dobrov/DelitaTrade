@@ -64,20 +64,26 @@
                 </Grid>
                 <Grid Grid.Column="1">
                     <Viewbox>
-                        <Image Source="/Components/delitaTradeLogo.png"/>
+                        <Image Source="{Binding LogoFullFilePath}"/>
                     </Viewbox>
                 </Grid>
                 <StackPanel Grid.Column="2" HorizontalAlignment="Right" Orientation="Horizontal">
-                    
-                        <Border CornerRadius="8" BorderThickness="1" BorderBrush="DarkGray">
-                            <Button x:Name="ReturnProtocoltButton" 
-                                    Background="Transparent" 
-                                    Width="80" Content=" Return &#xa;Protocol" 
-                                    FontSize="15" FontWeight="Medium" 
-                                    BorderBrush="Transparent"
-                                    Command="{Binding NavigateReturnProtocolCommand}"/>
-                        </Border>
-
+                    <Border CornerRadius="8" BorderThickness="1" BorderBrush="DarkGray">
+                        <Button x:Name="ReturnProtocoltButton" 
+                                Background="Transparent" 
+                                Width="80" Content=" Return &#xa;Protocol" 
+                                FontSize="15" FontWeight="Medium" 
+                                BorderBrush="Transparent"
+                                Command="{Binding NavigateReturnProtocolCommand}"/>
+                    </Border>
+                    <Border CornerRadius="8" BorderThickness="1" BorderBrush="DarkGray">
+                        <Button x:Name="OptionsButton" 
+                                Background="Transparent" 
+                                Width="80" Content=" Options" 
+                                FontSize="15" FontWeight="Medium" 
+                                BorderBrush="Transparent"
+                                Command="{Binding NavigateOptionsCommand}"/>
+                    </Border>
                 </StackPanel>
             </Grid>
         </Border>

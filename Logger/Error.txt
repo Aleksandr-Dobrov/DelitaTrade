@@ -1610,3 +1610,31 @@ StackTrace -    at System.Collections.Generic.List`1.get_Item(Int32 index)
    at DelitaTrade.Models.DelitaTradeDayReport.DeleteDayReport(String dayReportId) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 253
 InnerExceptioon - 
 --------------------------------------------------
+26.9.2024 г. 10:18:32 - Property not found
+System.ArgumentException: Property not found
+   at DelitaTrade.Sounds.DelitaSoundPlayer.GetProperty(SoundEfect sound) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Sounds\DelitaSoundPlayer.cs:line 119
+   at DelitaTrade.Sounds.DelitaSoundPlayer.IsTrue(SoundEfect sound) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Sounds\DelitaSoundPlayer.cs:line 100
+   at DelitaTrade.Sounds.DelitaSoundPlayer.PlaySound(SoundEfect sound) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Sounds\DelitaSoundPlayer.cs:line 88
+   at DelitaTrade.Models.DelitaTradeDayReport.PlayMoneyChangeSound() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 80
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Sounds.DelitaSoundPlayer.GetProperty(SoundEfect sound) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Sounds\DelitaSoundPlayer.cs:line 119
+   at DelitaTrade.Sounds.DelitaSoundPlayer.IsTrue(SoundEfect sound) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Sounds\DelitaSoundPlayer.cs:line 100
+   at DelitaTrade.Sounds.DelitaSoundPlayer.PlaySound(SoundEfect sound) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Sounds\DelitaSoundPlayer.cs:line 88
+   at DelitaTrade.Models.DelitaTradeDayReport.PlayMoneyChangeSound() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 80
+InnerExceptioon - 
+--------------------------------------------------
+26.9.2024 г. 10:18:51 - Property not found
+System.ArgumentException: Property not found
+   at DelitaTrade.Sounds.DelitaSoundPlayer.GetProperty(SoundEfect sound) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Sounds\DelitaSoundPlayer.cs:line 119
+   at DelitaTrade.Sounds.DelitaSoundPlayer.IsTrue(SoundEfect sound) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Sounds\DelitaSoundPlayer.cs:line 100
+   at DelitaTrade.Sounds.DelitaSoundPlayer.PlaySound(SoundEfect sound) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Sounds\DelitaSoundPlayer.cs:line 88
+   at DelitaTrade.Models.DelitaTradeDayReport.PlayMoneyChangeSound() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 80
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Sounds.DelitaSoundPlayer.GetProperty(SoundEfect sound) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Sounds\DelitaSoundPlayer.cs:line 119
+   at DelitaTrade.Sounds.DelitaSoundPlayer.IsTrue(SoundEfect sound) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Sounds\DelitaSoundPlayer.cs:line 100
+   at DelitaTrade.Sounds.DelitaSoundPlayer.PlaySound(SoundEfect sound) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Sounds\DelitaSoundPlayer.cs:line 88
+   at DelitaTrade.Models.DelitaTradeDayReport.PlayMoneyChangeSound() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 80
+InnerExceptioon - 
+--------------------------------------------------

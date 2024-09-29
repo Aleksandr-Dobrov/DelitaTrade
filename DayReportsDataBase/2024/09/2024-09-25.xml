@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DayReport xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/DelitaTrade.Models">
+	<_dayReportID>2024-09-25</_dayReportID>
+	<_invoices>
+		<Invoice>
+			<_amount>370.53</_amount>
+			<_companyName>Ния 2016 ООД</_companyName>
+			<_id>0</_id>
+			<_income>370.53</_income>
+			<_invoiceID>1001169117</_invoiceID>
+			<_objectName>Ени Тайм Летище</_objectName>
+			<_payMethod>В брой</_payMethod>
+			<_weight>0</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>217.22</_amount>
+			<_companyName>ВМ Естейт ООД</_companyName>
+			<_id>0</_id>
+			<_income>217.22</_income>
+			<_invoiceID>1001169138</_invoiceID>
+			<_objectName>Бистро Европа 15</_objectName>
+			<_payMethod>В брой</_payMethod>
+			<_weight>0</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>121.36</_amount>
+			<_companyName>ВМ Естейт ООД</_companyName>
+			<_id>0</_id>
+			<_income>121.36</_income>
+			<_invoiceID>1001169036</_invoiceID>
+			<_objectName>Бистро Европа 11</_objectName>
+			<_payMethod>В брой</_payMethod>
+			<_weight>0</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>49.42</_amount>
+			<_companyName>ВМ Естейт ООД</_companyName>
+			<_id>0</_id>
+			<_income>49.42</_income>
+			<_invoiceID>1001169042</_invoiceID>
+			<_objectName>Бистро Европа 11</_objectName>
+			<_payMethod>В брой</_payMethod>
+			<_weight>0</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>170.77</_amount>
+			<_companyName>Култ Гурме Кетъринг ЕООД</_companyName>
+			<_id>0</_id>
+			<_income>0</_income>
+			<_invoiceID>1001169027</_invoiceID>
+			<_objectName>Кулинарен цех</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>0</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>63.89</_amount>
+			<_companyName>Пюър Трейдинг ЕООД</_companyName>
+			<_id>0</_id>
+			<_income>0</_income>
+			<_invoiceID>1001169150</_invoiceID>
+			<_objectName>Гранд бистро</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>0</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>274.20</_amount>
+			<_companyName>Пюър Трейдинг ЕООД</_companyName>
+			<_id>0</_id>
+			<_income>0</_income>
+			<_invoiceID>1001169136</_invoiceID>
+			<_objectName>Гранд бистро</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>0</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>363.37</_amount>
+			<_companyName>Геник ЕООД</_companyName>
+			<_id>0</_id>
+			<_income>0</_income>
+			<_invoiceID>1001169139</_invoiceID>
+			<_objectName>Магазин Сити ТЦ Европа</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>0</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>80.89</_amount>
+			<_companyName>Ниа 2016 ЕООД</_companyName>
+			<_id>0</_id>
+			<_income>0</_income>
+			<_invoiceID>1001169151</_invoiceID>
+			<_objectName>Евро Холд</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>0</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>121.21</_amount>
+			<_companyName>Ниа 2016 ЕООД</_companyName>
+			<_id>0</_id>
+			<_income>0</_income>
+			<_invoiceID>1001169153</_invoiceID>
+			<_objectName>Евро Холд</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>0</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>1785.70</_amount>
+			<_companyName>Саза Тур ЕООД</_companyName>
+			<_id>0</_id>
+			<_income>0</_income>
+			<_invoiceID>1001169143</_invoiceID>
+			<_objectName>Премиер Хотел</_objectName>
+			<_payMethod>Банка</_payMethod>
+			<_weight>0</_weight>
+		</Invoice>
+		<Invoice>
+			<_amount>0</_amount>
+			<_companyName>СВ 2241 КК </_companyName>
+			<_id>0</_id>
+			<_income>-482.81</_income>
+			<_invoiceID>0250920240</_invoiceID>
+			<_objectName>Акумулатор и щендери</_objectName>
+			<_payMethod>Разход</_payMethod>
+			<_weight>0</_weight>
+		</Invoice>
+	</_invoices>
+	<_payDesk>
+		<_amount>275.72</_amount>
+		<_banknotes xmlns:d3p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.01</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.02</d3p1:Key>
+				<d3p1:Value>1</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.05</d3p1:Key>
+				<d3p1:Value>2</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.1</d3p1:Key>
+				<d3p1:Value>2</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.2</d3p1:Key>
+				<d3p1:Value>2</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>0.5</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>1.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>2.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>5.0</d3p1:Key>
+				<d3p1:Value>1</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>10.0</d3p1:Key>
+				<d3p1:Value>13</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>20.0</d3p1:Key>
+				<d3p1:Value>7</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>50.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+			<d3p1:KeyValueOfdecimalint>
+				<d3p1:Key>100.0</d3p1:Key>
+				<d3p1:Value>0</d3p1:Value>
+			</d3p1:KeyValueOfdecimalint>
+		</_banknotes>
+	</_payDesk>
+	<_totalAmaunt>3618.56</_totalAmaunt>
+	<_totalExpenses>482.81</_totalExpenses>
+	<_totalIncome>275.72</_totalIncome>
+	<_totalNonPay>0</_totalNonPay>
+	<_totalOldInvoice>0</_totalOldInvoice>
+	<_totalWeight>0</_totalWeight>
+	<_transmissionDate>25-09-2024</_transmissionDate>
+	<_vehicle>СВ 2241 КК</_vehicle>
+</DayReport>

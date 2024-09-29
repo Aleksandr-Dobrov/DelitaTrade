@@ -54,10 +54,11 @@
                 <StackPanel Grid.Column="1" HorizontalAlignment="Right">
                     <TextBlock Text="{Binding Amount}" HorizontalAlignment="Left"  FontSize="40" FontWeight="ExtraBold"/>
                     <StackPanel Orientation="Horizontal">
-                        <Border BorderThickness="0" Background="{Binding NeededColor}" CornerRadius="12">
+                        <Border BorderThickness="0" Background="{Binding NeededColor}" 
+                                Margin="0 4 0 0 " CornerRadius="12">
                             <TextBlock Text="{Binding NeededAmount}" Background="Transparent" 
                                        HorizontalAlignment="Left"  FontSize="30" FontWeight="Normal" 
-                                       Margin="10 4 8 0"/>
+                                       Margin="10 0 8 0"/>
                         </Border>
                             <TextBlock Text="{Binding Income}" HorizontalAlignment="Left"  FontSize="35" FontWeight="Medium"/>                            
                     </StackPanel>

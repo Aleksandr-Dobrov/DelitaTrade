@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="DelitaTrade.Components.ComponentsView.OptionsComponents.SoundOptionsViewComponent"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DelitaTrade.Components.ComponentsView.OptionsComponents" xmlns:componetsviewmodel="clr-namespace:DelitaTrade.Components.ComponetsViewModel.OptionsComponentViewModels" d:DataContext="{d:DesignInstance Type=componetsviewmodel:SoundOptionsViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" Grid.Column="0" BorderThickness="2" BorderBrush="DarkGray"  CornerRadius="2">
+                <StackPanel Orientation="Vertical" Margin="8">
+                    <TextBlock Margin="0 0 0 10" Text="Sound FX" HorizontalAlignment="Center" FontSize="14" FontWeight="Bold"/>
+                    <CheckBox Margin="0 3 0 3" IsChecked="{Binding CashSoundIsOn}"  Content="Cash Sound"/>
+                    <CheckBox Margin="0 3 0 3" IsChecked="{Binding AddInvoiceSoundIsOn}" Content="Add invoice sound"/>
+                    <CheckBox Margin="0 3 0 3" IsChecked="{Binding DeleteInvoiceSoundIsOn}" Content="Delete invoice sound"/>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="0" Grid.Column="1" BorderThickness="2" BorderBrush="DarkGray"  CornerRadius="2">
+                <StackPanel Orientation="Vertical" Margin="8">
+                    <TextBlock Margin="0 0 0 10" Text="Sound source" HorizontalAlignment="Center" FontSize="14" FontWeight="Bold"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Width="30" Content="Set" Command="{Binding SetCashSource}"/>
+                        <TextBlock Margin="5 0 0 0" Text="{Binding CashSource}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Width="30" Content="Set" Command="{Binding SetAddInvoiceSource}"/>
+                        <TextBlock Margin="5 0 0 0" Text="{Binding AddInvoiceSource}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Width="30" Content="Set" Command="{Binding SetRemoveInvoiceSource}"/>
+                        <TextBlock Margin="5 0 0 0" Text="{Binding RemoveInvoiceSource}"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

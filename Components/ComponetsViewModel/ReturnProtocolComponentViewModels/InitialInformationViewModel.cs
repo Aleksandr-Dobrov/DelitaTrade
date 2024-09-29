@@ -1,4 +1,5 @@
 ﻿using DelitaTrade.Models;
+using DelitaTrade.Models.ReturnProtocol;
 using DelitaTrade.ViewModels;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -42,10 +43,12 @@ namespace DelitaTrade.Components.ComponetsViewModel.ReturnProtocolComponentViewM
 
         private ObservableCollection<string> CreatePayMethods()
         {
-            return new ObservableCollection<string>() 
-            {
-                "Банка","Приспаднато","Не е приспаднато"
-            };
+            return
+            [
+                ReturnProtocolPayMethods.BankPay,
+                ReturnProtocolPayMethods.Deducted,
+                ReturnProtocolPayMethods.NotDeducted
+            ];
         }
     }
 }

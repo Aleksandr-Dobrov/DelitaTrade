@@ -8,7 +8,7 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Windows.Input;
 using DelitaTrade.Models.DataProviders;
 
-namespace DelitaTrade.Components.ComponetsViewModel.ViewComponets
+namespace DelitaTrade.Views.ViewComponets
 {
     public class CurrencyInputViewComponent : InputViewComponent
     {
@@ -26,7 +26,7 @@ namespace DelitaTrade.Components.ComponetsViewModel.ViewComponets
                 int maxLength = textBox.Text.Length - 5;
                 do
                 {
-                    if ((direction == Direction.Right && _textBoxIDIndex < maxLength) || (direction == Direction.Left && _textBoxIDIndex > 0))
+                    if (direction == Direction.Right && _textBoxIDIndex < maxLength || direction == Direction.Left && _textBoxIDIndex > 0)
                     {
                         _textBoxIDIndex += (int)direction;
                     }
@@ -71,7 +71,7 @@ namespace DelitaTrade.Components.ComponetsViewModel.ViewComponets
 
         protected override void KeyDown(object sender, KeyEventArgs e)
         {
-            TextBox textBox = sender as TextBox;            
+            TextBox textBox = sender as TextBox;
             switch (e.Key)
             {
                 case Key.Tab:
@@ -120,7 +120,7 @@ namespace DelitaTrade.Components.ComponetsViewModel.ViewComponets
                         _textBoxItems.Push(new List<string>([_textBoxIDIndex.ToString(), textBox.Text]));
                         WriteDigits(textBox);
                     }
-                    
+
                     break;
                 default:
                     if (_textBoxItems.Count > 0)
@@ -130,7 +130,7 @@ namespace DelitaTrade.Components.ComponetsViewModel.ViewComponets
                         _textBoxIDIndex = backData[1].Length - _currencyProvider.GetCurrencyLength();
                         textBox.Text = backData[1];
                     }
-                    else 
+                    else
                     {
                         textBox.Text = _textBoxInitialValue;
                     }

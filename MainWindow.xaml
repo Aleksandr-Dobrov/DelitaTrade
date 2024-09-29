@@ -37,7 +37,10 @@
                         <views:PayDeskView/>
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type viewModelsReturnProtocol:ReturnProtocolViewModel}">
-                        <views:ReturnProtocolView/>
+                        <views:ReturnProtocolView/>                        
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type viewModels:OptionsViewModel}">
+                        <views:OptionsView/>
                     </DataTemplate>
                 </ContentControl.Resources>
             </ContentControl>
