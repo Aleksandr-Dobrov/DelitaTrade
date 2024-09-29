@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.IO;
 using System.Runtime.Serialization;
-using DelitaTrade.Interfaces.ReturnProtocol;
+using DelitaTrade.Models.Interfaces.ReturnProtocol;
 
 namespace DelitaTrade.Models.ReturnProtocol
 {
@@ -14,8 +14,6 @@ namespace DelitaTrade.Models.ReturnProtocol
 
         private string _productsDataBaseFilePath;
 
-        public event Action ProductsDataChange;
-
         public ProductsDataService(string dataBaseFilePath)
         {
             _productsDataBase = new XmlDataBase<ProductsDataBase>();
@@ -27,27 +25,7 @@ namespace DelitaTrade.Models.ReturnProtocol
             _productsData.DataBaseChange += ProductDataChanged;
         }
 
-        private void ProductDataChanged()
-        {
-            ProductsDataChange.Invoke();
-        }
-
-        private void TryLoadDataBase()
-        {
-            if (File.Exists(_productsDataBaseFilePath))
-            {
-                _productsData = _productsDataBase.LoadAllData();
-            }
-            else
-            {
-                _productsData = new ProductsDataBase();
-            }
-        }
-
-        private void SaveDataBase()
-        {
-            _productsDataBase.SaveAllData(_productsData);
-        }
+        public event Action ProductsDataChange;
 
         public void AddProduct(IProduct product)
         {
@@ -71,6 +49,28 @@ namespace DelitaTrade.Models.ReturnProtocol
         public IEnumerator GetEnumerator()
         {
             return  _productsData.GetEnumerator();
+        }
+
+        private void ProductDataChanged()
+        {
+            ProductsDataChange.Invoke();
+        }
+
+        private void TryLoadDataBase()
+        {
+            if (File.Exists(_productsDataBaseFilePath))
+            {
+                _productsData = _productsDataBase.LoadAllData();
+            }
+            else
+            {
+                _productsData = new ProductsDataBase();
+            }
+        }
+
+        private void SaveDataBase()
+        {
+            _productsDataBase.SaveAllData(_productsData);
         }
     }
 }

@@ -6,9 +6,9 @@ namespace DelitaTrade.Components.ComponetsViewModel
     {
         private readonly string[] _payMethods = ["Банка", "В брой", "С карта", "За кредитно", "За анулиране",  "Кредитно", "Стара сметка", "Разход"];
 
-        public string[] PayMethods => _payMethods;
-
         private string _payMethodText = "Банка";
+
+        public string[] PayMethods => _payMethods;
 
         public string PayMethodText
         {
@@ -19,6 +19,5 @@ namespace DelitaTrade.Components.ComponetsViewModel
                 OnPropertyChange(nameof(PayMethodText));
             }
         }
-
     }
 }

@@ -1,26 +1,21 @@
-﻿using DelitaTrade.Interfaces.DayReport;
-using DelitaTrade.Models.Builder;
+﻿using DelitaTrade.Models.Builder;
 using DelitaTrade.Models.Loggers;
 using DelitaTrade.Models.Configurations;
 using System.Diagnostics;
 using System.Windows;
 using DelitaTrade.Services;
-using DelitaTrade.Models.Interfaces.Sound;
+using DelitaTrade.Models.Interfaces.DayReports;
 
 namespace DelitaTrade.Models
 {
     public class DelitaTradeDayReport : IDayReportDataBase
     {
+        private readonly DelitaSoundService _soundService;
         private DayReport _dayReport;
-
         private DayReportDataBase _dayReportData;
-
         private DayReportBuilder _dayReportBuilder;
 
-        private readonly DelitaSoundService _soundService;
-
         private decimal _totalAmound;
-
         private decimal _totalIncome;
         private decimal _totalExpenses;
         private decimal _totalNonPay;
@@ -40,107 +35,22 @@ namespace DelitaTrade.Models
             MoneyChanged += PlayMoneyChangeSound;
             _dayReportBuilder = new DayReportBuilder("../../../Models/Exporters/DayReport.xlsx", "../../../DayReportsDataBase/ExportFiles/ExportedDayReport.xlsx");
         }
-        private string DateConverter(string date)
-        {
-            return DateTime.Parse(date).ToString("yyyy-MM-dd");
-        }
 
-        private void OnDayReportsIdChanged()
-        {
-            DayReportsIdChanged?.Invoke();
-        }
+        public event System.Action DayReportDataChanged;
+        public event Action<string> AddInvoiceToDataBase;
+        public event System.Action CurentDayReportSelect;
+        public event System.Action CurrentDayReportUnselected;
+        public event System.Action DayReportsIdChanged;
+        public event System.Action VehiclesChanged;
+        public event System.Action TransmisionDateChange;
+        public event System.Action TotalsChanged;
+        public event System.Action MoneyChanged;
 
-        private void OnDayReportDataChanged()
-        {
-            DayReportDataChanged.Invoke();
-        }
-
-        private void OnCurentDayReportSelect()
-        {
-            CurentDayReportSelect?.Invoke();
-        }
-
-        private void OnCurrentDayReportUnselect()
-        {
-            CurrentDayReportUnselected?.Invoke();
-        }
-
-        private void OnVehiclesChanged()
-        {
-            VehiclesChanged?.Invoke();
-        }
-
-        private void OnTotalsChanged()
-        {
-            TotalsChanged?.Invoke();
-        }
-
-        private void PlayMoneyChangeSound()
-        {
-            try 
-            {
-                _soundService.PlaySound(SoundEfect.Cash);
-            }
-            catch(ArgumentException ex) 
-            {
-                new FileLogger().Log(ex,Logger.LogLevel.Error);
-            }
-        }
-        private void OnTransmisionDateChanged()
-        {
-            TransmisionDateChange?.Invoke();
-        }
-
-        private void SetTotalsToDayReportVievModel()
-        {
-            TotalAmount = _dayReport.TotalAmaunt;
-            TotalIncome = _dayReport.TotalIncome;
-            TotalExpenses = _dayReport.TotalExpenses;
-            TotalNonPay = _dayReport.TotalNonPay;
-            TotalOldInvoice = _dayReport.TotalOldInvoice;
-            TotalWeight = _dayReport.TotalWeight;
-            OnTotalsChanged();
-        }
-
-        private void ResetTotals()
-        {
-            TotalAmount = 0;
-            TotalIncome = 0;
-            TotalExpenses = 0;
-            TotalNonPay = 0;
-            TotalOldInvoice = 0;
-            TotalWeight = 0;
-            OnTotalsChanged();
-        }
-
-        private void SetTransmissionDateToDayReportViewModel()
-        {
-            TransmissionDate = _dayReport.TransmissionDate;
-        }
-
+        public IDayReportIdDataBese DayReportIdDataBese => _dayReportData;
         public DayReport DayReport => _dayReport;
         public DelitaSoundService DelitaSoundService => _soundService;        
 
-        public event System.Action DayReportDataChanged;
-
-        public event Action<string> AddInvoiceToDataBase;
-
-        public event System.Action CurentDayReportSelect;
-
-        public event System.Action CurrentDayReportUnselected;
-
-        public event System.Action DayReportsIdChanged;
-
-        public event System.Action VehiclesChanged;
-
-        public event System.Action TransmisionDateChange;
-
-        public event System.Action TotalsChanged;
-
-        public event System.Action MoneyChanged;
-
         public string CurentDayReportId => DayReport?.DayReportID;
-
         public string Vehicle => _dayReport?.Vehicle;
           
         public decimal TotalAmount
@@ -346,26 +256,6 @@ namespace DelitaTrade.Models
             }
         }
 
-        public IEnumerable<Invoice> GetAllInvoices()
-        {
-            try
-            {
-                if (_dayReport != null)
-                {
-                    return _dayReport.GetAllInvoices();
-                }
-                else
-                {
-                    throw new ArgumentNullException("There is not day report name set");
-                }
-            }
-            catch (Exception ex)
-            {
-                new MessageBoxLogger().Log(ex, Logger.LogLevel.Warning).Log(ex, Logger.LogLevel.Warning);
-                return Enumerable.Empty<Invoice>();
-            }
-        }
-
         public void AddVehicle(string vehicle)
         {
             try
@@ -420,6 +310,26 @@ namespace DelitaTrade.Models
             }
         }
 
+        public IEnumerable<Invoice> GetAllInvoices()
+        {
+            try
+            {
+                if (_dayReport != null)
+                {
+                    return _dayReport.GetAllInvoices();
+                }
+                else
+                {
+                    throw new ArgumentNullException("There is not day report name set");
+                }
+            }
+            catch (Exception ex)
+            {
+                new MessageBoxLogger().Log(ex, Logger.LogLevel.Warning).Log(ex, Logger.LogLevel.Warning);
+                return Enumerable.Empty<Invoice>();
+            }
+        }
+
         public IEnumerable<string> GetAllVehicles()
         {
             return _dayReportData.Vehicles.Order();
@@ -435,6 +345,83 @@ namespace DelitaTrade.Models
             return _dayReport.GetAllBanknotes();
         }
 
-        public IDayReportIdDataBese DayReportIdDataBese => _dayReportData;
+        private string DateConverter(string date)
+        {
+            return DateTime.Parse(date).ToString("yyyy-MM-dd");
+        }
+
+        private void OnDayReportsIdChanged()
+        {
+            DayReportsIdChanged?.Invoke();
+        }
+
+        private void OnDayReportDataChanged()
+        {
+            DayReportDataChanged.Invoke();
+        }
+
+        private void OnCurentDayReportSelect()
+        {
+            CurentDayReportSelect?.Invoke();
+        }
+
+        private void OnCurrentDayReportUnselect()
+        {
+            CurrentDayReportUnselected?.Invoke();
+        }
+
+        private void OnVehiclesChanged()
+        {
+            VehiclesChanged?.Invoke();
+        }
+
+        private void OnTotalsChanged()
+        {
+            TotalsChanged?.Invoke();
+        }
+
+        private void PlayMoneyChangeSound()
+        {
+            try 
+            {
+                _soundService.PlaySound(SoundEfect.Cash);
+            }
+            catch(ArgumentException ex) 
+            {
+                new FileLogger().Log(ex,Logger.LogLevel.Error);
+            }
+        }
+
+        private void OnTransmisionDateChanged()
+        {
+            TransmisionDateChange?.Invoke();
+        }
+
+        private void SetTotalsToDayReportVievModel()
+        {
+            TotalAmount = _dayReport.TotalAmaunt;
+            TotalIncome = _dayReport.TotalIncome;
+            TotalExpenses = _dayReport.TotalExpenses;
+            TotalNonPay = _dayReport.TotalNonPay;
+            TotalOldInvoice = _dayReport.TotalOldInvoice;
+            TotalWeight = _dayReport.TotalWeight;
+            OnTotalsChanged();
+        }
+
+        private void ResetTotals()
+        {
+            TotalAmount = 0;
+            TotalIncome = 0;
+            TotalExpenses = 0;
+            TotalNonPay = 0;
+            TotalOldInvoice = 0;
+            TotalWeight = 0;
+            OnTotalsChanged();
+        }
+
+        private void SetTransmissionDateToDayReportViewModel()
+        {
+            TransmissionDate = _dayReport.TransmissionDate;
+        }
     }
 }

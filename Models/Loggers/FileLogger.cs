@@ -1,6 +1,4 @@
-﻿using System;
-using System.DirectoryServices.ActiveDirectory;
-using System.IO;
+﻿using System.IO;
 
 namespace DelitaTrade.Models.Loggers
 {
@@ -28,8 +26,7 @@ namespace DelitaTrade.Models.Loggers
                 writer.WriteLine(new string('-', 50));
             }
             return new MessageBoxLogger();
-        }
-       
+        }       
 
         public override Logger Log(string message, LogLevel logLevel)
         {

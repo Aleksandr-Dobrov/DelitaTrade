@@ -1,12 +1,8 @@
-﻿using DelitaTrade.Interfaces.DayReport;
-using System;
-using System.IO;
+﻿using System.IO;
 using System.Text;
-using System.Text.Encodings;
-using System.Text.RegularExpressions;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
-using iTextSharp.text;
+using DelitaTrade.Models.Interfaces.DayReports;
 
 
 namespace DelitaTrade.Models.DataProviders
@@ -38,7 +34,5 @@ namespace DelitaTrade.Models.DataProviders
             _data = sb.ToString();
             File.WriteAllText("../../../DayReportsDataBase/Output.txt", _data);
         }
-       
-
     }
 }

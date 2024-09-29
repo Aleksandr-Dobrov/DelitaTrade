@@ -8,15 +8,24 @@ namespace DelitaTrade.Components.ComponetsViewModel
     {
         private readonly AddNewCompanyViewModel _addNewCompanyViewModel;
 
-		private string _inputText;
-
 		private ObservableCollection<CompanyObjectViewModel> _companyObjects;
 
         private ObservableCollection<CompanyObjectViewModel> _emptyCompanyObjects;
 
-        public IEnumerable<CompanyObjectViewModel> CompanyObjects => _companyObjects;
+		private string _inputText;
+
+        public SearchBoxObjectViewModel(AddNewCompanyViewModel addNewCompanyViewModel)
+        {
+			_addNewCompanyViewModel = addNewCompanyViewModel;
+			_emptyCompanyObjects = [new CompanyObjectViewModel(new CompanyObject("Empty", "Empty", "Empty", false))];
+			_companyObjects = _emptyCompanyObjects;
+			_addNewCompanyViewModel.CompanySelected += CompanySelected;
+			_addNewCompanyViewModel.CompanyUnselected += CompanyUnselected;
+        }
 
 		public event Action ObjectNameCanged;
+
+        public IEnumerable<CompanyObjectViewModel> CompanyObjects => _companyObjects;
 
 		public string InputTextObject
 		{
@@ -28,14 +37,6 @@ namespace DelitaTrade.Components.ComponetsViewModel
 				OnPropertyChange();
 			}			
 		}
-        public SearchBoxObjectViewModel(AddNewCompanyViewModel addNewCompanyViewModel)
-        {
-			_addNewCompanyViewModel = addNewCompanyViewModel;
-			_emptyCompanyObjects = [new CompanyObjectViewModel(new CompanyObject("Empty", "Empty", "Empty", false))];
-			_companyObjects = _emptyCompanyObjects;
-			_addNewCompanyViewModel.CompanySelected += CompanySelected;
-			_addNewCompanyViewModel.CompanyUnselected += CompanyUnselected;
-        }
 
 		private void CompanySelected()
 		{

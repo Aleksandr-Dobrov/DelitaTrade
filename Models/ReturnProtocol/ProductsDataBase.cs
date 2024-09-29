@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Runtime.Serialization;
-using DelitaTrade.Interfaces.ReturnProtocol;
+using DelitaTrade.Models.Interfaces.ReturnProtocol;
 
 namespace DelitaTrade.Models.ReturnProtocol
 {
@@ -9,14 +9,15 @@ namespace DelitaTrade.Models.ReturnProtocol
     {
         [DataMember]
         private HashSet<ProductBase> _products;
-        
-        public event Action DataBaseChange;
 
         public ProductsDataBase()
         {
             _products = new HashSet<ProductBase>();
             DataBaseChange += () => { };            
         }
+        
+        public event Action DataBaseChange;
+
         public void AddProductToDataBase(IProduct product)
         {
             if (product != null)

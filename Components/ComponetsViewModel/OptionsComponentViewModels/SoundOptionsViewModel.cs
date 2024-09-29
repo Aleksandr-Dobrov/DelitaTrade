@@ -28,6 +28,7 @@ namespace DelitaTrade.Components.ComponetsViewModel.OptionsComponentViewModels
                 OnPropertyChange();
             }
         }
+
         public bool AddInvoiceSoundIsOn
         {
             get => _delitaTradeDayReport.DelitaSoundService.GetIsOnValue(SoundEfect.AddInvoice);
@@ -69,10 +70,10 @@ namespace DelitaTrade.Components.ComponetsViewModel.OptionsComponentViewModels
             get=> GetFileName(_delitaTradeDayReport.DelitaSoundService.GetSource(SoundEfect.DeleteInvoice));            
         }
 
-
         public ICommand SetCashSource { get; }
         public ICommand SetAddInvoiceSource { get; }
         public ICommand SetRemoveInvoiceSource { get; }
+
         private string GetFileName(string filePath)
         {
             string sourse = filePath;

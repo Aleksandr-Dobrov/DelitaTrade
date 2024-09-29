@@ -1,8 +1,8 @@
 ﻿using DelitaTrade.Commands;
+using DelitaTrade.Models.DataProviders.FileDirectoryProvider;
 using DelitaTrade.Services;
 using DelitaTrade.Stores;
 using DelitaTrade.ViewModels;
-using DelitaTrade.ViewModels.FileDirectoryProvider;
 using DelitaTrade.ViewModels.ReturnProtocolViewModels;
 using System.Windows.Input;
 

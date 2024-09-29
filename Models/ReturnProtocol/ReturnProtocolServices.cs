@@ -1,19 +1,17 @@
-﻿using DelitaTrade.Interfaces.ReturnProtocol;
-using DelitaTrade.Models.DataProviders;
+﻿using DelitaTrade.Models.Interfaces.ReturnProtocol;
 using DelitaTrade.Models.Loggers;
-using System.IO;
 
 namespace DelitaTrade.Models.ReturnProtocol
 {
     public class ReturnProtocolServices
     {
-        private string _userName;
-        private int _idCode;
         private ReturnProtocolProductDataService _productDataService;
         private ReturnProtocolDataServices _protocolDataServices;
         private ReturnProtocolDelita _curentReturnProtocol;
         private Stack<ReturnProtocolDelita> _deletedReturnProtocols;
         
+        private string _userName;
+        private int _idCode;
 
         public ReturnProtocolServices()
         {
@@ -21,7 +19,11 @@ namespace DelitaTrade.Models.ReturnProtocol
             _deletedReturnProtocols = new Stack<ReturnProtocolDelita>();            
         }
 
-        
+        public IReturnProtokolProduct ReturnProtokolProductDataService => _productDataService;
+
+        public ISearchProvider SearchProvider => _protocolDataServices.SearchProvider;
+
+        public int DeletedProtocolsCount => _deletedReturnProtocols.Count;
 
         public void UpdateProductData()
         {
@@ -48,12 +50,6 @@ namespace DelitaTrade.Models.ReturnProtocol
                 new MessageBoxLogger().Log(ex, Logger.LogLevel.Error).Log(ex, Logger.LogLevel.Error);
             }
         }
-
-        public int DeletedProtocolsCount => _deletedReturnProtocols.Count;
-
-        public IReturnProtokolProduct ReturnProtokolProductDataService => _productDataService;
-
-        public ISearchProvider SearchProvider => _protocolDataServices.SearchProvider;
 
         public void DeleteReturnProtocol()
         {

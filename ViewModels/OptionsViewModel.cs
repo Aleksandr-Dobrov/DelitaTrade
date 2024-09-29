@@ -1,10 +1,5 @@
 ﻿using DelitaTrade.Components.ComponetsViewModel.OptionsComponentViewModels;
 using DelitaTrade.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DelitaTrade.ViewModels
 {
@@ -20,6 +15,5 @@ namespace DelitaTrade.ViewModels
         }
 
         public SoundOptionsViewModel SoundOptionsViewModel => _soundOptionsViewModel;
-
     }
 }

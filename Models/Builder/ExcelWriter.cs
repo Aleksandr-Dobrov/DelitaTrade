@@ -6,26 +6,9 @@ using _Excel = Microsoft.Office.Interop.Excel;
 namespace DelitaTrade.Models.Builder
 {
     public class ExcelWriter
-    {
-        protected _Excel.Range GetRange(Worksheet ws, int xCell, int yCell, int toXCell, int toYCell)
-        {
-            return ws.Range[ws.Cells[xCell, yCell], ws.Cells[toXCell, toYCell]];
-        }
-
-        protected int SetColor(string hexColor)
-        {
-            if (hexColor == default)
-            {
-                hexColor = "#000000";
-            }
-            ColorConverter cc = new();
-            int color = ColorTranslator.ToOle((Color)cc.ConvertFromString(hexColor));
-            return color;
-        }
-        
+    {        
         public void WriteDataToCell(Worksheet ws, string data, int xCell, int yCell)
         {
-
             ws.Cells[xCell, yCell].Value2 = data;
         }
 
@@ -52,6 +35,22 @@ namespace DelitaTrade.Models.Builder
             }
 
             WriteDataToCell(ws, data, xCell, yCell);
+        }
+
+        protected _Excel.Range GetRange(Worksheet ws, int xCell, int yCell, int toXCell, int toYCell)
+        {
+            return ws.Range[ws.Cells[xCell, yCell], ws.Cells[toXCell, toYCell]];
+        }
+
+        protected int SetColor(string hexColor)
+        {
+            if (hexColor == default)
+            {
+                hexColor = "#000000";
+            }
+            ColorConverter cc = new();
+            int color = ColorTranslator.ToOle((Color)cc.ConvertFromString(hexColor));
+            return color;
         }
     }
 }

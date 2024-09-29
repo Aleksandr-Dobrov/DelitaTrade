@@ -16,6 +16,7 @@ namespace DelitaTrade.Commands
             _addNewCompanyViewModel.PropertyChanged += OnViewModelPropertyChanged;
             _addNewCompanyViewModel.Trader.PropertyChanged += OnViewModelPropertyChanged;
         }
+
         private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(AddNewCompanyViewModel.CurrentCompany) ||
@@ -39,6 +40,7 @@ namespace DelitaTrade.Commands
                 || _addNewCompanyViewModel.CurrentObject?.Trader != _addNewCompanyViewModel.Trader.Item)
                 && base.CanExecute(parameter);
         }
+
         public override void Execute(object? parameter)
         {
             if (Agreement("Update", _addNewCompanyViewModel.ObjectName))

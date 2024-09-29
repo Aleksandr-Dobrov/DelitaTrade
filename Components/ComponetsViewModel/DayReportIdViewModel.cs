@@ -1,9 +1,7 @@
 ﻿using System.Collections.ObjectModel;
-using DelitaTrade.Models;
-using DelitaTrade.Interfaces;
-using DelitaTrade.Interfaces.DayReport;
 using System.ComponentModel;
 using DelitaTrade.ViewModels;
+using DelitaTrade.Models.Interfaces.DayReports;
 
 namespace DelitaTrade.Components.ComponetsViewModel
 {
@@ -19,6 +17,28 @@ namespace DelitaTrade.Components.ComponetsViewModel
         private string _month;
         private string _year;
 
+        public DayReportIdViewModel(IDayReportIdDataBese dayReportIdDataBase)
+        {
+            _dayReportIdDataBase = dayReportIdDataBase;
+            _yearMonthDay = new Dictionary<string, Dictionary<string, ObservableCollection<string>>>();
+            _dayReportIds = new HashSet<string>();
+            LoadDayReportIds();
+            _dayReportIdDataBase.DayReportIdsLoad += YearMonthDayUpdate;
+            YearMonthDayUpdate(_dayReportIdDataBase.DayReportsId.ToList());
+            DayReportIdExists += () => { };
+            DataBaseChange += () => { };
+            PropertyChanged += OnDateChange;
+            _dayReportIdDataBase.DayReportIdAdd += YearMonthDayAdd;
+            _dayReportIdDataBase.DayReportIdRemove += YearMontDayRemove;
+            _dayReportIdDataBase.DayReportsIdChanged += OnDataBaseChange;
+        }
+
+        public event Action DayReportIdExists;
+
+        public event Action DataBaseChange;
+
+        public string DayReportId => $"{Year}-{Month}-{Day}";
+
         public string Year
         {
             get => _year;
@@ -30,6 +50,7 @@ namespace DelitaTrade.Components.ComponetsViewModel
                 OnPropertyChange(nameof(Days));
             }
         }
+
         public string Month
         {
             get => _month;
@@ -49,8 +70,6 @@ namespace DelitaTrade.Components.ComponetsViewModel
                 OnPropertyChange();
             }
         }
-
-        public string DayReportId => $"{Year}-{Month}-{Day}";
 
         public IEnumerable<string> Years
         {
@@ -104,22 +123,6 @@ namespace DelitaTrade.Components.ComponetsViewModel
 
                 return days;
             }
-        }
-
-        public DayReportIdViewModel(IDayReportIdDataBese dayReportIdDataBase)
-        {
-            _dayReportIdDataBase = dayReportIdDataBase;
-            _yearMonthDay = new Dictionary<string, Dictionary<string, ObservableCollection<string>>>();
-            _dayReportIds = new HashSet<string>();
-            LoadDayReportIds();
-            _dayReportIdDataBase.DayReportIdsLoad += YearMonthDayUpdate;
-            YearMonthDayUpdate(_dayReportIdDataBase.DayReportsId.ToList());
-            DayReportIdExists += () => { };
-            DataBaseChange += () => { };
-            PropertyChanged += OnDateChange;
-            _dayReportIdDataBase.DayReportIdAdd += YearMonthDayAdd;
-            _dayReportIdDataBase.DayReportIdRemove += YearMontDayRemove;
-            _dayReportIdDataBase.DayReportsIdChanged += OnDataBaseChange;
         }
 
         private void YearMonthDayUpdate(List<string> dayReportIds)
@@ -215,9 +218,5 @@ namespace DelitaTrade.Components.ComponetsViewModel
         {
             DataBaseChange.Invoke();
         }
-
-        public event Action DayReportIdExists;
-
-        public event Action DataBaseChange;
     }
 }

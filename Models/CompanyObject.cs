@@ -1,4 +1,4 @@
-﻿using DelitaTrade.Interfaces.ReturnProtocol;
+﻿using DelitaTrade.Models.Interfaces.ReturnProtocol;
 using DelitaTrade.Models.ReturnProtocol;
 using System.Runtime.Serialization;
 

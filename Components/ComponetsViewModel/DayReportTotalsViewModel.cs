@@ -1,5 +1,4 @@
-﻿using DelitaTrade.Commands;
-using DelitaTrade.Components.ComponentsCommands;
+﻿using DelitaTrade.Components.ComponentsCommands;
 using DelitaTrade.Models;
 using DelitaTrade.ViewModels;
 using System.Collections.ObjectModel;
@@ -29,6 +28,26 @@ namespace DelitaTrade.Components.ComponetsViewModel
             _transmissionDate.PropertyChanged += OnTransmissionDateViewModelChanged;
             VehiclesUpdate();
         }
+
+        public SearchBoxTextViewModel Vehicle => _vehicle;
+                
+        public SearchBoxTextViewModel TransmissionDate => _transmissionDate;
+
+        public string TotalAmount => $"{_delitaTradeDayReport.TotalAmount:C}";
+        
+        public string TotalIncome => $"{_delitaTradeDayReport.TotalIncome:C}";
+
+        public string TotalExpenses => $"{_delitaTradeDayReport.TotalExpenses:C}";
+               
+        public string TotalNonPay => $"{_delitaTradeDayReport.TotalNonPay:C}";
+               
+        public string TotalOldInvoice => $"{_delitaTradeDayReport.TotalOldInvoice:C}";
+
+        public string TotalWeight => $"{_delitaTradeDayReport.TotalWeight:F0} kg.";
+        
+        public ICommand AddNewVehicle { get; }
+
+        public ICommand PrintDayReport { get; }
 
         private void VehiclesUpdate()
         {
@@ -62,6 +81,7 @@ namespace DelitaTrade.Components.ComponetsViewModel
                 _delitaTradeDayReport.AddVehicle(Vehicle.Item.ToUpper());
             }
         }
+
         private void OnTransmissionDateViewModelChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(TransmissionDate.Item))
@@ -69,18 +89,6 @@ namespace DelitaTrade.Components.ComponetsViewModel
                 _delitaTradeDayReport.SetTransmissionDate(TransmissionDate.Item);
             }
         }
-
-        public string TotalAmount => $"{_delitaTradeDayReport.TotalAmount:C}";
-        
-        public string TotalIncome => $"{_delitaTradeDayReport.TotalIncome:C}";
-
-        public string TotalExpenses => $"{_delitaTradeDayReport.TotalExpenses:C}";
-               
-        public string TotalNonPay => $"{_delitaTradeDayReport.TotalNonPay:C}";
-               
-        public string TotalOldInvoice => $"{_delitaTradeDayReport.TotalOldInvoice:C}";
-
-        public string TotalWeight => $"{_delitaTradeDayReport.TotalWeight:F0} kg.";
 
         private ObservableCollection<string> CreateDates(DateTime date)
         {            
@@ -92,13 +100,5 @@ namespace DelitaTrade.Components.ComponetsViewModel
             }
             return dates;
         }
-
-        public SearchBoxTextViewModel Vehicle => _vehicle;
-                
-        public SearchBoxTextViewModel TransmissionDate => _transmissionDate;
-        
-        public ICommand AddNewVehicle { get; }
-
-        public ICommand PrintDayReport { get; }
     }
 }

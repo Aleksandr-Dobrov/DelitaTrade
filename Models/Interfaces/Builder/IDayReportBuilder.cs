@@ -1,10 +1,11 @@
-﻿using Microsoft.Office.Interop.Excel;
-
-namespace DelitaTrade.Models.Builder
+﻿namespace DelitaTrade.Models.Interfaces.Builder
 {
-    public interface IDayReportBuilder
+    public interface IDayReportBuilder : IDisposable
     {
+        public string ExportedFilePath { get; }
+
         public void InitializedExporter(DayReport report);
+
         public void BuildHeather();
 
         public void BuildBody();
@@ -12,7 +13,5 @@ namespace DelitaTrade.Models.Builder
         public void BuildFooter();
 
         public void Export();
-
-        public string ExportedFilePath { get; }
     }
 }

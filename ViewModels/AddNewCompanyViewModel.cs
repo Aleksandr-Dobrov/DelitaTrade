@@ -20,40 +20,15 @@ namespace DelitaTrade.ViewModels
         private bool _bankPay;
         private string _lastCompanyName;
         
-        private DelitaTradeCompany _delitaTrade;
-       
-        private ObservableCollection<CompanyViewModel> _companies;        
-
+        private DelitaTradeCompany _delitaTrade;       
+        private ObservableCollection<CompanyViewModel> _companies;
         private SearchBoxViewModel _searchBox;
-        
         private SearchBoxObjectViewModel _searchBoxObject;
-
         private CompanyViewModel _currentCompany;
-
         private CompanyObjectViewModel _currentObject;
-
         private SearchBoxTextNotUpperDeletableItemViewModel _trader;
         private ObservableCollection<string> _tradersViewModel;
         private StringListDataBase _tradersModel;
-
-        public IEnumerable<CompanyViewModel> Companies => _companies;
-        
-        public SearchBoxViewModel SearchBox => _searchBox; 
-
-        public SearchBoxObjectViewModel SearchBoxObject => _searchBoxObject;
-
-        public CompanyViewModel CurrentCompany => _currentCompany;
-
-        public CompanyObjectViewModel CurrentObject => _currentObject;
-        public SearchBoxTextNotUpperDeletableItemViewModel Trader => _trader;
-
-        public event Action CompanySelected; 
-        
-        public event Action CompanyUnselected;
-
-        public event Action ObjectSelected;
-
-        public event Action ObjectUnselected;
 
         public AddNewCompanyViewModel(DelitaTradeCompany delitaTrade)
         {
@@ -73,6 +48,102 @@ namespace DelitaTrade.ViewModels
             OnEnable();
         }
 
+        public IEnumerable<CompanyViewModel> Companies => _companies;        
+        public SearchBoxViewModel SearchBox => _searchBox; 
+        public SearchBoxObjectViewModel SearchBoxObject => _searchBoxObject;
+        public CompanyViewModel CurrentCompany => _currentCompany;
+        public CompanyObjectViewModel CurrentObject => _currentObject;
+        public SearchBoxTextNotUpperDeletableItemViewModel Trader => _trader;
+
+        public event Action CompanySelected;         
+        public event Action CompanyUnselected;
+        public event Action ObjectSelected;
+        public event Action ObjectUnselected;
+       
+        public string CompanyName
+        {
+            get => _searchBox.InputText;
+            set 
+            {
+                _searchBox.InputText = value;               
+                OnPropertyChange();
+            }
+        }
+
+        public string CompanyType
+        {
+            get => _companyType;
+            set
+            {   
+                _companyType = value.ToUpper();
+                OnPropertyChange();
+            }
+        }
+
+        public string Bulstad
+        {
+            get => _bulstad;
+            set 
+            {
+                _bulstad = value;
+                OnPropertyChange();
+            }
+        }
+
+        public string ObjectName
+        {
+            get => _searchBoxObject.InputTextObject;
+            set
+            {
+                _searchBoxObject.InputTextObject = value;
+                OnPropertyChange();
+            }
+        }
+
+        public string Address
+        {
+            get => _address;
+            set
+            {
+                _address = value;
+                OnPropertyChange();
+            }
+        }        
+
+        public bool BankPay
+        {
+            get => _bankPay;
+            set
+            {
+                _bankPay = value;
+                OnPropertyChange();
+            }
+        }
+
+        public void SetBankPay(string IsBank)
+        {
+            if (IsBank == "Банка")
+            {
+                _bankPay = true;
+            }
+            else
+            {
+                _bankPay = false;
+            }
+        }
+
+        public void SetObjectName(string name)
+        {
+            ObjectName = name;
+        }
+
+        public ICommand CreateCompanyCommand { get; }
+        public ICommand CreateObjectCommand { get; }
+        public ICommand UpdateCompanyCommand { get; }
+        public ICommand UpdateObjectCommand { get; }
+        public ICommand DeleteCompanyCommand { get; }
+        public ICommand DeleteObjectCommand { get; }
+
         private void OnEnable()
         {
             _searchBox.CompanyNameChanged += SelectCurrentCompany;
@@ -88,6 +159,7 @@ namespace DelitaTrade.ViewModels
             TradersDataUpdate();
             _trader.PropertyChanged += OnViewModelPropertyChanged;
         }
+
         private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(SearchBoxTextNotUpperDeletableItemViewModel.Item))
@@ -98,7 +170,6 @@ namespace DelitaTrade.ViewModels
                     _tradersModel.Add(item);
                 }
             }
-
         }
 
         private void TradersDataUpdate()
@@ -190,89 +261,5 @@ namespace DelitaTrade.ViewModels
             Trader.Item = _currentObject.Trader;
             BankPay = _currentObject.BankPay;
         }
-
-        public void SetBankPay(string IsBank)
-        {
-            if (IsBank == "Банка")
-            {
-                _bankPay = true;
-            }
-            else
-            {
-                _bankPay = false;
-            }
-        }
-
-        public void SetObjectName(string name)
-        {
-            ObjectName = name;
-        }
-       
-        public string CompanyName
-        {
-            get => _searchBox.InputText;
-            set 
-            {
-                _searchBox.InputText = value;               
-                OnPropertyChange();
-            }
-        }
-
-        public string CompanyType
-        {
-            get => _companyType;
-            set
-            {   
-                _companyType = value.ToUpper();
-                OnPropertyChange();
-            }
-        }
-
-        public string Bulstad
-        {
-            get => _bulstad;
-            set 
-            {
-                _bulstad = value;
-                OnPropertyChange();
-            }
-        }
-
-        public string ObjectName
-        {
-            get => _searchBoxObject.InputTextObject;
-            set
-            {
-                _searchBoxObject.InputTextObject = value;
-                OnPropertyChange();
-            }
-        }
-
-        public string Address
-        {
-            get => _address;
-            set
-            {
-                _address = value;
-                OnPropertyChange();
-            }
-        }        
-
-        public bool BankPay
-        {
-            get => _bankPay;
-            set
-            {
-                _bankPay = value;
-                OnPropertyChange();
-            }
-        }
-
-        public ICommand CreateCompanyCommand { get; }
-        public ICommand CreateObjectCommand { get; }
-        public ICommand UpdateCompanyCommand { get; }
-        public ICommand UpdateObjectCommand { get; }
-        public ICommand DeleteCompanyCommand { get; }
-        public ICommand DeleteObjectCommand { get; }
     }
 }

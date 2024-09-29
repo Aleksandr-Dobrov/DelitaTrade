@@ -39,6 +39,13 @@ namespace DelitaTrade.Services
                 _soundPlayer.PlaySound(_soundStore.GetSound(sound));
             }
         }
+               
+        public void Configurate(IConfigurator provider)
+        {            
+            var sound = _soundStore.GetSound(provider.Provider.Name) ?? throw new InvalidOperationException("Sound not found");
+            sound.Configurate(provider);
+            ConfigurationChanged(sound);
+        }
                 
         private bool IsSoundOn(SoundEfect sound)
         {
@@ -48,13 +55,6 @@ namespace DelitaTrade.Services
         private void SafeConfiguration(SoundBase sound)
         {
             sound.ConfigurationSave();
-        }
-               
-        public void Configurate(IConfigurator provider)
-        {            
-            var sound = _soundStore.GetSound(provider.Provider.Name) ?? throw new InvalidOperationException("Sound not found");
-            sound.Configurate(provider);
-            ConfigurationChanged(sound);
         }
     }
 }

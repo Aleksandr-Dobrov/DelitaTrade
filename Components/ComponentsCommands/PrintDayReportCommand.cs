@@ -22,16 +22,6 @@ namespace DelitaTrade.Components.ComponentsCommands
             _delitaTradeDayReport.TransmisionDateChange += CurrentDayReportChanged;
             _internetProvider.NetworkStatusChange += CurrentDayReportChangedAsync;
         }
-       
-        private void CurrentDayReportChanged()
-        {
-            OnCanExecuteChanged();
-        }
-
-        private void CurrentDayReportChangedAsync()
-        {
-            Application.Current.Dispatcher.Invoke(new Action(OnCanExecuteChanged));
-        }
 
         public override bool CanExecute(object? parameter)
         {
@@ -45,13 +35,12 @@ namespace DelitaTrade.Components.ComponentsCommands
 
         public override void Execute(object? parameter)
         {
-            MessageBoxResult result = MessageBoxResult.Yes;
+            bool result = true;
             if (_delitaTradeDayReport.IsEnoughMoney() == false)
             {
-                result = MessageBox.Show("The report money is insufficient! Export anyway?", "Caution!"
-                                                            , MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+                result = Agreement("The report money is insufficient!", "Export anyway?");
             }
-            if (result == MessageBoxResult.Yes)
+            if (result)
             {
                 _delitaTradeDayReport.ExportDayReport();
             }
@@ -59,6 +48,16 @@ namespace DelitaTrade.Components.ComponentsCommands
             {
                 new MessageBoxLogger().Log("Day report is not exported!", Logger.LogLevel.Information);
             }
+        }
+       
+        private void CurrentDayReportChanged()
+        {
+            OnCanExecuteChanged();
+        }
+
+        private void CurrentDayReportChangedAsync()
+        {
+            Application.Current.Dispatcher.Invoke(new Action(OnCanExecuteChanged));
         }
     }
 }

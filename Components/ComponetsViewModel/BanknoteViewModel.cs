@@ -22,15 +22,11 @@ namespace DelitaTrade.Components.ComponetsViewModel
             TotalCountChanged += CalculateAmount;            
         }
 
-        private void CalculateAmount()
-        {
-            Amount = (TotalCount * Value).ToString("C");
-        }
-
         public event Action TotalCountChanged;
 
         public string ImagePath => _imagePath;
         public decimal Value => _value;
+
         public int TotalCount
         {
             get => _totalCount;
@@ -41,6 +37,7 @@ namespace DelitaTrade.Components.ComponetsViewModel
                 OnPropertyChange(nameof(TotalCount));
             }
         }
+
         public string Amount
         {
             get => _amount;
@@ -48,9 +45,9 @@ namespace DelitaTrade.Components.ComponetsViewModel
             {
                 _amount = value;
                 OnPropertyChange();
-            }
-                
+            }                
         }
+
         public int Count
         {
             get => _count;
@@ -63,5 +60,10 @@ namespace DelitaTrade.Components.ComponetsViewModel
 
         public ICommand AddBanknote { get; }
         public ICommand RemoveBanknote { get; }
+
+        private void CalculateAmount()
+        {
+            Amount = (TotalCount * Value).ToString("C");
+        }
     }
 }

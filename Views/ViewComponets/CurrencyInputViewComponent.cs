@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using static System.Net.Mime.MediaTypeNames;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
 using DelitaTrade.Models.DataProviders;
 
@@ -12,12 +6,22 @@ namespace DelitaTrade.Views.ViewComponets
 {
     public class CurrencyInputViewComponent : InputViewComponent
     {
-        CurrencyProvider _currencyProvider;
+        private CurrencyProvider _currencyProvider;
 
         public CurrencyInputViewComponent()
         {
             _currencyProvider = new CurrencyProvider();
         }
+
+        public void ResetCurrencyValue(object sender)
+        {
+            if (sender is TextBox textBox)
+            {
+                textBox.Text = $"{0:C2}";
+                TextBoxSetStartPosition(sender);
+            }
+        }
+
         protected override void TextBoxIndexMove(object sender, Direction direction)
         {
             TextBox textBox = sender as TextBox;
@@ -46,27 +50,6 @@ namespace DelitaTrade.Views.ViewComponets
                 textBox.Select(_textBoxIDIndex, 1);
                 _textBoxItems.Clear();
             }
-        }
-
-        private void WriteDigits(object sender)
-        {
-            TextBox textBox = sender as TextBox;
-            if (textBox != null)
-            {
-                decimal amount = 0;
-                if (textBox.Text.Length < 5)
-                {
-                    textBox.Text = $"{0:C2}";
-                }
-                else
-                {
-                    amount = _currencyProvider.GetDecimalValue(textBox.Text);
-                }
-                amount *= 10;
-                textBox.Text = $"{amount:C2}";
-                textBox.Select(textBox.Text.Length - _currencyProvider.GetCurrencyLength() - 1, 1);
-            }
-
         }
 
         protected override void KeyDown(object sender, KeyEventArgs e)
@@ -139,12 +122,23 @@ namespace DelitaTrade.Views.ViewComponets
             }
         }
 
-        public void ResetCurrencyValue(object sender)
+        private void WriteDigits(object sender)
         {
-            if (sender is TextBox textBox)
+            TextBox textBox = sender as TextBox;
+            if (textBox != null)
             {
-                textBox.Text = $"{0:C2}";
-                TextBoxSetStartPosition(sender);
+                decimal amount = 0;
+                if (textBox.Text.Length < 5)
+                {
+                    textBox.Text = $"{0:C2}";
+                }
+                else
+                {
+                    amount = _currencyProvider.GetDecimalValue(textBox.Text);
+                }
+                amount *= 10;
+                textBox.Text = $"{amount:C2}";
+                textBox.Select(textBox.Text.Length - _currencyProvider.GetCurrencyLength() - 1, 1);
             }
         }
     }

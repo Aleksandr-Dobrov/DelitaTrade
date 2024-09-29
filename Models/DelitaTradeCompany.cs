@@ -1,24 +1,20 @@
 ﻿using DelitaTrade.Models.Loggers;
 using System.IO;
 using System.Runtime.Serialization;
-using System.Windows;
 using static DelitaTrade.Models.Loggers.Logger;
 
 namespace DelitaTrade.Models
 {
     public class DelitaTradeCompany
     {
+        private const string _backupFilePath = "../../../SafeBackupDataBase/DelitaTradeBackupDataBase";
+
         [DataMember]
         private DataBase _dataBase;
 
         private readonly IDataBase<DataBase> _XmlDataBase;
        
         private string _filePath = "../../../SafeDataBase/DelitaTradeDataBase.xml";
-
-        private const string _backupFilePath = "../../../SafeBackupDataBase/DelitaTradeBackupDataBase";
-
-        public event Action DataBaseChanged;
-        public string Name { get; }
 
         public DelitaTradeCompany(string name, IDataBase<DataBase> dataBase)
         {
@@ -28,70 +24,10 @@ namespace DelitaTrade.Models
             _XmlDataBase.UsedDefaultPath += UseDefaultPath;
             DataBaseChanged += SaveData;
         }
-        private void UpdateDataBase()
-        {
-            DataBaseChanged?.Invoke();                        
-        }
 
-        private bool IsValidDataToSafe()
-        {
-            return ((File.Exists(GetBackupDataBasePath(DateTime.Now.Date)) == false)
-                || ((_ = new FileInfo(GetBackupDataBasePath(DateTime.Now.Date))).Length
-                <= (_ = new FileInfo(_filePath)).Length));
-              
-        }
+        public event Action DataBaseChanged;
 
-        private void UseDefaultPath(string message)
-        {            
-            new FileLogger().Log($"Data base use {message} file path!",LogLevel.Information)
-                            .Log($"Data base use {message} file path!", LogLevel.Information);
-            _filePath = message;
-        }
-
-        private string GetBackupDataBasePath(DateTime date)
-        {
-            return $"{_backupFilePath}{date:dd-MM-yyyy}.xml";
-        }
-
-        private void SaveBacupData()
-        {
-            if (IsValidDataToSafe())
-            {
-                _XmlDataBase.Path = GetBackupDataBasePath(DateTime.Now.Date);
-                _XmlDataBase.SaveAllData(_dataBase);
-            }
-            else
-            {
-                throw new InvalidOperationException("Can not save backup data base!");
-            }
-        }
-
-        private void SaveData()
-        {
-            try
-            {
-                _XmlDataBase.Path = _filePath;
-                _XmlDataBase.SaveAllData(_dataBase);
-                SaveBacupData();                
-            }
-            catch (Exception ex) 
-            {
-                new FileLogger().Log(ex, LogLevel.Error);
-            }
-        }
-
-        private DataBase LoadData(string filePath) 
-        {
-            try
-            {
-                _XmlDataBase.Path = filePath;
-                return _XmlDataBase.LoadAllData();
-            }
-            catch 
-            {
-                return new DataBase();
-            }
-        }
+        public string Name { get; }
 
         public void LoadFile()
         {
@@ -146,6 +82,70 @@ namespace DelitaTrade.Models
         public IEnumerable<Company> GetAllCmpanies()
         {
             return _dataBase.GetAllCompanies();
+        }
+
+        private void UpdateDataBase()
+        {
+            DataBaseChanged?.Invoke();                        
+        }
+
+        private bool IsValidDataToSafe()
+        {
+            return ((File.Exists(GetBackupDataBasePath(DateTime.Now.Date)) == false)
+                || ((_ = new FileInfo(GetBackupDataBasePath(DateTime.Now.Date))).Length
+                <= (_ = new FileInfo(_filePath)).Length));              
+        }
+
+        private void UseDefaultPath(string message)
+        {            
+            new FileLogger().Log($"Data base use {message} file path!",LogLevel.Information)
+                            .Log($"Data base use {message} file path!", LogLevel.Information);
+            _filePath = message;
+        }
+
+        private string GetBackupDataBasePath(DateTime date)
+        {
+            return $"{_backupFilePath}{date:dd-MM-yyyy}.xml";
+        }
+
+        private void SaveBacupData()
+        {
+            if (IsValidDataToSafe())
+            {
+                _XmlDataBase.Path = GetBackupDataBasePath(DateTime.Now.Date);
+                _XmlDataBase.SaveAllData(_dataBase);
+            }
+            else
+            {
+                throw new InvalidOperationException("Can not save backup data base!");
+            }
+        }
+
+        private void SaveData()
+        {
+            try
+            {
+                _XmlDataBase.Path = _filePath;
+                _XmlDataBase.SaveAllData(_dataBase);
+                SaveBacupData();                
+            }
+            catch (Exception ex) 
+            {
+                new FileLogger().Log(ex, LogLevel.Error);
+            }
+        }
+
+        private DataBase LoadData(string filePath) 
+        {
+            try
+            {
+                _XmlDataBase.Path = filePath;
+                return _XmlDataBase.LoadAllData();
+            }
+            catch 
+            {
+                return new DataBase();
+            }
         }
     }
 }

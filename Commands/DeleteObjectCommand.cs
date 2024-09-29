@@ -2,7 +2,6 @@
 using DelitaTrade.Models;
 using DelitaTrade.ViewModels;
 using System.ComponentModel;
-using System.Windows;
 
 namespace DelitaTradeProject.Commands
 {

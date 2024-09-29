@@ -1,5 +1,5 @@
-﻿using DelitaTrade.Interfaces.ReturnProtocol;
-using DelitaTrade.Models.DataProviders;
+﻿using DelitaTrade.Models.DataProviders;
+using DelitaTrade.Models.Interfaces.ReturnProtocol;
 using System.IO;
 using System.Runtime.Serialization;
 
@@ -15,15 +15,12 @@ namespace DelitaTrade.Models.ReturnProtocol
         private ReturnProtocolDataBase _returnProtocolDataBase;
         private IdDataGenerator _idGenerator;
 
-
-        private string _returnProtocolIdsFilePath = "../../../ReturnProtocol/ReturnProtocolIds.xml";
-
-        private string _dataBaseDirectoryPath = "../../../ReturnProtocol/ReturnProtocolsDataBase/";
-
         private IDataBase<ReturnProtocolDelita> _dataBase;
         private IDataBase<HashSet<string>> _returnProtocolIds;
         private IDataBase<ReturnProtocolDataBase> _returnProtocolDataBaseProvider;
 
+        private string _returnProtocolIdsFilePath = "../../../ReturnProtocol/ReturnProtocolIds.xml";
+        private string _dataBaseDirectoryPath = "../../../ReturnProtocol/ReturnProtocolsDataBase/";
 
         public ReturnProtocolDataServices(int code)
         {            
@@ -38,57 +35,11 @@ namespace DelitaTrade.Models.ReturnProtocol
             _returnProtocolDataBase.DataBaseChange += SafeReturnProtocolDataBase;
         }
 
-        public string GetProtocolId(int code) => _idGenerator.GetId(code);
-
         public ISearchProvider SearchProvider => _returnProtocolDataBase;
 
-        private string DataBaseFilePathSet(ReturnProtocolDelita returnProtocolDelita)
-        {
-            return $"{_dataBaseDirectoryPath}{returnProtocolDelita.ID}.xml";
-        }
-
-        private string DataBaseFilePathSet(string returnProtocolId)
-        {
-            return $"{_dataBaseDirectoryPath}{returnProtocolId}.xml";
-        }
-
-        private void DeleteReturnProtocolFile(string filePath)
-        {
-            if (File.Exists(filePath))
-            {
-                File.Delete(filePath);
-            }
-            else 
-            {
-                throw new ArgumentNullException("Return protocol file not found!");
-            }
-        }
-
-        private void TryLoadReturnProtocolDataBase()
-        {
-            if (File.Exists(ReturnProtocolDataBase.savePath))
-            {
-                _returnProtocolDataBase = _returnProtocolDataBaseProvider.LoadAllData();
-            }
-            else
-            {
-                _returnProtocolDataBase = new ReturnProtocolDataBase();
-            }
-        }
-
-        private void TryLoadReturnProtocolIds()
-        {
-            if (File.Exists(_returnProtocolIdsFilePath))
-            {
-                _returnProtocolIdCollection = _returnProtocolIds.LoadAllData();
-            }
-            else 
-            {
-                _returnProtocolIdCollection = new HashSet<string>();
-            }
-        }
-
         public ReturnProtocolDataBase ReturnProtocolDataBase => _returnProtocolDataBase;
+
+        public string GetProtocolId(int code) => _idGenerator.GetId(code);
 
         public void SafeReturnProtocolDataBase()
         {
@@ -152,6 +103,52 @@ namespace DelitaTrade.Models.ReturnProtocol
             else 
             {
                 throw new ArgumentException("Return protocol is not exists in data base.");
+            }
+        }
+
+        private string DataBaseFilePathSet(ReturnProtocolDelita returnProtocolDelita)
+        {
+            return $"{_dataBaseDirectoryPath}{returnProtocolDelita.ID}.xml";
+        }
+
+        private string DataBaseFilePathSet(string returnProtocolId)
+        {
+            return $"{_dataBaseDirectoryPath}{returnProtocolId}.xml";
+        }
+
+        private void DeleteReturnProtocolFile(string filePath)
+        {
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+            else 
+            {
+                throw new ArgumentNullException("Return protocol file not found!");
+            }
+        }
+
+        private void TryLoadReturnProtocolDataBase()
+        {
+            if (File.Exists(ReturnProtocolDataBase.savePath))
+            {
+                _returnProtocolDataBase = _returnProtocolDataBaseProvider.LoadAllData();
+            }
+            else
+            {
+                _returnProtocolDataBase = new ReturnProtocolDataBase();
+            }
+        }
+
+        private void TryLoadReturnProtocolIds()
+        {
+            if (File.Exists(_returnProtocolIdsFilePath))
+            {
+                _returnProtocolIdCollection = _returnProtocolIds.LoadAllData();
+            }
+            else 
+            {
+                _returnProtocolIdCollection = new HashSet<string>();
             }
         }
     }

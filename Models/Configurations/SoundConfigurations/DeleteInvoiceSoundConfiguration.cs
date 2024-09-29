@@ -9,6 +9,7 @@ namespace DelitaTrade.Models.Configurations.SoundConfigurations
         {
             get { return (SoundEfect)this[SoundConstants.RemoveInvoiceEfectName]; }
         }
+
         [ConfigurationProperty(SoundConstants.RemoveInvoiceName, DefaultValue = SoundConstants.RemoveInvoiceDefaultValue)]
         public override bool IsOnValueSound 
         {

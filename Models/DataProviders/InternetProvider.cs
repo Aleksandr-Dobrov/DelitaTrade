@@ -3,13 +3,15 @@
 namespace DelitaTrade.Models.DataProviders
 {
     public class InternetProvider
-    {
-        
+    {        
         public InternetProvider()
         {
             NetworkStatusChange += () => { };
             NetworkChange.NetworkAvailabilityChanged += new NetworkAvailabilityChangedEventHandler(AvailabilityChangeCallback);
         }
+
+        public event Action NetworkStatusChange;
+
         public bool CheckForInternetConnection()
         {
             try
@@ -27,8 +29,6 @@ namespace DelitaTrade.Models.DataProviders
                 return false;
             }
         }
-
-        public event Action NetworkStatusChange;
 
         private void AvailabilityChangeCallback(object? sender, NetworkAvailabilityEventArgs e)
         {              

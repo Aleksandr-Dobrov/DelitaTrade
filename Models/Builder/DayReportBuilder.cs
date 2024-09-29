@@ -1,6 +1,4 @@
-﻿using Microsoft.Office.Interop.Excel;
-using System.IO;
-using _Excel = Microsoft.Office.Interop.Excel;
+﻿using DelitaTrade.Models.Interfaces.Builder;
 
 namespace DelitaTrade.Models.Builder
 {
@@ -15,11 +13,14 @@ namespace DelitaTrade.Models.Builder
 
         public void CreateDayReport(DayReport dayReport)
         {
-            _builder.InitializedExporter(dayReport);
-            _builder.BuildHeather();
-            _builder.BuildBody();
-            _builder.BuildFooter();
-            _builder.Export();
+            using (_builder)
+            { 
+                _builder.InitializedExporter(dayReport);
+                _builder.BuildHeather();
+                _builder.BuildBody();
+                _builder.BuildFooter();
+                _builder.Export();
+            }
         }
 
         public string ExportedFilePath => _builder.ExportedFilePath;

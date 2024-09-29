@@ -6,17 +6,15 @@ namespace DelitaTrade.Models
 {
     public class XmlDataBase<T> : IDataBase<T>
     {
-
         private string _defautPath = $"../../../XmlDataBase/XmlData{DateTime.Now.Date:dd-MM-yyyy}.xml";
-
         private string _path;
-        
-        public event Action<string> UsedDefaultPath;
 
         public XmlDataBase()
         {
             UsedDefaultPath += (string obj) => { };
         }
+        
+        public event Action<string> UsedDefaultPath;
 
         public string Path
         {
@@ -24,6 +22,37 @@ namespace DelitaTrade.Models
             {
                 _path = CreateFilePath(value);
             }
+        }
+
+        public T LoadAllData()
+        {
+            try 
+            {
+                var fileStream = new FileStream(_path, FileMode.Open);
+                var reader = XmlDictionaryReader.CreateTextReader(fileStream, new XmlDictionaryReaderQuotas());
+                var serializer = new DataContractSerializer(typeof(T));
+                T SerializebleObject = (T)serializer.ReadObject(reader, true);
+                reader.Close();
+                fileStream.Close();
+                return SerializebleObject;
+            }
+            catch (Exception ex)
+            {
+                throw new NullReferenceException("Data not exists");
+            }
+        }
+
+        public void SaveAllData(T data)
+        {
+            var serializerr = new DataContractSerializer(typeof(T));
+            var setings = new XmlWriterSettings()
+            {
+                Indent = true,
+                IndentChars = "\t",
+            };
+            var writer = XmlWriter.Create(_path, setings);
+            serializerr.WriteObject(writer, data);
+            writer.Close();
         }
 
         private bool IsValidExtention(string path)
@@ -68,37 +97,6 @@ namespace DelitaTrade.Models
             {
                 return false;
             }
-        }
-
-        public T LoadAllData()
-        {
-            try 
-            {
-                var fileStream = new FileStream(_path, FileMode.Open);
-                var reader = XmlDictionaryReader.CreateTextReader(fileStream, new XmlDictionaryReaderQuotas());
-                var serializer = new DataContractSerializer(typeof(T));
-                T SerializebleObject = (T)serializer.ReadObject(reader, true);
-                reader.Close();
-                fileStream.Close();
-                return SerializebleObject;
-            }
-            catch (Exception ex)
-            {
-                throw new NullReferenceException("Data not exists");
-            }
-        }
-
-        public void SaveAllData(T data)
-        {
-            var serializerr = new DataContractSerializer(typeof(T));
-            var setings = new XmlWriterSettings()
-            {
-                Indent = true,
-                IndentChars = "\t",
-            };
-            var writer = XmlWriter.Create(_path, setings);
-            serializerr.WriteObject(writer, data);
-            writer.Close();
         }
     }
 }

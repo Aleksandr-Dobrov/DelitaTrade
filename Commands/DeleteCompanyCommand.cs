@@ -1,12 +1,7 @@
 ﻿using DelitaTrade.Commands;
 using DelitaTrade.Models;
 using DelitaTrade.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DelitaTradeProject.Commands
 {
@@ -45,6 +40,5 @@ namespace DelitaTradeProject.Commands
                                                        _addNewCompanyViewModel.CurrentCompany.Bulstad));
             }
         }
-
     }
 }

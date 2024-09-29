@@ -1,6 +1,5 @@
 ﻿using DelitaTrade.Models;
 using DelitaTrade.ViewModels;
-using Microsoft.VisualBasic;
 using System.Windows;
 
 namespace DelitaTrade.Commands
@@ -32,9 +31,7 @@ namespace DelitaTrade.Commands
 
         public override void Execute(object? parameter)
         {
-            MessageBoxResult boxResult = MessageBox.Show($"Delete day report: {_dayReportsViewModel.DayReportId}?"
-                                                       , "Delete?", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (boxResult == MessageBoxResult.Yes)
+            if (Agreement("Delete day report", _dayReportsViewModel.DayReportId))
             {
                 _dayReport.DeleteDayReport(_dayReportsViewModel.LoadDayReportId);                
             }

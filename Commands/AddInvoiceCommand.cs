@@ -43,7 +43,7 @@ namespace DelitaTrade.Commands
                 && _dayReportsViewModel.InvoiceID.Length == 10                 
                 && _dayReportsViewModel.InvoiceID.All(char.IsDigit)                
                 && (_dayReportsViewModel.IsUnpaidInvoice(_dayReportsViewModel.InvoiceID) 
-                    || _dayReportsViewModel.kIsNewInvoice(_dayReportsViewModel.InvoiceID))
+                    || _dayReportsViewModel.IsNewInvoice(_dayReportsViewModel.InvoiceID))
                 && base.CanExecute(parameter);
         }
 

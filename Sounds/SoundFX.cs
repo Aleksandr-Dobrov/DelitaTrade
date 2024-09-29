@@ -1,17 +1,13 @@
 ﻿using DelitaTrade.Models.Configurations;
 using DelitaTrade.Models.Interfaces.Configuration;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DelitaTrade.Sounds
 {
     public class SoundFX : SoundBase
     {
         private readonly SoundBaseConfiguration _configuration;
+
         public SoundFX(SoundBaseConfiguration configuration) : base(configuration)
         {
             _configuration = configuration;

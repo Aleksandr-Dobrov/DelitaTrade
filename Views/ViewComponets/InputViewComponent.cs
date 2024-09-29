@@ -1,5 +1,4 @@
-﻿//using Microsoft.Office.Interop.Excel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -7,6 +6,12 @@ namespace DelitaTrade.Views.ViewComponets
 {
     public class InputViewComponent
     {
+        public enum Direction
+        {
+            Left = -1,
+            Right = 1
+        }
+
         protected int _textBoxIDIndex;
         protected Stack<List<string>> _textBoxItems;
         protected string _textBoxInitialValue;
@@ -27,13 +32,6 @@ namespace DelitaTrade.Views.ViewComponets
             KeyDown(sender, e);
         }
 
-        private void IDGotFocusSelectIndex(object sender, RoutedEventArgs e)
-        {
-            TextBox textBox = sender as TextBox;
-            _textBoxInitialValue = textBox?.Text;
-            TextBoxSetStartPosition(sender);
-        }
-
         protected virtual void TextBoxSetStartPosition(object sender)
         {
             TextBox textBox = sender as TextBox;
@@ -42,16 +40,6 @@ namespace DelitaTrade.Views.ViewComponets
                 _textBoxIDIndex = textBox.Text.Length - 1;
                 textBox.Select(_textBoxIDIndex, 1);
                 _textBoxItems.Clear();
-            }
-        }
-
-        private void TextBoxResetValue(object sender)
-        {
-            _textBoxItems.Clear();
-            TextBox textBox = sender as TextBox;
-            if (textBox != null)
-            {
-                textBox.Text = _textBoxInitialValue;
             }
         }
 
@@ -122,10 +110,21 @@ namespace DelitaTrade.Views.ViewComponets
             }
         }
 
-        public enum Direction
+        private void TextBoxResetValue(object sender)
         {
-            Left = -1,
-            Right = 1
+            _textBoxItems.Clear();
+            TextBox textBox = sender as TextBox;
+            if (textBox != null)
+            {
+                textBox.Text = _textBoxInitialValue;
+            }
+        }
+
+        private void IDGotFocusSelectIndex(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            _textBoxInitialValue = textBox?.Text;
+            TextBoxSetStartPosition(sender);
         }
     }
 }

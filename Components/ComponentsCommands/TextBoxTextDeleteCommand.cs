@@ -1,12 +1,7 @@
 ﻿using DelitaTrade.Commands;
 using DelitaTrade.Components.ComponetsViewModel;
 using DelitaTrade.Models.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DelitaTrade.Components.ComponentsCommands
 {
@@ -25,6 +20,19 @@ namespace DelitaTrade.Components.ComponentsCommands
             
         }
 
+        public override bool CanExecute(object? parameter)
+        {
+            return _searchBoxViewModel.Items.Contains(_searchBoxViewModel.Item)
+                && base.CanExecute(parameter);
+        }
+
+        public override void Execute(object? parameter)
+        {
+            _deleteColectionStringItem.DeleteItem(_searchBoxViewModel.Item);
+            _searchBoxViewModel.Item = string.Empty;
+
+        }
+
         private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(SearchBoxTextNotUpperDeletableItemViewModel.Item))
@@ -36,18 +44,6 @@ namespace DelitaTrade.Components.ComponentsCommands
         private void OnItemsChanged()
         {
             OnCanExecuteChanged();
-        }
-
-        public override bool CanExecute(object? parameter)
-        {
-            return _searchBoxViewModel.Items.Contains(_searchBoxViewModel.Item)
-                && base.CanExecute(parameter);
-        }
-
-        public override void Execute(object? parameter)
-        {
-            _deleteColectionStringItem.DeleteItem(_searchBoxViewModel.Item);
-            _searchBoxViewModel.Item = string.Empty;
         }
     }
 }

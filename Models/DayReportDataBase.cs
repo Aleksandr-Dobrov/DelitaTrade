@@ -1,35 +1,29 @@
-﻿using DelitaTrade.Interfaces.DayReport;
+﻿using DelitaTrade.Models.Interfaces.DayReports;
 using DelitaTrade.Models.Loggers;
-using DelitaTrade.ViewModels;
+using DelitaTrade.Models.DataProviders;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace DelitaTrade.Models
 {
     public class DayReportDataBase : IDayReportIdDataBese
     {
-        [DataMember]
-        private DayReport _dayReport;
-
-        private DelitaTradeDayReport _delitaTradeDayReport;
-
-        private List<string> _dayReportsID;
-
-        private Dictionary<string, List<string>> _invoicesId;
-
-        private List<string> _vehicles;
-
+        private const int _exor = 156;
         private const string _safeDataBasePath = "../../../DayReportsDataBase";
-
         private const string _invoicesIdFilePath = $"{_safeDataBasePath}/invoiceIdDataBase.dsc";
-
         private const string _dayReportIdFilePath = $"{_safeDataBasePath}/dayReportIdDataBase.dsc";
-
         private const string _vehiclesFilePath = $"{_safeDataBasePath}/vehiclesDataBase.dsc";
 
+        [DataMember]
+        private DayReport _dayReport;
+        private DelitaTradeDayReport _delitaTradeDayReport;
+
         private IDataBase<DayReport> _dayReportDataProvider;
+
+        private List<string> _dayReportsID;
+        private Dictionary<string, List<string>> _invoicesId;
+        private List<string> _vehicles;
 
         public DayReportDataBase(IDataBase<DayReport> dataBase, DelitaTradeDayReport delitaTradeDayReport)
         {
@@ -47,350 +41,14 @@ namespace DelitaTrade.Models
             _delitaTradeDayReport.CurrentDayReportUnselected -= OndayReportDesable;
         }
 
-        private void OndayReportEnable()
-        {
-            _delitaTradeDayReport.MoneyChanged += SaveChangedDayReportToDataBase;
-        }
-
-        private void OndayReportDesable()
-        {
-            _delitaTradeDayReport.MoneyChanged -= SaveChangedDayReportToDataBase;
-        }
-
-        private bool IsNewInvoice(string invoiceId)
-        {
-            return _invoicesId.ContainsKey(invoiceId) == false;
-        }
-
-        private bool IsUnpaidInvoice(string invoiceId)
-        {
-            List<string> dayReportId;
-            if (_invoicesId.TryGetValue(invoiceId, out dayReportId))
-            {
-                decimal amount = 0;
-                decimal totalIncome = 0;
-                string payMetod = string.Empty;
-
-                for (int i = (dayReportId.Count) - 1; i >= 0; i--)
-                {
-                    string[] invoices = dayReportId[i].Split(",", StringSplitOptions.RemoveEmptyEntries);
-                    
-                    _dayReportDataProvider.Path = SetDayReportFilePath(invoices[0]);                    
-                    var dayReport = _dayReportDataProvider.LoadAllData();                    
-                    var invoice = dayReport.GetAllInvoices().First(i => i.InvoiceID == invoiceId && i.Id == int.Parse(invoices[1]));
-
-                    totalIncome += invoice.Income;
-                    if (invoice.Amount > amount)
-                    { 
-                        amount = invoice.Amount;
-                    }
-                    payMetod = invoice.PayMethod;
-                }
-
-                
-                if ((payMetod == "В брой" || payMetod == "С карта" || payMetod == "Стара сметка") 
-                    && amount > totalIncome)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            throw new ArgumentException("Invoice is not exists in databa");
-        }
-
-        private decimal GetTotalIncomeFromInvoice(string invoiceId)
-        {
-            List<string> dayReportId;
-            if (_invoicesId.TryGetValue(invoiceId, out dayReportId))
-            {
-                decimal amount = 0;
-                decimal totalIncome = 0;
-                foreach (var day in dayReportId)
-                {
-                    _dayReportDataProvider.Path = SetDayReportFilePath(dayReportId[^1]);
-                    var dayReport = _dayReportDataProvider.LoadAllData();
-                    var invoice = dayReport.GetAllInvoices().First(i => i.InvoiceID == invoiceId);
-                    totalIncome += invoice.Income;
-                    if (invoice.Amount > amount)
-                    {
-                        amount = invoice.Amount;
-                    }
-                }
-                return totalIncome;
-            }
-            throw new InvalidOperationException("Invoice not found");
-        }
-
-        private void EncryptDataBaseFile(string filePath)
-        {
-            if (File.Exists(filePath))
-            {
-                using (FileStream encrypting = new FileStream(filePath, FileMode.Open))
-                {
-                    byte[] data = new byte[encrypting.Length];
-
-                    encrypting.Read(data, 0, data.Length);
-
-                    for (int i = 0; i < data.Length; i++)
-                    {
-                        data[i] = (byte)(data[i] ^ 156);
-                    }
-
-                    encrypting.Seek(0, SeekOrigin.Begin);
-                    encrypting.Write(data, 0, data.Length);
-                }
-            }
-        }
-
-        private string SetDayReportFilePath(string fileName)
-        {
-            string[] folders = fileName.Split('-');
-            string filePath = string.Empty;
-            if (folders.Length == 3)
-            {
-                string year = folders[0];
-                string month = folders[1];
-                filePath = $"{_safeDataBasePath}/{year}/{month}";
-            }
-            else
-            {
-                throw new ArgumentException("Incorrect report ID format! Format must be: [DD-MM-YYYY] ");
-            }
-
-            if (Directory.Exists(filePath) == false)
-            {
-                Directory.CreateDirectory(filePath);
-            }
-
-            return $"{filePath}/{fileName}.xml";
-        }
-
-        private void TryCreateSafeDirectory()
-        {
-
-            if (Directory.Exists(_safeDataBasePath) == false)
-            {
-                Directory.CreateDirectory(_safeDataBasePath);
-            }
-        }
-
-        private void TryLoadListStringsData(ref List<string> values, string filePath)
-        {
-            if (File.Exists(filePath))
-            {
-                values = new List<string>();
-                EncryptDataBaseFile(filePath);
-                values = File.ReadAllLines(filePath).ToList();
-                EncryptDataBaseFile(filePath);
-            }
-            else
-            {
-                values = new List<string>();
-            }
-        }
-
-        private void TryLoadDayReportData()
-        {
-            if (File.Exists(_dayReportIdFilePath))
-            {
-                _dayReportsID = new List<string>();
-                EncryptDataBaseFile(_dayReportIdFilePath);
-                _dayReportsID = File.ReadAllLines(_dayReportIdFilePath).ToList();
-                EncryptDataBaseFile(_dayReportIdFilePath);
-            }
-            else
-            {
-                _dayReportsID = new List<string>();
-            }
-            OnDayReportsIdChanged();
-            OnDayReportIdsLoadComplete(_dayReportsID);
-        }
-
-        private void TryLoadInvoiceIdData()
-        {
-            if (File.Exists(_invoicesIdFilePath))
-            {
-                _invoicesId = new Dictionary<string, List<string>>();
-                EncryptDataBaseFile(_invoicesIdFilePath);
-                string[] loadData = File.ReadAllLines(_invoicesIdFilePath);
-                EncryptDataBaseFile(_invoicesIdFilePath);
-                foreach (string line in loadData)
-                {
-                    string[] invoiceIdDayReportIds = line.Split('=');
-                    if (_invoicesId.ContainsKey(invoiceIdDayReportIds[0]))
-                    {
-                        _invoicesId[invoiceIdDayReportIds[0]].Add(invoiceIdDayReportIds[1]);
-                    }
-                    else
-                    {
-                        List<string> values = [invoiceIdDayReportIds[1]];
-                        _invoicesId.Add(invoiceIdDayReportIds[0], values);
-                    }                    
-                }
-            }
-            else
-            {
-                _invoicesId = new Dictionary<string, List<string>>();
-            }
-        }
-        
-        private void SaveInvoiceIdToDataBase(string invoiceId, string dayReportId, int id)
-        {
-            if (_invoicesId.ContainsKey(invoiceId))
-            {
-                _invoicesId[invoiceId].Add($"{dayReportId},{id}");
-            }
-            else
-            {
-                List<string> values = [$"{dayReportId},{id}"];
-                _invoicesId.Add(invoiceId, values);
-            }
-            EncryptDataBaseFile(_invoicesIdFilePath);
-            using (StreamWriter safeInvoiceId = new StreamWriter(_invoicesIdFilePath, true))
-            {
-                safeInvoiceId.WriteLine($"{invoiceId}={dayReportId},{id}");
-            }
-            EncryptDataBaseFile(_invoicesIdFilePath);
-        }
-
-        private void SaveAllInvoiceIdToDataBase()
-        {
-            EncryptDataBaseFile(_invoicesIdFilePath);
-            using (StreamWriter safeInvoiceId = new StreamWriter(_invoicesIdFilePath))
-            {
-                foreach (var invoice in _invoicesId)
-                {
-                    foreach (var dayReportId in invoice.Value)
-                    {
-                        safeInvoiceId.WriteLine($"{invoice.Key}={dayReportId}");
-                    }
-                }
-            }
-            EncryptDataBaseFile(_invoicesIdFilePath);
-        }
-
-        private void SaveDayReportIdToDataBase(string dayReportId)
-        {
-            _dayReportsID.Add(dayReportId);
-            EncryptDataBaseFile(_dayReportIdFilePath);
-            using (StreamWriter saveDayReportId = new StreamWriter(_dayReportIdFilePath, true))
-            {
-                saveDayReportId.WriteLine($"{dayReportId}");
-            }
-            EncryptDataBaseFile(_dayReportIdFilePath);
-            OnDayReportsIdChanged();
-            OnDayReportIdAdd(dayReportId);
-        }
-
-        private void SaveAllReportIdToDataBase()
-        {
-            EncryptDataBaseFile(_dayReportIdFilePath);
-            using (StreamWriter saveDayReportId = new StreamWriter(_dayReportIdFilePath))
-            {
-                foreach (var dayreportId in _dayReportsID)
-                {
-                    saveDayReportId.WriteLine($"{dayreportId}");
-                }
-            }
-            EncryptDataBaseFile(_dayReportIdFilePath);
-            OnDayReportsIdChanged();
-        }
-
-        private void SaveAllListStringsToDataBase(ref List<string> values, string filePath)
-        {
-            EncryptDataBaseFile(filePath);
-            using (StreamWriter saveValues = new StreamWriter(filePath))
-            {
-                foreach (var value in values)
-                {
-                    saveValues.WriteLine($"{value}");
-                }
-            }
-            EncryptDataBaseFile(filePath);
-        }
-
-        private void SaveDayReportToDataBase(DayReport dayReport)
-        {
-            _dayReportDataProvider.Path = SetDayReportFilePath(dayReport.DayReportID);
-            _dayReportDataProvider.SaveAllData(dayReport);
-        }
-
-        private void SaveChangedDayReportToDataBase()
-        {
-            SaveDayReportToDataBase(_dayReport);
-        }
-
-        private bool IsNewDayReport(string dayReportId)
-        {
-            if (_dayReportsID.Contains(dayReportId) == false)
-            {                               
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        private void CreateDayReportInDataBase(DayReport dayReport)
-        {
-            SaveDayReportToDataBase(dayReport);
-            SaveDayReportIdToDataBase(dayReport.DayReportID);
-        }
-
-        private void LoadDayReportFromDataBase(string dayReportId)
-        {
-            _dayReportDataProvider.Path = SetDayReportFilePath(dayReportId);
-            _dayReport = _dayReportDataProvider.LoadAllData();
-        }
-
-        private void OnDayReportsIdChanged()
-        {
-            DayReportsIdChanged?.Invoke();
-        }
-
-        private void OnDayReportIdsLoadComplete(List<string> dayReportIds)
-        {
-            DayReportIdsLoad.Invoke(dayReportIds);
-        }
-
-        private void RemoveInvoiceIdFromDayReport(string dayReportId, string invoiceId, int id)
-        {
-            if (_invoicesId.ContainsKey(invoiceId) && _invoicesId[invoiceId].Contains($"{dayReportId},{id}"))
-            {
-                if (_invoicesId[invoiceId].Count > 1)
-                {
-                    _invoicesId[invoiceId].Remove($"{dayReportId},{id}");
-                }
-                else
-                {
-                    _invoicesId.Remove(invoiceId);
-                }
-            }
-            else 
-            {
-                throw new InvalidOperationException("Invoice can`t be remove!");
-            }
-        }
-
-        private void OnDayReportIdAdd(string dayReportId)
-        {
-            DayReportIdAdd.Invoke(dayReportId);
-        }
-
-        private void OnDayReportIdRemove(string dayReportId)
-        {
-            DayReportIdRemove.Invoke(dayReportId);
-        }
-
         public event Action DayReportsIdChanged;
-
         public event Action<List<string>> DayReportIdsLoad;
         public event Action<string> DayReportIdAdd;
         public event Action<string> DayReportIdRemove;
+
+        public IEnumerable<string> DayReportsId => _dayReportsID;
+
+        public IEnumerable<string> Vehicles => _vehicles;
 
         public DayReport CreateDayReport(string dayReportID)
         {
@@ -567,6 +225,323 @@ namespace DelitaTrade.Models
             return IsNewInvoice(invoiceId);
         }
 
+        private void OndayReportEnable()
+        {
+            _delitaTradeDayReport.MoneyChanged += SaveChangedDayReportToDataBase;
+        }
+
+        private void OndayReportDesable()
+        {
+            _delitaTradeDayReport.MoneyChanged -= SaveChangedDayReportToDataBase;
+        }
+
+        private bool IsNewInvoice(string invoiceId)
+        {
+            return _invoicesId.ContainsKey(invoiceId) == false;
+        }
+
+        private bool IsUnpaidInvoice(string invoiceId)
+        {
+            List<string> dayReportId;
+            if (_invoicesId.TryGetValue(invoiceId, out dayReportId))
+            {
+                decimal amount = 0;
+                decimal totalIncome = 0;
+                string payMetod = string.Empty;
+
+                for (int i = (dayReportId.Count) - 1; i >= 0; i--)
+                {
+                    string[] invoices = dayReportId[i].Split(",", StringSplitOptions.RemoveEmptyEntries);
+                    
+                    _dayReportDataProvider.Path = SetDayReportFilePath(invoices[0]);                    
+                    var dayReport = _dayReportDataProvider.LoadAllData();                    
+                    var invoice = dayReport.GetAllInvoices().First(i => i.InvoiceID == invoiceId && i.Id == int.Parse(invoices[1]));
+
+                    totalIncome += invoice.Income;
+                    if (invoice.Amount > amount)
+                    { 
+                        amount = invoice.Amount;
+                    }
+                    payMetod = invoice.PayMethod;
+                }
+                                
+                if ((payMetod == "В брой" || payMetod == "С карта" || payMetod == "Стара сметка") 
+                    && amount > totalIncome)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            throw new ArgumentException("Invoice is not exists in databa");
+        }
+
+        private decimal GetTotalIncomeFromInvoice(string invoiceId)
+        {
+            List<string> dayReportId;
+            if (_invoicesId.TryGetValue(invoiceId, out dayReportId))
+            {
+                decimal amount = 0;
+                decimal totalIncome = 0;
+                foreach (var day in dayReportId)
+                {
+                    _dayReportDataProvider.Path = SetDayReportFilePath(dayReportId[^1]);
+                    var dayReport = _dayReportDataProvider.LoadAllData();
+                    var invoice = dayReport.GetAllInvoices().First(i => i.InvoiceID == invoiceId);
+                    totalIncome += invoice.Income;
+                    if (invoice.Amount > amount)
+                    {
+                        amount = invoice.Amount;
+                    }
+                }
+                return totalIncome;
+            }
+            throw new InvalidOperationException("Invoice not found");
+        }
+
+        private string SetDayReportFilePath(string fileName)
+        {
+            string[] folders = fileName.Split('-');
+            string filePath = string.Empty;
+            if (folders.Length == 3)
+            {
+                string year = folders[0];
+                string month = folders[1];
+                filePath = $"{_safeDataBasePath}/{year}/{month}";
+            }
+            else
+            {
+                throw new ArgumentException("Incorrect report ID format! Format must be: [DD-MM-YYYY] ");
+            }
+
+            if (Directory.Exists(filePath) == false)
+            {
+                Directory.CreateDirectory(filePath);
+            }
+
+            return $"{filePath}/{fileName}.xml";
+        }
+
+        private void TryCreateSafeDirectory()
+        {
+
+            if (Directory.Exists(_safeDataBasePath) == false)
+            {
+                Directory.CreateDirectory(_safeDataBasePath);
+            }
+        }
+
+        private void TryLoadListStringsData(ref List<string> values, string filePath)
+        {
+            if (File.Exists(filePath))
+            {
+                values = new List<string>();
+                DataFileEncryptProvider.EncryptDataBaseFile(filePath, _exor);
+                values = File.ReadAllLines(filePath).ToList();
+                DataFileEncryptProvider.EncryptDataBaseFile(filePath, _exor);
+            }
+            else
+            {
+                values = new List<string>();
+            }
+        }
+
+        private void TryLoadDayReportData()
+        {
+            if (File.Exists(_dayReportIdFilePath))
+            {
+                _dayReportsID = new List<string>();
+                DataFileEncryptProvider.EncryptDataBaseFile(_dayReportIdFilePath, _exor);
+                _dayReportsID = File.ReadAllLines(_dayReportIdFilePath).ToList();
+                DataFileEncryptProvider.EncryptDataBaseFile(_dayReportIdFilePath, _exor);
+            }
+            else
+            {
+                _dayReportsID = new List<string>();
+            }
+            OnDayReportsIdChanged();
+            OnDayReportIdsLoadComplete(_dayReportsID);
+        }
+
+        private void TryLoadInvoiceIdData()
+        {
+            if (File.Exists(_invoicesIdFilePath))
+            {
+                _invoicesId = new Dictionary<string, List<string>>();
+                DataFileEncryptProvider.EncryptDataBaseFile(_invoicesIdFilePath, _exor);
+                string[] loadData = File.ReadAllLines(_invoicesIdFilePath);
+                DataFileEncryptProvider.EncryptDataBaseFile(_invoicesIdFilePath, _exor);
+                foreach (string line in loadData)
+                {
+                    string[] invoiceIdDayReportIds = line.Split('=');
+                    if (_invoicesId.ContainsKey(invoiceIdDayReportIds[0]))
+                    {
+                        _invoicesId[invoiceIdDayReportIds[0]].Add(invoiceIdDayReportIds[1]);
+                    }
+                    else
+                    {
+                        List<string> values = [invoiceIdDayReportIds[1]];
+                        _invoicesId.Add(invoiceIdDayReportIds[0], values);
+                    }                    
+                }
+            }
+            else
+            {
+                _invoicesId = new Dictionary<string, List<string>>();
+            }
+        }
+        
+        private void SaveInvoiceIdToDataBase(string invoiceId, string dayReportId, int id)
+        {
+            if (_invoicesId.ContainsKey(invoiceId))
+            {
+                _invoicesId[invoiceId].Add($"{dayReportId},{id}");
+            }
+            else
+            {
+                List<string> values = [$"{dayReportId},{id}"];
+                _invoicesId.Add(invoiceId, values);
+            }
+            DataFileEncryptProvider.EncryptDataBaseFile(_invoicesIdFilePath, _exor);
+            using (StreamWriter safeInvoiceId = new StreamWriter(_invoicesIdFilePath, true))
+            {
+                safeInvoiceId.WriteLine($"{invoiceId}={dayReportId},{id}");
+            }
+            DataFileEncryptProvider.EncryptDataBaseFile(_invoicesIdFilePath, _exor);
+        }
+
+        private void SaveAllInvoiceIdToDataBase()
+        {
+            DataFileEncryptProvider.EncryptDataBaseFile(_invoicesIdFilePath, _exor);
+            using (StreamWriter safeInvoiceId = new StreamWriter(_invoicesIdFilePath))
+            {
+                foreach (var invoice in _invoicesId)
+                {
+                    foreach (var dayReportId in invoice.Value)
+                    {
+                        safeInvoiceId.WriteLine($"{invoice.Key}={dayReportId}");
+                    }
+                }
+            }
+            DataFileEncryptProvider.EncryptDataBaseFile(_invoicesIdFilePath, _exor);
+        }
+
+        private void SaveDayReportIdToDataBase(string dayReportId)
+        {
+            _dayReportsID.Add(dayReportId);
+            DataFileEncryptProvider.EncryptDataBaseFile(_dayReportIdFilePath, _exor);
+            using (StreamWriter saveDayReportId = new StreamWriter(_dayReportIdFilePath, true))
+            {
+                saveDayReportId.WriteLine($"{dayReportId}");
+            }
+            DataFileEncryptProvider.EncryptDataBaseFile(_dayReportIdFilePath, _exor);
+            OnDayReportsIdChanged();
+            OnDayReportIdAdd(dayReportId);
+        }
+
+        private void SaveAllReportIdToDataBase()
+        {
+            DataFileEncryptProvider.EncryptDataBaseFile(_dayReportIdFilePath, _exor);
+            using (StreamWriter saveDayReportId = new StreamWriter(_dayReportIdFilePath))
+            {
+                foreach (var dayreportId in _dayReportsID)
+                {
+                    saveDayReportId.WriteLine($"{dayreportId}");
+                }
+            }
+            DataFileEncryptProvider.EncryptDataBaseFile(_dayReportIdFilePath, _exor);
+            OnDayReportsIdChanged();
+        }
+
+        private void SaveAllListStringsToDataBase(ref List<string> values, string filePath)
+        {
+            DataFileEncryptProvider.EncryptDataBaseFile(filePath, _exor);
+            using (StreamWriter saveValues = new StreamWriter(filePath))
+            {
+                foreach (var value in values)
+                {
+                    saveValues.WriteLine($"{value}");
+                }
+            }
+            DataFileEncryptProvider.EncryptDataBaseFile(filePath, _exor);
+        }
+
+        private void SaveDayReportToDataBase(DayReport dayReport)
+        {
+            _dayReportDataProvider.Path = SetDayReportFilePath(dayReport.DayReportID);
+            _dayReportDataProvider.SaveAllData(dayReport);
+        }
+
+        private void SaveChangedDayReportToDataBase()
+        {
+            SaveDayReportToDataBase(_dayReport);
+        }
+
+        private bool IsNewDayReport(string dayReportId)
+        {
+            if (_dayReportsID.Contains(dayReportId) == false)
+            {                               
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private void CreateDayReportInDataBase(DayReport dayReport)
+        {
+            SaveDayReportToDataBase(dayReport);
+            SaveDayReportIdToDataBase(dayReport.DayReportID);
+        }
+
+        private void LoadDayReportFromDataBase(string dayReportId)
+        {
+            _dayReportDataProvider.Path = SetDayReportFilePath(dayReportId);
+            _dayReport = _dayReportDataProvider.LoadAllData();
+        }
+
+        private void OnDayReportsIdChanged()
+        {
+            DayReportsIdChanged?.Invoke();
+        }
+
+        private void OnDayReportIdsLoadComplete(List<string> dayReportIds)
+        {
+            DayReportIdsLoad.Invoke(dayReportIds);
+        }
+
+        private void RemoveInvoiceIdFromDayReport(string dayReportId, string invoiceId, int id)
+        {
+            if (_invoicesId.ContainsKey(invoiceId) && _invoicesId[invoiceId].Contains($"{dayReportId},{id}"))
+            {
+                if (_invoicesId[invoiceId].Count > 1)
+                {
+                    _invoicesId[invoiceId].Remove($"{dayReportId},{id}");
+                }
+                else
+                {
+                    _invoicesId.Remove(invoiceId);
+                }
+            }
+            else 
+            {
+                throw new InvalidOperationException("Invoice can`t be remove!");
+            }
+        }
+
+        private void OnDayReportIdAdd(string dayReportId)
+        {
+            DayReportIdAdd.Invoke(dayReportId);
+        }
+
+        private void OnDayReportIdRemove(string dayReportId)
+        {
+            DayReportIdRemove.Invoke(dayReportId);
+        }
+
         private bool IsValidLicencePlate(string vehicle)
         {
             if (vehicle.Length == 10)
@@ -599,9 +574,5 @@ namespace DelitaTrade.Models
                 return false;
             }
         }
-
-        public IEnumerable<string> DayReportsId => _dayReportsID;
-
-        public IEnumerable<string> Vehicles => _vehicles;
     }
 }

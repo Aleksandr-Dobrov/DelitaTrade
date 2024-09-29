@@ -1,5 +1,4 @@
 ﻿using DelitaTrade.Models.Loggers;
-using DelitaTrade.ViewModels;
 using DelitaTrade.Views.ViewComponets;
 using System.Windows;
 using System.Windows.Controls;
@@ -80,11 +79,6 @@ namespace DelitaTrade.Views
                 new MessageBoxLogger().Log(ex, Logger.LogLevel.Error);
                 _incomeViewComponent.ResetCurrencyValue(sender);
             }
-        }
-
-        private void ListView_Selected(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

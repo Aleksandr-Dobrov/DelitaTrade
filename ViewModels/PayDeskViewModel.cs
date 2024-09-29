@@ -7,17 +7,13 @@ namespace DelitaTrade.ViewModels
     public class PayDeskViewModel : ViewModelBase
     {
         private readonly DelitaTradeDayReport _dayReportCreator;
-
         private readonly Dictionary<decimal, BanknoteViewModel> _banknoteViewModels;
 
         private static string iconPath = string.Empty;
-
         private string _income;
         private string _amount;
         private string _neededAmount;
         private string _neededColor = "Transparent";
-
-        public Dictionary<decimal, BanknoteViewModel> BanknoteViewModel => _banknoteViewModels;
 
         public PayDeskViewModel(DelitaTradeDayReport delitaTradeDayReport)
         {
@@ -52,6 +48,57 @@ namespace DelitaTrade.ViewModels
                 100m, $"{iconPath}100lv.png");
             delitaTradeDayReport.DayReportDataChanged += GetAllBanknotes;
             delitaTradeDayReport.TotalsChanged += OnDayReportTotalsChanged;                     
+        }
+
+        public Dictionary<decimal, BanknoteViewModel> BanknoteViewModel => _banknoteViewModels;
+
+        public string Amount
+        {
+            get => _amount;
+            set 
+            {
+                _amount = value;
+                OnPropertyChange();
+            }
+        }
+
+        public string Income
+        {
+            get => _income;
+            set 
+            {
+                _income = value;
+                OnPropertyChange();
+            }
+        }
+
+        public string NeededAmount
+        {
+            get => _neededAmount;
+            set
+            {
+                _neededAmount = value;
+                OnPropertyChange();
+            }
+        }
+        
+        public string NeededColor
+        {
+            get => _neededColor;
+            set 
+            {
+                _neededColor = value;
+                OnPropertyChange();
+            }
+        }
+
+        public void GetAllBanknotes()
+        {
+            foreach (var model in _dayReportCreator.GetAllBanknotes())
+            {
+                _banknoteViewModels[model.Key].TotalCount = model.Value;
+            }
+            CalculateAmount();
         }
 
         private void GetIconFilePath()
@@ -94,58 +141,5 @@ namespace DelitaTrade.ViewModels
                     break;
             }
         }
-
-        public string Amount
-        {
-            get => _amount;
-            set 
-            {
-                _amount = value;
-                OnPropertyChange();
-            }
-        }
-
-
-
-
-        public string Income
-        {
-            get => _income;
-            set 
-            {
-                _income = value;
-                OnPropertyChange();
-            }
-        }
-
-        public string NeededAmount
-        {
-            get => _neededAmount;
-            set
-            {
-                _neededAmount = value;
-                OnPropertyChange();
-            }
-        }
-        
-        public string NeededColor
-        {
-            get => _neededColor;
-            set 
-            {
-                _neededColor = value;
-                OnPropertyChange();
-            }
-        }
-
-        public void GetAllBanknotes()
-        {
-            foreach (var model in _dayReportCreator.GetAllBanknotes())
-            {
-                _banknoteViewModels[model.Key].TotalCount = model.Value;
-            }
-            CalculateAmount();
-        }
-
     }
 }

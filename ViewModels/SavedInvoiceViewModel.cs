@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DelitaTrade.ViewModels
+﻿namespace DelitaTrade.ViewModels
 {
     public class SavedInvoiceViewModel
     {
@@ -39,7 +32,6 @@ namespace DelitaTrade.ViewModels
                 _previousCompanyName = _companyName;
                 _previousObjectName = _objectName;
             }
-
             _invoiceId = dayReportsViewModel.InvoiceID;
         }
 
@@ -53,6 +45,5 @@ namespace DelitaTrade.ViewModels
             dayReportsViewModel.Amount = _amount;
             dayReportsViewModel.Weight = _weight;
         }
-
     }
 }

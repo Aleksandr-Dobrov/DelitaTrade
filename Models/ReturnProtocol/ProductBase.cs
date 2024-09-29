@@ -1,10 +1,5 @@
-﻿using DelitaTrade.Interfaces.ReturnProtocol;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using DelitaTrade.Models.Interfaces.ReturnProtocol;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DelitaTrade.Models.ReturnProtocol
 {

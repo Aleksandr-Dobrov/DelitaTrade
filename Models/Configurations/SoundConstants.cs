@@ -26,9 +26,8 @@ namespace DelitaTrade.Models.Configurations
         public const string RemoveInvoiceDefaulSourceName = "removeInvoiceDefaultSourceName";
         public const bool RemoveInvoiceDefaultValue = true;
         public const string RemoveInvoiceDefaultSource = "../../../Sounds/DayReport/327894__kreastricon62__bush-cut.wav";
+    }
 
-
-}
     public enum SoundEfect
     {        
         Cash,

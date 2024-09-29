@@ -1,5 +1,4 @@
 ﻿using Microsoft.Office.Interop.Excel;
-using System.Drawing;
 using _Excel = Microsoft.Office.Interop.Excel;
 
 namespace DelitaTrade.Models.Builder

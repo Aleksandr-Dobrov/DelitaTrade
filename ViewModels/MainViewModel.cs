@@ -1,6 +1,4 @@
-﻿using DelitaTrade.Components;
-using DelitaTrade.Components.ComponetsViewModel;
-using DelitaTrade.Models.ReturnProtocol;
+﻿using DelitaTrade.Components.ComponetsViewModel;
 using DelitaTrade.ViewModels.ReturnProtocolViewModels;
 using DelitaTrade.Models;
 using DelitaTrade.Stores;
@@ -10,11 +8,7 @@ namespace DelitaTrade.ViewModels
     public class MainViewModel : ViewModelBase
     {
         private ViewModelsStore _viewModelsStore;
-
         private NavigationBarViewModel _navigationBarViewModel;
-        public ViewModelBase CurrentViewModel => _viewModelsStore.CurrentViewModel;
-
-        public NavigationBarViewModel NavigationBarViewModel => _navigationBarViewModel;
 
         public MainViewModel(DelitaTradeCompany delitaTrade, DelitaTradeDayReport dayReportCreator)
         {
@@ -28,6 +22,9 @@ namespace DelitaTrade.ViewModels
             _navigationBarViewModel = new NavigationBarViewModel(_viewModelsStore);
             _viewModelsStore.SetViewModel<AddNewCompanyViewModel>();
         }
+
+        public ViewModelBase CurrentViewModel => _viewModelsStore.CurrentViewModel;
+        public NavigationBarViewModel NavigationBarViewModel => _navigationBarViewModel;
 
         private void OnViewModelChanged()
         { 

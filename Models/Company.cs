@@ -1,4 +1,4 @@
-﻿using DelitaTrade.Interfaces.ReturnProtocol;
+﻿using DelitaTrade.Models.Interfaces.ReturnProtocol;
 using DelitaTrade.Models.ReturnProtocol;
 using System.Runtime.Serialization;
 
@@ -18,7 +18,6 @@ namespace DelitaTrade.Models
         [DataMember]
         private List<CompanyObject> _objects;
 
-        public event Action ObjectsDataBaseChange;
         public Company(string name, string type, string bulstad)
         {
             _name = name;
@@ -26,17 +25,15 @@ namespace DelitaTrade.Models
             _bulstad = bulstad;
             _objects = new List<CompanyObject>();
         }
+
+        public event Action ObjectsDataBaseChange;
+
         public string SearchParametr => FullName;
         public string FullName => $"{Name} {Type}";
-        public string Name { get => _name; }
-        public string Type { get => _type; }
-        public string Bulstad { get => _bulstad; }
-        public int ObjectsCount { get => _objects.Count;}
-
-        private void UpdateObjectsDataBase()
-        {
-            ObjectsDataBaseChange?.Invoke();
-        }
+        public string Name => _name;
+        public string Type => _type;
+        public string Bulstad => _bulstad;
+        public int ObjectsCount => _objects.Count;
 
         public void TryAddNewObject(CompanyObject newCompanyObject)
         {
@@ -79,6 +76,11 @@ namespace DelitaTrade.Models
         public SearchMethod GetSearchMethod()
         {
             return SearchMethod.CompanyName;
+        }
+
+        private void UpdateObjectsDataBase()
+        {
+            ObjectsDataBaseChange?.Invoke();
         }
     }
 }

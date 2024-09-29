@@ -6,11 +6,11 @@ namespace DelitaTrade.Models
 {
     public class StringListDataBase : IEnumerable<string>, IDeleteColectionStringItem
     {
+        private readonly DataStringProvider _dataStringProvider;
+
         private List<string> _colection;
 
         private readonly string _title;
-
-        private readonly DataStringProvider _dataStringProvider;
 
         public StringListDataBase(string filePath, string title)
         {
@@ -20,14 +20,9 @@ namespace DelitaTrade.Models
             ColectionChainge += () => { };
         }
 
-        public string Title => _title;
-
         public event Action ColectionChainge;
 
-        private void Save()
-        {
-            _dataStringProvider.SaveAllToDataBase(this);
-        }
+        public string Title => _title;
 
         public void Add(string item)
         {
@@ -56,14 +51,18 @@ namespace DelitaTrade.Models
             }
         }
 
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-                
-
         public void DeleteItem(string item)
         {
             _colection.Remove(item);
             Save();
             ColectionChainge();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        private void Save()
+        {
+            _dataStringProvider.SaveAllToDataBase(this);
         }
     }
 }

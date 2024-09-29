@@ -1,4 +1,4 @@
-﻿using DelitaTrade.Interfaces.ReturnProtocol;
+﻿using DelitaTrade.Models.Interfaces.ReturnProtocol;
 using System.Collections;
 using System.Runtime.Serialization;
 
@@ -21,7 +21,6 @@ namespace DelitaTrade.Models.ReturnProtocol
         private bool _bankPay;
         [DataMember]
         private string _payMethod;
-
         [DataMember]
         private string _trader;
         [DataMember]
@@ -55,6 +54,7 @@ namespace DelitaTrade.Models.ReturnProtocol
         public string ObjectAddress => _objectAddress;
         public string UserName => _userName;
         public string DateString => _date.ToString("dd-MM-yyyy");
+
         public string Trader
         {
             get => _trader;
@@ -67,6 +67,7 @@ namespace DelitaTrade.Models.ReturnProtocol
             //ToDo - do date validation.
             set => _date = value;
         }
+
         public string PayMethod
         {
             get => _payMethod;

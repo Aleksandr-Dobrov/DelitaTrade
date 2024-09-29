@@ -21,12 +21,11 @@ namespace DelitaTrade.Models.SoundPlayers
             }
             _soundPlayer.Play();
         }
+
         private void Initialized(SoundBase sound)
         {
             _soundPlayer = new SoundPlayer(sound.Source);
             _loadedSound = sound;
         }
-
-
     }
 }

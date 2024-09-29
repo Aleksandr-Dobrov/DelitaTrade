@@ -34,9 +34,7 @@ namespace DelitaTrade.Commands
 
         public override void Execute(object? parameter)
         {
-            MessageBoxResult boxResult = MessageBox.Show($"Delete invoice: {_dayReportsViewModel.SelectedInvoiceViewModel.InvoiceID}?"
-                                                       , "Delete?", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (boxResult == MessageBoxResult.Yes)
+            if (Agreement("Delete invoice", _dayReportsViewModel.SelectedInvoiceViewModel.InvoiceID))
             {
                 _dayReport.RemoveInvoice(_dayReportsViewModel.SelectedInvoiceViewModel.InvoiceID, _dayReportsViewModel.SelectedInvoiceViewModel.Id);
             }

@@ -1,9 +1,4 @@
-﻿using DelitaTrade.Interfaces.ReturnProtocol;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DelitaTrade.Models.Interfaces.ReturnProtocol;
 
 namespace DelitaTrade.Models.ReturnProtocol
 {

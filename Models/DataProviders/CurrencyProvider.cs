@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DelitaTrade.Models.DataProviders
+﻿namespace DelitaTrade.Models.DataProviders
 {
     public class CurrencyProvider
     {
@@ -32,6 +26,7 @@ namespace DelitaTrade.Models.DataProviders
             {
                 currency = $"{dec:C2}";
             }
+
             char separator = ' ';
             int indexOfSeparator = -1;
             int indexOfCurrency = -1;

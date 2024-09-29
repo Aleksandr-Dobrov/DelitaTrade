@@ -2,7 +2,7 @@
 using DelitaTrade.Components.ComponetsViewModel;
 using DelitaTrade.Models;
 using DelitaTrade.Models.DataProviders;
-using DelitaTrade.ViewModels.FileDirectoryProvider;
+using DelitaTrade.Models.DataProviders.FileDirectoryProvider;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -13,43 +13,31 @@ namespace DelitaTrade.ViewModels
 {
     public class DayReportsViewModel : ViewModelBase
     {
-        private CurrencyProvider _currencyProvider;
-        private AddNewCompanyViewModel _addNewCompanyViewModel;
-
-        private PayMethodBoxViewModel _payMethodBoxViewModel;
-
-        private LoadDayReportBoxViewModel _loadDayReportBoxViewModel;
-
-        private DayReportTotalsViewModel _dayReportTotalsViewModel;
-
-        private ObservableCollection<InvoiceViewModel> _invoices;
-        private InvoiceViewModel _selectedInvoiceViewModel;
-
-        private DelitaTradeDayReport _delitaTradeDayReport;
-
-        private CurrentDayReportViewModel _currentDayReportViewModel;
-
-        private ObservableCollection<string> _dayReporsId;
-
-        private DayReportIdViewModel _dayReportIdViewModel;
-
-        private DateTime _date = DateTime.Now.Date;
-
         private const string _defaultInvoiceID = "1000000000";
         private const string _lightGreenColor = "#FF90EE90";
         private const string _orangeYellowColor = "#FFFFBD00";
         private const string _unselectDayReportColor = "Red";
         private const string _selectDayReportColor = "#FF3BEB23";
 
-        private string _addOrUpdateCommand = "Add";
+        private CurrencyProvider _currencyProvider;
+        private AddNewCompanyViewModel _addNewCompanyViewModel;
+        private PayMethodBoxViewModel _payMethodBoxViewModel;
+        private DayReportTotalsViewModel _dayReportTotalsViewModel;
+        private ObservableCollection<InvoiceViewModel> _invoices;
+        private InvoiceViewModel _selectedInvoiceViewModel;
+        private DelitaTradeDayReport _delitaTradeDayReport;
+        private CurrentDayReportViewModel _currentDayReportViewModel;
+        private DayReportIdViewModel _dayReportIdViewModel;
+        private DateTime _date = DateTime.Now.Date;
+        private ObservableCollection<string> _dayReporsId;
 
+        private string _addOrUpdateCommand = "Add";
         private double _weight;
         private decimal _income;
         private decimal _amount;
         private string _invoiceID = _defaultInvoiceID;
         private string _dayReportColor = _unselectDayReportColor;
         private string _addButtonColor = _lightGreenColor;
-
         private bool _isPayMethodLoad = false;
 
         public DayReportsViewModel(DelitaTradeDayReport delitaTradeDayReport, ViewModelBase addNewCompanyViewModel)
@@ -72,6 +60,32 @@ namespace DelitaTrade.ViewModels
             OnEnable();
         }
 
+        public event Action PaymentChange;
+        public event Action LoadInvoice;
+        public event Action AmountChange;
+        public event Action InvoiceColectionChange;        
+        
+        public IEnumerable<string> DayReportsId => _dayReporsId;
+        public IEnumerable<InvoiceViewModel> Invoices => _invoices;
+        public SearchBoxViewModel SearchBox => _addNewCompanyViewModel.SearchBox;
+        public SearchBoxObjectViewModel SearchBoxObject => _addNewCompanyViewModel.SearchBoxObject;
+        public PayMethodBoxViewModel PayMethodBox => _payMethodBoxViewModel;
+        public DayReportTotalsViewModel DayReportTotalsViewModel => _dayReportTotalsViewModel;
+        public DayReportIdViewModel DayReportIdViewModel => _dayReportIdViewModel;
+        public CurrentDayReportViewModel CurrentDayReportViewModel => _currentDayReportViewModel;
+        public string LoadDayReportId => _dayReportIdViewModel.DayReportId;
+        public string DayReportId => _currentDayReportViewModel.DayReportId;
+        public string DayReportColor => _dayReportColor;
+        public decimal DecimalAmount => _amount;
+        public decimal DecimalIncome => _income;
+        public double DoubleWeight => _weight;
+
+        public string DeleteDayReportButtonImage => FileSoursePath.GetFullFilePath("Components\\ComponentAssets\\DayReport\\delete-file_40456.png");
+        public string CreateDayReportButtonImage => FileSoursePath.GetFullFilePath("Components\\ComponentAssets\\DayReport\\add-document.png");
+        public string AddInvoiceButtonImage => FileSoursePath.GetFullFilePath("Components\\ComponentAssets\\DayReport\\add.png");
+        public string UpdateInvoiceButtonImage => FileSoursePath.GetFullFilePath("Components\\ComponentAssets\\DayReport\\update.png");
+        public string DeleteInvoiceButtonImage => FileSoursePath.GetFullFilePath("Components\\ComponentAssets\\DayReport\\remove.png");
+
         public InvoiceViewModel SelectedInvoiceViewModel
         {
             get { return _selectedInvoiceViewModel; }
@@ -81,36 +95,124 @@ namespace DelitaTrade.ViewModels
                 OnPropertyChange();
             }
         }
-        
-        public SearchBoxViewModel SearchBox => _addNewCompanyViewModel.SearchBox;
 
-        public SearchBoxObjectViewModel SearchBoxObject => _addNewCompanyViewModel.SearchBoxObject;
+        public string Date
+        {
+            get => _date.ToString("yyyy-MM-dd");
+            set
+            {
+                try
+                {
+                    if (DateTime.TryParse(value, out _date) == false)
+                    {
+                        throw new ArgumentException("Day report date ID is incorrect");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    _date = DateTime.Now.Date;
+                }
+                OnPropertyChange();
+            }
+        }
 
-        public PayMethodBoxViewModel PayMethodBox => _payMethodBoxViewModel;
+        public string InvoiceID
+        {
+            get => _invoiceID;
+            set
+            {
+                if (CheckInvoceIdIsValid(value))
+                {
+                    _invoiceID = value;
+                    OnPropertyChange();
+                }
+            }
+        }
 
-        public DayReportTotalsViewModel DayReportTotalsViewModel => _dayReportTotalsViewModel;
+        public string AddButtonColor
+        {
+            get => _addButtonColor;
+            set
+            {
+                _addButtonColor = value;
+                OnPropertyChange();
+            }
+        }
 
-        public LoadDayReportBoxViewModel LoadDayReportsIdBox => _loadDayReportBoxViewModel;
+        public string AddOrUpdateTextCommand
+        {
+            get => _addOrUpdateCommand;
+            set
+            {
+                _addOrUpdateCommand = value;
+                OnPropertyChange();
+            }
+        }
 
-        public DayReportIdViewModel DayReportIdViewModel => _dayReportIdViewModel;
+        public string CompanyType
+        {
+            get => _addNewCompanyViewModel.CompanyType;
+            set
+            {
+                _addNewCompanyViewModel.CompanyType = value;
+                OnPropertyChange();
+            }
+        }
 
-        public CurrentDayReportViewModel CurrentDayReportViewModel => _currentDayReportViewModel;
+        public string Amount
+        {
+            get => $"{_amount:C2}";
+            set
+            {
+                _amount = _currencyProvider.GetDecimalValue(value);
+                OnAmountChange();
+                OnPropertyChange();
+            }
+        }
 
-        public string LoadDayReportId => _dayReportIdViewModel.DayReportId;
+        public string Income
+        {
+            get => $"{_income:C2}";
+            set
+            {
+                _income = _currencyProvider.GetDecimalValue(value);
+                SetIncomeViaPaymentStatus(PayMethodBox.PayMethodText);
+                OnPropertyChange();
+            }
+        }
 
-        public string DayReportId => _currentDayReportViewModel.DayReportId;
+        public string Weight
+        {
+            get => $"{_weight:F2} kg.";
+            set
+            {
+                double.TryParse(value, out _weight);
+                OnPropertyChange();
+            }
+        }
 
-        public IEnumerable<string> DayReportsId => _dayReporsId;
+        public bool IsUnpaidInvoice(string invoiceId)
+        {
+            if (invoiceId != null && IsNewInvoice(invoiceId) == false)
+            {
+                return _delitaTradeDayReport.CheckIsUnpaidInvoice(invoiceId);
+            }
+            return false;
+        }
 
-        public IEnumerable<InvoiceViewModel> Invoices => _invoices;
+        public bool IsNewInvoice(string invoiceId)
+        {
+            if (invoiceId == null) return false;
+            return _delitaTradeDayReport.CheckIsNewInvoice(invoiceId);
+        }
 
-        public event Action PaymentChange;
-
-        public event Action LoadInvoice;
-
-        public event Action AmountChange;
-
-        public event Action InvoiceColectionChange;        
+        public ICommand AddInvoiceCommand { get; }
+        public ICommand RemoveInvoiceCommand { get; }
+        public ICommand CreateNewDayReportCommand { get; }
+        public ICommand LoadDayReportCommand { get; }
+        public ICommand DeleteDayReportCommand { get; }
+        public ICommand UpdateInvoiceCommand { get; }
 
         private void OnEnable()
         {
@@ -320,29 +422,6 @@ namespace DelitaTrade.ViewModels
             }
         }
 
-        public string Date
-        {
-            get => _date.ToString("yyyy-MM-dd");
-            set
-            {
-                try
-                {
-                    if (DateTime.TryParse(value, out _date) == false)
-                    {
-                        throw new ArgumentException("Day report date ID is incorrect");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    _date = DateTime.Now.Date;
-                }
-                OnPropertyChange();
-            }
-        }
-
-        public string DayReportColor => _dayReportColor;
-
         private string GetNextDayReportId()
         {
             return DateTime.Today.AddDays(1).ToString("yyyy-MM-dd");
@@ -379,64 +458,6 @@ namespace DelitaTrade.ViewModels
 
             OnPropertyChange(nameof(DayReportColor));
         }
-
-        public string AddOrUpdateTextCommand
-        {
-            get => _addOrUpdateCommand;
-            set
-            {
-                _addOrUpdateCommand = value;
-                OnPropertyChange();
-            }
-        }
-
-        public string CompanyType
-        {
-            get => _addNewCompanyViewModel.CompanyType;
-            set
-            {
-                _addNewCompanyViewModel.CompanyType = value;
-                OnPropertyChange();
-            }
-        }
-
-        public string Amount
-        {
-            get => $"{_amount:C2}";
-            set
-            {
-                _amount = _currencyProvider.GetDecimalValue(value);
-                OnAmountChange();
-                OnPropertyChange();
-            }
-        }
-
-        public decimal DecimalAmount => _amount;
-
-        public string Income
-        {
-            get => $"{_income:C2}";
-            set
-            {
-                _income = _currencyProvider.GetDecimalValue(value);
-                SetIncomeViaPaymentStatus(PayMethodBox.PayMethodText);
-                OnPropertyChange();
-            }
-        }
-
-        public double DoubleWeight => _weight;
-
-        public string Weight
-        {
-            get => $"{_weight:F2} kg.";
-            set
-            {
-                double.TryParse(value, out _weight);
-                OnPropertyChange();
-            }
-        }
-
-        public decimal DecimalIncome => _income;
 
         private void IncomeIsZero()
         {
@@ -483,62 +504,5 @@ namespace DelitaTrade.ViewModels
                     break;
             }
         }
-
-        public string InvoiceID
-        {
-            get => _invoiceID;
-            set
-            {
-                if (CheckInvoceIdIsValid(value))
-                {
-                    _invoiceID = value;                    
-                    OnPropertyChange();
-                }
-            }
-        }
-
-        public string AddButtonColor
-        {
-            get => _addButtonColor;
-            set
-            {
-                _addButtonColor = value;
-                OnPropertyChange();
-            }
-        }
-
-        public string DeleteDayReportButtonImage => FileSoursePath.GetFullFilePath("Components\\ComponentAssets\\DayReport\\delete-file_40456.png");
-        public string CreateDayReportButtonImage => FileSoursePath.GetFullFilePath("Components\\ComponentAssets\\DayReport\\add-document.png");
-        public string AddInvoiceButtonImage => FileSoursePath.GetFullFilePath("Components\\ComponentAssets\\DayReport\\add.png");
-        public string UpdateInvoiceButtonImage => FileSoursePath.GetFullFilePath("Components\\ComponentAssets\\DayReport\\update.png");
-        public string DeleteInvoiceButtonImage => FileSoursePath.GetFullFilePath("Components\\ComponentAssets\\DayReport\\remove.png");
-
-
-        public bool IsUnpaidInvoice(string invoiceId)
-        {
-            if (invoiceId != null && kIsNewInvoice(invoiceId) == false)
-            {
-                return _delitaTradeDayReport.CheckIsUnpaidInvoice(invoiceId);
-            }
-            return false;
-        }
-
-        public bool kIsNewInvoice(string invoiceId)
-        {
-            if (invoiceId == null) return false;
-            return _delitaTradeDayReport.CheckIsNewInvoice(invoiceId);
-        }
-
-        public ICommand AddInvoiceCommand { get; }
-
-        public ICommand RemoveInvoiceCommand { get; }
-
-        public ICommand CreateNewDayReportCommand { get; }
-
-        public ICommand LoadDayReportCommand { get; }
-
-        public ICommand DeleteDayReportCommand { get; }
-
-        public ICommand UpdateInvoiceCommand { get; }
     }
 }

@@ -1,8 +1,6 @@
-﻿using DelitaTrade.Models;
-using DelitaTrade.Models.ReturnProtocol;
+﻿using DelitaTrade.Models.ReturnProtocol;
 using DelitaTrade.ViewModels;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 
 namespace DelitaTrade.Components.ComponetsViewModel.ReturnProtocolComponentViewModels
 {

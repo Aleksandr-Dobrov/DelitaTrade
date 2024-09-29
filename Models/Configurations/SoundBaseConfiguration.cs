@@ -1,6 +1,5 @@
 ﻿using DelitaTrade.Sounds;
 using System.Configuration;
-using System.Runtime.CompilerServices;
 
 namespace DelitaTrade.Models.Configurations
 {

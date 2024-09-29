@@ -49,6 +49,5 @@ namespace DelitaTrade.Models
         public string PayMethod => _payMethod;
         public double Weight => _weight;
         public int Id => _id;
-
     }
 }

@@ -13,21 +13,11 @@ namespace DelitaTrade.Models.DataProviders
             _filePath = filePath;            
         }
 
-        private string DirectoryPath()
-        {
-            int lastIndex = _filePath.LastIndexOf('/');
-            return _filePath.Substring(0, lastIndex);
-        }
-
         public void SaveAllToDataBase(IEnumerable<string> values)
         {
-            if (File.Exists(_filePath))
+            if (!File.Exists(_filePath))
             {
-                //File.Decrypt(_filePath);
-            }
-            else 
-            {
-                Directory.CreateDirectory(DirectoryPath());
+                Directory.CreateDirectory(DirectoryPath());                
             }
 
             using (StreamWriter saveValues = new StreamWriter(_filePath))
@@ -36,19 +26,14 @@ namespace DelitaTrade.Models.DataProviders
                 {
                     saveValues.WriteLine($"{value}");
                 }
-                //File.Encrypt(_filePath);
             }
-            
         }
 
         public DataStringProvider TryLoadData()
         {
             if (File.Exists(_filePath))
             {
-                //File.Decrypt(_filePath);
-                                
                 _items = File.ReadAllLines(_filePath);
-                //File.Encrypt(_filePath);
                 return this;
             }
             else
@@ -66,6 +51,12 @@ namespace DelitaTrade.Models.DataProviders
         public HashSet<string> ToHashSet() 
         {
             return _items.ToHashSet();
+        }
+
+        private string DirectoryPath()
+        {
+            int lastIndex = _filePath.LastIndexOf('/');
+            return _filePath.Substring(0, lastIndex);
         }
     }
 }

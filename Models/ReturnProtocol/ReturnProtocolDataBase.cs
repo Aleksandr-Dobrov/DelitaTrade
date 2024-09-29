@@ -1,11 +1,5 @@
-﻿using DelitaTrade.Interfaces.ReturnProtocol;
-using iTextSharp.text.pdf.security;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using DelitaTrade.Models.Interfaces.ReturnProtocol;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DelitaTrade.Models.ReturnProtocol
 {
@@ -35,6 +29,7 @@ namespace DelitaTrade.Models.ReturnProtocol
         }
 
         public event Action DataBaseChange;
+
         public int Count => _id.Count;
 
         public void AddReturnProtocol(IReturnProtocolData returnProtocol)
@@ -187,18 +182,6 @@ namespace DelitaTrade.Models.ReturnProtocol
             return [];
         }
 
-        private string[] GetIdFromFunc(SearchProtocolProvider search) =>
-        
-            search.Method switch
-            {
-                SearchMethod.CompanyName => SearchIdByCompany(search.Parametr),
-                SearchMethod.ObjectName => SearchIdByCompanyObject(search.Parametr),
-                SearchMethod.Date => SearchIdByDate(search.Parametr),
-                SearchMethod.Trader => SearchIdByTrader(search.Parametr),
-                _ => []
-            };
-        
-
         private string[] GetUniqueId(params string[][] id)
         {
             Dictionary<string,int> ids = new Dictionary<string,int>();
@@ -236,5 +219,15 @@ namespace DelitaTrade.Models.ReturnProtocol
         {
             data[parametr].Remove(id);
         }
+
+        private string[] GetIdFromFunc(SearchProtocolProvider search) =>        
+            search.Method switch
+            {
+                SearchMethod.CompanyName => SearchIdByCompany(search.Parametr),
+                SearchMethod.ObjectName => SearchIdByCompanyObject(search.Parametr),
+                SearchMethod.Date => SearchIdByDate(search.Parametr),
+                SearchMethod.Trader => SearchIdByTrader(search.Parametr),
+                _ => []
+            };        
     }
 }

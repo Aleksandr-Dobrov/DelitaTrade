@@ -5,19 +5,18 @@ namespace DelitaTrade.Components.ComponetsViewModel
 {
     public class SearchBoxViewModel : ViewModelBase 
     {
-        
-
         private ObservableCollection<CompanyViewModel> _companyViewModels;
 
-        public IEnumerable<CompanyViewModel> CompanyViewModels => _companyViewModels;
-
-        public event Action CompanyNameChanged;
-
         private string _inputText;
+
         public SearchBoxViewModel(ObservableCollection<CompanyViewModel> companyViewModels)
         {  
             _companyViewModels = companyViewModels;
         }
+
+        public event Action CompanyNameChanged;
+
+        public IEnumerable<CompanyViewModel> CompanyViewModels => _companyViewModels;
         
         public string InputText
         {
@@ -29,7 +28,6 @@ namespace DelitaTrade.Components.ComponetsViewModel
                 OnPropertyChange();
             }
         }
-
 
         private void OnCompanyNameChange()
         {

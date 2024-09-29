@@ -1,5 +1,4 @@
 ﻿using DelitaTrade.Models;
-using DelitaTrade.Models.DataProviders;
 using DelitaTrade.ViewModels;
 using System.ComponentModel;
 
