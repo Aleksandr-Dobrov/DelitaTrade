@@ -206,11 +206,11 @@ namespace DelitaTrade.Models
             }
         }
 
-        public void ExportDayReport()
+        public async void ExportDayReport()
         {
             try
             {
-                _dayReportBuilder.CreateDayReport(_dayReport);
+                await Task.Factory.StartNew(() => _dayReportBuilder.CreateDayReport(_dayReportData.LoadCopyDayReport()));
                 MessageBoxResult boxResult = MessageBox.Show($"Day report exported successful.{Environment.NewLine}Open file?", "Exporter"
                                                              , MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (boxResult == MessageBoxResult.Yes)

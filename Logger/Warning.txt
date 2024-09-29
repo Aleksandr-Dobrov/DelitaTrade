@@ -379,3 +379,13 @@ StackTrace -    at DelitaTrade.Models.DayReportDataBase.SetTransmissionDate(Stri
    at DelitaTrade.Models.DelitaTradeDayReport.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 373
 InnerExceptioon - 
 --------------------------------------------------
+29.9.2024 г. 13:17:38 - Value cannot be null. (Parameter 'The invoice is not exists!')
+System.ArgumentNullException: Value cannot be null. (Parameter 'The invoice is not exists!')
+   at DelitaTrade.Models.DayReportDataBase.RemoveInvoice(String invoice, Int32 id) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 486
+   at DelitaTrade.Models.DelitaTradeDayReport.RemoveInvoice(String invoiceId, Int32 id) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 334
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReportDataBase.RemoveInvoice(String invoice, Int32 id) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 486
+   at DelitaTrade.Models.DelitaTradeDayReport.RemoveInvoice(String invoiceId, Int32 id) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 334
+InnerExceptioon - 
+--------------------------------------------------

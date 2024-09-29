@@ -427,6 +427,16 @@ namespace DelitaTrade.Models
             }
         }
 
+        public DayReport LoadCopyDayReport()
+        {
+            if (_dayReport == null)
+            {
+                throw new ArgumentNullException("Day report is not loaded");
+            }
+            _dayReportDataProvider.Path = SetDayReportFilePath(_dayReport.DayReportID);
+            return _dayReportDataProvider.LoadAllData();
+        }
+
         public void DeleteDayReport(string dayReportId)
         {
             if (IsNewDayReport(dayReportId) == false)

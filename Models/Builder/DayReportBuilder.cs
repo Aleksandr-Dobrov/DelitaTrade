@@ -13,9 +13,9 @@ namespace DelitaTrade.Models.Builder
             _builder = new ExcelBuilder(inputPath, path);  
         }
 
-        public async void CreateDayReport(DayReport dayReport)
+        public void CreateDayReport(DayReport dayReport)
         {            
-            await Task.Factory.StartNew(() => _builder.InitializedExporter(dayReport));
+            _builder.InitializedExporter(dayReport);
             _builder.BuildHeather();
             _builder.BuildBody();
             _builder.BuildFooter();
