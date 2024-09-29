@@ -206,7 +206,7 @@ namespace DelitaTrade.Models
             }
         }
 
-        public void ExportExcelDayReport()
+        public void ExportDayReport()
         {
             try
             {
@@ -220,15 +220,7 @@ namespace DelitaTrade.Models
             }
             catch (Exception ex)
             {
-                new FileLogger().Log(ex, Logger.LogLevel.Error).Log(ex, Logger.LogLevel.Error);
-                try
-                { 
-                    _dayReportBuilder.Dispose();
-                }
-                catch (Exception e)
-                {
-                    new FileLogger().Log(e, Logger.LogLevel.Error).Log(e, Logger.LogLevel.Error);
-                }
+                new FileLogger().Log(ex, Logger.LogLevel.Error).Log(ex, Logger.LogLevel.Error);               
             }
         }
 

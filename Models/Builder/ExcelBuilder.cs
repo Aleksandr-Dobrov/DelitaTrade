@@ -1,4 +1,7 @@
 ﻿using Microsoft.Office.Interop.Excel;
+using System.IO;
+using _Excel = Microsoft.Office.Interop.Excel;
+using System.IO;
 
 namespace DelitaTrade.Models.Builder
 {
@@ -6,8 +9,16 @@ namespace DelitaTrade.Models.Builder
     {
         private const int rowsOnPage = 51;
 
+        private _Application excel;
+        private Workbook wb;
+        private Worksheet ws;
+        private string _inputPath;
+        private string _path;
+        private string _excelPath;
+
         private ExcelWriter _writer;
         private ExcelDrawing _drawing;
+        private DayReport dayReport;
 
         private List<InvoiceMarker> _invoiceMarker;
 
@@ -17,12 +28,60 @@ namespace DelitaTrade.Models.Builder
         private int _counter = 1;
         private int _pageCount = 0;        
 
-        public ExcelBuilder()
+        public ExcelBuilder(string inputPath, string path)
         {
             _writer = new ExcelWriter();
             _drawing = new ExcelDrawing();
             _invoiceMarker = new List<InvoiceMarker>();
+            _inputPath = inputPath;
+            Path = path;
         }
+        private void Save()
+        {
+            wb.Save();
+            wb.Close();
+        }
+
+        private void OpenFile()
+        {
+            CreateExportFile();
+            wb = excel.Workbooks.Open(_excelPath);
+        }
+
+        private void CreateSheet()
+        {
+            BuildSheet(1);
+        }
+        public void InitializedExporter(DayReport report)        
+        {
+            dayReport = report;
+            excel = new _Excel.Application();
+            OpenFile();
+            CreateSheet();
+        }
+
+        private void CreateExportFile()
+        {
+            File.Copy(_inputPath, Path, true);
+            FileInfo fileInfo = new FileInfo(Path);
+            _excelPath = fileInfo.FullName;
+        }
+        public void Export()
+        {
+            Save();
+        }
+        public string Path
+        {
+            get => _path;
+            set
+            {
+                _path = value;
+            }
+        }
+
+        
+
+        public string ExportedFilePath => _excelPath;
 
         private void InitializeData()
         {
@@ -30,7 +89,7 @@ namespace DelitaTrade.Models.Builder
             _row = _startRow;
         }
 
-        private void BuildBodyHeather(Worksheet ws)
+        private void BuildBodyHeather()
         {
             InitializeData();
             _writer.WriteDataToRange(ws, "№", true, 14, false, XlHAlign.xlHAlignCenter, XlVAlign.xlVAlignCenter, _row, 1, _row + 1, 1);
@@ -43,7 +102,7 @@ namespace DelitaTrade.Models.Builder
             _row += 2;
         }
 
-        private void SetBodyComponentColor(Worksheet ws)
+        private void SetBodyComponentColor()
         {
             if(_counter % 2 == 0)
             {
@@ -51,7 +110,7 @@ namespace DelitaTrade.Models.Builder
             }
         }
 
-        private void SetBanknoteComponentColor(Worksheet ws, int column, int counter)
+        private void SetBanknoteComponentColor(int column, int counter)
         {
             if (counter % 2 == 0)
             {
@@ -59,24 +118,24 @@ namespace DelitaTrade.Models.Builder
             }
         }
 
-        private void SetNewBodyPage(Worksheet ws)
+        private void SetNewBodyPage()
         {
             _pageCount++;
             _startRow = _row;
-            BuildBodyHeather(ws);
+            BuildBodyHeather();
         }
 
-        private void BuildBodyComponent(Worksheet ws, string name, ref bool isInitialized, ref bool nonPayExists, Invoice invoice, List<string> nonPayInvoices, Func<Invoice, bool> isNonPayInvoice, Func<string, int> repeatInvoiceCount)
+        private void BuildBodyComponent(string name, ref bool isInitialized, ref bool nonPayExists, Invoice invoice, List<string> nonPayInvoices, Func<Invoice, bool> isNonPayInvoice, Func<string, int> repeatInvoiceCount)
         {
             if (isInitialized && IsNewPage(1))
             {
                 _drawing.BordersAroundDraw(ws, _startRow + 2, 1, _row - 1, 8, XlLineStyle.xlContinuous, XlBorderWeight.xlMedium, "#A6A6A6");
                 _row++;
-                SetNewBodyPage(ws);
+                SetNewBodyPage();
             }
             else if (IsNewPage())
             {
-                SetNewBodyPage(ws);
+                SetNewBodyPage();
             }
 
             if (isInitialized && (name == "Плащане в брой" && isNonPayInvoice(invoice)) == false)
@@ -161,7 +220,7 @@ namespace DelitaTrade.Models.Builder
             _writer.WriteDataToRange(ws, invoice.ObjectName, false, 11, false, XlHAlign.xlHAlignLeft, XlVAlign.xlVAlignTop, _row, 3, _row, 4);
             _writer.WriteDataToCell(ws, invoice.InvoiceID, false, 11, XlHAlign.xlHAlignLeft, XlVAlign.xlVAlignTop, _row, 5);
 
-            SetBodyComponentColor(ws);
+            SetBodyComponentColor();
 
             _row++;
             _counter++;
@@ -172,7 +231,7 @@ namespace DelitaTrade.Models.Builder
             return invoice.Amount > invoice.Income;
         }
 
-        private void PrintNonPayInvoice(Worksheet ws, List<string> nonPayInvoices, ref bool nonPayExists)
+        private void PrintNonPayInvoice(List<string> nonPayInvoices, ref bool nonPayExists)
         {
             bool toNextPage = false;
             if (nonPayExists)
@@ -181,12 +240,12 @@ namespace DelitaTrade.Models.Builder
                 {
                     _drawing.BordersAroundDraw(ws, _startRow + 2, 1, _row - 1, 8, XlLineStyle.xlContinuous, XlBorderWeight.xlMedium, "#A6A6A6");
                     _row++;
-                    SetNewBodyPage(ws);
+                    SetNewBodyPage();
                 }
                 else if (IsNewPage())
                 {
                     _drawing.BordersAroundDraw(ws, _startRow + 2, 1, _row - 1, 8, XlLineStyle.xlContinuous, XlBorderWeight.xlMedium, "#A6A6A6");
-                    SetNewBodyPage(ws);
+                    SetNewBodyPage();
                 }
 
                 List<string> orderedList = nonPayInvoices.OrderBy(i => i.Split(" -- ", StringSplitOptions.RemoveEmptyEntries)[3] == "За кредитно" ? 1 :
@@ -203,7 +262,7 @@ namespace DelitaTrade.Models.Builder
                     string[] amountIncome = invoice.Split(" -- ", StringSplitOptions.RemoveEmptyEntries);
                     if (toNextPage)
                     {
-                        SetNewBodyPage(ws);
+                        SetNewBodyPage();
                         toNextPage = false;
                     }
 
@@ -214,7 +273,7 @@ namespace DelitaTrade.Models.Builder
                     _writer.WriteDataToRange(ws, amountIncome[3], false, 11, false, XlHAlign.xlHAlignLeft, XlVAlign.xlVAlignTop, _row, 3, _row, 4);
                     _writer.WriteDataToCell(ws, amountIncome[4], false, 11, XlHAlign.xlHAlignLeft, XlVAlign.xlVAlignTop, _row, 5);
 
-                    SetBodyComponentColor(ws);
+                    SetBodyComponentColor();
 
                     _row++;
                     _counter++;
@@ -237,7 +296,7 @@ namespace DelitaTrade.Models.Builder
             return (_row + nextRow) % (rowsOnPage + 1) == 0;
         }
 
-        private void BuildBanknotesFooter(Worksheet ws, IEnumerable<KeyValuePair<decimal, int>> filteredBanknotes)
+        private void BuildBanknotesFooter(IEnumerable<KeyValuePair<decimal, int>> filteredBanknotes)
         {
             _writer.WriteDataToRange(ws, "Отчет на парите", true, 14, false
                 , XlHAlign.xlHAlignCenter, XlVAlign.xlVAlignCenter
@@ -270,7 +329,7 @@ namespace DelitaTrade.Models.Builder
                 _writer.WriteDataToCell(ws, banknote.Key.ToString("C"), _row, column + 1);
                 _writer.WriteDataToCell(ws, (banknote.Value * banknote.Key).ToString("C"), _row, column + 2);
 
-                SetBanknoteComponentColor(ws, column, counter);
+                SetBanknoteComponentColor(column, counter);
 
                 counter++;
                 _row++;
@@ -298,7 +357,7 @@ namespace DelitaTrade.Models.Builder
             _drawing.BordersAroundDraw(ws, _row + 2, 2, _row + 3, 2, XlLineStyle.xlContinuous, XlBorderWeight.xlMedium, default);
         }
 
-        private void BuildVehicleFooter(Worksheet ws, DayReport dayReport)
+        private void BuildVehicleFooter()
         {
             _drawing.WriteDataToRange(ws, "Превозно средство №:", false, 12, false
                 , XlHAlign.xlHAlignCenter, XlVAlign.xlVAlignCenter
@@ -309,7 +368,7 @@ namespace DelitaTrade.Models.Builder
             _drawing.BordersAroundDraw(ws, _row + 5, 2, _row + 6, 2, XlLineStyle.xlContinuous, XlBorderWeight.xlMedium, default);
         }
 
-        private void BuildTotalsFooter(Worksheet ws, DayReport dayReport)
+        private void BuildTotalsFooter()
         {
             _writer.WriteDataToRange(ws, "Общо приходи от доставки: ", false, 12, false
                 , XlHAlign.xlHAlignRight, XlVAlign.xlVAlignCenter
@@ -368,7 +427,7 @@ namespace DelitaTrade.Models.Builder
             _drawing.BordersAroundDraw(ws, _row, 6, _row + 6, 8, XlLineStyle.xlContinuous, XlBorderWeight.xlMedium, default);
         }
 
-        private void BuildPersonalInformationFooter(Worksheet ws, DayReport dayReport)
+        private void BuildPersonalInformationFooter()
         {   
             _writer.WriteDataToRange(ws, "Съставил отчета / Предал:", false, 11, false
                 , XlHAlign.xlHAlignLeft, XlVAlign.xlVAlignBottom
@@ -421,19 +480,18 @@ namespace DelitaTrade.Models.Builder
             }
             return rowRemaining < 16 + banknotesCount / 2 + banknoteIndex;            
         }
-        public Worksheet BuildSheet(Workbook workbook, int sheet)
+        private void BuildSheet(int sheet)
         {
             double[] columnSize = [2, 32, 9.33, 10.56, 12.78, 11.56, 11.56, 2];
-            Worksheet ws = workbook.Worksheets[sheet];
+            ws = wb.Worksheets[sheet];
             for (int i = 1; i <= columnSize.Length; i++) 
             {
                 ws.Range[ws.Cells[1, i], ws.Cells[1, i]].ColumnWidth = columnSize[i - 1];
-            }
-            return ws;
+            }            
         }
 
-        public void BuildHeather(Worksheet ws, DayReport dayReport)
-        {
+        public void BuildHeather()
+        {   
             _writer.WriteDataToRange(ws, "Дневен Отчет", true, 22, false
                 , XlHAlign.xlHAlignCenter, XlVAlign.xlVAlignCenter
                 , 1, 1, 2, 5);
@@ -452,9 +510,9 @@ namespace DelitaTrade.Models.Builder
             _pageCount = 1;
         }
 
-        public void BuildBody(Worksheet ws, DayReport dayReport)
+        public void BuildBody()
         {
-            BuildBodyHeather(ws);
+            BuildBodyHeather();
             IEnumerable<Invoice> invoices = dayReport.GetAllInvoices()
                 .OrderBy(i => i.PayMethod == "В брой" ? 1 :
                               i.PayMethod == "За кредитно" ? 2 :
@@ -483,28 +541,28 @@ namespace DelitaTrade.Models.Builder
                 switch (invoice.PayMethod)
                 {
                     case "Банка":
-                        BuildBodyComponent(ws, "Плащане по банка", ref bankPay, ref nonPayExists, invoice, nonPayInvoices, dayReport.IsNonPayInvoice, dayReport.GetId);                        
+                        BuildBodyComponent("Плащане по банка", ref bankPay, ref nonPayExists, invoice, nonPayInvoices, dayReport.IsNonPayInvoice, dayReport.GetId);                        
                         break;
                     case "С карта":
-                        BuildBodyComponent(ws, "Плащане с карта", ref cardPay, ref nonPayExists, invoice, nonPayInvoices, dayReport.IsNonPayInvoice, dayReport.GetId);
+                        BuildBodyComponent("Плащане с карта", ref cardPay, ref nonPayExists, invoice, nonPayInvoices, dayReport.IsNonPayInvoice, dayReport.GetId);
                         
                         break;
                     case "В брой":
                     case "За кредитно":
                     case "За анулиране":
-                        BuildBodyComponent(ws, "Плащане в брой", ref cashPay, ref nonPayExists, invoice, nonPayInvoices, dayReport.IsNonPayInvoice, dayReport.GetId);
+                        BuildBodyComponent("Плащане в брой", ref cashPay, ref nonPayExists, invoice, nonPayInvoices, dayReport.IsNonPayInvoice, dayReport.GetId);
                        
                         break;
                     case "Кредитно":
-                        BuildBodyComponent(ws, "Кредитни известия", ref creditNote, ref nonPayExists, invoice, nonPayInvoices, dayReport.IsNonPayInvoice, dayReport.GetId);
+                        BuildBodyComponent("Кредитни известия", ref creditNote, ref nonPayExists, invoice, nonPayInvoices, dayReport.IsNonPayInvoice, dayReport.GetId);
                         
                         break;
                     case "Разход":
-                        BuildBodyComponent(ws, "Разходи", ref expenses, ref nonPayExists, invoice, nonPayInvoices, dayReport.IsNonPayInvoice, dayReport.GetId);
+                        BuildBodyComponent("Разходи", ref expenses, ref nonPayExists, invoice, nonPayInvoices, dayReport.IsNonPayInvoice, dayReport.GetId);
                         
                         break;
                     case "Стара сметка":
-                        BuildBodyComponent(ws, "Стари сметки", ref oldInvoice, ref nonPayExists, invoice, nonPayInvoices, dayReport.IsNonPayInvoice, dayReport.GetId);
+                        BuildBodyComponent("Стари сметки", ref oldInvoice, ref nonPayExists, invoice, nonPayInvoices, dayReport.IsNonPayInvoice, dayReport.GetId);
                         
                         break;
                 }
@@ -515,7 +573,7 @@ namespace DelitaTrade.Models.Builder
                 }
             }
 
-            PrintNonPayInvoice(ws, nonPayInvoices, ref nonPayExists);
+            PrintNonPayInvoice(nonPayInvoices, ref nonPayExists);
 
             if (IsNewPage() == false)
             {
@@ -524,7 +582,7 @@ namespace DelitaTrade.Models.Builder
             _invoiceMarker = new List<InvoiceMarker>();
         }
 
-        public void BuildFooter(Worksheet ws, DayReport dayReport)
+        public void BuildFooter()
         {
             var filteredBanknotes = dayReport.GetAllBanknotes().Where(b => b.Value > 0);
             int banknotesCount = filteredBanknotes.Count();
@@ -536,12 +594,12 @@ namespace DelitaTrade.Models.Builder
 
             if (banknotesCount > 0)
             {
-                BuildBanknotesFooter(ws, filteredBanknotes);
+                BuildBanknotesFooter(filteredBanknotes);
             }
 
-            BuildTotalsFooter(ws,dayReport);
-            BuildVehicleFooter(ws, dayReport);
-            BuildPersonalInformationFooter(ws, dayReport);
+            BuildTotalsFooter();
+            BuildVehicleFooter();
+            BuildPersonalInformationFooter();
 
         }
 

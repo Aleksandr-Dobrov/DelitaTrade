@@ -53,7 +53,7 @@ namespace DelitaTrade.Components.ComponentsCommands
             }
             if (result == MessageBoxResult.Yes)
             {
-                _delitaTradeDayReport.ExportExcelDayReport();
+                _delitaTradeDayReport.ExportDayReport();
             }
             else
             {
