@@ -1,4 +1,4 @@
-﻿using DelitaTrade.Components.ComponetsViewModel;
+﻿using DelitaTrade.Components.ComponentsViewModel;
 using DelitaTrade.Models;
 using System.IO;
 

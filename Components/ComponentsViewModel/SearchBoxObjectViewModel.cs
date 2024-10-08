@@ -2,7 +2,7 @@
 using DelitaTrade.ViewModels;
 using System.Collections.ObjectModel;
 
-namespace DelitaTrade.Components.ComponetsViewModel
+namespace DelitaTrade.Components.ComponentsViewModel
 {
     public class SearchBoxObjectViewModel : ViewModelBase
     {
@@ -17,7 +17,7 @@ namespace DelitaTrade.Components.ComponetsViewModel
         public SearchBoxObjectViewModel(AddNewCompanyViewModel addNewCompanyViewModel)
         {
 			_addNewCompanyViewModel = addNewCompanyViewModel;
-			_emptyCompanyObjects = [new CompanyObjectViewModel(new CompanyObject("Empty", "Empty", "Empty", false))];
+			_emptyCompanyObjects = [new CompanyObjectViewModel(new CompanyObject("Empty","Empty", "Empty", "Empty", false))];
 			_companyObjects = _emptyCompanyObjects;
 			_addNewCompanyViewModel.CompanySelected += CompanySelected;
 			_addNewCompanyViewModel.CompanyUnselected += CompanyUnselected;

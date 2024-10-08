@@ -3,7 +3,7 @@ using DelitaTrade.Models;
 using DelitaTrade.ViewModels;
 using System.ComponentModel;
 
-namespace DelitaTradeProject.Commands
+namespace DelitaTrade.Commands
 {
     public class DeleteObjectCommand : CommandBase
     {
@@ -39,11 +39,11 @@ namespace DelitaTradeProject.Commands
         {
             if (Agreement("Delete", _addNewCompanyViewModel.ObjectName))
             {
-                _delitaTrade.DeleteCompanyObject(new CompanyObject(_addNewCompanyViewModel.ObjectName,
+                _delitaTrade.DeleteCompanyObject(new CompanyObject(_addNewCompanyViewModel.CompanyName,
+                                                                   _addNewCompanyViewModel.ObjectName,
                                                                    _addNewCompanyViewModel.Address,
                                                                    _addNewCompanyViewModel.Trader.Item,
-                                                                   _addNewCompanyViewModel.BankPay),
-                                                                   _addNewCompanyViewModel.CompanyName);
+                                                                   _addNewCompanyViewModel.BankPay));
             }
         }
     }

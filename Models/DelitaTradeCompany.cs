@@ -1,42 +1,26 @@
-﻿using DelitaTrade.Models.Loggers;
-using System.IO;
-using System.Runtime.Serialization;
-using static DelitaTrade.Models.Loggers.Logger;
+﻿using DelitaTrade.Models.Interfaces.DataBase;
+using DelitaTrade.Models.MySqlDataBase;
 
 namespace DelitaTrade.Models
 {
     public class DelitaTradeCompany
     {
-        private const string _backupFilePath = "../../../SafeBackupDataBase/DelitaTradeBackupDataBase";
+        private CompaniesDataBase _dataBase;
+        private readonly IDBProvider _mySqlDataBase;
 
-        [DataMember]
-        private DataBase _dataBase;
-
-        private readonly IDataBase<DataBase> _XmlDataBase;
-       
-        private string _filePath = "../../../SafeDataBase/DelitaTradeDataBase.xml";
-
-        public DelitaTradeCompany(string name, IDataBase<DataBase> dataBase)
+        public DelitaTradeCompany(string name, IDBProvider dataBase)
         {
             Name = name;
-            _dataBase = new DataBase();           
-            _XmlDataBase = dataBase;
-            _XmlDataBase.UsedDefaultPath += UseDefaultPath;
-            DataBaseChanged += SaveData;
+            _mySqlDataBase = dataBase;
         }
 
         public event Action DataBaseChanged;
 
         public string Name { get; }
 
-        public void LoadFile()
+        public void LoadData()
         {
-            _dataBase = LoadData(_filePath);
-        }
-
-        public void LoadFile(string filePath)
-        {
-            _dataBase = LoadData(filePath);
+            _dataBase = (CompaniesDataBase)_mySqlDataBase.LoadAllData();
         }
 
         public void UpdateLoadDataBase()
@@ -45,39 +29,57 @@ namespace DelitaTrade.Models
         }
 
         public void CreateNewCompany(Company newCompany)
-        { 
-            _dataBase.TryAddNewCompany(newCompany);
-            UpdateDataBase();
+        {
+            if (_dataBase.TryAddNewCompany(newCompany))
+            {
+                _mySqlDataBase.Execute(new MySqlDBDataWriter(), newCompany);
+                UpdateDataBase();
+            }
         }
 
-        public void DeleteCompany(Company newCompany) 
+        public void DeleteCompany(Company deletedCompany) 
         {
-            _dataBase.TryDeleteCompany(newCompany);
-            UpdateDataBase();
+            if (_dataBase.TryDeleteCompany(deletedCompany))
+            { 
+                _mySqlDataBase.Execute(new MySqlDBDataDeleter(), deletedCompany);
+                UpdateDataBase();
+            }
         }
 
         public void UpdateCompanyData(Company company)
         {
-            _dataBase.UpdateCompanyData(company);
-            UpdateDataBase();
+            if (_dataBase.UpdateCompanyData(company))
+            { 
+                _mySqlDataBase.Execute(new MySqlDBDataUpdater(), company);
+                UpdateDataBase();
+            }
         }
 
-        public void CreateNewCompanyObject(CompanyObject newCompanyObject, string company)
+        public void CreateNewCompanyObject(CompanyObject newCompanyObject)
         {
-            _dataBase.AddNewCompanyObject(newCompanyObject, company);
-            UpdateDataBase();
+            if (_dataBase.AddNewCompanyObject(newCompanyObject))
+            {
+                _mySqlDataBase.Execute(new MySqlDBDataWriter(), newCompanyObject);
+                UpdateDataBase();
+            }
         }
 
-        public void DeleteCompanyObject(CompanyObject objectToDelete, string company)
-        { 
-            _dataBase.DeleteCompanyObject(objectToDelete, company);
-            UpdateDataBase();
+        public void DeleteCompanyObject(CompanyObject objectToDelete)
+        {
+            if (_dataBase.DeleteCompanyObject(objectToDelete))
+            {
+                _mySqlDataBase.Execute(new MySqlDBDataDeleter(), objectToDelete);
+                UpdateDataBase();
+            }
         }
 
-        public void UpdateCompanyObject(CompanyObject companyObject, string company)
-        { 
-            _dataBase.UpdateCompanyObject(companyObject, company);
-            UpdateDataBase();
+        public void UpdateCompanyObject(CompanyObject companyObject)
+        {
+            if (_dataBase.UpdateCompanyObject(companyObject))
+            { 
+                _mySqlDataBase.Execute(new MySqlDBDataUpdater(), companyObject);
+                UpdateDataBase();
+            }
         }
         public IEnumerable<Company> GetAllCmpanies()
         {
@@ -87,65 +89,6 @@ namespace DelitaTrade.Models
         private void UpdateDataBase()
         {
             DataBaseChanged?.Invoke();                        
-        }
-
-        private bool IsValidDataToSafe()
-        {
-            return ((File.Exists(GetBackupDataBasePath(DateTime.Now.Date)) == false)
-                || ((_ = new FileInfo(GetBackupDataBasePath(DateTime.Now.Date))).Length
-                <= (_ = new FileInfo(_filePath)).Length));              
-        }
-
-        private void UseDefaultPath(string message)
-        {            
-            new FileLogger().Log($"Data base use {message} file path!",LogLevel.Information)
-                            .Log($"Data base use {message} file path!", LogLevel.Information);
-            _filePath = message;
-        }
-
-        private string GetBackupDataBasePath(DateTime date)
-        {
-            return $"{_backupFilePath}{date:dd-MM-yyyy}.xml";
-        }
-
-        private void SaveBacupData()
-        {
-            if (IsValidDataToSafe())
-            {
-                _XmlDataBase.Path = GetBackupDataBasePath(DateTime.Now.Date);
-                _XmlDataBase.SaveAllData(_dataBase);
-            }
-            else
-            {
-                throw new InvalidOperationException("Can not save backup data base!");
-            }
-        }
-
-        private void SaveData()
-        {
-            try
-            {
-                _XmlDataBase.Path = _filePath;
-                _XmlDataBase.SaveAllData(_dataBase);
-                SaveBacupData();                
-            }
-            catch (Exception ex) 
-            {
-                new FileLogger().Log(ex, LogLevel.Error);
-            }
-        }
-
-        private DataBase LoadData(string filePath) 
-        {
-            try
-            {
-                _XmlDataBase.Path = filePath;
-                return _XmlDataBase.LoadAllData();
-            }
-            catch 
-            {
-                return new DataBase();
-            }
         }
     }
 }

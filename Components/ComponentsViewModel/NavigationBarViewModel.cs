@@ -6,7 +6,7 @@ using DelitaTrade.ViewModels;
 using DelitaTrade.ViewModels.ReturnProtocolViewModels;
 using System.Windows.Input;
 
-namespace DelitaTrade.Components.ComponetsViewModel
+namespace DelitaTrade.Components.ComponentsViewModel
 {
     public class NavigationBarViewModel : ViewModelBase
     {

@@ -1,5 +1,5 @@
 ﻿using DelitaTrade.Commands;
-using DelitaTrade.Components.ComponetsViewModel;
+using DelitaTrade.Components.ComponentsViewModel;
 using DelitaTrade.Models;
 
 namespace DelitaTrade.Components.ComponentsCommands

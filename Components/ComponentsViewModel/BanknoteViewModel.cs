@@ -3,7 +3,7 @@ using DelitaTrade.Models;
 using DelitaTrade.ViewModels;
 using System.Windows.Input;
 
-namespace DelitaTrade.Components.ComponetsViewModel
+namespace DelitaTrade.Components.ComponentsViewModel
 {
     public class BanknoteViewModel : ViewModelBase
     {

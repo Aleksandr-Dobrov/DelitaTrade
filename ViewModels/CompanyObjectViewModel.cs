@@ -15,5 +15,10 @@ namespace DelitaTrade.ViewModels
         public string Adrress => _companyObject.Adrress;
         public bool BankPay => _companyObject.BankPay;
         public string Trader => _companyObject.Trader;
+
+        public override string ToString()
+        {
+            return ObjectName;
+        }
     }
 }

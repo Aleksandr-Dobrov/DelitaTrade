@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
-namespace DelitaTrade.Components.ComponetsViewModel
+namespace DelitaTrade.Components.ComponentsViewModel
 {
     public class SearchBoxTextViewModel : ViewModelBase
     {

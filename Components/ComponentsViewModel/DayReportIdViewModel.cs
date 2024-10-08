@@ -3,7 +3,7 @@ using System.ComponentModel;
 using DelitaTrade.ViewModels;
 using DelitaTrade.Models.Interfaces.DayReports;
 
-namespace DelitaTrade.Components.ComponetsViewModel
+namespace DelitaTrade.Components.ComponentsViewModel
 {
     public class DayReportIdViewModel : ViewModelBase
     {

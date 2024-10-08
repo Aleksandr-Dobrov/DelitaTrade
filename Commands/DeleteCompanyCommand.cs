@@ -3,7 +3,7 @@ using DelitaTrade.Models;
 using DelitaTrade.ViewModels;
 using System.ComponentModel;
 
-namespace DelitaTradeProject.Commands
+namespace DelitaTrade.Commands
 {
     public class DeleteCompanyCommand :CommandBase
     {

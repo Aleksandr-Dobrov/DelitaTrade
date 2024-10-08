@@ -69,6 +69,15 @@ namespace DelitaTrade.Models
             }
         }
 
+        public bool CalculateAmount()
+        {
+            foreach (var invoice in _invoices)
+            {
+                _totalAmaunt += invoice.Amount;
+            }
+            return false;
+        }
+
         public decimal BankPayTotal()
         {
             decimal _bankPayTotal = 0;

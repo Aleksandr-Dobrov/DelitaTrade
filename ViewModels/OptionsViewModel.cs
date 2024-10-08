@@ -1,4 +1,4 @@
-﻿using DelitaTrade.Components.ComponetsViewModel.OptionsComponentViewModels;
+﻿using DelitaTrade.Components.ComponentsViewModel.OptionsComponentViewModels;
 using DelitaTrade.Models;
 
 namespace DelitaTrade.ViewModels

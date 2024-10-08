@@ -6,12 +6,13 @@ using DelitaTrade.Models.DataProviders;
 
 namespace DelitaTrade.Components.ComponentsCommands
 {
-    class PrintDayReportCommand : CommandBase
-    {  
+    class ExportDayReportCommand : CommandBase
+    {
         private DelitaTradeDayReport _delitaTradeDayReport;
         private InternetProvider _internetProvider;
-       
-        public PrintDayReportCommand(DelitaTradeDayReport delitaTradeDayReport)
+        private bool _isComplete = true;
+
+        public ExportDayReportCommand(DelitaTradeDayReport delitaTradeDayReport)
         {
             _delitaTradeDayReport = delitaTradeDayReport;
             _internetProvider = new InternetProvider();
@@ -21,14 +22,19 @@ namespace DelitaTrade.Components.ComponentsCommands
             _delitaTradeDayReport.VehiclesChanged += CurrentDayReportChanged;
             _delitaTradeDayReport.TransmisionDateChange += CurrentDayReportChanged;
             _internetProvider.NetworkStatusChange += CurrentDayReportChangedAsync;
+            _delitaTradeDayReport.ExportCompleted += IsCompleted;
+            _delitaTradeDayReport.ExportCompleted += CurrentDayReportChanged;
+            _delitaTradeDayReport.ExportStart += ExportStarted;
+            _delitaTradeDayReport.ExportStart += CurrentDayReportChanged;
         }
 
         public override bool CanExecute(object? parameter)
         {
             return _delitaTradeDayReport?.DayReport?.InvoicesCount > 0
-                &&_delitaTradeDayReport.CurentDayReportId != null
+                && _delitaTradeDayReport.CurentDayReportId != null
                 && _delitaTradeDayReport.TransmissionDate != null
                 && _delitaTradeDayReport.Vehicle != null
+                && _isComplete
                 && _internetProvider.CheckForInternetConnection()
                && base.CanExecute(parameter);
         }
@@ -41,7 +47,7 @@ namespace DelitaTrade.Components.ComponentsCommands
                 result = Agreement("The report money is insufficient!", "Export anyway?");
             }
             if (result)
-            {
+            {                
                 _delitaTradeDayReport.ExportDayReport();
             }
             else
@@ -49,7 +55,7 @@ namespace DelitaTrade.Components.ComponentsCommands
                 new MessageBoxLogger().Log("Day report is not exported!", Logger.LogLevel.Information);
             }
         }
-       
+
         private void CurrentDayReportChanged()
         {
             OnCanExecuteChanged();
@@ -59,5 +65,15 @@ namespace DelitaTrade.Components.ComponentsCommands
         {
             Application.Current.Dispatcher.Invoke(new Action(OnCanExecuteChanged));
         }
-    }
+
+        private void IsCompleted()
+        {
+            _isComplete = true;
+        }
+
+        private void ExportStarted()
+        {
+            _isComplete = false;
+        }
+    }    
 }

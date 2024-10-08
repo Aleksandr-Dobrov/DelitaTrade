@@ -4,7 +4,7 @@ using System.Xml;
 
 namespace DelitaTrade.Models
 {
-    public class XmlDataBase<T> : IDataBase<T>
+    public class XmlDataBase<T> : IDelitaDataBase<T>
     {
         private string _defautPath = $"../../../XmlDataBase/XmlData{DateTime.Now.Date:dd-MM-yyyy}.xml";
         private string _path;

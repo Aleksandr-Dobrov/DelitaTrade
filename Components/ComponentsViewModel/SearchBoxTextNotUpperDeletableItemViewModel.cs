@@ -3,7 +3,7 @@ using DelitaTrade.Models.Interfaces;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace DelitaTrade.Components.ComponetsViewModel
+namespace DelitaTrade.Components.ComponentsViewModel
 {
     public class SearchBoxTextNotUpperDeletableItemViewModel : SearchBoxTextNotUpperViewModel
     {

@@ -1,6 +1,6 @@
 ﻿using DelitaTrade.ViewModels;
 
-namespace DelitaTrade.Components.ComponetsViewModel
+namespace DelitaTrade.Components.ComponentsViewModel
 {
     public class PayMethodBoxViewModel : ViewModelBase
     {

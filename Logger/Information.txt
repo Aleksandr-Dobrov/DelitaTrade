@@ -9,3 +9,5 @@
 16.5.2024 г. 22:10:18 - Data base use ../../../XmlDataBase/XmlData16-05-2024.xml file path!
 17.5.2024 г. 20:31:43 - Data base use ../../../XmlDataBase/XmlData17-05-2024.xml file path!
 17.5.2024 г. 20:34:53 - Data base use ../../../XmlDataBase/XmlData17-05-2024.xml file path!
+3.10.2024 г. 23:06:01 - 222 Е with object Пица Росси not insert in DB
+3.10.2024 г. 23:14:47 - 222 Е with object Пица Росси not insert in DB

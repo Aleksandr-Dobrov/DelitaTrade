@@ -1,6 +1,6 @@
 ﻿namespace DelitaTrade.Models
 {
-    public interface IDataBase<T>
+    public interface IDelitaDataBase<T>
     {
         public string Path { set; }
 

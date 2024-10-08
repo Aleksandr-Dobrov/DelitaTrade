@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace DelitaTrade.Components.ComponetsViewModel
+namespace DelitaTrade.Components.ComponentsViewModel
 {
     public class SearchBoxTextNotUpperViewModel : SearchBoxTextViewModel
     {

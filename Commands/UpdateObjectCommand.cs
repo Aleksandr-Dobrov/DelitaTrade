@@ -45,11 +45,11 @@ namespace DelitaTrade.Commands
         {
             if (Agreement("Update", _addNewCompanyViewModel.ObjectName))
             {
-                _delitaTrade.UpdateCompanyObject(new CompanyObject(_addNewCompanyViewModel.ObjectName,
-                                                                      _addNewCompanyViewModel.Address,
-                                                                      _addNewCompanyViewModel.Trader.Item,
-                                                                      _addNewCompanyViewModel.BankPay),
-                                                                      _addNewCompanyViewModel.CompanyName);
+                _delitaTrade.UpdateCompanyObject(new CompanyObject(_addNewCompanyViewModel.CompanyName,
+                                                                   _addNewCompanyViewModel.ObjectName,
+                                                                   _addNewCompanyViewModel.Address,
+                                                                   _addNewCompanyViewModel.Trader.Item,
+                                                                   _addNewCompanyViewModel.BankPay));
             }
         }
     }

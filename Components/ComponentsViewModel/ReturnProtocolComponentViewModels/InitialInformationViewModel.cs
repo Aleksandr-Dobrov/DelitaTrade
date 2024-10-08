@@ -2,7 +2,7 @@
 using DelitaTrade.ViewModels;
 using System.Collections.ObjectModel;
 
-namespace DelitaTrade.Components.ComponetsViewModel.ReturnProtocolComponentViewModels
+namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentViewModels
 {
     public class InitialInformationViewModel
     {   

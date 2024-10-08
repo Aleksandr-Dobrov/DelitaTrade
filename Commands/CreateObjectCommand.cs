@@ -38,11 +38,11 @@ namespace DelitaTrade.Commands
         }
         public override void Execute(object? parameter)
         {
-            _delitaTrade.CreateNewCompanyObject(new CompanyObject(_addNewCompanyViewModel.ObjectName,
+            _delitaTrade.CreateNewCompanyObject(new CompanyObject(_addNewCompanyViewModel.CompanyName,
+                                                                  _addNewCompanyViewModel.ObjectName,
                                                                   _addNewCompanyViewModel.Address,
                                                                   _addNewCompanyViewModel.Trader.Item,
-                                                                  _addNewCompanyViewModel.BankPay),
-                                                                  _addNewCompanyViewModel.CompanyName);
+                                                                  _addNewCompanyViewModel.BankPay));
         }       
     }
 }

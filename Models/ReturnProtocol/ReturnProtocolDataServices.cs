@@ -15,9 +15,9 @@ namespace DelitaTrade.Models.ReturnProtocol
         private ReturnProtocolDataBase _returnProtocolDataBase;
         private IdDataGenerator _idGenerator;
 
-        private IDataBase<ReturnProtocolDelita> _dataBase;
-        private IDataBase<HashSet<string>> _returnProtocolIds;
-        private IDataBase<ReturnProtocolDataBase> _returnProtocolDataBaseProvider;
+        private IDelitaDataBase<ReturnProtocolDelita> _dataBase;
+        private IDelitaDataBase<HashSet<string>> _returnProtocolIds;
+        private IDelitaDataBase<ReturnProtocolDataBase> _returnProtocolDataBaseProvider;
 
         private string _returnProtocolIdsFilePath = "../../../ReturnProtocol/ReturnProtocolIds.xml";
         private string _dataBaseDirectoryPath = "../../../ReturnProtocol/ReturnProtocolsDataBase/";

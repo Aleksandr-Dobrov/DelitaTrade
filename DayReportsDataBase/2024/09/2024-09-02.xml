@@ -5,6 +5,7 @@
 		<Invoice>
 			<_amount>220.75</_amount>
 			<_companyName>Олдес ЕООД</_companyName>
+			<_id>0</_id>
 			<_income>0</_income>
 			<_invoiceID>1001163656</_invoiceID>
 			<_objectName>Бългериан Скай Сървис Кетъринг</_objectName>
@@ -14,6 +15,7 @@
 		<Invoice>
 			<_amount>1173.49</_amount>
 			<_companyName>Фили Вайб АД</_companyName>
+			<_id>0</_id>
 			<_income>0</_income>
 			<_invoiceID>1001163509</_invoiceID>
 			<_objectName>Пица Лаб</_objectName>
@@ -23,6 +25,7 @@
 		<Invoice>
 			<_amount>173.82</_amount>
 			<_companyName>ВМ Естейт ООД</_companyName>
+			<_id>0</_id>
 			<_income>173.82</_income>
 			<_invoiceID>1001163667</_invoiceID>
 			<_objectName>Бистро Европа 15</_objectName>
@@ -32,6 +35,7 @@
 		<Invoice>
 			<_amount>52</_amount>
 			<_companyName>Пюър Трейдинг ЕООД</_companyName>
+			<_id>0</_id>
 			<_income>0</_income>
 			<_invoiceID>1001163513</_invoiceID>
 			<_objectName>Гранд бистро</_objectName>
@@ -41,6 +45,7 @@
 		<Invoice>
 			<_amount>24</_amount>
 			<_companyName>Култ Гурме Кетъринг ЕООД</_companyName>
+			<_id>0</_id>
 			<_income>0</_income>
 			<_invoiceID>1001163685</_invoiceID>
 			<_objectName>Кулинарен цех</_objectName>
@@ -50,6 +55,7 @@
 		<Invoice>
 			<_amount>369.37</_amount>
 			<_companyName>Ниа 2016 ЕООД</_companyName>
+			<_id>0</_id>
 			<_income>0</_income>
 			<_invoiceID>1001163662</_invoiceID>
 			<_objectName>Евро Холд</_objectName>
@@ -59,6 +65,7 @@
 		<Invoice>
 			<_amount>90.5</_amount>
 			<_companyName>Лагардер Травъл Ритейл ЕООД</_companyName>
+			<_id>0</_id>
 			<_income>0</_income>
 			<_invoiceID>1001163653</_invoiceID>
 			<_objectName>Онда Терминал 2</_objectName>
@@ -68,6 +75,7 @@
 		<Invoice>
 			<_amount>186.00</_amount>
 			<_companyName>Едис Кетъринг ЕООД</_companyName>
+			<_id>0</_id>
 			<_income>0</_income>
 			<_invoiceID>1001163665</_invoiceID>
 			<_objectName>Едис Терминал 2</_objectName>
@@ -77,6 +85,7 @@
 		<Invoice>
 			<_amount>0</_amount>
 			<_companyName>Лагардер Травъл Ритейл ЕООД</_companyName>
+			<_id>0</_id>
 			<_income>0</_income>
 			<_invoiceID>1001163654</_invoiceID>
 			<_objectName>Онда Терминал 1 ЕС240</_objectName>
@@ -86,6 +95,7 @@
 		<Invoice>
 			<_amount>119.328</_amount>
 			<_companyName>Саза Тур ЕООД</_companyName>
+			<_id>0</_id>
 			<_income>0</_income>
 			<_invoiceID>1001163701</_invoiceID>
 			<_objectName>Премиер Хотел</_objectName>
@@ -95,6 +105,7 @@
 		<Invoice>
 			<_amount>1764.94</_amount>
 			<_companyName>Експрес Фууд Трейд ООД</_companyName>
+			<_id>0</_id>
 			<_income>1764.94</_income>
 			<_invoiceID>1001163688</_invoiceID>
 			<_objectName>Борса Станев</_objectName>
@@ -104,6 +115,7 @@
 		<Invoice>
 			<_amount>0</_amount>
 			<_companyName>СВ 2241 КК </_companyName>
+			<_id>0</_id>
 			<_income>-5</_income>
 			<_invoiceID>0020920240</_invoiceID>
 			<_objectName>Вход Булгарплод</_objectName>

@@ -188,19 +188,7 @@
                         <GridViewColumn Header="Objects" Width="200">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <ListView ItemsSource="{Binding CompanyObjects}">
-                                        <ListView.View>
-                                            <GridView>
-                                                <GridViewColumn Header="Object Name">
-                                                    <GridViewColumn.CellTemplate>
-                                                        <DataTemplate>
-                                                            <TextBlock Text="{Binding ObjectName}"/>
-                                                        </DataTemplate>
-                                                    </GridViewColumn.CellTemplate>
-                                                </GridViewColumn>
-                                            </GridView>
-                                        </ListView.View>
-                                    </ListView>
+                                    <ComboBox ItemsSource="{Binding CompanyObjects}" SelectedIndex="0"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

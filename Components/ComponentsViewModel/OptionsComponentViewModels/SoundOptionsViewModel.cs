@@ -5,7 +5,7 @@ using DelitaTrade.Models.DataProviders;
 using System.Windows.Input;
 using DelitaTrade.ViewModels;
 
-namespace DelitaTrade.Components.ComponetsViewModel.OptionsComponentViewModels
+namespace DelitaTrade.Components.ComponentsViewModel.OptionsComponentViewModels
 {
     public class SoundOptionsViewModel : ViewModelBase
     {

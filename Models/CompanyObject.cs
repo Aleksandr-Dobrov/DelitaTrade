@@ -1,36 +1,40 @@
-﻿using DelitaTrade.Models.Interfaces.ReturnProtocol;
+﻿using DelitaTrade.Models.Interfaces.DataBase;
+using DelitaTrade.Models.Interfaces.ReturnProtocol;
 using DelitaTrade.Models.ReturnProtocol;
-using System.Runtime.Serialization;
 
 namespace DelitaTrade.Models
 {
-    [DataContract]
-    public class CompanyObject : ICompanyObject, ISearchParametr
+    public class CompanyObject : ICompanyObject, ISearchParametr, IDBData
     {
-        [DataMember]
+        private const int _numberOfReferences = 1;
         private string _name;
-        [DataMember]
         private string _adrress;
-        [DataMember]
         private bool _bankPay;
-        [DataMember]
-        private Company _company;
-        [DataMember]
+        private string _companyName;
         private string _trader;
 
-        public CompanyObject(string name, string adrress, string trader, bool bankPay)
+        public CompanyObject(string companyName, string name, string adrress, string trader, bool bankPay)
         {
             _name = name;
             _adrress = adrress;
             _bankPay = bankPay;
             _trader = trader;
+            _companyName = companyName;
         }
 
-        public string SearchParametr => Name;
+        public string CompanyName => _companyName;
         public string Name => _name;
         public string Adrress => _adrress;
         public bool BankPay => _bankPay;
         public string Trader => _trader;
+
+        public string Parameters => "company_name-=-object_name-=-object_address-=-object_trader-=-object_bak_pay";
+        public string Data => $"{CompanyName}-=-{Name}-=-{Adrress}-=-{Trader}-=-{Convert.ToInt32(BankPay)}";
+        public string Procedure => "add_object_full";
+
+        public string SearchParametr => Name;
+
+        public int NumberOfReferences => _numberOfReferences;
 
         public SearchMethod GetSearchMethod()
         {
@@ -42,6 +46,11 @@ namespace DelitaTrade.Models
             _adrress = companyObject.Adrress;
             _bankPay = companyObject.BankPay;
             _trader = companyObject.Trader;
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }

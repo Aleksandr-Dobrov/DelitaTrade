@@ -19,13 +19,13 @@ namespace DelitaTrade.Models
         private DayReport _dayReport;
         private DelitaTradeDayReport _delitaTradeDayReport;
 
-        private IDataBase<DayReport> _dayReportDataProvider;
+        private IDelitaDataBase<DayReport> _dayReportDataProvider;
 
         private List<string> _dayReportsID;
         private Dictionary<string, List<string>> _invoicesId;
         private List<string> _vehicles;
 
-        public DayReportDataBase(IDataBase<DayReport> dataBase, DelitaTradeDayReport delitaTradeDayReport)
+        public DayReportDataBase(IDelitaDataBase<DayReport> dataBase, DelitaTradeDayReport delitaTradeDayReport)
         {
             _dayReportDataProvider = dataBase;            
             DayReportIdAdd += (string day) => { };
@@ -129,10 +129,10 @@ namespace DelitaTrade.Models
         public void AddNewInvoice(Invoice invoice) 
         {
             if (IsNewInvoice(invoice.InvoiceID) || IsUnpaidInvoice(invoice.InvoiceID))
-            {
+            {  
                 _dayReport.AddInvoice(invoice);
                 SaveDayReportToDataBase(_dayReport);
-                SaveInvoiceIdToDataBase(invoice.InvoiceID, _dayReport.DayReportID, invoice.Id);
+                SaveInvoiceIdToDataBase(invoice.InvoiceID, _dayReport.DayReportID, invoice.Id);                
             }
             else
             {

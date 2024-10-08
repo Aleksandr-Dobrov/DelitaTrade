@@ -5,6 +5,7 @@
 		<Invoice>
 			<_amount>485.8</_amount>
 			<_companyName>Мистрал Холидейс ООД</_companyName>
+			<_id>0</_id>
 			<_income>485.8</_income>
 			<_invoiceID>1001163797</_invoiceID>
 			<_objectName>Мистрал - Свети Влас</_objectName>
@@ -14,6 +15,7 @@
 		<Invoice>
 			<_amount>1839.89</_amount>
 			<_companyName>Пи Ем Дистрибюшън ООД</_companyName>
+			<_id>0</_id>
 			<_income>0</_income>
 			<_invoiceID>1001163796</_invoiceID>
 			<_objectName>Валмилк Бургас</_objectName>
@@ -23,6 +25,7 @@
 		<Invoice>
 			<_amount>312.76</_amount>
 			<_companyName>Понс-Комерс ЕООД</_companyName>
+			<_id>0</_id>
 			<_income>312.76</_income>
 			<_invoiceID>1001163803</_invoiceID>
 			<_objectName>Понс Комерс</_objectName>
@@ -32,6 +35,7 @@
 		<Invoice>
 			<_amount>144.89</_amount>
 			<_companyName>Понс-Комерс ЕООД</_companyName>
+			<_id>0</_id>
 			<_income>144.89</_income>
 			<_invoiceID>1001163804</_invoiceID>
 			<_objectName>Понс Комерс</_objectName>
@@ -41,6 +45,7 @@
 		<Invoice>
 			<_amount>210.13</_amount>
 			<_companyName>Пи Ем Дистрибюшън ООД</_companyName>
+			<_id>0</_id>
 			<_income>0</_income>
 			<_invoiceID>1001163787</_invoiceID>
 			<_objectName>Валмилк Бургас</_objectName>
@@ -50,6 +55,7 @@
 		<Invoice>
 			<_amount>721.49</_amount>
 			<_companyName>Пи Ем Дистрибюшън ООД</_companyName>
+			<_id>0</_id>
 			<_income>0</_income>
 			<_invoiceID>1001163799</_invoiceID>
 			<_objectName>Валмилк Бургас</_objectName>
@@ -59,6 +65,7 @@
 		<Invoice>
 			<_amount>592.81</_amount>
 			<_companyName>Брадърс Комерс ООД</_companyName>
+			<_id>0</_id>
 			<_income>0</_income>
 			<_invoiceID>1001163834</_invoiceID>
 			<_objectName>Брадърс Комерс</_objectName>
@@ -68,6 +75,7 @@
 		<Invoice>
 			<_amount>108.01</_amount>
 			<_companyName>Брадърс Комерс ООД</_companyName>
+			<_id>0</_id>
 			<_income>0</_income>
 			<_invoiceID>1001163836</_invoiceID>
 			<_objectName>Брадърс Комерс</_objectName>
@@ -77,6 +85,7 @@
 		<Invoice>
 			<_amount>1902.15</_amount>
 			<_companyName>Интерфууд Средец ООД</_companyName>
+			<_id>0</_id>
 			<_income>0</_income>
 			<_invoiceID>1001163800</_invoiceID>
 			<_objectName>Интерфууд Бургас</_objectName>
@@ -86,6 +95,7 @@
 		<Invoice>
 			<_amount>1335.69</_amount>
 			<_companyName>Боги 6 ЕООД</_companyName>
+			<_id>0</_id>
 			<_income>0</_income>
 			<_invoiceID>1001163833</_invoiceID>
 			<_objectName>Боги 6</_objectName>
@@ -95,6 +105,7 @@
 		<Invoice>
 			<_amount>435.94</_amount>
 			<_companyName>Фиоре ЕООД</_companyName>
+			<_id>0</_id>
 			<_income>0</_income>
 			<_invoiceID>1001163802</_invoiceID>
 			<_objectName>Фиоре</_objectName>
@@ -104,6 +115,7 @@
 		<Invoice>
 			<_amount>2222.39</_amount>
 			<_companyName>Ве Ве Груп ООД</_companyName>
+			<_id>0</_id>
 			<_income>0</_income>
 			<_invoiceID>1001163807</_invoiceID>
 			<_objectName>Фууд Маркет</_objectName>
@@ -113,6 +125,7 @@
 		<Invoice>
 			<_amount>298.94</_amount>
 			<_companyName>Ве Ве Груп ООД</_companyName>
+			<_id>0</_id>
 			<_income>0</_income>
 			<_invoiceID>1001163855</_invoiceID>
 			<_objectName>Фууд Маркет</_objectName>
@@ -122,6 +135,7 @@
 		<Invoice>
 			<_amount>83.42</_amount>
 			<_companyName>Ве Ве Груп ООД</_companyName>
+			<_id>0</_id>
 			<_income>0</_income>
 			<_invoiceID>1001163853</_invoiceID>
 			<_objectName>Фууд Маркет</_objectName>
@@ -131,6 +145,7 @@
 		<Invoice>
 			<_amount>652.64</_amount>
 			<_companyName>Лагардер Травъл Ритейл ЕООД</_companyName>
+			<_id>0</_id>
 			<_income>0</_income>
 			<_invoiceID>1001163792</_invoiceID>
 			<_objectName>Барико Просеко Бар - Летище Бургас</_objectName>
@@ -140,6 +155,7 @@
 		<Invoice>
 			<_amount>1726.96</_amount>
 			<_companyName>Ахелой Проджект ООД</_companyName>
+			<_id>0</_id>
 			<_income>0</_income>
 			<_invoiceID>1001163795</_invoiceID>
 			<_objectName>Хотел Уейв</_objectName>
@@ -149,6 +165,7 @@
 		<Invoice>
 			<_amount>398.65</_amount>
 			<_companyName>Юлен АД</_companyName>
+			<_id>0</_id>
 			<_income>0</_income>
 			<_invoiceID>1001163793</_invoiceID>
 			<_objectName>Гарфилд</_objectName>
@@ -158,6 +175,7 @@
 		<Invoice>
 			<_amount>3948.55</_amount>
 			<_companyName>Флора Фууд ЕООД</_companyName>
+			<_id>0</_id>
 			<_income>0</_income>
 			<_invoiceID>1001163798</_invoiceID>
 			<_objectName>Флора бар и грил - Слънчев бряг</_objectName>
@@ -167,6 +185,7 @@
 		<Invoice>
 			<_amount>430.31</_amount>
 			<_companyName>Лъки ЕООД</_companyName>
+			<_id>0</_id>
 			<_income>0</_income>
 			<_invoiceID>1001163835</_invoiceID>
 			<_objectName>Борса Лъки</_objectName>
@@ -176,6 +195,7 @@
 		<Invoice>
 			<_amount>72.58</_amount>
 			<_companyName>Лъки ЕООД</_companyName>
+			<_id>0</_id>
 			<_income>0</_income>
 			<_invoiceID>1001163843</_invoiceID>
 			<_objectName>Борса Лъки</_objectName>
@@ -185,6 +205,7 @@
 		<Invoice>
 			<_amount>85.55</_amount>
 			<_companyName>Лъки ЕООД</_companyName>
+			<_id>0</_id>
 			<_income>0</_income>
 			<_invoiceID>1001163852</_invoiceID>
 			<_objectName>Борса Лъки</_objectName>
@@ -194,6 +215,7 @@
 		<Invoice>
 			<_amount>3490.72</_amount>
 			<_companyName>Лъки ЕООД</_companyName>
+			<_id>0</_id>
 			<_income>0</_income>
 			<_invoiceID>1001163842</_invoiceID>
 			<_objectName>Борса Лъки</_objectName>

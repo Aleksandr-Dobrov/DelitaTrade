@@ -1,5 +1,5 @@
 ﻿using DelitaTrade.Commands;
-using DelitaTrade.Components.ComponetsViewModel;
+using DelitaTrade.Components.ComponentsViewModel;
 using DelitaTrade.Models;
 using DelitaTrade.Models.DataProviders;
 using DelitaTrade.Models.DataProviders.FileDirectoryProvider;

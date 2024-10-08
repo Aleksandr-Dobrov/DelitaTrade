@@ -1638,3 +1638,157 @@ StackTrace -    at DelitaTrade.Sounds.DelitaSoundPlayer.GetProperty(SoundEfect s
    at DelitaTrade.Models.DelitaTradeDayReport.PlayMoneyChangeSound() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 80
 InnerExceptioon - 
 --------------------------------------------------
+3.10.2024 г. 23:16:02 - Can not save backup data base!
+System.InvalidOperationException: Can not save backup data base!
+   at DelitaTrade.Models.DelitaTradeCompany.SaveBacupData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 120
+   at DelitaTrade.Models.DelitaTradeCompany.SaveData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 130
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DelitaTradeCompany.SaveBacupData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 120
+   at DelitaTrade.Models.DelitaTradeCompany.SaveData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 130
+InnerExceptioon - 
+--------------------------------------------------
+3.10.2024 г. 23:20:15 - Can not save backup data base!
+System.InvalidOperationException: Can not save backup data base!
+   at DelitaTrade.Models.DelitaTradeCompany.SaveBacupData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 120
+   at DelitaTrade.Models.DelitaTradeCompany.SaveData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 130
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DelitaTradeCompany.SaveBacupData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 120
+   at DelitaTrade.Models.DelitaTradeCompany.SaveData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 130
+InnerExceptioon - 
+--------------------------------------------------
+3.10.2024 г. 23:21:21 - Can not save backup data base!
+System.InvalidOperationException: Can not save backup data base!
+   at DelitaTrade.Models.DelitaTradeCompany.SaveBacupData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 120
+   at DelitaTrade.Models.DelitaTradeCompany.SaveData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 130
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DelitaTradeCompany.SaveBacupData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 120
+   at DelitaTrade.Models.DelitaTradeCompany.SaveData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 130
+InnerExceptioon - 
+--------------------------------------------------
+3.10.2024 г. 23:26:10 - Can not save backup data base!
+System.InvalidOperationException: Can not save backup data base!
+   at DelitaTrade.Models.DelitaTradeCompany.SaveBacupData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 120
+   at DelitaTrade.Models.DelitaTradeCompany.SaveData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 130
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DelitaTradeCompany.SaveBacupData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 120
+   at DelitaTrade.Models.DelitaTradeCompany.SaveData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 130
+InnerExceptioon - 
+--------------------------------------------------
+3.10.2024 г. 23:26:49 - Can not save backup data base!
+System.InvalidOperationException: Can not save backup data base!
+   at DelitaTrade.Models.DelitaTradeCompany.SaveBacupData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 120
+   at DelitaTrade.Models.DelitaTradeCompany.SaveData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 130
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DelitaTradeCompany.SaveBacupData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 120
+   at DelitaTrade.Models.DelitaTradeCompany.SaveData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 130
+InnerExceptioon - 
+--------------------------------------------------
+3.10.2024 г. 23:27:39 - Can not save backup data base!
+System.InvalidOperationException: Can not save backup data base!
+   at DelitaTrade.Models.DelitaTradeCompany.SaveBacupData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 120
+   at DelitaTrade.Models.DelitaTradeCompany.SaveData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 130
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DelitaTradeCompany.SaveBacupData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 120
+   at DelitaTrade.Models.DelitaTradeCompany.SaveData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 130
+InnerExceptioon - 
+--------------------------------------------------
+3.10.2024 г. 23:28:33 - Can not save backup data base!
+System.InvalidOperationException: Can not save backup data base!
+   at DelitaTrade.Models.DelitaTradeCompany.SaveBacupData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 120
+   at DelitaTrade.Models.DelitaTradeCompany.SaveData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 130
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DelitaTradeCompany.SaveBacupData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 120
+   at DelitaTrade.Models.DelitaTradeCompany.SaveData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 130
+InnerExceptioon - 
+--------------------------------------------------
+3.10.2024 г. 23:29:29 - Can not save backup data base!
+System.InvalidOperationException: Can not save backup data base!
+   at DelitaTrade.Models.DelitaTradeCompany.SaveBacupData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 120
+   at DelitaTrade.Models.DelitaTradeCompany.SaveData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 130
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DelitaTradeCompany.SaveBacupData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 120
+   at DelitaTrade.Models.DelitaTradeCompany.SaveData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 130
+InnerExceptioon - 
+--------------------------------------------------
+3.10.2024 г. 23:30:07 - Can not save backup data base!
+System.InvalidOperationException: Can not save backup data base!
+   at DelitaTrade.Models.DelitaTradeCompany.SaveBacupData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 120
+   at DelitaTrade.Models.DelitaTradeCompany.SaveData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 130
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DelitaTradeCompany.SaveBacupData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 120
+   at DelitaTrade.Models.DelitaTradeCompany.SaveData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 130
+InnerExceptioon - 
+--------------------------------------------------
+3.10.2024 г. 23:30:22 - Can not save backup data base!
+System.InvalidOperationException: Can not save backup data base!
+   at DelitaTrade.Models.DelitaTradeCompany.SaveBacupData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 127
+   at DelitaTrade.Models.DelitaTradeCompany.SaveData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 137
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DelitaTradeCompany.SaveBacupData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 127
+   at DelitaTrade.Models.DelitaTradeCompany.SaveData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeCompany.cs:line 137
+InnerExceptioon - 
+--------------------------------------------------
+5.10.2024 г. 17:21:31 - Incorrect number of arguments for PROCEDURE delita_db.delete_object; expected 2, got 1
+Incorrect number of arguments for PROCEDURE delita_db.delete_object; expected 2, got 1
+Source - Devart.Data.MySql
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at Devart.Data.MySql.ae.h()
+   at Devart.Data.MySql.ae.x()
+   at Devart.Data.MySql.av.a(s[]& A_0, Int32& A_1, Boolean A_2)
+   at Devart.Data.MySql.av.a0(Byte[] A_0, Int32 A_1, Boolean A_2, String A_3)
+   at Devart.Data.MySql.ah.r()
+   at Devart.Data.MySql.ah.s()
+   at Devart.Data.MySql.MySqlCommand.InternalExecute(CommandBehavior behavior, IDisposable stmt, Int32 startRecord, Int32 maxRecords)
+   at Devart.Common.DbCommandBase.InternalExecute(CommandBehavior behavior, IDisposable stmt, Int32 startRecord, Int32 maxRecords, Boolean nonQuery)
+   at Devart.Common.DbCommandBase.ExecuteDbDataReader(CommandBehavior behavior, Boolean nonQuery)
+   at Devart.Common.DbCommandBase.ExecuteDbDataReader(CommandBehavior behavior)
+   at Devart.Common.DbCommandBase.ExecuteNonQuery()
+   at DelitaTrade.Models.MySqlDataBase.MySqlDBDataWriter.Execute(IDBDelitaConnection connection, IDBData dBData) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\MySqlDataBase\MySqlDBDataWriter.cs:line 26
+InnerExceptioon - 
+--------------------------------------------------
+5.10.2024 г. 17:31:36 - Incorrect number of arguments for PROCEDURE delita_db.delete_company; expected 1, got 2
+Incorrect number of arguments for PROCEDURE delita_db.delete_company; expected 1, got 2
+Source - Devart.Data.MySql
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at Devart.Data.MySql.ae.h()
+   at Devart.Data.MySql.ae.x()
+   at Devart.Data.MySql.av.a(s[]& A_0, Int32& A_1, Boolean A_2)
+   at Devart.Data.MySql.av.a0(Byte[] A_0, Int32 A_1, Boolean A_2, String A_3)
+   at Devart.Data.MySql.ah.r()
+   at Devart.Data.MySql.ah.s()
+   at Devart.Data.MySql.MySqlCommand.InternalExecute(CommandBehavior behavior, IDisposable stmt, Int32 startRecord, Int32 maxRecords)
+   at Devart.Common.DbCommandBase.InternalExecute(CommandBehavior behavior, IDisposable stmt, Int32 startRecord, Int32 maxRecords, Boolean nonQuery)
+   at Devart.Common.DbCommandBase.ExecuteDbDataReader(CommandBehavior behavior, Boolean nonQuery)
+   at Devart.Common.DbCommandBase.ExecuteDbDataReader(CommandBehavior behavior)
+   at Devart.Common.DbCommandBase.ExecuteNonQuery()
+   at DelitaTrade.Models.MySqlDataBase.MySqlDBDataWriter.Execute(IDBDelitaConnection connection, IDBData dBData) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\MySqlDataBase\MySqlDBDataWriter.cs:line 26
+InnerExceptioon - 
+--------------------------------------------------
+5.10.2024 г. 18:00:24 - Incorrect number of arguments for PROCEDURE delita_db.delete_company; expected 1, got 2
+Incorrect number of arguments for PROCEDURE delita_db.delete_company; expected 1, got 2
+Source - Devart.Data.MySql
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at Devart.Data.MySql.ae.h()
+   at Devart.Data.MySql.ae.x()
+   at Devart.Data.MySql.av.a(s[]& A_0, Int32& A_1, Boolean A_2)
+   at Devart.Data.MySql.av.a0(Byte[] A_0, Int32 A_1, Boolean A_2, String A_3)
+   at Devart.Data.MySql.ah.r()
+   at Devart.Data.MySql.ah.s()
+   at Devart.Data.MySql.MySqlCommand.InternalExecute(CommandBehavior behavior, IDisposable stmt, Int32 startRecord, Int32 maxRecords)
+   at Devart.Common.DbCommandBase.InternalExecute(CommandBehavior behavior, IDisposable stmt, Int32 startRecord, Int32 maxRecords, Boolean nonQuery)
+   at Devart.Common.DbCommandBase.ExecuteDbDataReader(CommandBehavior behavior, Boolean nonQuery)
+   at Devart.Common.DbCommandBase.ExecuteDbDataReader(CommandBehavior behavior)
+   at Devart.Common.DbCommandBase.ExecuteNonQuery()
+   at DelitaTrade.Models.MySqlDataBase.MySqlDBDataWriter.Execute(IDBDelitaConnection connection, IDBData dBData) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\MySqlDataBase\MySqlDBDataWriter.cs:line 26
+InnerExceptioon - 
+--------------------------------------------------

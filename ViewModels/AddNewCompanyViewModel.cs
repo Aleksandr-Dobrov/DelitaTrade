@@ -1,7 +1,6 @@
 ﻿using DelitaTrade.Commands;
-using DelitaTrade.Components.ComponetsViewModel;
+using DelitaTrade.Components.ComponentsViewModel;
 using DelitaTrade.Models;
-using DelitaTradeProject.Commands;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;

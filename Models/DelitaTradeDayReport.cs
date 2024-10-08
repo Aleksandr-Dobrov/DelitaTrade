@@ -23,7 +23,7 @@ namespace DelitaTrade.Models
         private double _totalWeight;
         private string _transmissionDate;
 
-        public DelitaTradeDayReport(IDataBase<DayReport> dataBase, DelitaSoundService soundPlayer)
+        public DelitaTradeDayReport(IDelitaDataBase<DayReport> dataBase, DelitaSoundService soundPlayer)
         {
             _soundService = soundPlayer;
             _dayReportData = new DayReportDataBase(dataBase, this);
@@ -33,6 +33,8 @@ namespace DelitaTrade.Models
             CurentDayReportSelect += SetTransmissionDateToDayReportViewModel;
             CurrentDayReportUnselected += ResetTotals;
             MoneyChanged += PlayMoneyChangeSound;
+            ExportCompleted += () => { };
+            ExportStart += () => { };
             _dayReportBuilder = new DayReportBuilder("../../../Models/Exporters/DayReport.xlsx", "../../../DayReportsDataBase/ExportFiles/ExportedDayReport.xlsx");
         }
 
@@ -45,6 +47,8 @@ namespace DelitaTrade.Models
         public event System.Action TransmisionDateChange;
         public event System.Action TotalsChanged;
         public event System.Action MoneyChanged;
+        public event System.Action ExportCompleted;
+        public event System.Action ExportStart;
 
         public IDayReportIdDataBese DayReportIdDataBese => _dayReportData;
         public DayReport DayReport => _dayReport;
@@ -120,7 +124,9 @@ namespace DelitaTrade.Models
         {
             try
             {
-                await Task.Factory.StartNew(() => _dayReportBuilder.CreateDayReport(_dayReportData.LoadCopyDayReport()));
+                ExportStart();
+                var t = Task.Factory.StartNew(() => _dayReportBuilder.CreateDayReport(_dayReportData.LoadCopyDayReport()));
+                await RiseEventWhenExportCompleted(t);                
                 MessageBoxResult boxResult = MessageBox.Show($"Day report exported successful.{Environment.NewLine}Open file?", "Exporter"
                                                              , MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (boxResult == MessageBoxResult.Yes)
@@ -353,6 +359,12 @@ namespace DelitaTrade.Models
         private void OnDayReportsIdChanged()
         {
             DayReportsIdChanged?.Invoke();
+        }
+
+        private async Task RiseEventWhenExportCompleted(Task task)
+        {
+            await task;
+            ExportCompleted?.Invoke();
         }
 
         private void OnDayReportDataChanged()

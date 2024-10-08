@@ -10,7 +10,7 @@ namespace DelitaTrade.Models.ReturnProtocol
         [DataMember]
         private ProductsDataBase _productsData;
 
-        private IDataBase<ProductsDataBase> _productsDataBase;
+        private IDelitaDataBase<ProductsDataBase> _productsDataBase;
 
         private string _productsDataBaseFilePath;
 

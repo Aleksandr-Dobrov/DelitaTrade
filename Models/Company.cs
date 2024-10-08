@@ -1,21 +1,16 @@
-﻿using DelitaTrade.Models.Interfaces.ReturnProtocol;
+﻿using DelitaTrade.Models.Interfaces.DataBase;
+using DelitaTrade.Models.Interfaces.ReturnProtocol;
 using DelitaTrade.Models.ReturnProtocol;
-using System.Runtime.Serialization;
 
 namespace DelitaTrade.Models
 {
-    [DataContract]
-    public class Company : ICompany, ISearchParametr
+    public class Company : ICompany, ISearchParametr, IDBData
     {
-        [DataMember]
+        private const int _numberOfReferences = 0;
         private readonly string _name;
-        [DataMember]
         private string _type;
-        [DataMember]
         private string _bulstad;
-        [DataMember]
         private int _objectsCount;
-        [DataMember]
         private List<CompanyObject> _objects;
 
         public Company(string name, string type, string bulstad)
@@ -28,24 +23,33 @@ namespace DelitaTrade.Models
 
         public event Action ObjectsDataBaseChange;
 
-        public string SearchParametr => FullName;
         public string FullName => $"{Name} {Type}";
         public string Name => _name;
         public string Type => _type;
         public string Bulstad => _bulstad;
         public int ObjectsCount => _objects.Count;
 
-        public void TryAddNewObject(CompanyObject newCompanyObject)
+        public string Parameters => "company_name-=-company_type-=-company_bulstad";
+        public string Data => $"{Name}-=-{Type}-=-{Bulstad}";
+        public string Procedure => "add_company_full";
+
+        public string SearchParametr => FullName;
+
+        public int NumberOfReferences => _numberOfReferences;
+
+        public bool TryAddNewObject(CompanyObject newCompanyObject)
         {
             if (_objects.FirstOrDefault(o => o.Name == newCompanyObject.Name) == null)
             { 
                 _objects.Add(newCompanyObject);
                 _objectsCount++;
                 UpdateObjectsDataBase();
+                return true;
             }
+            return false;
         }
 
-        public void TryDeleteObject(CompanyObject companyObject)
+        public bool TryDeleteObject(CompanyObject companyObject)
         {
             CompanyObject objectToDelete = _objects.FirstOrDefault(o => o.Name == companyObject.Name);
 
@@ -54,18 +58,26 @@ namespace DelitaTrade.Models
                 _objects.Remove(objectToDelete);
                 _objectsCount--;
                 UpdateObjectsDataBase();
+                return true;
             }
+            return false;
         }
 
-        public void UpdateCompanyObject(CompanyObject companyObject)
-        { 
-            _objects.First(o => o.Name == companyObject.Name).UpdateCompanyObject(companyObject);
+        public bool UpdateCompanyObject(CompanyObject companyObject)
+        {
+            var obj = _objects.FirstOrDefault(o => o.Name == companyObject.Name);
+            if (obj != null)
+            {
+                obj.UpdateCompanyObject(companyObject);
+                return true;
+            }
+            return false;
         }
 
         public void UpdateCompanyData(Company company)
         { 
             _bulstad = company.Bulstad;
-            _type = company.Type;
+            _type = company.Type;            
         }
 
         public IEnumerable<CompanyObject> GetAllCompanyObjects()
