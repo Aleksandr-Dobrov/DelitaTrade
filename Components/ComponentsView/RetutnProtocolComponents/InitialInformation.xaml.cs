@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DelitaTrade.Components.RetutnProtocolComponents
+namespace DelitaTrade.Components.ComponentsView.RetutnProtocolComponents
 {
     /// <summary>
     /// Interaction logic for InitialInformation.xaml

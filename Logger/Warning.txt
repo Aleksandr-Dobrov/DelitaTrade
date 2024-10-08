@@ -389,3 +389,13 @@ StackTrace -    at DelitaTrade.Models.DayReportDataBase.RemoveInvoice(String inv
    at DelitaTrade.Models.DelitaTradeDayReport.RemoveInvoice(String invoiceId, Int32 id) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 334
 InnerExceptioon - 
 --------------------------------------------------
+8.10.2024 г. 21:55:10 - Value cannot be null. (Parameter 'Day report is not select')
+System.ArgumentNullException: Value cannot be null. (Parameter 'Day report is not select')
+   at DelitaTrade.Models.DayReportDataBase.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 214
+   at DelitaTrade.Models.DelitaTradeDayReport.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 282
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReportDataBase.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 214
+   at DelitaTrade.Models.DelitaTradeDayReport.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 282
+InnerExceptioon - 
+--------------------------------------------------

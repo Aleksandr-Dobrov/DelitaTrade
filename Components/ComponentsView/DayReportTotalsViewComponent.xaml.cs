@@ -3,11 +3,11 @@
 namespace DelitaTrade.Components.ComponentsView
 {
     /// <summary>
-    /// Interaction logic for PayMethodBox.xaml
+    /// Interaction logic for DayReportTotalsViewComponent.xaml
     /// </summary>
-    public partial class PayMethodBox : UserControl
+    public partial class DayReportTotalsViewComponent : UserControl
     {
-        public PayMethodBox()
+        public DayReportTotalsViewComponent()
         {
             InitializeComponent();
         }

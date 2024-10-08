@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DelitaTrade.Components
+namespace DelitaTrade.Components.ComponentsView
 {
     /// <summary>
     /// Interaction logic for LoadDayReportBox.xaml

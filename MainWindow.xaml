@@ -1,15 +1,15 @@
-﻿<Window x:Class="DelitaTrade.MainWindow"
+<Window x:Class="DelitaTrade.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DelitaTrade"
-        xmlns:components="clr-namespace:DelitaTrade.Components"
         xmlns:viewModels="clr-namespace:DelitaTrade.ViewModels"
         xmlns:viewModelsReturnProtocol="clr-namespace:DelitaTrade.ViewModels.ReturnProtocolViewModels" 
         xmlns:views="clr-namespace:DelitaTrade.Views"
+        xmlns:ComponentsViewb0f52d3e="clr-namespace:DelitaTrade.Components.ComponentsView"
+        d:DataContext="{d:DesignInstance Type=viewModels:MainViewModel}"
         mc:Ignorable="d"
-        Title="Delita Trade" Height="600" Width="900" MinWidth="900" MinHeight="600">
+        Title="Delita Trade" Height="600" Width="950" MinWidth="950" MinHeight="600">
     
     <Grid >
         <Grid.Background>
@@ -24,7 +24,7 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <components:NavigationBarView Grid.Row="0" DataContext="{Binding NavigationBarViewModel}"/>
+            <ComponentsViewb0f52d3e:NavigationBarView Grid.Row="0" DataContext="{Binding NavigationBarViewModel}"/>
             <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}">
                 <ContentControl.Resources>
                     <DataTemplate DataType="{x:Type viewModels:AddNewCompanyViewModel}">

@@ -14,7 +14,6 @@
     <None Remove="Components\ComponentAssets\DayReport\delete-file_40456.png" />
     <None Remove="Components\ComponentAssets\DayReport\remove.png" />
     <None Remove="Components\ComponentAssets\DayReport\update.png" />
-    <None Remove="Components\ComponentsView\excelIcon.png" />
     <None Remove="Components\delitaTradeLogo.png" />
   </ItemGroup>
 
@@ -39,7 +38,6 @@
     <Resource Include="Components\ComponentAssets\DayReport\delete-file_40456.png" />
     <Resource Include="Components\ComponentAssets\DayReport\remove.png" />
     <Resource Include="Components\ComponentAssets\DayReport\update.png" />
-    <Resource Include="Components\ComponentsView\excelIcon.png" />
   </ItemGroup>
 
   <ItemGroup>

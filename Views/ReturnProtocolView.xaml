@@ -1,10 +1,12 @@
-﻿<UserControl x:Class="DelitaTrade.Views.ReturnProtocolView"
+<UserControl x:Class="DelitaTrade.Views.ReturnProtocolView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:component="clr-namespace:DelitaTrade.Components.RetutnProtocolComponents"
-             xmlns:local="clr-namespace:DelitaTrade.Views" xmlns:returnprotocolviewmodels="clr-namespace:DelitaTrade.ViewModels.ReturnProtocolViewModels" d:DataContext="{d:DesignInstance Type=returnprotocolviewmodels:ReturnProtocolViewModel}"
+             
+             
+              xmlns:RetutnProtocolComponents3c1c13e5="clr-namespace:DelitaTrade.Components.ComponentsView.RetutnProtocolComponents"
+             d:DataContext="{d:DesignInstance Type=returnprotocolviewmodels:ReturnProtocolViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -13,8 +15,8 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">            
-            <component:InitialInformation Grid.Row="0" DataContext="{Binding InitialInformationViewModel}">                
-            </component:InitialInformation>
+            <RetutnProtocolComponents3c1c13e5:InitialInformation Grid.Row="0" DataContext="{Binding InitialInformationViewModel}">                
+            </RetutnProtocolComponents3c1c13e5:InitialInformation>
         </Grid>
     </Grid>
 </UserControl>

@@ -1,11 +1,12 @@
-﻿<UserControl x:Class="DelitaTrade.Views.DayReportsView"
+<UserControl x:Class="DelitaTrade.Views.DayReportsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:DelitaTrade.Views"
-             xmlns:components="clr-namespace:DelitaTrade.Components" xmlns:viewmodels="clr-namespace:DelitaTrade.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:DayReportsViewModel}"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"               
+             xmlns:ComponentsView88be9dc1="clr-namespace:DelitaTrade.Components.ComponentsView"
+             xmlns:viewmodels="clr-namespace:DelitaTrade.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewmodels:DayReportsViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="930"
              MinWidth="800">
@@ -237,7 +238,7 @@
                     Command="{Binding DeleteDayReportCommand}">
                 <Image Source="{Binding DeleteDayReportButtonImage}" Margin="6 1 1 1"/>
             </Button>
-            <components:LoadDayReportBox DataContext="{Binding DayReportIdViewModel}" Grid.Column="1" Width="auto" Height="28" 
+            <ComponentsView88be9dc1:LoadDayReportBox DataContext="{Binding DayReportIdViewModel}" Grid.Column="1" Width="auto" Height="28" 
                                          HorizontalAlignment="Left" Margin="6"/>
             <Border Grid.Column="2" BorderThickness="0" Background="{Binding DayReportColor}" CornerRadius="12">
                 <TextBlock Grid.Column="2" Text="Day Report :" Background="Transparent" 
@@ -304,9 +305,9 @@
                         <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="80"/>
                     </Grid.ColumnDefinitions>
-                    <components:SearchBox Grid.Column="0" MinWidth="180" x:Name="company"  DataContext="{Binding SearchBox}"/>
+                    <ComponentsView88be9dc1:SearchBox Grid.Column="0" MinWidth="180" x:Name="company"  DataContext="{Binding SearchBox}"/>
                     <TextBox Grid.Column="1" MinWidth="60" Name="type" Text="{Binding CompanyType, UpdateSourceTrigger=PropertyChanged}"/>
-                    <components:SearchBoxObject Grid.Column="2" MinWidth="140" x:Name="companyObject" DataContext="{Binding SearchBoxObject}"/>
+                    <ComponentsView88be9dc1:SearchBoxObject Grid.Column="2" MinWidth="140" x:Name="companyObject" DataContext="{Binding SearchBoxObject}"/>
                     <TextBox Grid.Column="3" MinWidth="80" Name="weight" Text="{Binding Weight}" GotFocus="TextBox_GotFocus"/>
                     <TextBox Grid.Column="4" Name="invoiceId" MinWidth="80" Text="{Binding InvoiceID, UpdateSourceTrigger=PropertyChanged}" 
                              GotFocus="TextBoxIDGotFocusSelectIndex" 
@@ -314,7 +315,7 @@
                     <TextBox Grid.Column="5" MinWidth="80" Name="amount" Text="{Binding Amount}"                             
                              GotFocus="TextBoxAmountGotFocus"
                              PreviewKeyDown="AmountKeyDown"/>
-                    <components:PayMethodBox Grid.Column="6" x:Name="payMethod" DataContext="{Binding PayMethodBox}"/>
+                    <ComponentsView88be9dc1:PayMethodBox Grid.Column="6" x:Name="payMethod" DataContext="{Binding PayMethodBox}"/>
                     <TextBox Grid.Column="7" MinWidth="80" Name="income" Text="{Binding Income}"
                              GotFocus="TextBoxIncomeGotFocus"
                              PreviewKeyDown="IncomeKeyDown"/>
@@ -410,7 +411,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <components:DayReportTotals DataContext="{Binding DayReportTotalsViewModel}"/>
+                <ComponentsView88be9dc1:DayReportTotalsViewComponent DataContext="{Binding DayReportTotalsViewModel}"/>
             </Grid>
         </Grid>
     </Grid>

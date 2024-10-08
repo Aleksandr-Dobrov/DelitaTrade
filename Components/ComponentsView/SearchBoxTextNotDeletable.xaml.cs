@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace DelitaTrade.Components
+namespace DelitaTrade.Components.ComponentsView
 {
     /// <summary>
     /// Interaction logic for SearchBoxTextNotDeletable.xaml
@@ -17,9 +17,9 @@ namespace DelitaTrade.Components
             InitializeComponent();
         }
         private void TextPropertyUpdateSource()
-        {
+        {            
             BindingExpression be = searchBoxText.GetBindingExpression(ComboBox.TextProperty);
-            be.UpdateSource();
+            be?.UpdateSource();
         }
 
         private void searchBoxText_KeyDown(object sender, KeyEventArgs e)

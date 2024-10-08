@@ -1,5 +1,6 @@
 ﻿using DelitaTrade.Components.ComponentsCommands;
 using DelitaTrade.Models;
+using DelitaTrade.Models.DataProviders.FileDirectoryProvider;
 using DelitaTrade.ViewModels;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -13,6 +14,7 @@ namespace DelitaTrade.Components.ComponentsViewModel
         private SearchBoxTextViewModel _transmissionDate;
         private DelitaTradeDayReport _delitaTradeDayReport;
         private ObservableCollection<string> _vehicles;
+        private string _exportImageSource = "Components\\ComponentAssets\\DayReport\\excelIcon.png";
 
         public DayReportTotalsViewModel(DelitaTradeDayReport delitaTradeDayReport)
         {
@@ -32,18 +34,13 @@ namespace DelitaTrade.Components.ComponentsViewModel
         public SearchBoxTextViewModel Vehicle => _vehicle;
                 
         public SearchBoxTextViewModel TransmissionDate => _transmissionDate;
-
-        public string TotalAmount => $"{_delitaTradeDayReport.TotalAmount:C}";
-        
+        public string TotalAmount => $"{_delitaTradeDayReport.TotalAmount:C}";        
         public string TotalIncome => $"{_delitaTradeDayReport.TotalIncome:C}";
-
-        public string TotalExpenses => $"{_delitaTradeDayReport.TotalExpenses:C}";
-               
-        public string TotalNonPay => $"{_delitaTradeDayReport.TotalNonPay:C}";
-               
+        public string TotalExpenses => $"{_delitaTradeDayReport.TotalExpenses:C}";               
+        public string TotalNonPay => $"{_delitaTradeDayReport.TotalNonPay:C}";               
         public string TotalOldInvoice => $"{_delitaTradeDayReport.TotalOldInvoice:C}";
-
         public string TotalWeight => $"{_delitaTradeDayReport.TotalWeight:F0} kg.";
+        public string ExportImageSource => FileSoursePath.GetFullFilePath(_exportImageSource);
         
         public ICommand AddNewVehicle { get; }
 
