@@ -39,6 +39,7 @@ namespace DelitaTrade.ViewModels
         private string _dayReportColor = _unselectDayReportColor;
         private string _addButtonColor = _lightGreenColor;
         private bool _isPayMethodLoad = false;
+        private bool _incomeEnable = false;
 
         public DayReportsViewModel(DelitaTradeDayReport delitaTradeDayReport, ViewModelBase addNewCompanyViewModel)
         {
@@ -192,6 +193,16 @@ namespace DelitaTrade.ViewModels
             }
         }
 
+        public bool IncomeEnable
+        {
+            get => _incomeEnable;
+            private set 
+            {
+                _incomeEnable = value;
+                OnPropertyChange();
+            }
+        }
+
         public bool IsUnpaidInvoice(string invoiceId)
         {
             if (invoiceId != null && IsNewInvoice(invoiceId) == false)
@@ -239,6 +250,7 @@ namespace DelitaTrade.ViewModels
             _dayReporsId.CollectionChanged += OnDayReportIdColectionChange;
             _invoices.CollectionChanged += OnInvoiceColectionChange;
             InvoiceColectionChange += () => { };
+            PaymentChange += SetIncomeTextBoxEnable;
         }
 
         private void OnLoadInvoiceFromList()
@@ -502,6 +514,18 @@ namespace DelitaTrade.ViewModels
                     break;
                 default:
                     break;
+            }
+        }
+
+        private void SetIncomeTextBoxEnable()
+        {
+            if (PayMethodBox.PayMethodText == "Банка")
+            {
+                IncomeEnable = false;
+            }
+            else 
+            {
+                IncomeEnable = true;
             }
         }
     }

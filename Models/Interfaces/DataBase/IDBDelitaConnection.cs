@@ -1,4 +1,4 @@
-﻿using Devart.Data.MySql;
+﻿using MySql.Data.MySqlClient;
 
 namespace DelitaTrade.Models.Interfaces.DataBase
 {

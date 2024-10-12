@@ -1,27 +1,24 @@
 ﻿using DelitaTrade.Models.Interfaces.DataBase;
-using Devart.Data.MySql;
+using MySql.Data;
+using MySql.Data.MySqlClient;
 
 namespace DelitaTrade.Models.MySqlDataBase
 {
     public class MySqlDBConnection : IDBDelitaConnection
     {
-
-        private readonly MySqlConnection _mySqlConnection;
-
-        public MySqlDBConnection()
-        {
-            _mySqlConnection = new MySqlConnection();
-        }
+        private const string host= "127.0.0.1";
+        private const string port = "3306";
+        private const string userId = "root";
+        private const string password = "10052016AdiCA0527CK.Audi";
+        private const string database = "delita_db";
+        private const string sslMode = "none";
+        private MySqlConnection _mySqlConnection;
 
         public MySqlConnection MySqlConnection => _mySqlConnection;
 
         public void ConectToDB()
-        {
-            _mySqlConnection.Host = "127.0.0.1";
-            _mySqlConnection.Port = 3306;
-            _mySqlConnection.UserId = "root";
-            _mySqlConnection.Password = "10052016AdiCA0527CK.Audi";
-            _mySqlConnection.Database = "delita_db";
+        {            
+            _mySqlConnection = new MySqlConnection($"server={host};port={port};user id={userId}; password={password}; database={database}; SslMode={sslMode}");
         }
     }
 }

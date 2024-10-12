@@ -1,6 +1,7 @@
 ﻿using DelitaTrade.Models.Interfaces.DataBase;
 using DelitaTrade.Models.Loggers;
-using Devart.Data.MySql;
+using MySql.Data;
+using MySql.Data.MySqlClient;
 using System.Data;
 
 namespace DelitaTrade.Models.MySqlDataBase

@@ -227,10 +227,10 @@
         <Grid Grid.Row="0" Margin="0 5 0 5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
-                <ColumnDefinition/>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <Button Style="{DynamicResource ButtonStyleRemove}" 
@@ -240,14 +240,7 @@
             </Button>
             <ComponentsView88be9dc1:LoadDayReportBox DataContext="{Binding DayReportIdViewModel}" Grid.Column="1" Width="auto" Height="28" 
                                          HorizontalAlignment="Left" Margin="6"/>
-            <Border Grid.Column="2" BorderThickness="0" Background="{Binding DayReportColor}" CornerRadius="12">
-                <TextBlock Grid.Column="2" Text="Day Report :" Background="Transparent" 
-                           Margin="5 0 5 0" FontSize="30" FontWeight="Medium" TextAlignment="Right"/>
-            </Border>
-            <TextBlock Grid.Column="3" Text="{Binding DayReportId}"
-                       Background="AliceBlue" TextAlignment="Center"
-                       Width="200" FontSize="30" FontWeight="Medium"/>
-            <Grid Grid.Column="4">
+            <Grid Grid.Column="2" Margin="10 0 5 6">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -256,13 +249,20 @@
                            Background="AliceBlue" Width="80" TextAlignment="Center"/>
                 <TextBox Grid.Row="1" Text="{Binding Date}" Width="80" HorizontalAlignment="Right"/>
             </Grid>
-            <Grid Grid.Column="5" Width="90" HorizontalAlignment="Center">
-                <Button Style="{DynamicResource ButtonStyleCreateInvoice}" Margin="0 4 0 -2" Width="38"
+            <Grid Grid.Column="3" Width="auto" HorizontalAlignment="Center">
+                <Button Style="{DynamicResource ButtonStyleCreateInvoice}" Margin="1" Width="38"
                         Command="{Binding CreateNewDayReportCommand}" 
                         FontSize="14" FontWeight="Medium">
-                    <Image Source="{Binding CreateDayReportButtonImage}" Margin="7 2 2 2"/>
+                    <Image Source="{Binding CreateDayReportButtonImage}" Margin="6 1 1 1"/>
                 </Button>                
-            </Grid>
+            </Grid>            
+            <Border Grid.Column="4" Margin="10 0 0 0" HorizontalAlignment="Right" BorderThickness="0" Background="{Binding DayReportColor}" CornerRadius="12">
+                <TextBlock Grid.Column="2" Text="Day Report :" Background="Transparent" 
+                           Margin="5 0 5 0" FontSize="30" FontWeight="Medium" TextAlignment="Right"/>
+            </Border>
+            <TextBlock Grid.Column="5" Text="{Binding DayReportId}"
+                       Background="AliceBlue" TextAlignment="Center"
+                       Width="200" FontSize="30" FontWeight="Medium"/>
         </Grid>
         <Grid Grid.Row="1" Width="auto">
             <Grid.ColumnDefinitions>
@@ -317,6 +317,7 @@
                              PreviewKeyDown="AmountKeyDown"/>
                     <ComponentsView88be9dc1:PayMethodBox Grid.Column="6" x:Name="payMethod" DataContext="{Binding PayMethodBox}"/>
                     <TextBox Grid.Column="7" MinWidth="80" Name="income" Text="{Binding Income}"
+                             IsEnabled="{Binding IncomeEnable}"
                              GotFocus="TextBoxIncomeGotFocus"
                              PreviewKeyDown="IncomeKeyDown"/>
                 </Grid>

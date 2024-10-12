@@ -46,7 +46,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Devart.Data.MySql" Version="9.3.21" />
+    <PackageReference Include="MySql.Data" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>

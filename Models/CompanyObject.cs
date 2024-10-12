@@ -28,7 +28,7 @@ namespace DelitaTrade.Models
         public bool BankPay => _bankPay;
         public string Trader => _trader;
 
-        public string Parameters => "company_name-=-object_name-=-object_address-=-object_trader-=-object_bak_pay";
+        public string Parameters => "company_name-=-object_name-=-object_address-=-object_trader-=-object_bank_pay";
         public string Data => $"{CompanyName}-=-{Name}-=-{Adrress}-=-{Trader}-=-{Convert.ToInt32(BankPay)}";
         public string Procedure => "add_object_full";
 
