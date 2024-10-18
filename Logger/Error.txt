@@ -1792,3 +1792,87 @@ StackTrace -    at Devart.Data.MySql.ae.h()
    at DelitaTrade.Models.MySqlDataBase.MySqlDBDataWriter.Execute(IDBDelitaConnection connection, IDBData dBData) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\MySqlDataBase\MySqlDBDataWriter.cs:line 26
 InnerExceptioon - 
 --------------------------------------------------
+16.10.2024 г. 15:36:44 - Object reference not set to an instance of an object.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at DelitaTrade.Models.Builder.ExcelBuilder.Close() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\Builder\ExcelBuilder.cs:line 190
+   at DelitaTrade.Models.Builder.ExcelBuilder.Dispose() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\Builder\ExcelBuilder.cs:line 171
+   at DelitaTrade.Models.Builder.DayReportBuilder.CreateDayReport(DayReport dayReport) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\Builder\DayReportBuilder.cs:line 23
+   at DelitaTrade.Models.DelitaTradeDayReport.<ExportDayReport>b__76_0() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 128
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at DelitaTrade.Models.DelitaTradeDayReport.RiseEventWhenExportCompleted(Task task) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 366
+   at DelitaTrade.Models.DelitaTradeDayReport.ExportDayReport() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 129
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.Builder.ExcelBuilder.Close() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\Builder\ExcelBuilder.cs:line 190
+   at DelitaTrade.Models.Builder.ExcelBuilder.Dispose() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\Builder\ExcelBuilder.cs:line 171
+   at DelitaTrade.Models.Builder.DayReportBuilder.CreateDayReport(DayReport dayReport) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\Builder\DayReportBuilder.cs:line 23
+   at DelitaTrade.Models.DelitaTradeDayReport.<ExportDayReport>b__76_0() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 128
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at DelitaTrade.Models.DelitaTradeDayReport.RiseEventWhenExportCompleted(Task task) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 366
+   at DelitaTrade.Models.DelitaTradeDayReport.ExportDayReport() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 129
+InnerExceptioon - 
+--------------------------------------------------
+16.10.2024 г. 15:37:45 - Object reference not set to an instance of an object.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at DelitaTrade.Models.Builder.ExcelBuilder.Close() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\Builder\ExcelBuilder.cs:line 190
+   at DelitaTrade.Models.Builder.ExcelBuilder.Dispose() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\Builder\ExcelBuilder.cs:line 171
+   at DelitaTrade.Models.Builder.DayReportBuilder.CreateDayReport(DayReport dayReport) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\Builder\DayReportBuilder.cs:line 23
+   at DelitaTrade.Models.DelitaTradeDayReport.<ExportDayReport>b__76_0() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 128
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at DelitaTrade.Models.DelitaTradeDayReport.RiseEventWhenExportCompleted(Task task) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 366
+   at DelitaTrade.Models.DelitaTradeDayReport.ExportDayReport() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 129
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.Builder.ExcelBuilder.Close() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\Builder\ExcelBuilder.cs:line 190
+   at DelitaTrade.Models.Builder.ExcelBuilder.Dispose() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\Builder\ExcelBuilder.cs:line 171
+   at DelitaTrade.Models.Builder.DayReportBuilder.CreateDayReport(DayReport dayReport) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\Builder\DayReportBuilder.cs:line 23
+   at DelitaTrade.Models.DelitaTradeDayReport.<ExportDayReport>b__76_0() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 128
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at DelitaTrade.Models.DelitaTradeDayReport.RiseEventWhenExportCompleted(Task task) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 366
+   at DelitaTrade.Models.DelitaTradeDayReport.ExportDayReport() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 129
+InnerExceptioon - 
+--------------------------------------------------
+16.10.2024 г. 15:38:01 - Object reference not set to an instance of an object.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at DelitaTrade.Models.Builder.ExcelBuilder.Close() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\Builder\ExcelBuilder.cs:line 190
+   at DelitaTrade.Models.Builder.ExcelBuilder.Dispose() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\Builder\ExcelBuilder.cs:line 171
+   at DelitaTrade.Models.Builder.DayReportBuilder.CreateDayReport(DayReport dayReport) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\Builder\DayReportBuilder.cs:line 23
+   at DelitaTrade.Models.DelitaTradeDayReport.<ExportDayReport>b__76_0() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 128
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at DelitaTrade.Models.DelitaTradeDayReport.RiseEventWhenExportCompleted(Task task) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 366
+   at DelitaTrade.Models.DelitaTradeDayReport.ExportDayReport() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 129
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.Builder.ExcelBuilder.Close() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\Builder\ExcelBuilder.cs:line 190
+   at DelitaTrade.Models.Builder.ExcelBuilder.Dispose() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\Builder\ExcelBuilder.cs:line 171
+   at DelitaTrade.Models.Builder.DayReportBuilder.CreateDayReport(DayReport dayReport) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\Builder\DayReportBuilder.cs:line 23
+   at DelitaTrade.Models.DelitaTradeDayReport.<ExportDayReport>b__76_0() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 128
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at DelitaTrade.Models.DelitaTradeDayReport.RiseEventWhenExportCompleted(Task task) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 366
+   at DelitaTrade.Models.DelitaTradeDayReport.ExportDayReport() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 129
+InnerExceptioon - 
+--------------------------------------------------

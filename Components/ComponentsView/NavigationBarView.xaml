@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-               d:DataContext="{d:DesignInstance Type=componetsviewmodel:NavigationBarViewModel}"
+             xmlns:componentsviewmodel="clr-namespace:DelitaTrade.Components.ComponentsViewModel"
+             d:DataContext="{d:DesignInstance Type=componentsviewmodel:NavigationBarViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="80" d:DesignWidth="800"
              Height="80">
@@ -34,30 +35,35 @@
                         <Border CornerRadius="8" BorderThickness="1" BorderBrush="DarkGray">
                             <Button x:Name="PayDesk" 
                             Background="Transparent" 
-                            Width="80" Content="  Pay&#xa; Desk" 
-                            FontSize="15" FontWeight="Medium" 
+                            Width="80" 
                             BorderBrush="Transparent"
-                            Command="{Binding NavigatePayDeskCommand}"/>
+                            Command="{Binding NavigatePayDeskCommand}">
+                                <Image Source="{Binding PayDeskImage}"/>
+                            </Button>
                         </Border>
                     </Grid>
                     <Grid Grid.Column="1" Background="Transparent">
                         <Border CornerRadius="8" BorderThickness="1" BorderBrush="DarkGray">
                             <Button x:Name="AddCompanyButton"
                                 Background="Transparent"
-                                Width="80" Content="Add New &#xa;Company" 
-                                FontSize="15" FontWeight="Medium" 
+                                Padding="10 12 10 8"
+                                Width="80" 
                                 BorderBrush="Transparent"
-                                Command="{Binding NavigateCompanyDataBaseCommand}"/>
+                                Command="{Binding NavigateCompanyDataBaseCommand}">
+                                <Image Source="{Binding CompaniesImage}"/>
+                            </Button>
                         </Border>
                     </Grid>
                     <Grid Grid.Column="2" Background="Transparent">
                         <Border CornerRadius="8" BorderThickness="1" BorderBrush="DarkGray">
                             <Button x:Name="DayReportButton" 
                                 Background="Transparent" 
-                                Width="80" Content="  Day &#xa;Report" 
-                                FontSize="15" FontWeight="Medium" 
+                                Padding="10"
+                                Width="80"
                                 BorderBrush="Transparent"
-                                Command="{Binding NavigateDayReportCommand}"/>
+                                Command="{Binding NavigateDayReportCommand}">
+                                <Image Source="{Binding DayReportImage}"/>
+                            </Button>
                         </Border>
                     </Grid>
 
@@ -71,18 +77,21 @@
                     <Border CornerRadius="8" BorderThickness="1" BorderBrush="DarkGray">
                         <Button x:Name="ReturnProtocoltButton" 
                                 Background="Transparent" 
-                                Width="80" Content=" Return &#xa;Protocol" 
-                                FontSize="15" FontWeight="Medium" 
+                                Width="80" 
                                 BorderBrush="Transparent"
-                                Command="{Binding NavigateReturnProtocolCommand}"/>
+                                Command="{Binding NavigateReturnProtocolCommand}">
+                            <Image Source="{Binding ReturnProtocolImage}"/>
+                        </Button>
                     </Border>
                     <Border CornerRadius="8" BorderThickness="1" BorderBrush="DarkGray">
                         <Button x:Name="OptionsButton" 
                                 Background="Transparent" 
-                                Width="80" Content=" Options" 
-                                FontSize="15" FontWeight="Medium" 
+                                Padding="10"
+                                Width="80"
                                 BorderBrush="Transparent"
-                                Command="{Binding NavigateOptionsCommand}"/>
+                                Command="{Binding NavigateOptionsCommand}">
+                            <Image Source="{Binding OptionsImage}"/>
+                        </Button>
                     </Border>
                 </StackPanel>
             </Grid>

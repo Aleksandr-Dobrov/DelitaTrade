@@ -264,7 +264,7 @@
 		</Invoice>
 	</_invoices>
 	<_payDesk>
-		<_amount>5495.00</_amount>
+		<_amount>5497.40</_amount>
 		<_banknotes xmlns:d3p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>0.01</d3p1:Key>
@@ -284,7 +284,7 @@
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>0.2</d3p1:Key>
-				<d3p1:Value>0</d3p1:Value>
+				<d3p1:Value>2</d3p1:Value>
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>0.5</d3p1:Key>
@@ -296,7 +296,7 @@
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>2.0</d3p1:Key>
-				<d3p1:Value>0</d3p1:Value>
+				<d3p1:Value>1</d3p1:Value>
 			</d3p1:KeyValueOfdecimalint>
 			<d3p1:KeyValueOfdecimalint>
 				<d3p1:Key>5.0</d3p1:Key>

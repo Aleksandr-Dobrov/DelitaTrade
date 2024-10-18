@@ -11,7 +11,7 @@
         mc:Ignorable="d"
         Title="Delita Trade" Height="600" Width="950" MinWidth="950" MinHeight="600">
     
-    <Grid >
+    <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="1,0">
                 <GradientStop Color="White"/>

@@ -186,12 +186,19 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Objects" Width="200">
+                        <GridViewColumn Header="C" Width="20">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ObjectsCount}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Objects" Width="180">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <ComboBox ItemsSource="{Binding CompanyObjects}" 
                                               SelectedIndex="0"
-                                              Width="170"/>
+                                              Width="150"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
