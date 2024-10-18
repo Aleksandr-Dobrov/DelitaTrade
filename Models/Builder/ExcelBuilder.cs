@@ -3,6 +3,7 @@ using System.IO;
 using _Excel = Microsoft.Office.Interop.Excel;
 using System.Reflection;
 using DelitaTrade.Models.Interfaces.Builder;
+using System.Windows;
 
 namespace DelitaTrade.Models.Builder
 {
@@ -43,12 +44,23 @@ namespace DelitaTrade.Models.Builder
 
         public void InitializedExporter(DayReport report)        
         {
-            _dayReport = report;
-            _excel = new _Excel.Application();
-            OpenFile();
-            CreateSheet();
+            if (IsFileNotInUse())
+            {
+                _dayReport = report;
+                _excel = new _Excel.Application();
+                OpenFile();
+                CreateSheet();
+            }
+            else if (MesageToCloseExportFile()) 
+            {
+                InitializedExporter(report);
+            }
+            else
+            {
+                throw new InvalidOperationException($"Can not export, because file:{Path} is open.");
+            }
         }
-
+        
         public void BuildHeather()
         {   
             _writer.WriteDataToRange(_ws, "Дневен Отчет", true, 22, false
@@ -168,7 +180,10 @@ namespace DelitaTrade.Models.Builder
 
         public void Dispose()
         {
-            Close();
+            if (_excel != null)
+            { 
+                Close();
+            }
         }
 
         public string Path
@@ -225,6 +240,34 @@ namespace DelitaTrade.Models.Builder
             File.Copy(_inputPath, Path, true);
             FileInfo fileInfo = new FileInfo(Path);
             _excelPath = fileInfo.FullName;
+        }
+
+        private bool IsFileNotInUse()
+        {
+            FileInfo fileInfo = new FileInfo(Path);
+            try
+            {
+                using (FileStream stream = fileInfo.Open(FileMode.Open, FileAccess.Read, FileShare.None))
+                {
+                    stream.Close();
+                }                
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private bool MesageToCloseExportFile()
+        {
+            MessageBoxResult result = MessageBox.Show("Export file is open. Please close it and click OK.", 
+                                                        "Export",MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.OK)
+            {
+                return true;
+            }
+            return false;
         }
 
         private void InitializeData()

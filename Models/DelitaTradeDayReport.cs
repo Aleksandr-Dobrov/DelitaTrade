@@ -136,7 +136,8 @@ namespace DelitaTrade.Models
             }
             catch (Exception ex)
             {
-                new FileLogger().Log(ex, Logger.LogLevel.Error).Log(ex, Logger.LogLevel.Error);               
+                new FileLogger().Log(ex, Logger.LogLevel.Error).Log(ex, Logger.LogLevel.Error);
+                ExportCompleted();
             }
         }
 
