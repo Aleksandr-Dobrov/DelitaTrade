@@ -1,15 +1,23 @@
 ﻿using DelitaTrade.Models.Interfaces.DataBase;
 using DelitaTrade.Models.MySqlDataBase;
+using MySql.Data.MySqlClient;
+using System.Collections;
 
 namespace DelitaTrade.Models
 {
 
-    public class CompaniesDataBase : IDBDataParse
+    public class CompaniesDataBase : IDBDataParser
     {
         private MySqlReadCommand[] _readCommands;  
         private List<Company> _companies;
 
         public MySqlReadCommand[] ReadCommands => _readCommands;
+
+        public MySqlParameter[] Parameters => throw new NotImplementedException();
+
+        public IDbDataBuilder DataBuilder => throw new NotImplementedException();
+
+        public int Count => _companies.Count;
 
         public CompaniesDataBase()
         {
@@ -86,11 +94,34 @@ namespace DelitaTrade.Models
             TryAddNewCompany(new Company(results[0], results[1], results[2]));
             if (results.Length > 3 && results[3] != string.Empty)
             {
-                AddNewCompanyObject(new CompanyObject(results[0] ,results[3], results[4], results[6], ParsMySqlBool(results[5])));
+                AddNewCompanyObject(new CompanyObject(results[0] ,results[3], results[4], results[6], ParseMySqlBool(results[5])));
             } 
         }
 
-        private bool ParsMySqlBool(string arg)
+        public IEnumerator<IDBData> GetEnumerator()
+        {
+            foreach (IDBData data in _companies)
+            {
+                yield return data;
+            }            
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _companies.GetEnumerator();
+        }
+
+        public bool ContainsKey(IDBData dBData)
+        {
+            return _companies.Contains(dBData);
+        }
+
+        public IDBData GetObject(IDBData data)
+        {
+            return _companies.FirstOrDefault(c => c == data);
+        }
+
+        private bool ParseMySqlBool(string arg)
         {
             if (arg == null || arg == "0")
             {
@@ -100,6 +131,22 @@ namespace DelitaTrade.Models
             {
                 return true;
             }
+        }
+
+        public bool AddData(IDBData data)
+        {
+            if (_companies.Contains(data))
+            { 
+                return false;
+            }
+            _companies.Add((Company)data);                
+            return true;
+
+        }
+
+        public bool RemoveData(IDBData data)
+        {
+            throw new NotImplementedException();
         }
     }
 }

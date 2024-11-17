@@ -13,8 +13,10 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="{Binding Text}"  VerticalAlignment="Center" HorizontalAlignment="Center"
-           FontSize="14" FontWeight="Medium"/>
+        <TextBlock Grid.Row="0" Text="{Binding Text}"  
+                   VerticalAlignment="Center" HorizontalAlignment="Center"
+                   Foreground="{Binding TextColor}"
+                   FontSize="14" FontWeight="Medium"/>
         <ComboBox Grid.Row="1" x:Name="searchBoxText"
                   ItemsSource="{Binding Items}"
                   Text="{Binding Item, UpdateSourceTrigger=Explicit}"

@@ -7,13 +7,16 @@ namespace DelitaTrade.ViewModels
     {
         private readonly DelitaTradeDayReport _delitaTradeDayReport;
         private readonly SoundOptionsViewModel _soundOptionsViewModel;
+        private readonly DayReportInputOptionsViewModelComponent _dayReoprtInputOptions;
         
-        public OptionsViewModel(DelitaTradeDayReport delitaTradeDayReport)
+        public OptionsViewModel(DelitaTradeDayReport delitaTradeDayReport, DayReportInputOptionsViewModelComponent options)
         {
             _delitaTradeDayReport = delitaTradeDayReport;
             _soundOptionsViewModel = new SoundOptionsViewModel(delitaTradeDayReport);
+            _dayReoprtInputOptions = options;
         }
 
         public SoundOptionsViewModel SoundOptionsViewModel => _soundOptionsViewModel;
+        public DayReportInputOptionsViewModelComponent DayReportInputOptionsViewModel => _dayReoprtInputOptions;
     }
 }

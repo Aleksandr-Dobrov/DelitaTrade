@@ -4,38 +4,34 @@ using DelitaTrade.Models.DataProviders;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Windows;
+using DelitaTrade.Models.DataBases;
+using DelitaTrade.Models.Interfaces.Builder;
+using DelitaTrade.Models.Interfaces.DataBase;
+using DelitaTrade.Models.DataBases.DayReportDataBase;
+using DelitaTrade.Models.MySqlDataBase;
+using DelitaTrade.Models.Builder.DataBase;
+using MySql.Data.MySqlClient;
 
 namespace DelitaTrade.Models
 {
     public class DayReportDataBase : IDayReportIdDataBese
     {
-        private const int _exor = 156;
-        private const string _safeDataBasePath = "../../../DayReportsDataBase";
-        private const string _invoicesIdFilePath = $"{_safeDataBasePath}/invoiceIdDataBase.dsc";
-        private const string _dayReportIdFilePath = $"{_safeDataBasePath}/dayReportIdDataBase.dsc";
-        private const string _vehiclesFilePath = $"{_safeDataBasePath}/vehiclesDataBase.dsc";
+        private int _payDeskId = 0;
 
-        [DataMember]
         private DayReport _dayReport;
         private DelitaTradeDayReport _delitaTradeDayReport;
+        private DayReportDataService _dayReportDataService;
 
-        private IDelitaDataBase<DayReport> _dayReportDataProvider;
+        private readonly IDBProvider _dbProvider;
 
-        private List<string> _dayReportsID;
-        private Dictionary<string, List<string>> _invoicesId;
-        private List<string> _vehicles;
-
-        public DayReportDataBase(IDelitaDataBase<DayReport> dataBase, DelitaTradeDayReport delitaTradeDayReport)
+        public DayReportDataBase(DelitaTradeDayReport delitaTradeDayReport, IDBProvider dBProvider)
         {
-            _dayReportDataProvider = dataBase;            
+            _dbProvider = dBProvider;          
             DayReportIdAdd += (string day) => { };
             DayReportIdRemove += (string day) => { };
             DayReportIdsLoad += (List<string> days) => { };
             DayReportsIdChanged += () => { };
-            TryCreateSafeDirectory();
-            TryLoadDayReportData();
-            TryLoadInvoiceIdData();
-            TryLoadListStringsData(ref _vehicles, _vehiclesFilePath);
+            _dayReportDataService = new DayReportDataService(dBProvider);
             _delitaTradeDayReport = delitaTradeDayReport;
             _delitaTradeDayReport.CurentDayReportSelect += OndayReportEnable;
             _delitaTradeDayReport.CurrentDayReportUnselected -= OndayReportDesable;
@@ -46,18 +42,21 @@ namespace DelitaTrade.Models
         public event Action<string> DayReportIdAdd;
         public event Action<string> DayReportIdRemove;
 
-        public IEnumerable<string> DayReportsId => _dayReportsID;
+        public IEnumerable<string> DayReportsId => _dayReportDataService.DayReportsId;
 
-        public IEnumerable<string> Vehicles => _vehicles;
+        public IDBDataParser Vehicles => _dayReportDataService.DbVehicle;
 
         public DayReport CreateDayReport(string dayReportID)
         {
             try
             {
-                if (IsNewDayReport(dayReportID))
+                if (IsNewDayReport(new DayReport(dayReportID)))
                 {
-                    _dayReport = new DayReport(dayReportID);
-                    CreateDayReportInDataBase(_dayReport);
+                    _dayReport = new DayReport(dayReportID, _payDeskId--);
+                    _dayReportDataService.SaveNewDataToDb(_dayReport);
+                    _dayReportDataService.SaveData(_dayReport.PayDesk);
+                    OnDayReportsIdChanged();
+                    OnDayReportIdAdd(dayReportID);
                     return _dayReport;
                 }
                 else
@@ -73,10 +72,10 @@ namespace DelitaTrade.Models
         }
 
         public DayReport LoadDayReport(string dayReportID)
-        {
-            if (_dayReportsID.Contains(dayReportID))
+        {            
+            if (IsNewDayReport(new DayReport(dayReportID)) == false)
             {
-                LoadDayReportFromDataBase(dayReportID);
+                _dayReport = _dayReportDataService.LoadDayReport(dayReportID);
                 return _dayReport;
             }
             else
@@ -91,33 +90,23 @@ namespace DelitaTrade.Models
             {
                 throw new ArgumentNullException("Day report is not loaded");
             }
-            _dayReportDataProvider.Path = SetDayReportFilePath(_dayReport.DayReportID);
-            return _dayReportDataProvider.LoadAllData();
+            
+            return (DayReport)_dayReport.Clone();
         }
 
         public void DeleteDayReport(string dayReportId)
         {
-            if (IsNewDayReport(dayReportId) == false)
-            {
-                _dayReportsID.Remove(dayReportId);
-                Dictionary<string, List<string>> invoiceToDelete = _invoicesId
-                    .Where(i => i.Value
-                        .All(r => r
-                            .Split(",", StringSplitOptions.RemoveEmptyEntries)[0] == dayReportId))
-                    .ToDictionary();
-                foreach (var item in invoiceToDelete)
+            DayReport key = new DayReport(dayReportId);
+            if (IsNewDayReport(key) == false)
+            { 
+                DayReport dayReport = (DayReport)_dayReportDataService.GetDBObject(key);
+                _dayReportDataService.DeleteData(dayReport.PayDesk);
+                foreach (var invoice in dayReport.Invoices)
                 {
-                    foreach (var invoice in item.Value)
-                    {
-                        string[] dayReportPairId = invoice.Split(",", StringSplitOptions.RemoveEmptyEntries);
-                        RemoveInvoiceIdFromDayReport(dayReportId, item.Key, int.Parse(dayReportPairId[1]));
-                    }
+                    _dayReportDataService.DeleteData(invoice);
                 }
-
-                File.Delete(SetDayReportFilePath(dayReportId));
-
-                SaveAllInvoiceIdToDataBase();
-                SaveAllReportIdToDataBase();
+                _dayReportDataService.DeleteDataFromDB(dayReport);
+                OnDayReportsIdChanged();
                 OnDayReportIdRemove(dayReportId);
             }
             else
@@ -129,10 +118,11 @@ namespace DelitaTrade.Models
         public void AddNewInvoice(Invoice invoice) 
         {
             if (IsNewInvoice(invoice.InvoiceID) || IsUnpaidInvoice(invoice.InvoiceID))
-            {  
+            {
+                invoice.SetId(_dayReportDataService);
                 _dayReport.AddInvoice(invoice);
-                SaveDayReportToDataBase(_dayReport);
-                SaveInvoiceIdToDataBase(invoice.InvoiceID, _dayReport.DayReportID, invoice.Id);                
+                _dayReportDataService.SaveNewDataToDb(invoice);
+                _dayReportDataService.UpdateDataInDB(_dayReport);                
             }
             else
             {
@@ -143,11 +133,9 @@ namespace DelitaTrade.Models
         public void RemoveInvoice(string invoice, int id)
         {
             if (invoice != null && (IsNewInvoice(invoice) == false))
-            {
-                _dayReport.RemoveInvoice(invoice, id);
-                SaveDayReportToDataBase(_dayReport);
-                RemoveInvoiceIdFromDayReport(_dayReport.DayReportID, invoice, id);
-                SaveAllInvoiceIdToDataBase();
+            {                
+                _dayReportDataService.DeleteDataFromDB(_dayReport.RemoveInvoice(invoice, id));
+                _dayReportDataService.UpdateDataInDB(_dayReport);
             }           
             else
             {
@@ -160,7 +148,8 @@ namespace DelitaTrade.Models
             if (invoice != null && (IsNewInvoice(invoice.InvoiceID) == false))
             {
                 _dayReport.UpdateInvoice(invoice);
-                SaveDayReportToDataBase(_dayReport);
+                _dayReportDataService.UpdateDataInDB(invoice);
+                _dayReportDataService.UpdateDataInDB(_dayReport);
             }
             else
             {
@@ -173,19 +162,14 @@ namespace DelitaTrade.Models
             if (IsValidLicencePlate(vehicle))
             {
                 if (_dayReport != null && _dayReport.Vehicle != vehicle)
-                {
-                    MessageBoxResult result = MessageBox.Show("Add vehicle to day report?", 
-                             "Question", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if(result == MessageBoxResult.Yes)
-                    {
-                        _dayReport.Vehicle = vehicle;
-                        SaveDayReportToDataBase(_dayReport);
-                    }
+                {                    
+                    _dayReport.Vehicle = vehicle;
+                    _dayReportDataService.UpdateDataInDB(_dayReport);     
                 }
-                if (_vehicles.Contains(vehicle.ToUpper()) == false)
+                if (_dayReportDataService.DbVehicle.ContainsKey(new Vehicle(vehicle, "nome")) == false)
                 {
-                    _vehicles.Add(vehicle.ToUpper());
-                    SaveAllListStringsToDataBase(ref _vehicles, _vehiclesFilePath);
+                    _dbProvider.Execute(new MySqlDBDataWriter(), new Vehicle(vehicle, "nome"));
+                    _dayReportDataService.LoadAllVehicle();
                 }
             }
             else 
@@ -205,7 +189,7 @@ namespace DelitaTrade.Models
                     if (result == MessageBoxResult.Yes)
                     {
                         _dayReport.TransmissionDate = date;
-                        SaveDayReportToDataBase(_dayReport);
+                        _dayReportDataService.UpdateDataInDB(_dayReport);
                     }                    
                 }
             }
@@ -227,39 +211,38 @@ namespace DelitaTrade.Models
 
         private void OndayReportEnable()
         {
-            _delitaTradeDayReport.MoneyChanged += SaveChangedDayReportToDataBase;
+            _delitaTradeDayReport.MoneyChanged += UpdateDayReportInDB;
         }
 
         private void OndayReportDesable()
         {
-            _delitaTradeDayReport.MoneyChanged -= SaveChangedDayReportToDataBase;
+            _delitaTradeDayReport.MoneyChanged -= UpdateDayReportInDB;
         }
 
         private bool IsNewInvoice(string invoiceId)
         {
-            return _invoicesId.ContainsKey(invoiceId) == false;
+            if (_dayReportDataService.Invoices.FirstOrDefault(i => ((Invoice)i).InvoiceID == invoiceId) != null)
+            {
+                return false;
+            }
+            return true;
         }
 
         private bool IsUnpaidInvoice(string invoiceId)
         {
-            List<string> dayReportId;
-            if (_invoicesId.TryGetValue(invoiceId, out dayReportId))
+            decimal amount = 0;
+            decimal totalIncome = 0;
+            string payMetod = string.Empty;
+            
+            var result = _dayReportDataService.Invoices.Where(i => ((Invoice)i).InvoiceID == invoiceId);
+
+            if (result != null) 
             {
-                decimal amount = 0;
-                decimal totalIncome = 0;
-                string payMetod = string.Empty;
-
-                for (int i = (dayReportId.Count) - 1; i >= 0; i--)
+                foreach (Invoice invoice in result)
                 {
-                    string[] invoices = dayReportId[i].Split(",", StringSplitOptions.RemoveEmptyEntries);
-                    
-                    _dayReportDataProvider.Path = SetDayReportFilePath(invoices[0]);                    
-                    var dayReport = _dayReportDataProvider.LoadAllData();                    
-                    var invoice = dayReport.GetAllInvoices().First(i => i.InvoiceID == invoiceId && i.Id == int.Parse(invoices[1]));
-
                     totalIncome += invoice.Income;
                     if (invoice.Amount > amount)
-                    { 
+                    {
                         amount = invoice.Amount;
                     }
                     payMetod = invoice.PayMethod;
@@ -275,213 +258,21 @@ namespace DelitaTrade.Models
                     return false;
                 }
             }
+
             throw new ArgumentException("Invoice is not exists in databa");
         }
 
-        private decimal GetTotalIncomeFromInvoice(string invoiceId)
+        private void UpdateDayReportInDB()
         {
-            List<string> dayReportId;
-            if (_invoicesId.TryGetValue(invoiceId, out dayReportId))
+            if (_dayReport != null)
             {
-                decimal amount = 0;
-                decimal totalIncome = 0;
-                foreach (var day in dayReportId)
-                {
-                    _dayReportDataProvider.Path = SetDayReportFilePath(dayReportId[^1]);
-                    var dayReport = _dayReportDataProvider.LoadAllData();
-                    var invoice = dayReport.GetAllInvoices().First(i => i.InvoiceID == invoiceId);
-                    totalIncome += invoice.Income;
-                    if (invoice.Amount > amount)
-                    {
-                        amount = invoice.Amount;
-                    }
-                }
-                return totalIncome;
-            }
-            throw new InvalidOperationException("Invoice not found");
-        }
-
-        private string SetDayReportFilePath(string fileName)
-        {
-            string[] folders = fileName.Split('-');
-            string filePath = string.Empty;
-            if (folders.Length == 3)
-            {
-                string year = folders[0];
-                string month = folders[1];
-                filePath = $"{_safeDataBasePath}/{year}/{month}";
-            }
-            else
-            {
-                throw new ArgumentException("Incorrect report ID format! Format must be: [DD-MM-YYYY] ");
-            }
-
-            if (Directory.Exists(filePath) == false)
-            {
-                Directory.CreateDirectory(filePath);
-            }
-
-            return $"{filePath}/{fileName}.xml";
-        }
-
-        private void TryCreateSafeDirectory()
-        {
-
-            if (Directory.Exists(_safeDataBasePath) == false)
-            {
-                Directory.CreateDirectory(_safeDataBasePath);
+                _dayReportDataService.UpdateDataInDB(_dayReport);
             }
         }
 
-        private void TryLoadListStringsData(ref List<string> values, string filePath)
+        private bool IsNewDayReport(DayReport key)
         {
-            if (File.Exists(filePath))
-            {
-                values = new List<string>();
-                DataFileEncryptProvider.EncryptDataBaseFile(filePath, _exor);
-                values = File.ReadAllLines(filePath).ToList();
-                DataFileEncryptProvider.EncryptDataBaseFile(filePath, _exor);
-            }
-            else
-            {
-                values = new List<string>();
-            }
-        }
-
-        private void TryLoadDayReportData()
-        {
-            if (File.Exists(_dayReportIdFilePath))
-            {
-                _dayReportsID = new List<string>();
-                DataFileEncryptProvider.EncryptDataBaseFile(_dayReportIdFilePath, _exor);
-                _dayReportsID = File.ReadAllLines(_dayReportIdFilePath).ToList();
-                DataFileEncryptProvider.EncryptDataBaseFile(_dayReportIdFilePath, _exor);
-            }
-            else
-            {
-                _dayReportsID = new List<string>();
-            }
-            OnDayReportsIdChanged();
-            OnDayReportIdsLoadComplete(_dayReportsID);
-        }
-
-        private void TryLoadInvoiceIdData()
-        {
-            if (File.Exists(_invoicesIdFilePath))
-            {
-                _invoicesId = new Dictionary<string, List<string>>();
-                DataFileEncryptProvider.EncryptDataBaseFile(_invoicesIdFilePath, _exor);
-                string[] loadData = File.ReadAllLines(_invoicesIdFilePath);
-                DataFileEncryptProvider.EncryptDataBaseFile(_invoicesIdFilePath, _exor);
-                foreach (string line in loadData)
-                {
-                    string[] invoiceIdDayReportIds = line.Split('=');
-                    if (_invoicesId.ContainsKey(invoiceIdDayReportIds[0]))
-                    {
-                        _invoicesId[invoiceIdDayReportIds[0]].Add(invoiceIdDayReportIds[1]);
-                    }
-                    else
-                    {
-                        List<string> values = [invoiceIdDayReportIds[1]];
-                        _invoicesId.Add(invoiceIdDayReportIds[0], values);
-                    }                    
-                }
-            }
-            else
-            {
-                _invoicesId = new Dictionary<string, List<string>>();
-            }
-        }
-        
-        private void SaveInvoiceIdToDataBase(string invoiceId, string dayReportId, int id)
-        {
-            if (_invoicesId.ContainsKey(invoiceId))
-            {
-                _invoicesId[invoiceId].Add($"{dayReportId},{id}");
-            }
-            else
-            {
-                List<string> values = [$"{dayReportId},{id}"];
-                _invoicesId.Add(invoiceId, values);
-            }
-            DataFileEncryptProvider.EncryptDataBaseFile(_invoicesIdFilePath, _exor);
-            using (StreamWriter safeInvoiceId = new StreamWriter(_invoicesIdFilePath, true))
-            {
-                safeInvoiceId.WriteLine($"{invoiceId}={dayReportId},{id}");
-            }
-            DataFileEncryptProvider.EncryptDataBaseFile(_invoicesIdFilePath, _exor);
-        }
-
-        private void SaveAllInvoiceIdToDataBase()
-        {
-            DataFileEncryptProvider.EncryptDataBaseFile(_invoicesIdFilePath, _exor);
-            using (StreamWriter safeInvoiceId = new StreamWriter(_invoicesIdFilePath))
-            {
-                foreach (var invoice in _invoicesId)
-                {
-                    foreach (var dayReportId in invoice.Value)
-                    {
-                        safeInvoiceId.WriteLine($"{invoice.Key}={dayReportId}");
-                    }
-                }
-            }
-            DataFileEncryptProvider.EncryptDataBaseFile(_invoicesIdFilePath, _exor);
-        }
-
-        private void SaveDayReportIdToDataBase(string dayReportId)
-        {
-            _dayReportsID.Add(dayReportId);
-            DataFileEncryptProvider.EncryptDataBaseFile(_dayReportIdFilePath, _exor);
-            using (StreamWriter saveDayReportId = new StreamWriter(_dayReportIdFilePath, true))
-            {
-                saveDayReportId.WriteLine($"{dayReportId}");
-            }
-            DataFileEncryptProvider.EncryptDataBaseFile(_dayReportIdFilePath, _exor);
-            OnDayReportsIdChanged();
-            OnDayReportIdAdd(dayReportId);
-        }
-
-        private void SaveAllReportIdToDataBase()
-        {
-            DataFileEncryptProvider.EncryptDataBaseFile(_dayReportIdFilePath, _exor);
-            using (StreamWriter saveDayReportId = new StreamWriter(_dayReportIdFilePath))
-            {
-                foreach (var dayreportId in _dayReportsID)
-                {
-                    saveDayReportId.WriteLine($"{dayreportId}");
-                }
-            }
-            DataFileEncryptProvider.EncryptDataBaseFile(_dayReportIdFilePath, _exor);
-            OnDayReportsIdChanged();
-        }
-
-        private void SaveAllListStringsToDataBase(ref List<string> values, string filePath)
-        {
-            DataFileEncryptProvider.EncryptDataBaseFile(filePath, _exor);
-            using (StreamWriter saveValues = new StreamWriter(filePath))
-            {
-                foreach (var value in values)
-                {
-                    saveValues.WriteLine($"{value}");
-                }
-            }
-            DataFileEncryptProvider.EncryptDataBaseFile(filePath, _exor);
-        }
-
-        private void SaveDayReportToDataBase(DayReport dayReport)
-        {
-            _dayReportDataProvider.Path = SetDayReportFilePath(dayReport.DayReportID);
-            _dayReportDataProvider.SaveAllData(dayReport);
-        }
-
-        private void SaveChangedDayReportToDataBase()
-        {
-            SaveDayReportToDataBase(_dayReport);
-        }
-
-        private bool IsNewDayReport(string dayReportId)
-        {
-            if (_dayReportsID.Contains(dayReportId) == false)
+            if (_dayReportDataService.ContainceKey(key) == false)
             {                               
                 return true;
             }
@@ -491,45 +282,9 @@ namespace DelitaTrade.Models
             }
         }
 
-        private void CreateDayReportInDataBase(DayReport dayReport)
-        {
-            SaveDayReportToDataBase(dayReport);
-            SaveDayReportIdToDataBase(dayReport.DayReportID);
-        }
-
-        private void LoadDayReportFromDataBase(string dayReportId)
-        {
-            _dayReportDataProvider.Path = SetDayReportFilePath(dayReportId);
-            _dayReport = _dayReportDataProvider.LoadAllData();
-        }
-
         private void OnDayReportsIdChanged()
         {
             DayReportsIdChanged?.Invoke();
-        }
-
-        private void OnDayReportIdsLoadComplete(List<string> dayReportIds)
-        {
-            DayReportIdsLoad.Invoke(dayReportIds);
-        }
-
-        private void RemoveInvoiceIdFromDayReport(string dayReportId, string invoiceId, int id)
-        {
-            if (_invoicesId.ContainsKey(invoiceId) && _invoicesId[invoiceId].Contains($"{dayReportId},{id}"))
-            {
-                if (_invoicesId[invoiceId].Count > 1)
-                {
-                    _invoicesId[invoiceId].Remove($"{dayReportId},{id}");
-                }
-                else
-                {
-                    _invoicesId.Remove(invoiceId);
-                }
-            }
-            else 
-            {
-                throw new InvalidOperationException("Invoice can`t be remove!");
-            }
         }
 
         private void OnDayReportIdAdd(string dayReportId)
@@ -541,8 +296,8 @@ namespace DelitaTrade.Models
         {
             DayReportIdRemove.Invoke(dayReportId);
         }
-
-        private bool IsValidLicencePlate(string vehicle)
+                
+        public bool IsValidLicencePlate(string vehicle)
         {
             if (vehicle.Length == 10)
             {

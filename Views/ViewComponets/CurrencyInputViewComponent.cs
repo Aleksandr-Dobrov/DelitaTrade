@@ -53,7 +53,7 @@ namespace DelitaTrade.Views.ViewComponets
         }
 
         protected override void KeyDown(object sender, KeyEventArgs e)
-        {
+        {            
             TextBox textBox = sender as TextBox;
             switch (e.Key)
             {
@@ -100,6 +100,7 @@ namespace DelitaTrade.Views.ViewComponets
                 case Key.D9:
                     if (textBox != null)
                     {
+                        ClearItemOnFirstInput(sender);
                         _textBoxItems.Push(new List<string>([_textBoxIDIndex.ToString(), textBox.Text]));
                         WriteDigits(textBox);
                     }
@@ -139,6 +140,14 @@ namespace DelitaTrade.Views.ViewComponets
                 amount *= 10;
                 textBox.Text = $"{amount:C2}";
                 textBox.Select(textBox.Text.Length - _currencyProvider.GetCurrencyLength() - 1, 1);
+            }
+        }
+
+        private void ClearItemOnFirstInput(object sender)
+        {
+            if (_textBoxItems.Count == 0)
+            {
+                ResetCurrencyValue(sender);
             }
         }
     }

@@ -1,32 +1,25 @@
-﻿using System.Runtime.Serialization;
+﻿using DelitaTrade.Models.Interfaces.DataBase;
+using System.Runtime.Serialization;
 
 namespace DelitaTrade.Models
 {
     [DataContract]
-    public class DayReport
+    public class DayReport : IDBData, IDBDataId, ICloneable
     {
-        [DataMember]
+        const string _user = "Александр Добров";
+        private readonly int _id;
         private readonly string _dayReportID;
-        [DataMember]
         private List<Invoice> _invoices;
-        [DataMember]
         private PayDesk _payDesk;
-        [DataMember]
         private decimal _totalAmaunt;
-        [DataMember]
         private decimal _totalIncome;
-        [DataMember]
         private decimal _totalExpenses;
-        [DataMember]
         private decimal _totalNonPay;
-        [DataMember]
         private double _totalWeight;
-        [DataMember]
         private decimal _totalOldInvoice;
-        [DataMember]
         private string _vehicle;
-        [DataMember]
         private string _transmissionDate;
+        private int _payDeskId;
 
         public DayReport(string dayReportID)
         {
@@ -35,6 +28,40 @@ namespace DelitaTrade.Models
             _payDesk = new PayDesk();
         }
 
+        public DayReport(string dayReportID, int payDeskId) : this(dayReportID)
+        {
+            _payDeskId = payDeskId;
+            _payDesk = new PayDesk(payDeskId);
+        }
+
+        public DayReport(string id, string dayReportID, decimal totalAmaunt, decimal totalIncome, decimal totalExpenses,
+                        decimal totalNonPay, double totalWeight, decimal totalOldInvoice, string vehicle, 
+                        string transmissionDate, int payDeskId) : this(dayReportID)
+        {     
+            _id = int.Parse(id);
+            _totalAmaunt = totalAmaunt;
+            _totalIncome = totalIncome;
+            _totalExpenses = totalExpenses;
+            _totalNonPay = totalNonPay;
+            _totalWeight = totalWeight;
+            _totalOldInvoice = totalOldInvoice;
+            _vehicle = vehicle;
+            _transmissionDate = transmissionDate;
+            _payDeskId = payDeskId;
+        }
+
+        public DayReport(string id, string dayReportID, decimal totalAmaunt, decimal totalIncome, decimal totalExpenses,
+                        decimal totalNonPay, double totalWeight, decimal totalOldInvoice, string vehicle,
+                        string transmissionDate, int payDeskId, PayDesk payDesk, List<Invoice> invoices) :
+                        this(id, dayReportID, totalAmaunt, totalIncome, totalExpenses, totalNonPay, totalWeight,
+                             totalOldInvoice, vehicle, transmissionDate, payDeskId)
+        {
+            _payDesk = payDesk;
+            _invoices = invoices;
+        }
+
+        public IDBData PayDesk => _payDesk;
+        public IEnumerable<IDBData> Invoices => _invoices;
         public string DayReportID => _dayReportID;
 
         public decimal TotalAmaunt => _totalAmaunt;
@@ -51,6 +78,12 @@ namespace DelitaTrade.Models
 
         public double TotalWeight => _totalWeight;
 
+        public int PayDeskId => _payDeskId;
+
+        public string User => _user;
+
+        public int Id => _id;
+
         public string Vehicle
         {
             get => _vehicle;
@@ -62,20 +95,34 @@ namespace DelitaTrade.Models
 
         public string TransmissionDate
         {
-            get => _transmissionDate;
+            get => _transmissionDate == null ? "01-01-0001" : _transmissionDate;
             set
             {
                 _transmissionDate = value;
             }
         }
 
-        public bool CalculateAmount()
+        public string DBDataId => _dayReportID;
+        public string Parameters => "day_report_user-=-day_report_date-=-day_report_transmission_date-=-day_report_vehicle-=-" +
+            "day_report_total_amount-=-day_report_total_income-=-day_report_total_expenses-=-day_report_total_nonPay-=-" +
+            "day_report_total_oldInvoice-=-day_report_total_weight-=-pay_desk_amount-=-pay_desk_banknotes";
+
+        public string Data => $"{_user}-=-{DayReportID}-=-{string.Join('-', TransmissionDate.Split('-').Reverse())}-=-{Vehicle}-=-{TotalAmaunt}-=-" +
+            $"{TotalIncome}-=-{TotalExpenses}-=-{TotalNonPay}-=-{TotalOldInvoice}-=-{TotalWeight}-=-{_payDesk.Amount}-=-{_payDesk.AllBankcote}";
+
+        public string Procedure => "create_day_report";
+
+        public int NumberOfAdditionalParameters => 1;
+
+        public object Clone()
         {
-            foreach (var invoice in _invoices)
+            var clone = new DayReport(Id.ToString(), DayReportID, TotalAmaunt, TotalIncome, TotalExpenses, TotalNonPay, TotalWeight, TotalOldInvoice, Vehicle,
+                                TransmissionDate, PayDeskId, (PayDesk)_payDesk.Clone(), CloneAllInvoice());
+            foreach (var item in clone.GetAllInvoices())
             {
-                _totalAmaunt += invoice.Amount;
+                item.DayReport = clone;
             }
-            return false;
+            return clone;
         }
 
         public decimal BankPayTotal()
@@ -126,8 +173,9 @@ namespace DelitaTrade.Models
 
         public void AddInvoice(Invoice invoice)
         {
-            _invoices.Add(invoice);
+            invoice.DayReport = this;                
             SumInvoice(invoice);
+            _invoices.Add(invoice);
             TotalWeightCalcilate();
         }
 
@@ -138,8 +186,9 @@ namespace DelitaTrade.Models
             {
                 _invoices.Remove(invoiceToUpdate);
                 SubtractInvoice(invoiceToUpdate);
-                _invoices.Add(invoice);
-                SumInvoice(invoice);
+                invoiceToUpdate.Update(invoice);
+                SumInvoice(invoiceToUpdate);
+                _invoices.Add(invoiceToUpdate);
                 TotalWeightCalcilate();
             }
             else
@@ -148,7 +197,7 @@ namespace DelitaTrade.Models
             }
         }
 
-        public void RemoveInvoice(string invoiceId, int id)
+        public Invoice RemoveInvoice(string invoiceId, int id)
         {
             Invoice invoiceToRemove = _invoices.FirstOrDefault(i => i.InvoiceID == invoiceId && i.Id == id);
             if (invoiceToRemove != null)
@@ -161,6 +210,7 @@ namespace DelitaTrade.Models
             {
                 throw new ArgumentException($"Invoice with ID: {invoiceId} not exists in this report.");
             }
+            return invoiceToRemove;
         }
 
         public void AddMoney(decimal value, int count)
@@ -173,6 +223,25 @@ namespace DelitaTrade.Models
             _payDesk.RemoveMonet(value.ToString(), count);
         }
 
+        public void InitiateInvoices(Invoice[] invoices)
+        {
+            if (_invoices.Count == 0)
+            {
+                foreach (Invoice invoice in invoices)
+                {
+                    if (invoice.DayReportId == Id)
+                    {
+                        invoice.DayReport = this;
+                        _invoices.Add(invoice);
+                    }
+                    else 
+                    {
+                        throw new ArgumentException("The invoice is not from this day report.");
+                    }
+                }                
+            }
+        }
+
         public IEnumerable<Invoice> GetAllInvoices()
         {
             return _invoices;
@@ -183,9 +252,36 @@ namespace DelitaTrade.Models
             return _payDesk.GetAllBanknotes();
         }
 
+        public void SetPayDesk(PayDesk payDesk)
+        {
+            if (payDesk == _payDesk)
+            {
+                return;
+            }
+            if (payDesk.Id == _payDeskId)
+            {
+                _payDesk = payDesk;
+            }
+            else
+            {
+                throw new ArgumentException("Pay desk is not from this day report.");
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            return DayReportID.GetHashCode();
+        }
+
+        public override bool Equals(object? obj)
+        {
+            var dayReport = obj as DayReport;
+            return dayReport?.DayReportID == DayReportID;
+        }
+
         private bool IsFirstInvoice(Invoice invoice)
         {
-            return invoice.Id == 0;
+            return !_invoices.Where(i => i.InvoiceID == invoice.InvoiceID).Any();
         }
 
         private void SumInvoice(Invoice invoice)
@@ -211,7 +307,10 @@ namespace DelitaTrade.Models
                     _totalIncome += invoice.Income;
                     break;
                 case "Стара сметка":
-                    _totalOldInvoice += invoice.Amount;
+                    if (IsFirstInvoice(invoice))
+                    {
+                        _totalOldInvoice += invoice.Amount;
+                    }
                     _totalIncome += invoice.Income;
                     break;
                 case "С карта":
@@ -257,7 +356,10 @@ namespace DelitaTrade.Models
                     _totalIncome -= invoice.Income;
                     break;
                 case "Стара сметка":
-                    _totalOldInvoice -= invoice.Amount;
+                    if (IsFirstInvoice(invoice))
+                    { 
+                        _totalOldInvoice -= invoice.Amount;
+                    }
                     _totalIncome -= invoice.Income;
                     break;
                 case "С карта":
@@ -291,6 +393,16 @@ namespace DelitaTrade.Models
                     _totalWeight += invoice.Weight;
                 }
             }
+        }
+
+        private List<Invoice> CloneAllInvoice()
+        {
+            var result = new List<Invoice>();
+            foreach (var invoice in _invoices)
+            {
+                result.Add((Invoice)invoice.Clone());
+            }
+            return result;
         }
     }
 }

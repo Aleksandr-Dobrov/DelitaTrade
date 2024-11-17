@@ -37,13 +37,16 @@ namespace DelitaTrade.Commands
 
         public override void Execute(object? parameter)
         {
-            Invoice invoice = new Invoice($"{_dayReportsViewModel.SearchBox.InputText} {_dayReportsViewModel.CompanyType}",
-                                                    _dayReportsViewModel.SearchBoxObject.InputTextObject,
-                                                    _dayReportsViewModel.SelectedInvoiceViewModel.InvoiceID,
-                                                    _dayReportsViewModel.PayMethodBox.PayMethodText,
-                                                    _dayReportsViewModel.DecimalAmount,
-                                                    _dayReportsViewModel.DecimalIncome,
-                                                    _dayReportsViewModel.DoubleWeight);
+            Invoice invoice = new Invoice(_dayReportsViewModel.SelectedInvoiceViewModel.Id,
+                                          _dayReportsViewModel.SearchBox.InputText,
+                                          _dayReportsViewModel.CompanyType,
+                                          _dayReportsViewModel.SearchBoxObject.InputTextObject,
+                                          _dayReportsViewModel.SelectedInvoiceViewModel.InvoiceID,
+                                          _dayReportsViewModel.PayMethodBox.PayMethodText,
+                                          _dayReportsViewModel.DecimalAmount,
+                                          _dayReportsViewModel.DecimalIncome,
+                                          _dayReportsViewModel.DoubleWeight);
+            invoice.DayReport = _dayReportsViewModel.SelectedInvoiceViewModel.DayReport;
             
              if (_addNewCompanyViewModel.CreateCompanyCommand.CanExecute(invoice))
              {

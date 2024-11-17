@@ -1,6 +1,8 @@
 ﻿using DelitaTrade.Commands;
+using DelitaTrade.Commands.AddNewCompanyComands;
 using DelitaTrade.Components.ComponentsViewModel;
 using DelitaTrade.Models;
+using DelitaTrade.Models.DataProviders.FileDirectoryProvider;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
@@ -41,6 +43,7 @@ namespace DelitaTrade.ViewModels
             DeleteObjectCommand = new DeleteObjectCommand(this, delitaTrade);
             UpdateCompanyCommand = new UpdateCompanyCommand(this, delitaTrade);
             UpdateObjectCommand = new UpdateObjectCommand(this, delitaTrade);
+            ShowOnMap = new SearchCommand(this);
             _companies = new ObservableCollection<CompanyViewModel>();
             _searchBox = new SearchBoxViewModel(_companies);            
             _searchBoxObject = new SearchBoxObjectViewModel(this);
@@ -58,7 +61,9 @@ namespace DelitaTrade.ViewModels
         public event Action CompanyUnselected;
         public event Action ObjectSelected;
         public event Action ObjectUnselected;
-       
+
+        public string SearchOnMapButtonImage => FileSoursePath.GetFullFilePath("Components\\ComponentAssets\\googleMapIcon.png");
+
         public string CompanyName
         {
             get => _searchBox.InputText;
@@ -142,6 +147,8 @@ namespace DelitaTrade.ViewModels
         public ICommand UpdateObjectCommand { get; }
         public ICommand DeleteCompanyCommand { get; }
         public ICommand DeleteObjectCommand { get; }
+
+        public ICommand ShowOnMap {  get; }
 
         private void OnEnable()
         {

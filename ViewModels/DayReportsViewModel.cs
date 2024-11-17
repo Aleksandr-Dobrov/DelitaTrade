@@ -1,6 +1,8 @@
 ﻿using DelitaTrade.Commands;
 using DelitaTrade.Components.ComponentsViewModel;
+using DelitaTrade.Components.ComponentsViewModel.OptionsComponentViewModels;
 using DelitaTrade.Models;
+using DelitaTrade.Models.Configurations;
 using DelitaTrade.Models.DataProviders;
 using DelitaTrade.Models.DataProviders.FileDirectoryProvider;
 using System.Collections.ObjectModel;
@@ -30,6 +32,7 @@ namespace DelitaTrade.ViewModels
         private DayReportIdViewModel _dayReportIdViewModel;
         private DateTime _date = DateTime.Now.Date;
         private ObservableCollection<string> _dayReporsId;
+        private DayReportInputOptionsViewModelComponent _dayReportinputOptions;
 
         private string _addOrUpdateCommand = "Add";
         private double _weight;
@@ -41,7 +44,7 @@ namespace DelitaTrade.ViewModels
         private bool _isPayMethodLoad = false;
         private bool _incomeEnable = false;
 
-        public DayReportsViewModel(DelitaTradeDayReport delitaTradeDayReport, ViewModelBase addNewCompanyViewModel)
+        public DayReportsViewModel(DelitaTradeDayReport delitaTradeDayReport, ViewModelBase addNewCompanyViewModel, DayReportInputOptionsViewModelComponent options)
         {
             _currencyProvider = new CurrencyProvider();
             _delitaTradeDayReport = delitaTradeDayReport;
@@ -58,6 +61,8 @@ namespace DelitaTrade.ViewModels
             LoadDayReportCommand = new LoadDayReportCommand(_delitaTradeDayReport, this);
             DeleteDayReportCommand = new DeleteDayReportCommand(_delitaTradeDayReport, this);
             RemoveInvoiceCommand = new RemoveInvoiceCommand(_delitaTradeDayReport, this);
+            _dayReportinputOptions = options;
+            _dayReportinputOptions.SetWeightConfigurator(delitaTradeDayReport.AppConfig);
             OnEnable();
         }
 
@@ -74,6 +79,7 @@ namespace DelitaTrade.ViewModels
         public DayReportTotalsViewModel DayReportTotalsViewModel => _dayReportTotalsViewModel;
         public DayReportIdViewModel DayReportIdViewModel => _dayReportIdViewModel;
         public CurrentDayReportViewModel CurrentDayReportViewModel => _currentDayReportViewModel;
+        public DayReportInputOptionsViewModelComponent DayReportInputOptions => _dayReportinputOptions;
         public string LoadDayReportId => _dayReportIdViewModel.DayReportId;
         public string DayReportId => _currentDayReportViewModel.DayReportId;
         public string DayReportColor => _dayReportColor;
@@ -229,6 +235,7 @@ namespace DelitaTrade.ViewModels
         {
             _addNewCompanyViewModel.PropertyChanged += OnAddCompanyPropertyChanged;
             _delitaTradeDayReport.DayReportDataChanged += UpdateDayReportData;
+            _delitaTradeDayReport.DayReportDataChanged += SetAddButonColor;
             _addNewCompanyViewModel.ObjectSelected += SetPayMethod;
             _payMethodBoxViewModel.PropertyChanged += PayMenthodBoxPropertyChanged;
             PaymentChange += SetExpenseInvoiceId;
@@ -251,6 +258,7 @@ namespace DelitaTrade.ViewModels
             _invoices.CollectionChanged += OnInvoiceColectionChange;
             InvoiceColectionChange += () => { };
             PaymentChange += SetIncomeTextBoxEnable;
+            _dayReportinputOptions.PropertyChanged += OnComponentPropertyChange;
         }
 
         private void OnLoadInvoiceFromList()
@@ -267,6 +275,11 @@ namespace DelitaTrade.ViewModels
         {
             _amount = 0;
             OnPropertyChange(nameof(Amount));
+        }
+
+        private void OnComponentPropertyChange(object? sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChange(nameof(e.PropertyName));
         }
 
         private void OnCurentViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -345,7 +358,7 @@ namespace DelitaTrade.ViewModels
             _invoices.Clear();
             IEnumerable<Invoice> invoices = _delitaTradeDayReport.GetAllInvoices()
                 .OrderByDescending(i => i.PayMethod)
-                .ThenBy(i => i.CompanyName)
+                .ThenBy(i => i.CompanyFullName)
                 .ThenBy(i => i.InvoiceID);
 
             foreach (Invoice invoice in invoices)
@@ -420,7 +433,10 @@ namespace DelitaTrade.ViewModels
 
         private void SetIncome()
         {
-            if (_payMethodBoxViewModel.PayMethodText == "В брой")
+            if (_payMethodBoxViewModel.PayMethodText == "В брой" || 
+                _payMethodBoxViewModel.PayMethodText == "С карта" ||
+                _payMethodBoxViewModel.PayMethodText == "Стара сметка" ||
+                _payMethodBoxViewModel.PayMethodText == "Кредитно")
             {
                 Income = $"{_amount}";
             }

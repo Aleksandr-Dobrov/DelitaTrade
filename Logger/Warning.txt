@@ -399,3 +399,101 @@ StackTrace -    at DelitaTrade.Models.DayReportDataBase.SetTransmissionDate(Stri
    at DelitaTrade.Models.DelitaTradeDayReport.SetTransmissionDate(String date) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 282
 InnerExceptioon - 
 --------------------------------------------------
+10.11.2024 г. 21:32:52 - Pay desk is not from this day report.
+System.ArgumentException: Pay desk is not from this day report.
+   at DelitaTrade.Models.DayReport.SetPayDesk(PayDesk payDesk) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReport.cs:line 247
+   at DelitaTrade.Models.DataBases.DayReportDataService.LoadDayReport(String dayReportId) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DataBases\DayReportDataService.cs:line 48
+   at DelitaTrade.Models.DayReportDataBase.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 96
+   at DelitaTrade.Models.DelitaTradeDayReport.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 174
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReport.SetPayDesk(PayDesk payDesk) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReport.cs:line 247
+   at DelitaTrade.Models.DataBases.DayReportDataService.LoadDayReport(String dayReportId) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DataBases\DayReportDataService.cs:line 48
+   at DelitaTrade.Models.DayReportDataBase.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 96
+   at DelitaTrade.Models.DelitaTradeDayReport.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 174
+InnerExceptioon - 
+--------------------------------------------------
+10.11.2024 г. 21:32:58 - Pay desk is not from this day report.
+System.ArgumentException: Pay desk is not from this day report.
+   at DelitaTrade.Models.DayReport.SetPayDesk(PayDesk payDesk) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReport.cs:line 247
+   at DelitaTrade.Models.DataBases.DayReportDataService.LoadDayReport(String dayReportId) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DataBases\DayReportDataService.cs:line 48
+   at DelitaTrade.Models.DayReportDataBase.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 96
+   at DelitaTrade.Models.DelitaTradeDayReport.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 174
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReport.SetPayDesk(PayDesk payDesk) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReport.cs:line 247
+   at DelitaTrade.Models.DataBases.DayReportDataService.LoadDayReport(String dayReportId) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DataBases\DayReportDataService.cs:line 48
+   at DelitaTrade.Models.DayReportDataBase.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 96
+   at DelitaTrade.Models.DelitaTradeDayReport.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 174
+InnerExceptioon - 
+--------------------------------------------------
+10.11.2024 г. 21:33:07 - Pay desk is not from this day report.
+System.ArgumentException: Pay desk is not from this day report.
+   at DelitaTrade.Models.DayReport.SetPayDesk(PayDesk payDesk) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReport.cs:line 247
+   at DelitaTrade.Models.DataBases.DayReportDataService.LoadDayReport(String dayReportId) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DataBases\DayReportDataService.cs:line 48
+   at DelitaTrade.Models.DayReportDataBase.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 96
+   at DelitaTrade.Models.DelitaTradeDayReport.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 174
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReport.SetPayDesk(PayDesk payDesk) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReport.cs:line 247
+   at DelitaTrade.Models.DataBases.DayReportDataService.LoadDayReport(String dayReportId) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DataBases\DayReportDataService.cs:line 48
+   at DelitaTrade.Models.DayReportDataBase.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 96
+   at DelitaTrade.Models.DelitaTradeDayReport.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 174
+InnerExceptioon - 
+--------------------------------------------------
+10.11.2024 г. 21:33:11 - Pay desk is not from this day report.
+System.ArgumentException: Pay desk is not from this day report.
+   at DelitaTrade.Models.DayReport.SetPayDesk(PayDesk payDesk) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReport.cs:line 247
+   at DelitaTrade.Models.DataBases.DayReportDataService.LoadDayReport(String dayReportId) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DataBases\DayReportDataService.cs:line 48
+   at DelitaTrade.Models.DayReportDataBase.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 96
+   at DelitaTrade.Models.DelitaTradeDayReport.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 174
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DayReport.SetPayDesk(PayDesk payDesk) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReport.cs:line 247
+   at DelitaTrade.Models.DataBases.DayReportDataService.LoadDayReport(String dayReportId) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DataBases\DayReportDataService.cs:line 48
+   at DelitaTrade.Models.DayReportDataBase.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 96
+   at DelitaTrade.Models.DelitaTradeDayReport.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 174
+InnerExceptioon - 
+--------------------------------------------------
+17.11.2024 г. 12:27:14 - Invalid create new id
+System.InvalidOperationException: Invalid create new id
+   at DelitaTrade.Models.DataBases.DayReportDataService.GetNextInvoiceId() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DataBases\DayReportDataService.cs:line 165
+   at DelitaTrade.Models.Invoice.SetId(DayReportDataService dayReportDataService) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\Invoice.cs:line 94
+   at DelitaTrade.Models.DayReportDataBase.AddNewInvoice(Invoice invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 174
+   at DelitaTrade.Models.DelitaTradeDayReport.AddInvoice(Invoice invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 237
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DataBases.DayReportDataService.GetNextInvoiceId() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DataBases\DayReportDataService.cs:line 165
+   at DelitaTrade.Models.Invoice.SetId(DayReportDataService dayReportDataService) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\Invoice.cs:line 94
+   at DelitaTrade.Models.DayReportDataBase.AddNewInvoice(Invoice invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 174
+   at DelitaTrade.Models.DelitaTradeDayReport.AddInvoice(Invoice invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 237
+InnerExceptioon - 
+--------------------------------------------------
+17.11.2024 г. 12:27:35 - Invalid create new id
+System.InvalidOperationException: Invalid create new id
+   at DelitaTrade.Models.DataBases.DayReportDataService.GetNextInvoiceId() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DataBases\DayReportDataService.cs:line 165
+   at DelitaTrade.Models.Invoice.SetId(DayReportDataService dayReportDataService) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\Invoice.cs:line 94
+   at DelitaTrade.Models.DayReportDataBase.AddNewInvoice(Invoice invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 174
+   at DelitaTrade.Models.DelitaTradeDayReport.AddInvoice(Invoice invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 237
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DataBases.DayReportDataService.GetNextInvoiceId() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DataBases\DayReportDataService.cs:line 165
+   at DelitaTrade.Models.Invoice.SetId(DayReportDataService dayReportDataService) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\Invoice.cs:line 94
+   at DelitaTrade.Models.DayReportDataBase.AddNewInvoice(Invoice invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 174
+   at DelitaTrade.Models.DelitaTradeDayReport.AddInvoice(Invoice invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 237
+InnerExceptioon - 
+--------------------------------------------------
+17.11.2024 г. 12:29:13 - Invalid create new id
+System.InvalidOperationException: Invalid create new id
+   at DelitaTrade.Models.DataBases.DayReportDataService.GetNextInvoiceId() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DataBases\DayReportDataService.cs:line 165
+   at DelitaTrade.Models.Invoice.SetId(DayReportDataService dayReportDataService) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\Invoice.cs:line 94
+   at DelitaTrade.Models.DayReportDataBase.AddNewInvoice(Invoice invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 174
+   at DelitaTrade.Models.DelitaTradeDayReport.AddInvoice(Invoice invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 237
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DataBases.DayReportDataService.GetNextInvoiceId() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DataBases\DayReportDataService.cs:line 165
+   at DelitaTrade.Models.Invoice.SetId(DayReportDataService dayReportDataService) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\Invoice.cs:line 94
+   at DelitaTrade.Models.DayReportDataBase.AddNewInvoice(Invoice invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 174
+   at DelitaTrade.Models.DelitaTradeDayReport.AddInvoice(Invoice invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 237
+InnerExceptioon - 
+--------------------------------------------------

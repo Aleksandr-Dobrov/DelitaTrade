@@ -5,6 +5,10 @@ using System.Diagnostics;
 using System.Windows;
 using DelitaTrade.Services;
 using DelitaTrade.Models.Interfaces.DayReports;
+using DelitaTrade.Models.Interfaces.DataBase;
+using DelitaTrade.Models.DataBases;
+using System.Configuration;
+using System.DirectoryServices.ActiveDirectory;
 
 namespace DelitaTrade.Models
 {
@@ -14,6 +18,7 @@ namespace DelitaTrade.Models
         private DayReport _dayReport;
         private DayReportDataBase _dayReportData;
         private DayReportBuilder _dayReportBuilder;
+        private readonly Configuration _appConfig;
 
         private decimal _totalAmound;
         private decimal _totalIncome;
@@ -23,10 +28,10 @@ namespace DelitaTrade.Models
         private double _totalWeight;
         private string _transmissionDate;
 
-        public DelitaTradeDayReport(IDelitaDataBase<DayReport> dataBase, DelitaSoundService soundPlayer)
+        public DelitaTradeDayReport(DelitaSoundService soundPlayer, IDBProvider dBProvider, Configuration appConfig)
         {
             _soundService = soundPlayer;
-            _dayReportData = new DayReportDataBase(dataBase, this);
+            _dayReportData = new DayReportDataBase(this, dBProvider);            
             _dayReportData.DayReportsIdChanged += OnDayReportsIdChanged;
             CurentDayReportSelect += SetTotalsToDayReportVievModel;
             DayReportDataChanged += SetTotalsToDayReportVievModel;
@@ -36,6 +41,7 @@ namespace DelitaTrade.Models
             ExportCompleted += () => { };
             ExportStart += () => { };
             _dayReportBuilder = new DayReportBuilder("../../../Models/Exporters/DayReport.xlsx", "../../../DayReportsDataBase/ExportFiles/ExportedDayReport.xlsx");
+            _appConfig = appConfig;
         }
 
         public event System.Action DayReportDataChanged;
@@ -52,7 +58,8 @@ namespace DelitaTrade.Models
 
         public IDayReportIdDataBese DayReportIdDataBese => _dayReportData;
         public DayReport DayReport => _dayReport;
-        public DelitaSoundService DelitaSoundService => _soundService;        
+        public DelitaSoundService DelitaSoundService => _soundService;  
+        public Configuration AppConfig => _appConfig;
 
         public string CurentDayReportId => DayReport?.DayReportID;
         public string Vehicle => _dayReport?.Vehicle;
@@ -263,6 +270,11 @@ namespace DelitaTrade.Models
             }
         }
 
+        public bool IsValidLicencePlate(string licencePlate)
+        {
+            return _dayReportData.IsValidLicencePlate(licencePlate);
+        }
+
         public void AddVehicle(string vehicle)
         {
             try
@@ -339,7 +351,12 @@ namespace DelitaTrade.Models
 
         public IEnumerable<string> GetAllVehicles()
         {
-            return _dayReportData.Vehicles.Order();
+            List<string> vehicles = new List<string>();
+            foreach (var vehicle in _dayReportData.Vehicles)
+            {
+                vehicles.Add(vehicle.ToString());
+            }
+            return vehicles.Order();
         }
 
         public IEnumerable<string> GetAllDayReportsID()
@@ -436,5 +453,28 @@ namespace DelitaTrade.Models
         {
             TransmissionDate = _dayReport.TransmissionDate;
         }
+
+        //private void SaveAllDayReportsToDB()
+        //{
+        //    foreach (var dayReportId in _dayReportData.DayReportsId)
+        //    {
+        //        var dayReport = _dayReportData.LoadDayReport(dayReportId);
+        //        _dayReportData.SaveDayReportToDB(dayReport);
+        //    }
+        //}
+        //
+        //private void SaveAllInvoicesToDB()
+        //{
+        //    int invoiceId = 1;
+        //    foreach (var dayReportId in _dayReportData.DayReportsId)
+        //    {
+        //        var dayReport = _dayReportData.LoadDayReport(dayReportId);
+        //        foreach (var invoice in dayReport.GetAllInvoices())
+        //        {
+        //            _dayReportData.AddInvoiceToDB(invoice, invoiceId);
+        //            invoiceId++;
+        //        }
+        //    }
+        //}
     }
 }

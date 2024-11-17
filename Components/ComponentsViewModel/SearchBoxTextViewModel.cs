@@ -9,6 +9,7 @@ namespace DelitaTrade.Components.ComponentsViewModel
 		private ObservableCollection<string> _items;
 		private string _item;
 		private string _text;
+        private string _textColor = "black";
 
         public SearchBoxTextViewModel(ObservableCollection<string> items, string text)
         {
@@ -38,6 +39,16 @@ namespace DelitaTrade.Components.ComponentsViewModel
 			set
 			{
 				_text = value;
+				OnPropertyChange();
+			}
+		}
+
+		public string TextColor
+		{
+			get => _textColor;
+			set
+			{
+				_textColor = value;
 				OnPropertyChange();
 			}
 		}

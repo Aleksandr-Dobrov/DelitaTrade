@@ -11,14 +11,14 @@ namespace DelitaTrade.Models.MySqlDataBase
         private const string userId = "root";
         private const string password = "10052016AdiCA0527CK.Audi";
         private const string database = "delita_db";
-        private const string sslMode = "none";
+        private const string sslMode = "Required";
         private MySqlConnection _mySqlConnection;
 
         public MySqlConnection MySqlConnection => _mySqlConnection;
 
-        public void ConectToDB()
+        public void CreateConectionToDB()
         {            
-            _mySqlConnection = new MySqlConnection($"server={host};port={port};user id={userId}; password={password}; database={database}; SslMode={sslMode}");
+            _mySqlConnection = new MySqlConnection($"server={host};port={port};user id={userId}; password={password}; database={database}; SslMode={sslMode}");           
         }
     }
 }

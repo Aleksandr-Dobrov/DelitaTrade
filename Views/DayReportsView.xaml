@@ -279,8 +279,8 @@
                         <ColumnDefinition Width="2*"/>
                         <ColumnDefinition Width="60"/>
                         <ColumnDefinition Width="1.5*"/>
-                        <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="80"/>
@@ -288,7 +288,7 @@
                     <TextBlock Grid.Column="0" Text="Company" MinWidth="180" Width="auto" TextAlignment="Center"/>
                     <TextBlock Grid.Column="1" Text="Type" MinWidth="60" Width="auto" TextAlignment="Center"/>
                     <TextBlock Grid.Column="2" Text="Object" MinWidth="140" Width="auto" TextAlignment="Center"/>
-                    <TextBlock Grid.Column="3" Text="Weight" MinWidth="80" Width="auto" TextAlignment="Center"/>
+                    <TextBlock Grid.Column="3" Text="Weight" MinWidth="60" Width="auto" TextAlignment="Center"/>
                     <TextBlock Grid.Column="4" Text="Document ID" MinWidth="80" Width="auto" TextAlignment="Center"/>
                     <TextBlock Grid.Column="5" Text="Amount" MinWidth="80" Width="auto" TextAlignment="Center"/>
                     <TextBlock Grid.Column="6" Text="Pay Method" MinWidth="80" Width="auto" TextAlignment="Center"/>
@@ -308,7 +308,9 @@
                     <ComponentsView88be9dc1:SearchBox Grid.Column="0" MinWidth="180" x:Name="company"  DataContext="{Binding SearchBox}"/>
                     <TextBox Grid.Column="1" MinWidth="60" Name="type" Text="{Binding CompanyType, UpdateSourceTrigger=PropertyChanged}"/>
                     <ComponentsView88be9dc1:SearchBoxObject Grid.Column="2" MinWidth="140" x:Name="companyObject" DataContext="{Binding SearchBoxObject}"/>
-                    <TextBox Grid.Column="3" MinWidth="80" Name="weight" Text="{Binding Weight}" GotFocus="TextBox_GotFocus"/>
+                    <TextBox Grid.Column="3" MinWidth="60" Name="weight" Text="{Binding Weight}" 
+                             IsEnabled="{Binding DayReportInputOptions.WeightIsOn}"
+                             GotFocus="TextBox_GotFocus"/>
                     <TextBox Grid.Column="4" Name="invoiceId" MinWidth="80" Text="{Binding InvoiceID, UpdateSourceTrigger=PropertyChanged}" 
                              GotFocus="TextBoxIDGotFocusSelectIndex" 
                              PreviewKeyUp="InvoiceId_KeyUp"/>

@@ -27,7 +27,7 @@ namespace DelitaTrade.Components.ComponentsView
 
         private void SearchBoxTextUpdateSourse()
         {
-            if (searchBoxText.SelectedItem != null)
+            if (searchBoxText.SelectedItem != null || searchBoxText.Text != null)
             {
                 BindingExpression be = searchBoxText.GetBindingExpression(ComboBox.TextProperty);
                 be?.UpdateSource();

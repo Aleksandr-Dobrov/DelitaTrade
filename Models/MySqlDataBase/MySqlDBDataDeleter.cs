@@ -16,12 +16,12 @@ namespace DelitaTrade.Models.MySqlDataBase
 
         protected override void SetCountOfParameters(IDBData dBData)
         {            
-            base.SetCountOfParameters(dBData, ((dBData.Data.Split("-=-").Length)*-1) + _countOfParams + dBData.NumberOfReferences);
+            base.SetCountOfParameters(dBData, ((dBData.Data.Split("-=-").Length) * -1) + _countOfParams + dBData.NumberOfAdditionalParameters);
         }
 
         protected override void SetCountOfParameters(IDBData dBData, int numberOfAdditionalParams)
         {
-            base.SetCountOfParameters(dBData, ((dBData.Data.Split("-=-").Length) * -1) + _countOfParams + numberOfAdditionalParams + dBData.NumberOfReferences);
+            base.SetCountOfParameters(dBData, ((dBData.Data.Split("-=-").Length) * -1) + _countOfParams + numberOfAdditionalParams + dBData.NumberOfAdditionalParameters);
         }
     }
 }

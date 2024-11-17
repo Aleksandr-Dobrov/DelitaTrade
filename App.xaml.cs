@@ -18,15 +18,17 @@ namespace DelitaTrade
         private readonly DelitaSoundService _soundService;
         private readonly Configuration AppConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
         private readonly MySqlDBConnection _mySqlConnection;
+        private readonly MySqlDBDataProvider _mySqlDataProvider;
 
 
         public App()
         {
             _mySqlConnection = new MySqlDBConnection();
-            _mySqlConnection.ConectToDB();
+            _mySqlConnection.CreateConectionToDB();
+            _mySqlDataProvider = new MySqlDBDataProvider(_mySqlConnection, new CompaniesDataBase());
             _soundService = new DelitaSoundService(new DefaultSoundPlayer(), new SoundStore([.. SoundBaseConfiguration.GetAllSounds(AppConfig)]));
-            _delitaTrade = new DelitaTradeCompany("Delita Trade",new MySqlDBDataProvider(_mySqlConnection, new CompaniesDataBase()));
-            _dayReportCreator = new DelitaTradeDayReport(new XmlDataBase<DayReport>(), _soundService);
+            _delitaTrade = new DelitaTradeCompany("Delita Trade", _mySqlDataProvider);
+            _dayReportCreator = new DelitaTradeDayReport(_soundService, _mySqlDataProvider, AppConfig);
         }
 
         protected override void OnStartup(StartupEventArgs e)

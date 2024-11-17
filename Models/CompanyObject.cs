@@ -34,7 +34,7 @@ namespace DelitaTrade.Models
 
         public string SearchParametr => Name;
 
-        public int NumberOfReferences => _numberOfReferences;
+        public int NumberOfAdditionalParameters => _numberOfReferences;
 
         public SearchMethod GetSearchMethod()
         {

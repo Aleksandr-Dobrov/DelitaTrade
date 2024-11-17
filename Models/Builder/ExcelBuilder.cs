@@ -348,7 +348,7 @@ namespace DelitaTrade.Models.Builder
                     if (isNonPayInvoice(invoice))
                     {
                         nonPayExists = true;
-                        nonPayInvoices.Add($"{invoice.Amount:C} -- {invoice.Income:C} -- {invoice.CompanyName} -- {invoice.PayMethod} -- {invoice.InvoiceID}");
+                        nonPayInvoices.Add($"{invoice.Amount:C} -- {invoice.Income:C} -- {invoice.CompanyFullName} -- {invoice.PayMethod} -- {invoice.InvoiceID}");
                         return;
                     }
                     else
@@ -398,11 +398,11 @@ namespace DelitaTrade.Models.Builder
                 {
                     marker = _invoiceMarker.FirstOrDefault(m => m.InvoiceId == invoice.InvoiceID);
                 }
-                _writer.WriteDataToCell(_ws, $"{marker}{invoice.CompanyName}", _row, 2);
+                _writer.WriteDataToCell(_ws, $"{marker}{invoice.CompanyFullName}", _row, 2);
             }
             else 
             {
-                _writer.WriteDataToCell(_ws, $"{invoice.CompanyName}", _row, 2);
+                _writer.WriteDataToCell(_ws, $"{invoice.CompanyFullName}", _row, 2);
             }
             _writer.WriteDataToRange(_ws, invoice.ObjectName, false, 11, false, XlHAlign.xlHAlignLeft, XlVAlign.xlVAlignTop, _row, 3, _row, 4);
             _writer.WriteDataToCell(_ws, invoice.InvoiceID, false, 11, XlHAlign.xlHAlignLeft, XlVAlign.xlVAlignTop, _row, 5);

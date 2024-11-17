@@ -49,15 +49,15 @@ namespace DelitaTrade.Commands
 
         public override void Execute(object? parameter)
         {
-            Invoice invoice = new Invoice(_dayReport.DayReport.GetId(_dayReportsViewModel.InvoiceID), 
-                                                    $"{_dayReportsViewModel.SearchBox.InputText} {_dayReportsViewModel.CompanyType}",
-                                                    _dayReportsViewModel.SearchBoxObject.InputTextObject,
-                                                    _dayReportsViewModel.InvoiceID,
-                                                    _dayReportsViewModel.PayMethodBox.PayMethodText,
-                                                    _dayReportsViewModel.DecimalAmount,
-                                                    _dayReportsViewModel.DecimalIncome,
-                                                    _dayReportsViewModel.DoubleWeight
-                                                    );
+            Invoice invoice = new Invoice(_dayReportsViewModel.SearchBox.InputText, 
+                                          _dayReportsViewModel.CompanyType,
+                                          _dayReportsViewModel.SearchBoxObject.InputTextObject,
+                                          _dayReportsViewModel.InvoiceID,
+                                          _dayReportsViewModel.PayMethodBox.PayMethodText,
+                                          _dayReportsViewModel.DecimalAmount,
+                                          _dayReportsViewModel.DecimalIncome,
+                                          _dayReportsViewModel.DoubleWeight
+                                          );
            
             if (_addNewCompanyViewModel.CreateCompanyCommand.CanExecute(invoice))
             {

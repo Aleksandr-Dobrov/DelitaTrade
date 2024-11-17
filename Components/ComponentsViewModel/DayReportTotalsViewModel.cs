@@ -4,6 +4,7 @@ using DelitaTrade.Models.DataProviders.FileDirectoryProvider;
 using DelitaTrade.ViewModels;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Input;
 
 namespace DelitaTrade.Components.ComponentsViewModel
@@ -74,8 +75,32 @@ namespace DelitaTrade.Components.ComponentsViewModel
         private void OnVehicleViewModelChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(Vehicle.Item) && Vehicle.Item != null)
-            {  
-                _delitaTradeDayReport.AddVehicle(Vehicle.Item.ToUpper());
+            {
+                if (_delitaTradeDayReport.DayReport != null)
+                {
+                    Vehicle.TextColor = "Black";
+
+                    if (_delitaTradeDayReport.IsValidLicencePlate(Vehicle.Item))
+                    {
+                        if (_delitaTradeDayReport.DayReport.Vehicle != Vehicle.Item)
+                        { 
+                            MessageBoxResult result = MessageBox.Show("Add vehicle to day report?",
+                                         "Question", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                            if (result == MessageBoxResult.Yes)
+                            {
+                                _delitaTradeDayReport.AddVehicle(Vehicle.Item.ToUpper());
+                            }                        
+                        }                    
+                    }                    
+                    else
+                    {
+                        Vehicle.TextColor = "Red";
+                    }
+                }
+                else
+                {
+                    Vehicle.TextColor = "Red";
+                }
             }
         }
 

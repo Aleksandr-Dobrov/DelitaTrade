@@ -104,7 +104,7 @@
                                        FontSize="15"
                                        FontWeight="Medium"
                                        HorizontalAlignment="Center"/>
-                        <ComponentsViewa2e67bfb:SearchBoxObject Grid.Row="1" DataContext="{Binding SearchBoxObject}"/>                       
+                        <ComponentsViewa2e67bfb:SearchBoxObject Grid.Row="1" DataContext="{Binding SearchBoxObject}"/>
                     </Grid>
                     <Grid Grid.Column="1">
                         <Grid.RowDefinitions>
@@ -123,11 +123,15 @@
                     </Grid>
                 </Grid>
                 <Grid Grid.Row="3">
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>                   
-                    
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0"
                                    Text="Adrress"                                   
                                    FontSize="15"
@@ -135,6 +139,13 @@
                                    HorizontalAlignment="Center"/>
                         <TextBox Grid.Row="1"
                                  Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <Button Margin="5" Width="30"
+                                Command="{Binding ShowOnMap}">
+                            <Image Source="{Binding SearchOnMapButtonImage}"/>
+                        </Button>
+                    </Grid>
                 </Grid>
                 <Grid Grid.Row="4">
                     <Grid.ColumnDefinitions>
@@ -143,7 +154,7 @@
                         <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="80"/>
                     </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0">                        
+                    <Grid Grid.Column="0">
                         <ComponentsViewa2e67bfb:SearchBoxTextDeletable Grid.Row="1" DataContext="{Binding Trader}"/>
                     </Grid>
                     <Button Grid.Column="1" 

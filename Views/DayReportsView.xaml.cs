@@ -1,5 +1,6 @@
 ﻿using DelitaTrade.Models.Loggers;
 using DelitaTrade.Views.ViewComponets;
+using System.Configuration;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;

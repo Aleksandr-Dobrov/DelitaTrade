@@ -1,13 +1,13 @@
-﻿using System.Runtime.Serialization;
+﻿using DelitaTrade.Models.Interfaces.DataBase;
+using System.Runtime.Serialization;
 
 namespace DelitaTrade.Models
 {
     [DataContract]
-    public class PayDesk
+    public class PayDesk : IDBData, ICloneable
     {
-        [DataMember]
+        private int _id;
         Dictionary<decimal, int> _banknotes;
-        [DataMember]
         private decimal _amount;
 
         public PayDesk()
@@ -15,7 +15,48 @@ namespace DelitaTrade.Models
             BanknotesInitialize();            
         }
 
+        public PayDesk(int id) : this() 
+        {
+            _id = id;
+        }
+
         public decimal Amount => _amount;
+        public int Id => _id;
+
+        public string AllBankcote 
+        {
+            get 
+            {
+                string banknote = string.Empty;
+                foreach (var item in _banknotes)
+                {
+                    banknote += $"[{item.Key} => {item.Value}]";
+                }
+                return banknote;
+            }
+        }
+
+        public string Parameters => throw new NotImplementedException();
+
+        public string Data => throw new NotImplementedException();
+
+        public string Procedure => throw new NotImplementedException();
+
+        public int NumberOfAdditionalParameters => throw new NotImplementedException();
+
+        public object Clone()
+        {
+            var clone = new PayDesk(Id);
+            foreach (var banknote in _banknotes)
+            {
+                if (banknote.Value > 0)
+                { 
+                    clone.AddMoney(banknote.Key.ToString(), banknote.Value);
+                }
+            }
+
+            return clone;
+        }
 
         public void OnBanknoteChanged()
         {
@@ -71,6 +112,17 @@ namespace DelitaTrade.Models
         public IDictionary<decimal, int> GetAllBanknotes()
         {
             return _banknotes;
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
+
+        public override bool Equals(object? obj)
+        {
+            var payDesk = obj as PayDesk;
+            return payDesk.Id == Id;
         }
 
         private void BanknotesInitialize()

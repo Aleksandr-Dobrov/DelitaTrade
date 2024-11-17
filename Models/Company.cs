@@ -35,7 +35,7 @@ namespace DelitaTrade.Models
 
         public string SearchParametr => FullName;
 
-        public int NumberOfReferences => _numberOfReferences;
+        public int NumberOfAdditionalParameters => _numberOfReferences;
 
         public bool TryAddNewObject(CompanyObject newCompanyObject)
         {
@@ -88,6 +88,17 @@ namespace DelitaTrade.Models
         public SearchMethod GetSearchMethod()
         {
             return SearchMethod.CompanyName;
+        }
+
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode();
+        }
+
+        public override bool Equals(object? obj)
+        {
+            var company = obj as Company;
+            return company?.Name == Name;
         }
 
         private void UpdateObjectsDataBase()

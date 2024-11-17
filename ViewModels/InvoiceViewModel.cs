@@ -10,9 +10,9 @@ namespace DelitaTrade.ViewModels
         {
             _invoice = invoice;
         }
-        
+        public DayReport DayReport => _invoice.DayReport;
         public int Id => _invoice.Id;
-        public string CompanyName => _invoice.CompanyName;
+        public string CompanyName => _invoice.CompanyFullName;
         public string ObjectName => _invoice.ObjectName;
         public string InvoiceID => _invoice.InvoiceID;
         public decimal Amount => _invoice.Amount;

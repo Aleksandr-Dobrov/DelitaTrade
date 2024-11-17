@@ -8,6 +8,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
+        <StackPanel Orientation="Horizontal">
         <components:SoundOptionsViewComponent DataContext="{Binding SoundOptionsViewModel}"/>
+        <components:DayReportInputOptionsViewComponent DataContext="{Binding DayReportInputOptionsViewModel}"/>
+        </StackPanel>
     </Grid>
 </UserControl>

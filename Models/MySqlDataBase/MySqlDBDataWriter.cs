@@ -6,7 +6,7 @@ using System.Data;
 
 namespace DelitaTrade.Models.MySqlDataBase
 {
-    public class MySqlDBDataWriter : IDBExecute
+    public class MySqlDBDataWriter : IDBExecuter
     {
         private MySqlCommand _writer;
         private IDBDelitaConnection _connection;
