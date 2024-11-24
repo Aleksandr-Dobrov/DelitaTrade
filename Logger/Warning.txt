@@ -497,3 +497,91 @@ StackTrace -    at DelitaTrade.Models.DataBases.DayReportDataService.GetNextInvo
    at DelitaTrade.Models.DelitaTradeDayReport.AddInvoice(Invoice invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 237
 InnerExceptioon - 
 --------------------------------------------------
+18.11.2024 г. 9:39:59 - Unable to cast object of type 'WhereEnumerableIterator`1[DelitaTrade.Models.Interfaces.DataBase.IDBData]' to type 'System.Collections.Generic.IEnumerable`1[DelitaTrade.Models.Invoice]'.
+System.InvalidCastException: Unable to cast object of type 'WhereEnumerableIterator`1[DelitaTrade.Models.Interfaces.DataBase.IDBData]' to type 'System.Collections.Generic.IEnumerable`1[DelitaTrade.Models.Invoice]'.
+   at DelitaTrade.Models.DataBases.DayReportDataService.LoadDayReport(String dayReportId) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DataBases\DayReportDataService.cs:line 64
+   at DelitaTrade.Models.DayReportDataBase.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 78
+   at DelitaTrade.Models.DelitaTradeDayReport.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 174
+Source - System.Private.CoreLib
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DataBases.DayReportDataService.LoadDayReport(String dayReportId) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DataBases\DayReportDataService.cs:line 64
+   at DelitaTrade.Models.DayReportDataBase.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 78
+   at DelitaTrade.Models.DelitaTradeDayReport.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 174
+InnerExceptioon - 
+--------------------------------------------------
+18.11.2024 г. 10:24:32 - The calling thread cannot access this object because a different thread owns it.
+System.InvalidOperationException: The calling thread cannot access this object because a different thread owns it.
+   at System.Windows.Threading.Dispatcher.<VerifyAccess>g__ThrowVerifyAccess|7_0()
+   at System.Windows.DependencyObject.GetValue(DependencyProperty dp)
+   at System.Windows.Controls.Primitives.ButtonBase.get_Command()
+   at System.Windows.Controls.Primitives.ButtonBase.UpdateCanExecute()
+   at DelitaTrade.Commands.CommandBase.OnCanExecuteChanged() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Commands\CommandBase.cs:line 12
+   at DelitaTrade.Components.ComponentsCommands.ExportDayReportCommand.CurrentDayReportChanged() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Components\ComponentsCommands\ExportDayReportCommand.cs:line 61
+   at DelitaTrade.Models.DelitaTradeDayReport.OnCurentDayReportSelect() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 396
+   at DelitaTrade.Models.DelitaTradeDayReport.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 176
+Source - WindowsBase
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at System.Windows.Threading.Dispatcher.<VerifyAccess>g__ThrowVerifyAccess|7_0()
+   at System.Windows.DependencyObject.GetValue(DependencyProperty dp)
+   at System.Windows.Controls.Primitives.ButtonBase.get_Command()
+   at System.Windows.Controls.Primitives.ButtonBase.UpdateCanExecute()
+   at DelitaTrade.Commands.CommandBase.OnCanExecuteChanged() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Commands\CommandBase.cs:line 12
+   at DelitaTrade.Components.ComponentsCommands.ExportDayReportCommand.CurrentDayReportChanged() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Components\ComponentsCommands\ExportDayReportCommand.cs:line 61
+   at DelitaTrade.Models.DelitaTradeDayReport.OnCurentDayReportSelect() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 396
+   at DelitaTrade.Models.DelitaTradeDayReport.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 176
+InnerExceptioon - 
+--------------------------------------------------
+18.11.2024 г. 20:03:16 - Unable to cast object of type 'System.Int32' to type 'System.String'.
+System.InvalidCastException: Unable to cast object of type 'System.Int32' to type 'System.String'.
+   at MySql.Data.MySqlClient.MySqlDataReader.GetString(Int32 i)
+   at DelitaTrade.Models.MySqlDataBase.MySqlDBReader.GetAllData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\MySqlDataBase\MySqlDBReader.cs:line 70
+   at DelitaTrade.Models.MySqlDataBase.MySqlDBReader.GetAllData(MySqlParameter[] sqlParameters) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\MySqlDataBase\MySqlDBReader.cs:line 91
+   at DelitaTrade.Models.DataBases.DayReportDataService.LoadDayReport(String dayReportId) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DataBases\DayReportDataService.cs:line 69
+   at DelitaTrade.Models.DayReportDataBase.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 78
+   at DelitaTrade.Models.DelitaTradeDayReport.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 175
+Source - System.Private.CoreLib
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at MySql.Data.MySqlClient.MySqlDataReader.GetString(Int32 i)
+   at DelitaTrade.Models.MySqlDataBase.MySqlDBReader.GetAllData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\MySqlDataBase\MySqlDBReader.cs:line 70
+   at DelitaTrade.Models.MySqlDataBase.MySqlDBReader.GetAllData(MySqlParameter[] sqlParameters) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\MySqlDataBase\MySqlDBReader.cs:line 91
+   at DelitaTrade.Models.DataBases.DayReportDataService.LoadDayReport(String dayReportId) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DataBases\DayReportDataService.cs:line 69
+   at DelitaTrade.Models.DayReportDataBase.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 78
+   at DelitaTrade.Models.DelitaTradeDayReport.LoadDayReport(String dayReportID) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 175
+InnerExceptioon - 
+--------------------------------------------------
+18.11.2024 г. 23:37:31 - Index was outside the bounds of the array.
+System.IndexOutOfRangeException: Index was outside the bounds of the array.
+   at DelitaTrade.Models.DataBases.DayReportDataService.IsNewInvoice(String invoiceId) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DataBases\DayReportDataService.cs:line 177
+   at DelitaTrade.Models.DayReportDataBase.IsNewInvoice(String invoiceId) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 225
+   at DelitaTrade.Models.DayReportDataBase.CheckIsNewInvoice(String invoiceId) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 209
+   at DelitaTrade.Models.DelitaTradeDayReport.CheckIsNewInvoice(String invoiceId) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 229
+   at DelitaTrade.ViewModels.DayReportsViewModel.IsNewInvoice(String invoiceId) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\ViewModels\DayReportsViewModel.cs:line 225
+   at DelitaTrade.ViewModels.DayReportsViewModel.IsUnpaidInvoice(String invoiceId) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\ViewModels\DayReportsViewModel.cs:line 215
+   at DelitaTrade.Commands.AddInvoiceCommand.CanExecute(Object parameter) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Commands\AddInvoiceCommand.cs:line 42
+   at System.Windows.Input.CanExecuteChangedEventManager.HandlerSink.OnCanExecuteChanged(Object sender, EventArgs e)
+   at DelitaTrade.Commands.CommandBase.OnCanExecuteChanged() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Commands\CommandBase.cs:line 12
+   at DelitaTrade.Commands.AddInvoiceCommand.OnColectionIdChanged() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Commands\AddInvoiceCommand.cs:line 37
+   at DelitaTrade.ViewModels.DayReportsViewModel.OnInvoiceColectionChange(Object sender, NotifyCollectionChangedEventArgs e) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\ViewModels\DayReportsViewModel.cs:line 462
+   at System.Collections.ObjectModel.ObservableCollection`1.OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+   at DelitaTrade.ViewModels.DayReportsViewModel.UpdateDayReportData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\ViewModels\DayReportsViewModel.cs:line 360
+   at DelitaTrade.Models.DelitaTradeDayReport.OnDayReportDataChanged() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 392
+   at DelitaTrade.Models.DelitaTradeDayReport.AddInvoice(Invoice invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 240
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DataBases.DayReportDataService.IsNewInvoice(String invoiceId) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DataBases\DayReportDataService.cs:line 177
+   at DelitaTrade.Models.DayReportDataBase.IsNewInvoice(String invoiceId) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 225
+   at DelitaTrade.Models.DayReportDataBase.CheckIsNewInvoice(String invoiceId) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DayReportDataBase.cs:line 209
+   at DelitaTrade.Models.DelitaTradeDayReport.CheckIsNewInvoice(String invoiceId) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 229
+   at DelitaTrade.ViewModels.DayReportsViewModel.IsNewInvoice(String invoiceId) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\ViewModels\DayReportsViewModel.cs:line 225
+   at DelitaTrade.ViewModels.DayReportsViewModel.IsUnpaidInvoice(String invoiceId) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\ViewModels\DayReportsViewModel.cs:line 215
+   at DelitaTrade.Commands.AddInvoiceCommand.CanExecute(Object parameter) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Commands\AddInvoiceCommand.cs:line 42
+   at System.Windows.Input.CanExecuteChangedEventManager.HandlerSink.OnCanExecuteChanged(Object sender, EventArgs e)
+   at DelitaTrade.Commands.CommandBase.OnCanExecuteChanged() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Commands\CommandBase.cs:line 12
+   at DelitaTrade.Commands.AddInvoiceCommand.OnColectionIdChanged() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Commands\AddInvoiceCommand.cs:line 37
+   at DelitaTrade.ViewModels.DayReportsViewModel.OnInvoiceColectionChange(Object sender, NotifyCollectionChangedEventArgs e) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\ViewModels\DayReportsViewModel.cs:line 462
+   at System.Collections.ObjectModel.ObservableCollection`1.OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+   at DelitaTrade.ViewModels.DayReportsViewModel.UpdateDayReportData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\ViewModels\DayReportsViewModel.cs:line 360
+   at DelitaTrade.Models.DelitaTradeDayReport.OnDayReportDataChanged() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 392
+   at DelitaTrade.Models.DelitaTradeDayReport.AddInvoice(Invoice invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DelitaTradeDayReport.cs:line 240
+InnerExceptioon - 
+--------------------------------------------------

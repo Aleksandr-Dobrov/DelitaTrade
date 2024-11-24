@@ -8,8 +8,12 @@ using DelitaTrade.Models.DataProviders.FileDirectoryProvider;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Xps.Packaging;
 
 namespace DelitaTrade.ViewModels
 {
@@ -259,6 +263,7 @@ namespace DelitaTrade.ViewModels
             InvoiceColectionChange += () => { };
             PaymentChange += SetIncomeTextBoxEnable;
             _dayReportinputOptions.PropertyChanged += OnComponentPropertyChange;
+            _delitaTradeDayReport.ExportFileCreate += OpenExportFile;
         }
 
         private void OnLoadInvoiceFromList()
@@ -542,6 +547,16 @@ namespace DelitaTrade.ViewModels
             else 
             {
                 IncomeEnable = true;
+            }
+        }
+
+        private void OpenExportFile(string filePath) 
+        {
+            MessageBoxResult boxResult = MessageBox.Show($"Day report exported successful.{Environment.NewLine}Open file?", "Exporter"
+                                                             , MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (boxResult == MessageBoxResult.Yes)
+            {
+                Process.Start("explorer.exe", filePath);
             }
         }
     }

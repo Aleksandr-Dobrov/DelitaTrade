@@ -40,6 +40,7 @@ namespace DelitaTrade.Models
             MoneyChanged += PlayMoneyChangeSound;
             ExportCompleted += () => { };
             ExportStart += () => { };
+            ExportFileCreate += (str) => { };
             _dayReportBuilder = new DayReportBuilder("../../../Models/Exporters/DayReport.xlsx", "../../../DayReportsDataBase/ExportFiles/ExportedDayReport.xlsx");
             _appConfig = appConfig;
         }
@@ -55,12 +56,12 @@ namespace DelitaTrade.Models
         public event System.Action MoneyChanged;
         public event System.Action ExportCompleted;
         public event System.Action ExportStart;
+        public event System.Action<string> ExportFileCreate;
 
         public IDayReportIdDataBese DayReportIdDataBese => _dayReportData;
         public DayReport DayReport => _dayReport;
         public DelitaSoundService DelitaSoundService => _soundService;  
         public Configuration AppConfig => _appConfig;
-
         public string CurentDayReportId => DayReport?.DayReportID;
         public string Vehicle => _dayReport?.Vehicle;
           
@@ -133,13 +134,7 @@ namespace DelitaTrade.Models
             {
                 ExportStart();
                 var t = Task.Factory.StartNew(() => _dayReportBuilder.CreateDayReport(_dayReportData.LoadCopyDayReport()));
-                await RiseEventWhenExportCompleted(t);                
-                MessageBoxResult boxResult = MessageBox.Show($"Day report exported successful.{Environment.NewLine}Open file?", "Exporter"
-                                                             , MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (boxResult == MessageBoxResult.Yes)
-                {
-                    Process.Start("explorer.exe", _dayReportBuilder.ExportedFilePath);
-                }
+                await RiseEventWhenExportCompleted(t);
             }
             catch (Exception ex)
             {
@@ -171,7 +166,7 @@ namespace DelitaTrade.Models
         {
             try
             {
-                _dayReport = _dayReportData.LoadDayReport(dayReportID);
+               _dayReport = _dayReportData.LoadDayReport(dayReportID);
                 OnCurentDayReportSelect();
                 OnDayReportDataChanged();
             }
@@ -383,6 +378,7 @@ namespace DelitaTrade.Models
         {
             await task;
             ExportCompleted?.Invoke();
+            ExportFileCreate?.Invoke(_dayReportBuilder.ExportedFilePath);
         }
 
         private void OnDayReportDataChanged()
@@ -453,28 +449,5 @@ namespace DelitaTrade.Models
         {
             TransmissionDate = _dayReport.TransmissionDate;
         }
-
-        //private void SaveAllDayReportsToDB()
-        //{
-        //    foreach (var dayReportId in _dayReportData.DayReportsId)
-        //    {
-        //        var dayReport = _dayReportData.LoadDayReport(dayReportId);
-        //        _dayReportData.SaveDayReportToDB(dayReport);
-        //    }
-        //}
-        //
-        //private void SaveAllInvoicesToDB()
-        //{
-        //    int invoiceId = 1;
-        //    foreach (var dayReportId in _dayReportData.DayReportsId)
-        //    {
-        //        var dayReport = _dayReportData.LoadDayReport(dayReportId);
-        //        foreach (var invoice in dayReport.GetAllInvoices())
-        //        {
-        //            _dayReportData.AddInvoiceToDB(invoice, invoiceId);
-        //            invoiceId++;
-        //        }
-        //    }
-        //}
     }
 }

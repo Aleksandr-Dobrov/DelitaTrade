@@ -16,7 +16,7 @@ namespace DelitaTrade.Models.DataBases
         private IDBDataParser _dbVehicles;
         private IDBDataParser _dbDayReports;
         private IDBDataParser _dbPayDesks;
-        private IDBDataParser _dbInvoicesInDayReport;
+        private IDBDataParser _dbInvoicesInDayReports;
         private MySqlParameter _mySqlParametr;
 
         private readonly IDBProvider _dbProvider;
@@ -30,25 +30,25 @@ namespace DelitaTrade.Models.DataBases
             _dbDayReports.DataBuilder.AddParameter(_mySqlParametr);
             _dbPayDesks = new DbManyObjService(new DBPayDeskBuilder());
             _dbPayDesks.DataBuilder.AddParameter(_mySqlParametr);
-            _dbInvoicesInDayReport = new DbManyObjService(new DBInvoiceInDayReportBuilder());
-            _dbInvoicesInDayReport.DataBuilder.AddParameter(_mySqlParametr);
+            _dbInvoicesInDayReports = new DbManyObjService(new DBInvoiceInDayReportBuilder());
+            _dbInvoicesInDayReports.DataBuilder.AddParameter(_mySqlParametr);
             _dbColection = new()
             {
                 [_dbVehicles.DataBuilder.GetDbType()] = _dbVehicles,
                 [_dbDayReports.DataBuilder.GetDbType()] = _dbDayReports,
                 [_dbPayDesks.DataBuilder.GetDbType()] = _dbPayDesks,
-                [_dbInvoicesInDayReport.DataBuilder.GetDbType()] = _dbInvoicesInDayReport
+                [_dbInvoicesInDayReports.DataBuilder.GetDbType()] = _dbInvoicesInDayReports
             };
             _dbProvider.LoadAllData(ref _dbVehicles);
             _dbProvider.LoadAllData(ref _dbDayReports);
             _dbProvider.LoadAllData(ref _dbPayDesks);
-            _dbProvider.LoadAllData(ref _dbInvoicesInDayReport);
+            _dbProvider.LoadAllData(ref _dbInvoicesInDayReports);
         }
 
         public IDBDataParser DbVehicle => _dbVehicles;
         public IEnumerable<string> DayReportsId => _dbDayReports.Select(x => ((IDBDataId)x).DBDataId);
 
-        public IEnumerable<IDBData> Invoices => _dbInvoicesInDayReport;
+        public IEnumerable<IDBData> Invoices => _dbInvoicesInDayReports;
 
         public void LoadAllVehicle()
         {
@@ -60,11 +60,15 @@ namespace DelitaTrade.Models.DataBases
             List<Invoice> invoices = new List<Invoice>();
             DayReport dayReport = (DayReport)_dbDayReports.GetObject(new DayReport(dayReportId));            
             dayReport.SetPayDesk((PayDesk)_dbPayDesks.GetObject(new PayDesk(dayReport.PayDeskId)));
-            foreach (Invoice invoice in _dbInvoicesInDayReport)
+
+            MySqlDbReadProvider readProvider = new MySqlDbReadProvider(new MySqlDBConnection());
+
+            foreach (var invoice in readProvider.ReadData(MySqlReadCommand.AllInvoiceInCurrentDayReport, new MySqlParameter("day_report_user", _user), new MySqlParameter("day_report_date", dayReport.DayReportID)))
             {
-                if (invoice.DayReportId == dayReport.Id)
+               Invoice invoiceToAdd = (Invoice)_dbInvoicesInDayReports.GetObject(new Invoice(int.Parse(invoice)));
+                if (invoiceToAdd != null)
                 {
-                    invoices.Add(invoice);
+                    invoices.Add(invoiceToAdd);
                 }
             }
             dayReport.InitiateInvoices([.. invoices]);
@@ -165,6 +169,24 @@ namespace DelitaTrade.Models.DataBases
                 newId++;
             }
             return newId;
+        }
+
+        public bool IsNewInvoice(string invoiceId)
+        {
+            MySqlDbReadProvider readProvider = new MySqlDbReadProvider(new MySqlDBConnection());
+            return bool.Parse(readProvider.ReadData(MySqlReadCommand.IsNewInvoice, new MySqlParameter("invoice_id", invoiceId))[0]);
+        }
+
+        public IEnumerable<Invoice> GetInvoices(string invoiceId)
+        {
+            List<Invoice> invoices = new List<Invoice>();
+            MySqlDbReadProvider readProvider = new MySqlDbReadProvider(new MySqlDBConnection());
+            string[] invoicesid = readProvider.ReadData(MySqlReadCommand.GetIdByInvoiceId, new MySqlParameter("invoice_id", invoiceId));
+            foreach (string id in invoicesid)
+            {
+                invoices.Add((Invoice)_dbInvoicesInDayReports.GetObject(new Invoice(int.Parse(id))));
+            }
+            return invoices;
         }
     }
 }

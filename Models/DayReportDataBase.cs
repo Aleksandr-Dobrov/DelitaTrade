@@ -1,16 +1,10 @@
 ﻿using DelitaTrade.Models.Interfaces.DayReports;
 using DelitaTrade.Models.Loggers;
-using DelitaTrade.Models.DataProviders;
-using System.IO;
-using System.Runtime.Serialization;
 using System.Windows;
 using DelitaTrade.Models.DataBases;
-using DelitaTrade.Models.Interfaces.Builder;
 using DelitaTrade.Models.Interfaces.DataBase;
 using DelitaTrade.Models.DataBases.DayReportDataBase;
 using DelitaTrade.Models.MySqlDataBase;
-using DelitaTrade.Models.Builder.DataBase;
-using MySql.Data.MySqlClient;
 
 namespace DelitaTrade.Models
 {
@@ -221,11 +215,11 @@ namespace DelitaTrade.Models
 
         private bool IsNewInvoice(string invoiceId)
         {
-            if (_dayReportDataService.Invoices.FirstOrDefault(i => ((Invoice)i).InvoiceID == invoiceId) != null)
+            if(_dayReportDataService.IsNewInvoice(invoiceId))
             {
-                return false;
+                return true;
             }
-            return true;
+            return false;
         }
 
         private bool IsUnpaidInvoice(string invoiceId)
@@ -234,7 +228,7 @@ namespace DelitaTrade.Models
             decimal totalIncome = 0;
             string payMetod = string.Empty;
             
-            var result = _dayReportDataService.Invoices.Where(i => ((Invoice)i).InvoiceID == invoiceId);
+            var result = _dayReportDataService.GetInvoices(invoiceId);
 
             if (result != null) 
             {

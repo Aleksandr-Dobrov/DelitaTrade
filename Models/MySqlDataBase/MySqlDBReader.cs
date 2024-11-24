@@ -11,7 +11,10 @@ namespace DelitaTrade.Models.MySqlDataBase
         AllVehicles,
         AllDayReports,
         AllPayDesks,
-        AllInvoicesInDayReport
+        AllInvoicesInDayReport,
+        AllInvoiceInCurrentDayReport,
+        IsNewInvoice,
+        GetIdByInvoiceId            
     }
 
 
@@ -24,7 +27,10 @@ namespace DelitaTrade.Models.MySqlDataBase
             [MySqlReadCommand.AllVehicles] = "get_all_vehicles",
             [MySqlReadCommand.AllDayReports] = "get_all_day_reports",
             [MySqlReadCommand.AllPayDesks] = "get_all_day_reports_pay_desk",
-            [MySqlReadCommand.AllInvoicesInDayReport] = "get_all_invoices_in_day_reports"
+            [MySqlReadCommand.AllInvoicesInDayReport] = "get_all_invoices_in_day_reports",
+            [MySqlReadCommand.AllInvoiceInCurrentDayReport] = "get_all_invoice_in_day_report",
+            [MySqlReadCommand.IsNewInvoice] = "is_new_invoice",
+            [MySqlReadCommand.GetIdByInvoiceId] = "get_all_invoices_id"
         };
         private Dictionary<MySqlReadCommand, int> _readDataParameter = new()
         {
@@ -33,7 +39,10 @@ namespace DelitaTrade.Models.MySqlDataBase
             [MySqlReadCommand.AllVehicles] = 2,
             [MySqlReadCommand.AllDayReports] = 0,
             [MySqlReadCommand.AllPayDesks] = 0,
-            [MySqlReadCommand.AllInvoicesInDayReport] = 0
+            [MySqlReadCommand.AllInvoicesInDayReport] = 0,
+            [MySqlReadCommand.AllInvoiceInCurrentDayReport] = 0,
+            [MySqlReadCommand.IsNewInvoice] = 0,
+            [MySqlReadCommand.GetIdByInvoiceId] = 0
         };
         private Dictionary<MySqlReadCommand, bool> _readCommandWithParams = new()
         {
@@ -42,7 +51,10 @@ namespace DelitaTrade.Models.MySqlDataBase
             [MySqlReadCommand.AllVehicles] = false,
             [MySqlReadCommand.AllDayReports] = true,
             [MySqlReadCommand.AllPayDesks] = true,
-            [MySqlReadCommand.AllInvoicesInDayReport] = true
+            [MySqlReadCommand.AllInvoicesInDayReport] = true,
+            [MySqlReadCommand.AllInvoiceInCurrentDayReport] = true,
+            [MySqlReadCommand.IsNewInvoice] = true,
+            [MySqlReadCommand.GetIdByInvoiceId] = true
         };
         private MySqlCommand _reader;
         private MySqlReadCommand _command;
