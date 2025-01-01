@@ -94,6 +94,7 @@ namespace DelitaTrade.Models.Builder
                               i.PayMethod == "Кредитно" ? 7 :
                               i.PayMethod == "Разход" ? 8 :
                               9)
+                .ThenBy(i => i.Amount == 0)
                 .ThenBy(i => i.InvoiceID);
 
             bool expenses = true;

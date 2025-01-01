@@ -48,7 +48,7 @@ namespace DelitaTrade.Components.ComponentsCommands
             }
             if (result)
             {                
-                _delitaTradeDayReport.ExportDayReport();
+                _delitaTradeDayReport.ExportDayReportAsync();
             }
             else
             {

@@ -128,7 +128,7 @@ namespace DelitaTrade.Models
             }
         }
 
-        public async void ExportDayReport()
+        public async void ExportDayReportAsync()
         {
             try
             {

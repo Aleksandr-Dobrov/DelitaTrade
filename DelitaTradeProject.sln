@@ -7,6 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DelitaTrade", "DelitaTrade.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DelitaTradeProjectTests", "..\DelitaTradeProjectTests\DelitaTradeProjectTests.csproj", "{CA5BBA3C-F7D1-480C-B634-C63BA5CB9044}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBDelitaTrade.Infrastructure", "..\DBDelitaTrade.Infrastructure\DBDelitaTrade.Infrastructure.csproj", "{183DB94E-10A8-4F8B-B3D5-6C47A67F84EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBDelitaTrade.Common", "..\DBDelitaTrade.Common\DBDelitaTrade.Common.csproj", "{EABB6172-AF83-44CC-8B38-7D7140F60CEC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelitaReturnProtocolProvider", "..\DelitaReturnProtocolProvider\DelitaReturnProtocolProvider.csproj", "{BD60B418-A4AE-4382-88FA-858F4C97B526}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +27,18 @@ Global
 		{CA5BBA3C-F7D1-480C-B634-C63BA5CB9044}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA5BBA3C-F7D1-480C-B634-C63BA5CB9044}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA5BBA3C-F7D1-480C-B634-C63BA5CB9044}.Release|Any CPU.Build.0 = Release|Any CPU
+		{183DB94E-10A8-4F8B-B3D5-6C47A67F84EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{183DB94E-10A8-4F8B-B3D5-6C47A67F84EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{183DB94E-10A8-4F8B-B3D5-6C47A67F84EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{183DB94E-10A8-4F8B-B3D5-6C47A67F84EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EABB6172-AF83-44CC-8B38-7D7140F60CEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EABB6172-AF83-44CC-8B38-7D7140F60CEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EABB6172-AF83-44CC-8B38-7D7140F60CEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EABB6172-AF83-44CC-8B38-7D7140F60CEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD60B418-A4AE-4382-88FA-858F4C97B526}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD60B418-A4AE-4382-88FA-858F4C97B526}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD60B418-A4AE-4382-88FA-858F4C97B526}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD60B418-A4AE-4382-88FA-858F4C97B526}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

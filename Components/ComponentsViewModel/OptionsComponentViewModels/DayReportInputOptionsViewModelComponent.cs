@@ -1,8 +1,10 @@
 ﻿using DelitaTrade.Models.Configurations;
 using DelitaTrade.Models.Configurations.DayReportConfiguration;
 using DelitaTrade.ViewModels;
+using Google.Protobuf.WellKnownTypes;
 using iTextSharp.text.io;
 using System.Configuration;
+using System.Windows;
 
 namespace DelitaTrade.Components.ComponentsViewModel.OptionsComponentViewModels
 {
@@ -22,8 +24,12 @@ namespace DelitaTrade.Components.ComponentsViewModel.OptionsComponentViewModels
 				_weightConfiguration.IsEnabled = value;
 				_weightConfiguration.CurrentConfiguration.Save();
 				OnPropertyChange();
+				OnPropertyChange(nameof(Visibility));
 			}
 		}
+
+		public Visibility Visibility => WeightIsOn ? Visibility.Visible : Visibility.Collapsed;
+		
 
 		public void SetWeightConfigurator(Configuration appConfig)
 		{
@@ -32,7 +38,8 @@ namespace DelitaTrade.Components.ComponentsViewModel.OptionsComponentViewModels
 				appConfig.Sections.Add("weightIsOn", _weightConfiguration);
 			}
 
-			_weightConfiguration = (WeightConfiguration)appConfig.GetSection("weightIsOn");
-		}
+			_weightConfiguration = (WeightConfiguration)appConfig.GetSection("weightIsOn");  
+			OnPropertyChange(nameof(Visibility));
+        }
 	}
 }

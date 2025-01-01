@@ -386,10 +386,13 @@ namespace DelitaTrade.Models
         {
             _totalWeight = 0;
 
+            HashSet<string> invoicesId = new HashSet<string>();
+
             foreach (var invoice in _invoices)
             {
-                if (invoice.Id == 0)
-                {
+                if (invoicesId.Contains(invoice.InvoiceID) == false)
+                { 
+                    invoicesId.Add(invoice.InvoiceID);
                     _totalWeight += invoice.Weight;
                 }
             }

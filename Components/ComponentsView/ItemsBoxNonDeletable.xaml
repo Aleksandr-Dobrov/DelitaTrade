@@ -10,8 +10,8 @@
                      d:DesignHeight="50" d:DesignWidth="80">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Text="{Binding Text}"  
                    VerticalAlignment="Center" HorizontalAlignment="Center"

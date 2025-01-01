@@ -151,16 +151,6 @@ namespace DelitaTrade.ViewModels
             }
         }
 
-        public string AddOrUpdateTextCommand
-        {
-            get => _addOrUpdateCommand;
-            set
-            {
-                _addOrUpdateCommand = value;
-                OnPropertyChange();
-            }
-        }
-
         public string CompanyType
         {
             get => _addNewCompanyViewModel.CompanyType;

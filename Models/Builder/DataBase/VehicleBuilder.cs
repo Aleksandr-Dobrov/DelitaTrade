@@ -7,13 +7,6 @@ namespace DelitaTrade.Models.Builder.DataBase
 {
     public class VehicleBuilder : DBBaseBuilder
     {
-        private List<MySqlParameter> _parameters;
-
-        public VehicleBuilder()
-        {
-            _parameters = new List<MySqlParameter>();
-        }
-
         public override MySqlReadCommand[] ReadCommands => [MySqlReadCommand.AllVehicles];
 
         public override IDBData GetData(string[] parameters)

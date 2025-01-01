@@ -39,10 +39,11 @@ namespace DelitaTrade.Models.DataBases
                 [_dbPayDesks.DataBuilder.GetDbType()] = _dbPayDesks,
                 [_dbInvoicesInDayReports.DataBuilder.GetDbType()] = _dbInvoicesInDayReports
             };
-            _dbProvider.LoadAllData(ref _dbVehicles);
-            _dbProvider.LoadAllData(ref _dbDayReports);
-            _dbProvider.LoadAllData(ref _dbPayDesks);
-            _dbProvider.LoadAllData(ref _dbInvoicesInDayReports);
+            IDBDataParser[] values = [.. _dbColection.Values];
+            for (int i = 0; i < values.Length; i++)
+            {
+                _dbProvider.LoadAllData(ref values[i]);
+            }
         }
 
         public IDBDataParser DbVehicle => _dbVehicles;
@@ -143,19 +144,6 @@ namespace DelitaTrade.Models.DataBases
             return _dbColection[obj.GetType()].ContainsKey(obj);
         }
 
-        private void DeleteFromColection(IDBData dataToDelete) 
-        {
-            if (_dbColection[dataToDelete.GetType()].RemoveData(dataToDelete) == false)
-            {
-                throw new InvalidOperationException($"Can't delete invoice{dataToDelete.Data}");
-            }
-        }
-
-        private bool ContainsType(IDBData data)
-        {
-            return _dbColection.ContainsKey(data.GetType());
-        }
-
         public int GetNextInvoiceId()
         {
             if (_dbColection[typeof(Invoice)].Count == 0)
@@ -187,6 +175,19 @@ namespace DelitaTrade.Models.DataBases
                 invoices.Add((Invoice)_dbInvoicesInDayReports.GetObject(new Invoice(int.Parse(id))));
             }
             return invoices;
+        }
+
+        private bool ContainsType(IDBData data)
+        {
+            return _dbColection.ContainsKey(data.GetType());
+        }
+
+        private void DeleteFromColection(IDBData dataToDelete)
+        {
+            if (_dbColection[dataToDelete.GetType()].RemoveData(dataToDelete) == false)
+            {
+                throw new InvalidOperationException($"Can't delete invoice{dataToDelete.Data}");
+            }
         }
     }
 }

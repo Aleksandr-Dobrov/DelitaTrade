@@ -8,7 +8,7 @@ namespace DelitaTrade.Models.MySqlDataBase
         private readonly IDBDataParser _dataBase;
         private readonly MySqlDBConnection _connection;
         private MySqlDBReader _reader;
-                
+
         public MySqlDBDataProvider(MySqlDBConnection connection, IDBDataParser dataBase)
         {
             _connection = connection;

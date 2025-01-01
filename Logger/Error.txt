@@ -4603,3 +4603,27 @@ StackTrace -    at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync(Boolean ex
    at DelitaTrade.Models.MySqlDataBase.MySqlDBReader.GetAllData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\MySqlDataBase\MySqlDBReader.cs:line 75
 InnerExceptioon - 
 --------------------------------------------------
+19.12.2024 г. 15:24:54 - Procedure or function 'get_all_products' cannot be found in database '' Verify that user 'root'@'127.0.0.1' has enough privileges to execute
+MySql.Data.MySqlClient.MySqlException (0x80004005): Procedure or function 'get_all_products' cannot be found in database '' Verify that user 'root'@'127.0.0.1' has enough privileges to execute
+   at MySql.Data.MySqlClient.ProcedureCache.GetProcDataAsync(MySqlConnection connection, String spName, Boolean execAsync)
+   at MySql.Data.MySqlClient.ProcedureCache.AddNewAsync(MySqlConnection connection, String spName, Boolean execAsync)
+   at MySql.Data.MySqlClient.ProcedureCache.GetProcedureAsync(MySqlConnection conn, String spName, String cacheKey, Boolean execAsync)
+   at MySql.Data.MySqlClient.StoredProcedure.GetParametersAsync(String procName, Boolean execAsync)
+   at MySql.Data.MySqlClient.StoredProcedure.CheckParametersAsync(String spName, Boolean execAsync)
+   at MySql.Data.MySqlClient.StoredProcedure.Resolve(Boolean preparing)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   at DelitaTrade.Models.MySqlDataBase.MySqlDBReader.GetAllData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\MySqlDataBase\MySqlDBReader.cs:line 79
+Source - MySql.Data
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at MySql.Data.MySqlClient.ProcedureCache.GetProcDataAsync(MySqlConnection connection, String spName, Boolean execAsync)
+   at MySql.Data.MySqlClient.ProcedureCache.AddNewAsync(MySqlConnection connection, String spName, Boolean execAsync)
+   at MySql.Data.MySqlClient.ProcedureCache.GetProcedureAsync(MySqlConnection conn, String spName, String cacheKey, Boolean execAsync)
+   at MySql.Data.MySqlClient.StoredProcedure.GetParametersAsync(String procName, Boolean execAsync)
+   at MySql.Data.MySqlClient.StoredProcedure.CheckParametersAsync(String spName, Boolean execAsync)
+   at MySql.Data.MySqlClient.StoredProcedure.Resolve(Boolean preparing)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   at DelitaTrade.Models.MySqlDataBase.MySqlDBReader.GetAllData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\MySqlDataBase\MySqlDBReader.cs:line 79
+InnerExceptioon - 
+--------------------------------------------------

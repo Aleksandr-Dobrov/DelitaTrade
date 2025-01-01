@@ -1,5 +1,8 @@
-﻿using DelitaTrade.Models.Interfaces.DataBase;
+﻿using DBDelitaTrade.Infrastructure.Data;
+using DelitaTrade.Models.Interfaces.DataBase;
 using DelitaTrade.Models.MySqlDataBase;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DelitaTrade.Models
 {
@@ -7,11 +10,13 @@ namespace DelitaTrade.Models
     {
         private CompaniesDataBase _dataBase;
         private readonly IDBProvider _mySqlDataBase;
+        private IServiceProvider _serviceProvider;
 
-        public DelitaTradeCompany(string name, IDBProvider dataBase)
+        public DelitaTradeCompany(string name, IDBProvider dataBase, IServiceProvider serviceProvider)
         {
             Name = name;
             _mySqlDataBase = dataBase;
+            _serviceProvider = serviceProvider;
         }
 
         public event Action DataBaseChanged;
@@ -89,6 +94,69 @@ namespace DelitaTrade.Models
         private void UpdateDataBase()
         {
             DataBaseChanged?.Invoke();                        
+        }
+
+        public void CopyCompaniesToEF()
+        {
+            var dbContext = _serviceProvider.GetService<DelitaDbContext>();
+            //dbContext.ReturnProtocols.ExecuteDelete();
+            //dbContext.Objects.ExecuteDelete();
+            //dbContext.Traders.ExecuteDelete();
+            //dbContext.Companies.ExecuteDelete();
+            foreach (var item in _dataBase.companies)
+            {
+
+                var newCompany = dbContext.Companies.Local.FirstOrDefault(c => c.Name == item.Name);
+                if (newCompany == null)
+                {
+                    newCompany = new DBDelitaTrade.Infrastructure.Data.Models.Company
+                    {
+                        Name = item.Name,
+                        Type = item.Type,
+                        Bulstad = item.Bulstad,
+                    };
+                }
+                else
+                {
+                    newCompany.Type = item.Type;
+                    newCompany.Bulstad = item.Bulstad;
+                }
+                foreach (var obj in item.GetAllCompanyObjects())
+                {
+                    var trader = dbContext.Traders.Local.Where(t => t.Name == obj.Trader).FirstOrDefault();
+                    if (trader == null) 
+                    {
+                        trader = new DBDelitaTrade.Infrastructure.Data.Models.Trader { Name = obj.Trader };
+                        dbContext.Traders.Add(trader);
+                    }
+                    
+
+                    var newObject = dbContext.Objects.Local.Where(o => o.Name == obj.Name).FirstOrDefault();
+                    if (newObject == null)
+                    {
+                        newObject = new DBDelitaTrade.Infrastructure.Data.Models.CompanyObject
+                        {
+                            Name = obj.Name,
+                            Address = obj.Adrress,
+                            Trader = trader,
+                            Company = newCompany,
+                            IsBankPay = obj.BankPay
+                        };
+                    }
+                    else
+                    {
+                        newObject.Address = obj.Adrress;
+                        newObject.IsBankPay = obj.BankPay;
+                        newObject.Company = newCompany;
+                        newObject.Trader = trader;
+                    }                     
+                    newCompany.Objects.Add(newObject);
+
+                }
+                
+                dbContext.Add(newCompany);                
+            }
+            dbContext.SaveChanges();
         }
     }
 }

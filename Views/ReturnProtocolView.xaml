@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:returnprotocolviewmodels="clr-namespace:DelitaTrade.ViewModels.ReturnProtocolViewModels"
+             xmlns:returnprotocolviewmodels="clr-namespace:DelitaTrade.ViewModels.ReturnProtocolControllers"
              xmlns:RetutnProtocolComponents3c1c13e5="clr-namespace:DelitaTrade.Components.ComponentsView.RetutnProtocolComponents"
-             d:DataContext="{d:DesignInstance Type=returnprotocolviewmodels:ReturnProtocolViewModel}"
+             d:DataContext="{d:DesignInstance Type=returnprotocolviewmodels:ReturnProtocolController}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -13,9 +13,11 @@
             <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">            
-            <RetutnProtocolComponents3c1c13e5:InitialInformation Grid.Row="0" DataContext="{Binding InitialInformationViewModel}">                
-            </RetutnProtocolComponents3c1c13e5:InitialInformation>
+        <Grid Grid.Row="0">
+            <RetutnProtocolComponents3c1c13e5:InitialInformation DataContext="{Binding InitialInformationViewModel}"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <RetutnProtocolComponents3c1c13e5:ReturnProductsListViewModel DataContext="{Binding ReturnProductsListViewModel}"/>
         </Grid>
     </Grid>
 </UserControl>

@@ -239,7 +239,7 @@
                         <ColumnDefinition Width="2*"/>
                         <ColumnDefinition Width="60"/>
                         <ColumnDefinition Width="1.5*"/>
-                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="auto" MaxWidth="60"/>
                         <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="80"/>
@@ -248,7 +248,8 @@
                     <TextBlock Grid.Column="0" Text="Company" MinWidth="180" Width="auto" TextAlignment="Center"/>
                     <TextBlock Grid.Column="1" Text="Type" MinWidth="60" Width="auto" TextAlignment="Center"/>
                     <TextBlock Grid.Column="2" Text="Object" MinWidth="140" Width="auto" TextAlignment="Center"/>
-                    <TextBlock Grid.Column="3" Text="Weight" MinWidth="60" Width="auto" TextAlignment="Center"/>
+                    <TextBlock Grid.Column="3" Text="Weight" MinWidth="60" Width="auto" TextAlignment="Center" 
+                               Visibility="{Binding DayReportInputOptions.Visibility}"/>
                     <TextBlock Grid.Column="4" Text="Document ID" MinWidth="80" Width="auto" TextAlignment="Center"/>
                     <TextBlock Grid.Column="5" Text="Amount" MinWidth="80" Width="auto" TextAlignment="Center"/>
                     <TextBlock Grid.Column="6" Text="Pay Method" MinWidth="80" Width="auto" TextAlignment="Center"/>
@@ -259,7 +260,7 @@
                         <ColumnDefinition Width="2*"/>
                         <ColumnDefinition Width="60"/>
                         <ColumnDefinition Width="1.5*"/>
-                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="auto" MaxWidth="60"/>
                         <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="80"/>
@@ -270,6 +271,7 @@
                     <ComponentsView88be9dc1:SearchBoxObject Grid.Column="2" MinWidth="140" x:Name="companyObject" DataContext="{Binding SearchBoxObject}"/>
                     <TextBox Grid.Column="3" MinWidth="60" Name="weight" Text="{Binding Weight}" 
                              IsEnabled="{Binding DayReportInputOptions.WeightIsOn}"
+                             Visibility="{Binding DayReportInputOptions.Visibility}"
                              GotFocus="TextBox_GotFocus"/>
                     <TextBox Grid.Column="4" Name="invoiceId" MinWidth="80" Text="{Binding InvoiceID, UpdateSourceTrigger=PropertyChanged}" 
                              GotFocus="TextBoxIDGotFocusSelectIndex" 
@@ -356,23 +358,22 @@
         </Grid>
         <Grid Grid.Row="2" Background="AliceBlue">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="213*" MinWidth="650"/>
-                <ColumnDefinition Width="167*"/>
+                <ColumnDefinition Width="213*" MinWidth="650"/>                
                 <ColumnDefinition Width="170"/>
             </Grid.ColumnDefinitions>
             <ListView Grid.Column="0" 
-                      SelectedItem="{Binding SelectedInvoiceViewModel, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding SelectedInvoiceViewModel}"
                     ItemsSource="{Binding Invoices}" Grid.ColumnSpan="2">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Company" Width="180">
+                        <GridViewColumn Header="Company" Width="210">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding CompanyName}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Object Name" Width="140">
+                        <GridViewColumn Header="Object Name" Width="210">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding ObjectName}"/>
@@ -412,7 +413,7 @@
             </ListView>
             <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
                 <ComponentsView88be9dc1:DayReportTotalsViewComponent DataContext="{Binding DayReportTotalsViewModel}"/>
             </Grid>

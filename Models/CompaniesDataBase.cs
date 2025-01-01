@@ -148,5 +148,6 @@ namespace DelitaTrade.Models
         {
             throw new NotImplementedException();
         }
+        public IEnumerable<Company> companies => _companies;
     }
 }

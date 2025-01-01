@@ -38,6 +38,8 @@ namespace DelitaTrade.Components.ComponentsViewModel
 			}			
 		}
 
+		public CompanyObjectViewModel? CurrentCompanyObject => _companyObjects.FirstOrDefault(o => o.ObjectName == InputTextObject);
+
 		private void CompanySelected()
 		{
 			_companyObjects = (ObservableCollection<CompanyObjectViewModel>)_addNewCompanyViewModel.CurrentCompany.CompanyObjects;

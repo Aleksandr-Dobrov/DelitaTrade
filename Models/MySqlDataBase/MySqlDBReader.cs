@@ -14,7 +14,8 @@ namespace DelitaTrade.Models.MySqlDataBase
         AllInvoicesInDayReport,
         AllInvoiceInCurrentDayReport,
         IsNewInvoice,
-        GetIdByInvoiceId            
+        GetIdByInvoiceId,
+        AllProducts
     }
 
 
@@ -30,7 +31,8 @@ namespace DelitaTrade.Models.MySqlDataBase
             [MySqlReadCommand.AllInvoicesInDayReport] = "get_all_invoices_in_day_reports",
             [MySqlReadCommand.AllInvoiceInCurrentDayReport] = "get_all_invoice_in_day_report",
             [MySqlReadCommand.IsNewInvoice] = "is_new_invoice",
-            [MySqlReadCommand.GetIdByInvoiceId] = "get_all_invoices_id"
+            [MySqlReadCommand.GetIdByInvoiceId] = "get_all_invoices_id",
+            [MySqlReadCommand.AllProducts] = "get_all_products"
         };
         private Dictionary<MySqlReadCommand, int> _readDataParameter = new()
         {
@@ -42,7 +44,8 @@ namespace DelitaTrade.Models.MySqlDataBase
             [MySqlReadCommand.AllInvoicesInDayReport] = 0,
             [MySqlReadCommand.AllInvoiceInCurrentDayReport] = 0,
             [MySqlReadCommand.IsNewInvoice] = 0,
-            [MySqlReadCommand.GetIdByInvoiceId] = 0
+            [MySqlReadCommand.GetIdByInvoiceId] = 0,
+            [MySqlReadCommand.AllProducts] = 0
         };
         private Dictionary<MySqlReadCommand, bool> _readCommandWithParams = new()
         {
@@ -54,7 +57,8 @@ namespace DelitaTrade.Models.MySqlDataBase
             [MySqlReadCommand.AllInvoicesInDayReport] = true,
             [MySqlReadCommand.AllInvoiceInCurrentDayReport] = true,
             [MySqlReadCommand.IsNewInvoice] = true,
-            [MySqlReadCommand.GetIdByInvoiceId] = true
+            [MySqlReadCommand.GetIdByInvoiceId] = true,
+            [MySqlReadCommand.AllProducts] = false
         };
         private MySqlCommand _reader;
         private MySqlReadCommand _command;

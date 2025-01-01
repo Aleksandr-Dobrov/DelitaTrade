@@ -1,5 +1,5 @@
 ﻿using DelitaTrade.Components.ComponentsViewModel;
-using DelitaTrade.ViewModels.ReturnProtocolViewModels;
+using DelitaTrade.ViewModels.ReturnProtocolControllers;
 using DelitaTrade.Models;
 using DelitaTrade.Stores;
 using DelitaTrade.Models.DI;
@@ -10,17 +10,17 @@ namespace DelitaTrade.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        IServiceProvider _serviceProvider = DIContainer.BuildServiceProvider();
+        
         private ViewModelsStore _viewModelsStore;
         private NavigationBarViewModel _navigationBarViewModel;
 
-        public MainViewModel(DelitaTradeCompany delitaTrade, DelitaTradeDayReport dayReportCreator)
+        public MainViewModel(DelitaTradeCompany delitaTrade, DelitaTradeDayReport dayReportCreator, IServiceProvider serviceProvider)
         {
-            var dayReportOptions = _serviceProvider.GetService<DayReportInputOptionsViewModelComponent>();
+            var dayReportOptions = serviceProvider.GetService<DayReportInputOptionsViewModelComponent>();
             ViewModelBase addCompanyViewModel = new AddNewCompanyViewModel(delitaTrade);
             ViewModelBase dayReportViewModel = new DayReportsViewModel(dayReportCreator, addCompanyViewModel, dayReportOptions);
             ViewModelBase payDeskViewModel = new PayDeskViewModel(dayReportCreator);
-            ViewModelBase returnProtocolViewModel = new ReturnProtocolViewModel(addCompanyViewModel);
+            ViewModelBase returnProtocolViewModel = new ReturnProtocolController(addCompanyViewModel, serviceProvider);
             ViewModelBase optionsViewModel = new OptionsViewModel(dayReportCreator, dayReportOptions);
             _viewModelsStore = new ViewModelsStore([addCompanyViewModel, dayReportViewModel, payDeskViewModel, returnProtocolViewModel, optionsViewModel]);
             _viewModelsStore.ViewModelChanged += OnViewModelChanged;

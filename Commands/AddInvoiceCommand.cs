@@ -56,7 +56,7 @@ namespace DelitaTrade.Commands
                                           _dayReportsViewModel.PayMethodBox.PayMethodText,
                                           _dayReportsViewModel.DecimalAmount,
                                           _dayReportsViewModel.DecimalIncome,
-                                          _dayReportsViewModel.DoubleWeight
+                                          _dayReportsViewModel.DayReportInputOptions.WeightIsOn ? _dayReportsViewModel.DoubleWeight : 0
                                           );
            
             if (_addNewCompanyViewModel.CreateCompanyCommand.CanExecute(invoice))

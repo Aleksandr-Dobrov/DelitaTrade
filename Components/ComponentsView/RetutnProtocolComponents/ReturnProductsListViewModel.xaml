@@ -1,0 +1,87 @@
+﻿<UserControl x:Class="DelitaTrade.Components.ComponentsView.RetutnProtocolComponents.ReturnProductsListViewModel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DelitaTrade.Components.ComponentsView.RetutnProtocolComponents" xmlns:returnprotocolviewmodels="clr-namespace:DelitaTrade.ViewModels.ReturnProtocolControllers" xmlns:returnprotocolcomponentviewmodels="clr-namespace:DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentViewModels"
+             d:DataContext="{d:DesignInstance Type=returnprotocolcomponentviewmodels:ListViewInputViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid Grid.Row="1" Margin="0 10 0 0">
+            <ListView ItemsSource="{Binding List, UpdateSourceTrigger=PropertyChanged}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Name" Width="270">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ComboBox Name="ProductsBox" 
+                                              IsTextSearchEnabled="True"
+                                              IsEditable="True"
+                                              Text="{Binding ProductName, Mode=TwoWay}"
+                                              SelectedValue="{Binding ListViewInputViewModel.SelectedProduct}"
+                                              ItemsSource="{Binding ListViewInputViewModel.ProductsList, UpdateSourceTrigger=PropertyChanged}"
+                                              PreviewTextInput="ComboBox_PreviewTextInput"
+                                              MinWidth="100"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>                        
+                        <GridViewColumn Header="Quantity" Width="65">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding ProductQuantity, Mode=TwoWay}" MinWidth="40"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Unit" Width="80">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ComboBox SelectedItem="{Binding Unit, Mode=TwoWay}"
+                                              ItemsSource="{Binding ListViewInputViewModel.Unit}"
+                                              IsEditable="False"
+                                              MinWidth="50"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="BestBefore" Width="140">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <DatePicker SelectedDate="{Binding BestBefore, Mode=TwoWay}" MinWidth="100"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Batch" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding Batch, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MinWidth="100"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Description" Width="140">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ComboBox IsTextSearchEnabled="True"
+                                              IsEditable="True"
+                                              Text="{Binding Description, UpdateSourceTrigger = LostFocus}"
+                                              ItemsSource="{Binding ListViewInputViewModel.Descriptions}"
+                                              PreviewTextInput="ComboBox_PreviewTextInput"
+                                              MinWidth="100"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="40">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="X" Width="25"
+                                            Command="{Binding DeleteProductCommand}"
+                                            Visibility="{Binding IsVisible, UpdateSourceTrigger=PropertyChanged}"
+                                            Background="Red"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+    </Grid>
+</UserControl>

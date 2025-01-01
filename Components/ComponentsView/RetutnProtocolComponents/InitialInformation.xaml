@@ -3,14 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             
-              xmlns:ComponentsView3cd9e2af="clr-namespace:DelitaTrade.Components.ComponentsView"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ComponentsView3cd9e2af="clr-namespace:DelitaTrade.Components.ComponentsView" 
+             xmlns:initiainformationviewmodel="clr-namespace:DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentViewModels"
+             d:DataContext="{d:DesignInstance Type=initiainformationviewmodel:InitialInformationViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="150" d:DesignWidth="400">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
@@ -26,7 +29,7 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Text="Company" FontSize="14" FontWeight="Medium" HorizontalAlignment="Center"/>
-                <ComponentsView3cd9e2af:SearchBox Grid.Row="1" DataContext="{Binding SearchBox}">
+                <ComponentsView3cd9e2af:SearchBox Margin="0 0 0 5" Grid.Row="1" DataContext="{Binding SearchBox}">
                     
                 </ComponentsView3cd9e2af:SearchBox>
             </Grid>
@@ -45,24 +48,42 @@
         </Grid>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Add" Margin="10"
+                            Command="{Binding CreateReturnProtocolCommand}"/>
+                    <Button Content="Remove" Margin="10"
+                            Command="{Binding DeleteReturnProtocolCommand}"/>
+                </StackPanel>
+            </Grid>
+            <TextBox Grid.Row="1" Text="{Binding ProtocolFilter, UpdateSourceTrigger=PropertyChanged}"/>
+            <ComboBox Grid.Row="2" Margin="5"
+                      IsEditable="True"
+                      SelectedItem="{Binding SelectedReturnProtocol}"
+                      IsDropDownOpen="{Binding IsProtocolsDropDownOpen}"
+                      ItemsSource="{Binding ReturnProtocols}"/>
+        </Grid>
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <ComponentsView3cd9e2af:ItemsBoxNonDeletable Grid.Row="0" 
-                                                 Width="100"
-                                                 HorizontalAlignment="Right"
-                                                 DataContext="{Binding ReturnProtocolDate}"/>
+            <Viewbox Grid.Row="0" Width="150" HorizontalAlignment="Right">
+                <DatePicker  SelectedDate="{Binding Path=Date, Mode=TwoWay, TargetNullValue={x:Static System:DateTime.Now}}"/>
+            </Viewbox>
             <ComponentsView3cd9e2af:ItemsBoxNonDeletable Grid.Row="1"
                                                  Width="150"
                                                  HorizontalAlignment="Right"
                                                  Margin="0 20 0 0"
                                                  DataContext="{Binding ReturnProtocolPayMethod}"/>
-            <DatePicker Grid.Row="2">
-                
-            </DatePicker>
+            
         </Grid>
     </Grid>
 </UserControl>

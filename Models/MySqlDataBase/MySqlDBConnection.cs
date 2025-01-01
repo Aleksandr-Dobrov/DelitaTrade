@@ -18,7 +18,8 @@ namespace DelitaTrade.Models.MySqlDataBase
 
         public void CreateConectionToDB()
         {            
-            _mySqlConnection = new MySqlConnection($"server={host};port={port};user id={userId}; password={password}; database={database}; SslMode={sslMode}");             
+            _mySqlConnection = new MySqlConnection($"server={host};port={port};user id={userId}; password={password}; database={database}; SslMode={sslMode}");
         }
+        //"server=.;user id=root;password=10052016AdiCA0527CK.Audi;database=delita_db"
     }
 }

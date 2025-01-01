@@ -49,17 +49,17 @@
             </Grid>
             <TextBlock Grid.Row="8" Margin="0 5 0 0" Text="Total income" FontSize="19" FontWeight="Bold"/>
             <TextBlock Grid.Row="9" Text="{Binding TotalIncome}"  FontSize="24" FontWeight="Bold"/>
-            <Grid Grid.Row="10" Width="140" HorizontalAlignment="Left" Margin="5">
+            <Grid Grid.Row="10" Width="140" Height="auto" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Bottom">
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <ComponentsView3deb65b9:ItemsBoxNonDeletable Grid.Row="0" DataContext="{Binding Vehicle}"
+                <ComponentsView3deb65b9:ItemsBoxNonDeletable Grid.Row="0" DataContext="{Binding Vehicle}" VerticalAlignment="Bottom"
                                  FontSize="16" FontWeight="Bold" Margin="0 0 0 10"/>
-                <ComponentsView3deb65b9:ItemsBoxNonDeletable Grid.Row="1" DataContext="{Binding TransmissionDate}" 
+                <ComponentsView3deb65b9:ItemsBoxNonDeletable Grid.Row="1" DataContext="{Binding TransmissionDate}" VerticalAlignment="Bottom"
                                  FontSize="16" FontWeight="Bold"/>
             </Grid>
-            <Button Command="{Binding PrintDayReport}" Grid.Row="11" Margin="20 5">
+            <Button Command="{Binding PrintDayReport}" Grid.Row="11" Margin="20 5" VerticalAlignment="Bottom">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Export" Margin="37 1 0 0"/>
                     <Image Source="{Binding ExportImageSource}" Width="20" Margin="26 0 0 0"/>

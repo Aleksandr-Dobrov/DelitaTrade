@@ -3,7 +3,7 @@ using DelitaTrade.Models.DataProviders.FileDirectoryProvider;
 using DelitaTrade.Services;
 using DelitaTrade.Stores;
 using DelitaTrade.ViewModels;
-using DelitaTrade.ViewModels.ReturnProtocolViewModels;
+using DelitaTrade.ViewModels.ReturnProtocolControllers;
 using System.Windows.Input;
 
 namespace DelitaTrade.Components.ComponentsViewModel
@@ -27,8 +27,8 @@ namespace DelitaTrade.Components.ComponentsViewModel
                 (new NavigationService<DayReportsViewModel>(viewModelsStore));
             NavigatePayDeskCommand = new NavigationCommand<PayDeskViewModel>
                 (new NavigationService<PayDeskViewModel>(viewModelsStore));
-            NavigateReturnProtocolCommand = new NavigationCommand<ReturnProtocolViewModel>
-                (new NavigationService<ReturnProtocolViewModel>(viewModelsStore));
+            NavigateReturnProtocolCommand = new NavigationCommand<ReturnProtocolController>
+                (new NavigationService<ReturnProtocolController>(viewModelsStore));
             NavigateOptionsCommand = new NavigationCommand<OptionsViewModel>
                 (new NavigationService<OptionsViewModel>(viewModelsStore));
             LogoFullFilePath = _logoFilePath;
