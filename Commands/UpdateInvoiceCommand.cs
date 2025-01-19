@@ -38,9 +38,9 @@ namespace DelitaTrade.Commands
         public override void Execute(object? parameter)
         {
             Invoice invoice = new Invoice(_dayReportsViewModel.SelectedInvoiceViewModel.Id,
-                                          _dayReportsViewModel.SearchBox.InputText,
+                                          _dayReportsViewModel.SearchBox.CompaniesSearchBox.TextValue,
                                           _dayReportsViewModel.CompanyType,
-                                          _dayReportsViewModel.SearchBoxObject.InputTextObject,
+                                          _dayReportsViewModel.SearchBoxObject.CompanyObjectsSearchBox.TextValue,
                                           _dayReportsViewModel.SelectedInvoiceViewModel.InvoiceID,
                                           _dayReportsViewModel.PayMethodBox.PayMethodText,
                                           _dayReportsViewModel.DecimalAmount,
@@ -48,16 +48,16 @@ namespace DelitaTrade.Commands
                                           _dayReportsViewModel.DoubleWeight);
             invoice.DayReport = _dayReportsViewModel.SelectedInvoiceViewModel.DayReport;
             
-             if (_addNewCompanyViewModel.CreateCompanyCommand.CanExecute(invoice))
-             {
-                 _addNewCompanyViewModel.CreateCompanyCommand.Execute(invoice);
-                 _addNewCompanyViewModel.SetObjectName(invoice.ObjectName);
-             }
-             if (_addNewCompanyViewModel.CreateObjectCommand.CanExecute(invoice))
-             {
-                 _addNewCompanyViewModel.SetBankPay(_dayReportsViewModel.PayMethodBox.PayMethodText);
-                 _addNewCompanyViewModel.CreateObjectCommand.Execute(invoice);
-             }
+             //if (_addNewCompanyViewModel.CreateCompanyCommand.CanExecute(invoice))
+             //{
+             //    _addNewCompanyViewModel.CreateCompanyCommand.Execute(invoice);
+             //    _addNewCompanyViewModel.SetObjectName(invoice.ObjectName);
+             //}
+             //if (_addNewCompanyViewModel.CreateObjectCommand.CanExecute(invoice))
+             //{
+             //    _addNewCompanyViewModel.SetBankPay(_dayReportsViewModel.PayMethodBox.PayMethodText);
+             //    _addNewCompanyViewModel.CreateObjectCommand.Execute(invoice);
+             //}
              
              _dayReport.UpdateInvoice(invoice);            
         }

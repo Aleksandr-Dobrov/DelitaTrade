@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="DelitaTrade.Components.ComponentsView.SearchComboBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DelitaTrade.Components.ComponentsView"
+             xmlns:viewmodels="clr-namespace:DelitaTrade.Components.ComponentsViewModel" 
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="150">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="{Binding Name}" 
+                   VerticalAlignment="Center" HorizontalAlignment="Center"
+                   FontSize="14" FontWeight="Medium"/>
+        <TextBlock Grid.Row="1" x:Name="autoCompleteBox"
+                   Panel.ZIndex="1"
+                   Margin="0 0 20 0"
+                   Padding="5 3 3 0 "
+                   TextAlignment="Justify"
+                   Foreground="Gray"
+                   Text="{Binding AutoComplete, UpdateSourceTrigger=PropertyChanged}"
+                   MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
+                   Cursor="IBeam"/>
+        <ComboBox Grid.Row="1" x:Name="searchComboBoxText"
+                  IsReadOnly="False"                  
+                  IsTextSearchEnabled="False" 
+                  IsEditable="True"
+                  ItemsSource="{Binding Items}"
+                  SelectedValue="{Binding Value.Value, UpdateSourceTrigger=PropertyChanged}"
+                  Text="{Binding TextValue, UpdateSourceTrigger=PropertyChanged}"                  
+                  PreviewTextInput="SearchComboBoxText_PreviewTextInput"
+                  PreviewKeyDown="SearchComboBoxText_PreviewKeyUp"/>
+    </Grid>
+</UserControl>

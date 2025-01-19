@@ -5,6 +5,7 @@ using DelitaTrade.Models.DataBases;
 using DelitaTrade.Models.Interfaces.DataBase;
 using DelitaTrade.Models.DataBases.DayReportDataBase;
 using DelitaTrade.Models.MySqlDataBase;
+using Microsoft.Extensions.Configuration;
 
 namespace DelitaTrade.Models
 {
@@ -18,14 +19,14 @@ namespace DelitaTrade.Models
 
         private readonly IDBProvider _dbProvider;
 
-        public DayReportDataBase(DelitaTradeDayReport delitaTradeDayReport, IDBProvider dBProvider)
+        public DayReportDataBase(DelitaTradeDayReport delitaTradeDayReport, IDBProvider dBProvider, IConfiguration configuration)
         {
             _dbProvider = dBProvider;          
             DayReportIdAdd += (string day) => { };
             DayReportIdRemove += (string day) => { };
             DayReportIdsLoad += (List<string> days) => { };
             DayReportsIdChanged += () => { };
-            _dayReportDataService = new DayReportDataService(dBProvider);
+            _dayReportDataService = new DayReportDataService(dBProvider, configuration);
             _delitaTradeDayReport = delitaTradeDayReport;
             _delitaTradeDayReport.CurentDayReportSelect += OndayReportEnable;
             _delitaTradeDayReport.CurrentDayReportUnselected -= OndayReportDesable;

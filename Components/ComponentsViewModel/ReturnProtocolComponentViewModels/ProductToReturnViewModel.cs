@@ -1,9 +1,9 @@
-﻿using DelitaReturnProtocolProvider.ViewModels;
-using DelitaTrade.Commands.ReturnProtocolCommands;
+﻿using DelitaTrade.Commands.ReturnProtocolCommands;
 using DelitaTrade.ViewModels;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
+using DelitaTrade.Core.ViewModels;
 
 namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentViewModels
 {
@@ -31,6 +31,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
         }
         public ProductToReturnViewModel(ReturnedProductViewModel product, ListViewInputViewModel viewModel)
         {
+            Id = product.Id;
             ProductName = product.Product.Name;
             Unit = product.Product.Unit;
             ProductQuantity = product.Quantity;

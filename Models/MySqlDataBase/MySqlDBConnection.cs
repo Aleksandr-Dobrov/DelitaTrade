@@ -1,4 +1,5 @@
 ﻿using DelitaTrade.Models.Interfaces.DataBase;
+using Microsoft.Extensions.Configuration;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 
@@ -6,20 +7,20 @@ namespace DelitaTrade.Models.MySqlDataBase
 {
     public class MySqlDBConnection : IDBDelitaConnection
     {
-        private const string host= "127.0.0.1";
-        private const string port = "3306";
-        private const string userId = "root";
-        private const string password = "10052016AdiCA0527CK.Audi";
-        private const string database = "delita_db";
-        private const string sslMode = "Required";
         private MySqlConnection _mySqlConnection;
 
         public MySqlConnection MySqlConnection => _mySqlConnection;
 
-        public void CreateConectionToDB()
-        {            
-            _mySqlConnection = new MySqlConnection($"server={host};port={port};user id={userId}; password={password}; database={database}; SslMode={sslMode}");
+        public void CreateConnectionToDB(IConfiguration configuration)
+        {
+            var section = configuration.GetSection("MySqlConnection");
+            var host = section.GetValue(typeof(string), "host") as string;
+            var port = section.GetValue(typeof(string), "port") as string;
+            var userId = section.GetValue(typeof(string), "userId") as string;
+            var password = section.GetValue(typeof(string), "password") as string;
+            var dataBase = section.GetValue(typeof(string), "database") as string;
+            var sslMode = section.GetValue(typeof(string), "sslMode") as string;
+            _mySqlConnection = new MySqlConnection($"server={host};port={port};user id={userId}; password={password}; database={dataBase}; SslMode={sslMode}");
         }
-        //"server=.;user id=root;password=10052016AdiCA0527CK.Audi;database=delita_db"
     }
 }

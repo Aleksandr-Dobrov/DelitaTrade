@@ -2,7 +2,6 @@
 using DelitaTrade.ViewModels.ReturnProtocolControllers;
 using DelitaTrade.Models;
 using DelitaTrade.Stores;
-using DelitaTrade.Models.DI;
 using Microsoft.Extensions.DependencyInjection;
 using DelitaTrade.Components.ComponentsViewModel.OptionsComponentViewModels;
 
@@ -17,7 +16,7 @@ namespace DelitaTrade.ViewModels
         public MainViewModel(DelitaTradeCompany delitaTrade, DelitaTradeDayReport dayReportCreator, IServiceProvider serviceProvider)
         {
             var dayReportOptions = serviceProvider.GetService<DayReportInputOptionsViewModelComponent>();
-            ViewModelBase addCompanyViewModel = new AddNewCompanyViewModel(delitaTrade);
+            ViewModelBase addCompanyViewModel = serviceProvider.GetRequiredService<AddNewCompanyViewModel>();
             ViewModelBase dayReportViewModel = new DayReportsViewModel(dayReportCreator, addCompanyViewModel, dayReportOptions);
             ViewModelBase payDeskViewModel = new PayDeskViewModel(dayReportCreator);
             ViewModelBase returnProtocolViewModel = new ReturnProtocolController(addCompanyViewModel, serviceProvider);

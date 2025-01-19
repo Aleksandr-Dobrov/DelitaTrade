@@ -1,4 +1,5 @@
 ﻿using DelitaTrade.Models.Interfaces.DataBase;
+using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 
 namespace DelitaTrade.Models.MySqlDataBase
@@ -9,10 +10,10 @@ namespace DelitaTrade.Models.MySqlDataBase
         private readonly MySqlDBConnection _connection;
         private MySqlDBReader _reader;
 
-        public MySqlDBDataProvider(MySqlDBConnection connection, IDBDataParser dataBase)
+        public MySqlDBDataProvider(MySqlDBConnection connection, IDBDataParser dataBase, IConfiguration configuration)
         {
             _connection = connection;
-            _connection.CreateConectionToDB();
+            _connection.CreateConnectionToDB(configuration);
             _dataBase = dataBase;
         }
 

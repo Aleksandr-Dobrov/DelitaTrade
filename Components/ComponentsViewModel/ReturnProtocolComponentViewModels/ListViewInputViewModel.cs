@@ -1,26 +1,21 @@
-﻿using DelitaReturnProtocolProvider.Services;
-using DelitaTrade.Models.ReturnProtocol;
+﻿using DelitaTrade.Models.ReturnProtocol;
 using DelitaTrade.ViewModels;
 using DelitaTrade.ViewModels.ReturnProtocolControllers;
-using DelitaReturnProtocolProvider.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
+using DelitaTrade.Extensions;
+using DelitaTrade.Core.Contracts;
+using DelitaTrade.Core.ViewModels;
 
 namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentViewModels
-{
-    public enum DataAction
-    {
-        Save,
-        Update,
-        Delete
-    }
+{    
     public class ListViewInputViewModel : ViewModelBase
     {   
         private IServiceProvider _serviceProvider;
         
         private ProductViewModel _selectedProduct;
         private ReturnProtocolController _returnProtocolController;
-        private ReturnProtocolViewModel _currentReturnProtocolViewModel;
+        private ReturnProtocolViewModel? _currentReturnProtocolViewModel;
         
         private readonly ObservableCollection<ProductToReturnViewModel> _list;
         private ObservableCollection<string> _productUnit;
@@ -34,12 +29,13 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
             _list = new ObservableCollection<ProductToReturnViewModel>();
             _productUnit = new ObservableCollection<string> { ProductUnit.Count, ProductUnit.Kg, ProductUnit.Box };
             ProductCreate += OnCreatedProduct;
-            DescriptionCreate += OnDescriptionCreate;
             ProductCreate += AddProduct;
+            DescriptionCreate += OnDescriptionCreate;
             DescriptionCreate += AddDescription;
             UpdateProduct();
             _returnProtocolController.ReturnProtocolSelected += InitializedList;
             _returnProtocolController.ReturnProtocolUnSelected += UnselectedProtocol;
+            ReturnedProductCreate += AddReturnedProduct;
         }
 
         public ObservableCollection<ProductToReturnViewModel> List => _list;
@@ -57,13 +53,24 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
             {
                 _selectedProduct = value;
             }
-        }
-        public void RemoveRow(ProductToReturnViewModel row) 
+        }        
+
+        public async void RemoveRow(ProductToReturnViewModel returnedProduct) 
         {
-            var service = _serviceProvider.GetService<ReturnProductService>()
-                ?? throw new InvalidOperationException($"Service: {nameof(ReturnProductService)} not available");
-                service.RemoveProductAsync(row.Id, _currentReturnProtocolViewModel.Id);
-            _list.Remove(row);
+            using var scope = _serviceProvider.CreateScope();
+            var service = scope.GetService<IReturnProductService>();
+            await service.RemoveProductAsync(returnedProduct.Id);
+            _list.Remove(returnedProduct);
+        }
+
+        private async Task<int> AddReturnedProduct(ReturnedProductViewModel returnProduct)
+        {
+            if (_currentReturnProtocolViewModel == null) throw new ArgumentNullException("No return protocol loaded");
+            using var scope = _serviceProvider.CreateScope();
+            var service = scope.GetService<IReturnProductService>();
+            returnProduct.Id = await service.AddProductAsync(returnProduct, _currentReturnProtocolViewModel.Id);
+            _currentReturnProtocolViewModel.Products.Add(returnProduct);
+            return returnProduct.Id;
         }
 
         private async void AddRow()
@@ -121,24 +128,31 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
 
         private void AddProduct(ProductViewModel product) 
         {
-            _products.Add(product);
+            if (_products.FirstOrDefault(p => p.Name == product.Name && p.Unit == product.Unit) == null)
+            { 
+                _products.Add(product);
+            }
         }
 
         private void AddDescription(ReturnedProductDescriptionViewModel description)
         {
-            _description.Add(description);
+            if (_description.FirstOrDefault(d => d.Description == description.Description) == null)
+            { 
+                _description.Add(description);
+            }
         }
 
         private async void UpdateProduct()
         {
-            var products = await _serviceProvider.GetService<ProductService>().GetAllAsync();
+            using var scope = _serviceProvider.CreateScope();
+            var products = await scope.GetService<IProductService>().GetAllAsync();
             _products.Clear();
             foreach (var prod in products)
             {
                 _products.Add(prod);
             }                
             
-            var descriptions = await _serviceProvider.GetService<ProductDescriptionService>().GetAllAsync();
+            var descriptions = await scope.GetService<IProductDescriptionService>().GetAllAsync();
             _description.Clear();
             foreach (var desc in descriptions)
             {
@@ -146,16 +160,18 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
             }
         }
 
-        private void OnCreatedProduct(ProductViewModel product)
+        private async void OnCreatedProduct(ProductViewModel product)
         {
-            var service = _serviceProvider.GetService<ProductService>() ?? throw new InvalidOperationException($"Service {nameof(ProductService)} not available");
-            service.AddProduct(product);
+            using var scope = _serviceProvider.CreateScope();
+            var service = scope.GetService<IProductService>();
+            await service.AddProductAsync(product);
         }
-        private void OnDescriptionCreate(ReturnedProductDescriptionViewModel description)
+
+        private async void OnDescriptionCreate(ReturnedProductDescriptionViewModel description)
         {
-            var service = _serviceProvider.GetService<ProductDescriptionService>() 
-                ?? throw new InvalidOperationException($"Service {nameof(ProductDescriptionService)} not available");
-            service.AddDescription(description);
+            using var scope = _serviceProvider.CreateScope();
+            var service = scope.GetService<IProductDescriptionService>();
+            description.Id = await service.AddDescription(description);
         }
 
         private void UnselectedProtocol()

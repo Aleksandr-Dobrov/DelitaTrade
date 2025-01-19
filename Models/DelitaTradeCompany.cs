@@ -1,4 +1,5 @@
-﻿using DBDelitaTrade.Infrastructure.Data;
+﻿using DelitaTrade.Common;
+using DelitaTrade.Infrastructure.Data;
 using DelitaTrade.Models.Interfaces.DataBase;
 using DelitaTrade.Models.MySqlDataBase;
 using Microsoft.EntityFrameworkCore;
@@ -99,17 +100,17 @@ namespace DelitaTrade.Models
         public void CopyCompaniesToEF()
         {
             var dbContext = _serviceProvider.GetService<DelitaDbContext>();
-            //dbContext.ReturnProtocols.ExecuteDelete();
-            //dbContext.Objects.ExecuteDelete();
-            //dbContext.Traders.ExecuteDelete();
-            //dbContext.Companies.ExecuteDelete();
+            dbContext.ReturnProtocols.ExecuteDelete();
+            dbContext.Objects.ExecuteDelete();
+            dbContext.Traders.ExecuteDelete();
+            dbContext.Companies.ExecuteDelete();
             foreach (var item in _dataBase.companies)
             {
 
                 var newCompany = dbContext.Companies.Local.FirstOrDefault(c => c.Name == item.Name);
                 if (newCompany == null)
                 {
-                    newCompany = new DBDelitaTrade.Infrastructure.Data.Models.Company
+                    newCompany = new Infrastructure.Data.Models.Company
                     {
                         Name = item.Name,
                         Type = item.Type,
@@ -124,20 +125,20 @@ namespace DelitaTrade.Models
                 foreach (var obj in item.GetAllCompanyObjects())
                 {
                     var trader = dbContext.Traders.Local.Where(t => t.Name == obj.Trader).FirstOrDefault();
-                    if (trader == null) 
+                    if (trader == null)
                     {
-                        trader = new DBDelitaTrade.Infrastructure.Data.Models.Trader { Name = obj.Trader };
+                        trader = new Infrastructure.Data.Models.Trader { Name = obj.Trader };
                         dbContext.Traders.Add(trader);
                     }
-                    
+
 
                     var newObject = dbContext.Objects.Local.Where(o => o.Name == obj.Name).FirstOrDefault();
                     if (newObject == null)
                     {
-                        newObject = new DBDelitaTrade.Infrastructure.Data.Models.CompanyObject
+                        newObject = new Infrastructure.Data.Models.CompanyObject
                         {
                             Name = obj.Name,
-                            Address = obj.Adrress,
+                            Address = obj.Adrress.AddressParse(),
                             Trader = trader,
                             Company = newCompany,
                             IsBankPay = obj.BankPay
@@ -145,16 +146,16 @@ namespace DelitaTrade.Models
                     }
                     else
                     {
-                        newObject.Address = obj.Adrress;
+                        newObject.Address = obj.Adrress.AddressParse();
                         newObject.IsBankPay = obj.BankPay;
                         newObject.Company = newCompany;
                         newObject.Trader = trader;
-                    }                     
+                    }
                     newCompany.Objects.Add(newObject);
 
                 }
-                
-                dbContext.Add(newCompany);                
+
+                dbContext.Add(newCompany);
             }
             dbContext.SaveChanges();
         }

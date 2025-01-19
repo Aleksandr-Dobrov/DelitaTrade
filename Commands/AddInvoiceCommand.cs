@@ -19,7 +19,7 @@ namespace DelitaTrade.Commands
             _dayReportsViewModel = dayReportsViewModel;
             _addNewCompanyViewModel = addNewCompanyViewModel;
             _dayReportsViewModel.PropertyChanged += OnViewModelPropertyChanged;
-            _dayReportsViewModel.SearchBox.PropertyChanged += OnViewModelPropertyChanged;
+            //_dayReportsViewModel.SearchBox.PropertyChanged += OnViewModelPropertyChanged;
             _dayReportsViewModel.InvoiceColectionChange += OnColectionIdChanged;
         }
 
@@ -39,7 +39,7 @@ namespace DelitaTrade.Commands
 
         public override bool CanExecute(object? parameter)
         {
-            return string.IsNullOrEmpty(_dayReportsViewModel.SearchBox.InputText) == false
+            return string.IsNullOrEmpty(_dayReportsViewModel.SearchBox.CompaniesSearchBox.TextValue) == false
                 && _dayReportsViewModel.InvoiceID.Length == 10                 
                 && _dayReportsViewModel.InvoiceID.All(char.IsDigit)                
                 && (_dayReportsViewModel.IsUnpaidInvoice(_dayReportsViewModel.InvoiceID) 
@@ -49,9 +49,9 @@ namespace DelitaTrade.Commands
 
         public override void Execute(object? parameter)
         {
-            Invoice invoice = new Invoice(_dayReportsViewModel.SearchBox.InputText, 
+            Invoice invoice = new Invoice(_dayReportsViewModel.SearchBox.CompaniesSearchBox.TextValue, 
                                           _dayReportsViewModel.CompanyType,
-                                          _dayReportsViewModel.SearchBoxObject.InputTextObject,
+                                          _dayReportsViewModel.SearchBoxObject.CompanyObjectsSearchBox.TextValue,
                                           _dayReportsViewModel.InvoiceID,
                                           _dayReportsViewModel.PayMethodBox.PayMethodText,
                                           _dayReportsViewModel.DecimalAmount,
@@ -59,16 +59,16 @@ namespace DelitaTrade.Commands
                                           _dayReportsViewModel.DayReportInputOptions.WeightIsOn ? _dayReportsViewModel.DoubleWeight : 0
                                           );
            
-            if (_addNewCompanyViewModel.CreateCompanyCommand.CanExecute(invoice))
-            {
-                _addNewCompanyViewModel.CreateCompanyCommand.Execute(invoice);
-                _addNewCompanyViewModel.SetObjectName(invoice.ObjectName);
-            }
-            if (_addNewCompanyViewModel.CreateObjectCommand.CanExecute(invoice))
-            {
-                _addNewCompanyViewModel.SetBankPay(_dayReportsViewModel.PayMethodBox.PayMethodText);
-                _addNewCompanyViewModel.CreateObjectCommand.Execute(invoice);
-            }
+            //if (_addNewCompanyViewModel.CreateCompanyCommand.CanExecute(invoice))
+            //{
+            //    _addNewCompanyViewModel.CreateCompanyCommand.Execute(invoice);
+            //    _addNewCompanyViewModel.SetObjectName(invoice.ObjectName);
+            //}
+            //if (_addNewCompanyViewModel.CreateObjectCommand.CanExecute(invoice))
+            //{
+            //    _addNewCompanyViewModel.SetBankPay(_dayReportsViewModel.PayMethodBox.PayMethodText);
+            //    _addNewCompanyViewModel.CreateObjectCommand.Execute(invoice);
+            //}
             _dayReport.AddInvoice(invoice);
         }
     }

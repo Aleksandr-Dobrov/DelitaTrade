@@ -1,30 +1,44 @@
-﻿using DBDelitaTrade.Infrastructure.Data;
-using DelitaReturnProtocolProvider.Services;
-using DelitaTrade.Components.ComponentsViewModel.OptionsComponentViewModels;
-using DelitaTrade.Models;
+﻿using DelitaTrade.Components.ComponentsViewModel.OptionsComponentViewModels;
 using DelitaTrade.Models.MySqlDataBase;
-using DelitaTrade.Models.ReturnProtocolSQL;
-using DelitaTrade.ViewModels;
+using DelitaTrade.ViewModels.Controllers;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
+using DelitaTrade.Core.Contracts;
+using DelitaTrade.Core.Services;
+using DelitaTrade.Infrastructure.Data;
+using DelitaTrade.Infrastructure.Common;
+using DelitaTrade.ViewModels;
 
 namespace DelitaTrade.Models.DI
 {
-    public class DIContainer
+    public static class DIContainer
     {
-        public static IServiceProvider BuildServiceProvider() 
+        public static void BuildServiceCollection(this IServiceCollection collection, IConfiguration configuration) 
         {
-            ServiceCollection collection = new ServiceCollection();
+            collection.AddDbContext<DelitaDbContext>(options => 
+                options.UseSqlServer(configuration.GetConnectionString("DelitaConnection")));
+            collection.AddScoped<IRepository, DelitaRepository>();
+            collection.AddScoped<IUserService, UserService>();
+            collection.AddScoped<ICompanyService, CompanyService>();
+            collection.AddScoped<ICompanyObjectService, CompanyObjectService>();
+            collection.AddScoped<IReturnProtocolService, ReturnProtocolService>();
+            collection.AddScoped<IProductService, ProductService>();
+            collection.AddScoped<IProductDescriptionService ,ProductDescriptionService>();
+            collection.AddScoped<IReturnProductService, ReturnProductService>();
+            collection.AddScoped<ITraderService, TraderService>();
+            collection.AddTransient<CompaniesSearchViewModel>();
+            collection.AddTransient<CompanyObjectsSearchViewModel>();
+            collection.AddTransient<CompaniesDataManager>();
+            collection.AddTransient<CompaniesDataViewModel>();
+            collection.AddTransient<AddNewCompanyViewModel>();
+            collection.AddTransient<CompanyCommandsViewModel>();
+            collection.AddTransient<CompanyObjectCommandsViewModel>();
+            collection.AddTransient<TradersListViewModel>();
+            collection.AddTransient<TraderCommandsViewModel>();
             collection.AddSingleton<DayReportInputOptionsViewModelComponent, DayReportInputOptionsViewModelComponent>();
             collection.AddSingleton<MySqlDbReadProvider>();
-            collection.AddDbContext<DelitaDbContext>(ServiceLifetime.Transient);
-            collection.AddTransient<ProductService>();
-            collection.AddTransient<ProductDescriptionService>();
-            collection.AddTransient<ReturnProtocolService>();
-            collection.AddTransient<ReturnProductService>();
-            collection.AddSingleton<UserService>();
-
-            return collection.BuildServiceProvider();
+            collection.AddSingleton<UserController>();
         }
     }
 }

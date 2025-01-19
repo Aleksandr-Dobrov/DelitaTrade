@@ -7,11 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DelitaTrade", "DelitaTrade.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DelitaTradeProjectTests", "..\DelitaTradeProjectTests\DelitaTradeProjectTests.csproj", "{CA5BBA3C-F7D1-480C-B634-C63BA5CB9044}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBDelitaTrade.Infrastructure", "..\DBDelitaTrade.Infrastructure\DBDelitaTrade.Infrastructure.csproj", "{183DB94E-10A8-4F8B-B3D5-6C47A67F84EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelitaTrade.Infrastructure", "..\DBDelitaTrade.Infrastructure\DelitaTrade.Infrastructure.csproj", "{183DB94E-10A8-4F8B-B3D5-6C47A67F84EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBDelitaTrade.Common", "..\DBDelitaTrade.Common\DBDelitaTrade.Common.csproj", "{EABB6172-AF83-44CC-8B38-7D7140F60CEC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelitaTrade.Common", "..\DBDelitaTrade.Common\DelitaTrade.Common.csproj", "{EABB6172-AF83-44CC-8B38-7D7140F60CEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelitaReturnProtocolProvider", "..\DelitaReturnProtocolProvider\DelitaReturnProtocolProvider.csproj", "{BD60B418-A4AE-4382-88FA-858F4C97B526}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelitaTrade.Core", "..\DelitaReturnProtocolProvider\DelitaTrade.Core.csproj", "{BD60B418-A4AE-4382-88FA-858F4C97B526}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

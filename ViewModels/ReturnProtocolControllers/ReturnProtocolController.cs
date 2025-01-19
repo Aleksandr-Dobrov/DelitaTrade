@@ -1,8 +1,8 @@
 ﻿using DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentViewModels;
 using Microsoft.Extensions.DependencyInjection;
-using DelitaReturnProtocolProvider.ViewModels;
-using DBDelitaTrade.Infrastructure.Data;
-using DelitaReturnProtocolProvider.Services;
+using DelitaTrade.Extensions;
+using DelitaTrade.Core.Services;
+using DelitaTrade.Core.ViewModels;
 
 namespace DelitaTrade.ViewModels.ReturnProtocolControllers
 {
@@ -10,8 +10,6 @@ namespace DelitaTrade.ViewModels.ReturnProtocolControllers
     {
         private InitialInformationViewModel _initialInformationViewModel;
         private ListViewInputViewModel _listViewInputViewModel;
-        private ReturnProtocolViewModel _currentProtocol;
-        private int _currentReturnProtocolId;
         private IServiceProvider _serviceProvider;
 
         public ReturnProtocolController(ViewModelBase addNewCompanyViewModel, IServiceProvider serviceProvider)
@@ -20,7 +18,6 @@ namespace DelitaTrade.ViewModels.ReturnProtocolControllers
             _initialInformationViewModel = new InitialInformationViewModel(addNewCompanyViewModel, serviceProvider);
             _listViewInputViewModel = new ListViewInputViewModel(serviceProvider, this);
             InitialInformationViewModel.CreateReturnProtocolEvent += CreateProtocol;
-            ReturnProductsListViewModel.ReturnedProductCreate += AddReturnedProduct;
             InitialInformationViewModel.SelectedReturnProtocolEvent += SelectProtocol;
             InitialInformationViewModel.DeleteReturnProtocolEvent += DeleteProtocol;
         }
@@ -33,35 +30,33 @@ namespace DelitaTrade.ViewModels.ReturnProtocolControllers
 
         private async void CreateProtocol(ReturnProtocolViewModel returnProtocol)
         {
-            _currentProtocol = returnProtocol;
+            using var scope = _serviceProvider.CreateScope();
+            var service = scope.GetService<ReturnProtocolService>();             
+            returnProtocol.Id = await service.CreateProtocolAsync(returnProtocol);
             ReturnProtocolSelected(returnProtocol);
-            var service = _serviceProvider.GetService<ReturnProtocolService>() ?? throw new InvalidOperationException($"Service {nameof(ReturnProtocolService)} not available");
-            _currentReturnProtocolId = await service.CreateProtocolAsync(returnProtocol);
-            returnProtocol.Id = _currentReturnProtocolId;
         }
 
         private async void SelectProtocol(ReturnProtocolViewModel returnProtocol)
         {
-            _currentProtocol = returnProtocol;
-            _currentReturnProtocolId = returnProtocol.Id;
             await InitialInformationViewModel.LoadProductsTask;
             ReturnProtocolSelected(returnProtocol);
         }
 
-        private void DeleteProtocol(ReturnProtocolViewModel returnProtocol)
+        private async void DeleteProtocol(ReturnProtocolViewModel returnProtocol)
         {
-            var service = _serviceProvider.GetService<ReturnProtocolService>() ?? throw new InvalidOperationException($"Service {nameof(ReturnProtocolService)} not available");
-            service.DeleteProtocol(returnProtocol.Id);
-            _currentProtocol = null;
+            using var scope = _serviceProvider.CreateScope();
+            var service = scope.GetService<ReturnProtocolService>();
+            await service.DeleteProtocol(returnProtocol.Id);
             ReturnProtocolUnSelected();
         }
 
-        private async Task<int> AddReturnedProduct(ReturnedProductViewModel returnProduct)
-        {
-            _currentProtocol.Products.Add(returnProduct);
-            var service = _serviceProvider.GetService<ReturnProductService>() ?? throw new InvalidOperationException($"Service {nameof(ReturnProductService)} not available");
-            returnProduct.Id = await service.AddProductAsync(returnProduct, _currentReturnProtocolId);
-            return returnProduct.Id;
-        }
+        //private async Task<int> AddReturnedProduct(ReturnedProductViewModel returnProduct)
+        //{
+        //    if (_currentProtocol == null) throw new ArgumentNullException("No return protocol loaded");
+        //    var service = _serviceProvider.GetService<ReturnProductService>() ?? throw new InvalidOperationException($"Service {nameof(ReturnProductService)} not available");
+        //    returnProduct.Id = await service.AddProductAsync(returnProduct, _currentReturnProtocolId);
+        //    _currentProtocol.Products.Add(returnProduct);
+        //    return returnProduct.Id;
+        //}
     }
 }

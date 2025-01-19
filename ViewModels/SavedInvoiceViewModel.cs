@@ -23,8 +23,8 @@
             if (_isSavedInvoiceData == false || _invoiceId == dayReportsViewModel.InvoiceID)
             { 
                 _isSavedInvoiceData = true;
-                _companyName = dayReportsViewModel.SearchBox.InputText;
-                _objectName = dayReportsViewModel.SearchBoxObject.InputTextObject;
+                //_companyName = dayReportsViewModel.SearchBox.InputText;
+                //_objectName = dayReportsViewModel.SearchBoxObject.InputTextObject;
                 _payMethod = dayReportsViewModel.PayMethodBox.PayMethodText;
                 _income = dayReportsViewModel.Income;
                 _amount = dayReportsViewModel.Amount;
@@ -38,8 +38,8 @@
         public void LoadInvoiceData(DayReportsViewModel dayReportsViewModel)
         {
             _isSavedInvoiceData = false;
-            dayReportsViewModel.SearchBox.InputText = _companyName;
-            dayReportsViewModel.SearchBoxObject.InputTextObject = _objectName;
+            //dayReportsViewModel.SearchBox.InputText = _companyName;
+            //dayReportsViewModel.SearchBoxObject.InputTextObject = _objectName;
             dayReportsViewModel.PayMethodBox.PayMethodText = _payMethod;
             dayReportsViewModel.Income = _income;
             dayReportsViewModel.Amount = _amount;

@@ -245,9 +245,9 @@
                         <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="80"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Company" MinWidth="180" Width="auto" TextAlignment="Center"/>
+                    <!--<TextBlock Grid.Column="0" Text="Company" MinWidth="180" Width="auto" TextAlignment="Center"/>-->
                     <TextBlock Grid.Column="1" Text="Type" MinWidth="60" Width="auto" TextAlignment="Center"/>
-                    <TextBlock Grid.Column="2" Text="Object" MinWidth="140" Width="auto" TextAlignment="Center"/>
+                    <!--<TextBlock Grid.Column="2" Text="Object" MinWidth="140" Width="auto" TextAlignment="Center"/>-->
                     <TextBlock Grid.Column="3" Text="Weight" MinWidth="60" Width="auto" TextAlignment="Center" 
                                Visibility="{Binding DayReportInputOptions.Visibility}"/>
                     <TextBlock Grid.Column="4" Text="Document ID" MinWidth="80" Width="auto" TextAlignment="Center"/>
@@ -266,9 +266,9 @@
                         <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="80"/>
                     </Grid.ColumnDefinitions>
-                    <ComponentsView88be9dc1:SearchBox Grid.Column="0" MinWidth="180" x:Name="company"  DataContext="{Binding SearchBox}"/>
-                    <TextBox Grid.Column="1" MinWidth="60" Name="type" Text="{Binding CompanyType, UpdateSourceTrigger=PropertyChanged}"/>
-                    <ComponentsView88be9dc1:SearchBoxObject Grid.Column="2" MinWidth="140" x:Name="companyObject" DataContext="{Binding SearchBoxObject}"/>
+                    <ComponentsView88be9dc1:SearchComboBox Grid.Column="0" MinWidth="180" x:Name="company" DataContext="{Binding SearchBox.CompaniesSearchBox}"/>
+                    <TextBox Grid.Column="1" MinWidth="60" Name="type" Text="{Binding SearchBox.CompaniesSearchBox.Value.Value.Type, UpdateSourceTrigger=PropertyChanged}"/>
+                    <ComponentsView88be9dc1:SearchComboBox Grid.Column="2" MinWidth="140" x:Name="companyObject" DataContext="{Binding SearchBoxObject.CompanyObjectsSearchBox}"/>
                     <TextBox Grid.Column="3" MinWidth="60" Name="weight" Text="{Binding Weight}" 
                              IsEnabled="{Binding DayReportInputOptions.WeightIsOn}"
                              Visibility="{Binding DayReportInputOptions.Visibility}"

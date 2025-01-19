@@ -19,26 +19,26 @@ namespace DelitaTrade.Commands
 
         private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(AddNewCompanyViewModel.CurrentCompany))
-            {
-                OnCanExecuteChanged();
-            }
+            //if (e.PropertyName == nameof(AddNewCompanyViewModel.CurrentCompany))
+            //{
+            //    OnCanExecuteChanged();
+            //}
         }
 
-        public override bool CanExecute(object? parameter)
-        {
-            return _addNewCompanyViewModel.CurrentCompany != null               
-                && base.CanExecute(parameter);
-        }
+        //public override bool CanExecute(object? parameter)
+        //{
+        //    return _addNewCompanyViewModel.CurrentCompany != null               
+        //        && base.CanExecute(parameter);
+        //}
 
         public override void Execute(object? parameter)
         {
-            if (Agreement("Delete", _addNewCompanyViewModel.CompanyName))
-            {
-                _delitaTrade.DeleteCompany(new Company(_addNewCompanyViewModel.CurrentCompany.CompanyName,
-                                                       _addNewCompanyViewModel.CurrentCompany.CompanyType,
-                                                       _addNewCompanyViewModel.CurrentCompany.Bulstad));
-            }
+            //if (Agreement("Delete", _addNewCompanyViewModel.CompanyName))
+            //{
+            //    _delitaTrade.DeleteCompany(new Company(_addNewCompanyViewModel.CurrentCompany.CompanyName,
+            //                                           _addNewCompanyViewModel.CurrentCompany.CompanyType,
+            //                                           _addNewCompanyViewModel.CurrentCompany.Bulstad));
+            //}
         }
     }
 }

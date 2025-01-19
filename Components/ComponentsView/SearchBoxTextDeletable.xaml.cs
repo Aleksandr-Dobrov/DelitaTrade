@@ -18,8 +18,8 @@ namespace DelitaTrade.Components.ComponentsView
         }
         private void TextPropertyUpdateSource()
         {
-            BindingExpression be = searchBoxText.GetBindingExpression(ComboBox.TextProperty);
-            be?.UpdateSource();
+            //BindingExpression be = searchBoxText.GetBindingExpression(ComboBox.TextProperty);
+            //be?.UpdateSource();
         }
 
         private void searchBoxText_KeyDown(object sender, KeyEventArgs e)

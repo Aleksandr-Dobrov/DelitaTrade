@@ -19,8 +19,8 @@ namespace DelitaTrade.Components.ComponentsViewModel
 			_addNewCompanyViewModel = addNewCompanyViewModel;
 			_emptyCompanyObjects = [new CompanyObjectViewModel(new CompanyObject("Empty","Empty", "Empty", "Empty", false))];
 			_companyObjects = _emptyCompanyObjects;
-			_addNewCompanyViewModel.CompanySelected += CompanySelected;
-			_addNewCompanyViewModel.CompanyUnselected += CompanyUnselected;
+			//_addNewCompanyViewModel.CompanySelected += CompanySelected;
+			//_addNewCompanyViewModel.CompanyUnselected += CompanyUnselected;
         }
 
 		public event Action ObjectNameCanged;
@@ -40,12 +40,12 @@ namespace DelitaTrade.Components.ComponentsViewModel
 
 		public CompanyObjectViewModel? CurrentCompanyObject => _companyObjects.FirstOrDefault(o => o.ObjectName == InputTextObject);
 
-		private void CompanySelected()
-		{
-			_companyObjects = (ObservableCollection<CompanyObjectViewModel>)_addNewCompanyViewModel.CurrentCompany.CompanyObjects;
-			SelectInitialObject();
-			OnPropertyChange(nameof(CompanyObjects));
-		}
+		//private void CompanySelected()
+		//{
+		//	_companyObjects = (ObservableCollection<CompanyObjectViewModel>)_addNewCompanyViewModel.CurrentCompany.CompanyObjects;
+		//	SelectInitialObject();
+		//	OnPropertyChange(nameof(CompanyObjects));
+		//}
 
 		private void CompanyUnselected()
 		{

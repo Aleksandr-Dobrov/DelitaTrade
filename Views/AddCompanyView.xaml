@@ -17,11 +17,14 @@
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="200"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Background="LightCyan">
+            <Grid Grid.Row="0" Background="LightCyan" Margin="0 2 0 5">
                 <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -33,18 +36,7 @@
                         <ColumnDefinition/>
                         <ColumnDefinition Width="60"/>
                     </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0"
-                                       Text="Company name"
-                                       FontSize="15"
-                                       FontWeight="Medium"
-                                       HorizontalAlignment="Center"/>
-                        <ComponentsViewa2e67bfb:SearchBox Grid.Row="1" DataContext="{Binding SearchBox}"/>
-                    </Grid>
+                    <ComponentsViewa2e67bfb:SearchComboBox Grid.Column="0" DataContext="{Binding CompaniesDataManager.Companies.CompaniesSearchBox}"/>                    
                     <Grid Grid.Column="1">
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -56,7 +48,7 @@
                                        FontWeight="Medium"
                                        HorizontalAlignment="Center"/>
                         <TextBox Grid.Row="1"
-                                     Text="{Binding CompanyType, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding CompaniesDataManager.CompanyData.CompanyType, UpdateSourceTrigger=PropertyChanged}"/>
                     </Grid>
                 </Grid>
                 <Grid Grid.Row="1">
@@ -77,16 +69,16 @@
                                    FontWeight="Medium"
                                    HorizontalAlignment="Center"/>
                         <TextBox Grid.Row="1" GotFocus="Bulstad_GotFocus"
-                                 Text="{Binding Bulstad, UpdateSourceTrigger=PropertyChanged}"/>
+                                 Text="{Binding CompaniesDataManager.CompanyData.Bulstad, UpdateSourceTrigger=PropertyChanged}"/>
                     </Grid>
-                    <Button Grid.Column="1" 
-                                    Command="{Binding CreateCompanyCommand}"
+                    <Button Grid.Column="1" x:Name="newCompanyButton"
+                                    Command="{Binding CompaniesDataManager.CompanyCommands.CreateCommand}"
                                     Content="New Company" FontSize="10" FontWeight="Medium" Margin="3 6"/>
                     <Button Grid.Column="2" 
-                                    Command="{Binding UpdateCompanyCommand}"
+                                    Command="{Binding CompaniesDataManager.CompanyCommands.UpdateCommand}"
                                     Content="Update" FontSize="10" FontWeight="Medium" Margin="3 6"/>
                     <Button Grid.Column="3" 
-                                    Command="{Binding DeleteCompanyCommand}"                                
+                                    Command="{Binding CompaniesDataManager.CompanyCommands.DeleteCommand}"                                
                                     Content="Delete" FontSize="10" FontWeight="Medium" Margin="3 6"/>
                 </Grid>
                 <Grid Grid.Row="2">
@@ -97,14 +89,8 @@
                     <Grid Grid.Column="0">
                         <Grid.RowDefinitions>
                             <RowDefinition/>
-                            <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0"
-                                       Text="Object name"
-                                       FontSize="15"
-                                       FontWeight="Medium"
-                                       HorizontalAlignment="Center"/>
-                        <ComponentsViewa2e67bfb:SearchBoxObject Grid.Row="1" DataContext="{Binding SearchBoxObject}"/>
+                        <ComponentsViewa2e67bfb:SearchComboBox Grid.Row="0" DataContext="{Binding CompaniesDataManager.CompanyObjects.CompanyObjectsSearchBox}"/>
                     </Grid>
                     <Grid Grid.Column="1">
                         <Grid.RowDefinitions>
@@ -119,28 +105,59 @@
                         <CheckBox Grid.Row="1" Background="White"
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center"
-                                      IsChecked="{Binding BankPay}"/>
+                                      IsChecked="{Binding CompaniesDataManager.CompanyData.BankPay}"/>
                     </Grid>
                 </Grid>
                 <Grid Grid.Row="3">
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.7*"/>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0.30*" MinWidth="60" MaxWidth="75"/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0">
+                    <Grid Grid.Column="0" Margin="0 0 5 0">
                         <Grid.RowDefinitions>
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0"
-                                   Text="Adrress"                                   
-                                   FontSize="15"
+                        <Label Grid.Row="0"
+                                   Content="Town"                                   
+                                   FontSize="14"
+                                   Padding="1"
                                    FontWeight="Medium"
                                    HorizontalAlignment="Center"/>
                         <TextBox Grid.Row="1"
-                                 Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}"/>
+                                 Text="{Binding CompaniesDataManager.CompanyData.Town, UpdateSourceTrigger=PropertyChanged}"/>
                     </Grid>
-                    <Grid Grid.Column="1">
+                    <Grid Grid.Column="1" Margin="0 0 5 0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0"
+                                    Content="Street"                                   
+                                    FontSize="14"
+                                    Padding="1"
+                                    FontWeight="Medium"
+                                    HorizontalAlignment="Center"/>
+                        <TextBox Grid.Row="1"
+             Text="{Binding CompaniesDataManager.CompanyData.Street, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+                    <Grid Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0"
+                                    Content="Number"                                   
+                                    FontSize="14"
+                                    Padding="1"
+                                    FontWeight="Medium"
+                                    HorizontalAlignment="Center"/>
+                        <TextBox Grid.Row="1"
+             Text="{Binding CompaniesDataManager.CompanyData.Number, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+                    <Grid Grid.Column="4">
                         <Button Margin="5" Width="30"
                                 Command="{Binding ShowOnMap}">
                             <Image Source="{Binding SearchOnMapButtonImage}"/>
@@ -149,44 +166,52 @@
                 </Grid>
                 <Grid Grid.Row="4">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="80"/>
-                        <ColumnDefinition Width="80"/>
-                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0">
-                        <ComponentsViewa2e67bfb:SearchBoxTextDeletable Grid.Row="1" DataContext="{Binding Trader}"/>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0" Content="GPS" HorizontalAlignment="Center" Padding="1" FontWeight="Medium" FontSize="14"/>
+                        <TextBox Grid.Row="1" Text="{Binding CompaniesDataManager.CompanyData.GpsCoordinates}"/>
                     </Grid>
-                    <Button Grid.Column="1" 
-                                Command="{Binding CreateObjectCommand}"
+                    <Button Grid.Column="1" Width="74" Padding="0 4"
+                                Command="{Binding CompaniesDataManager.CompanyObjectCommands.CreateCommand}"
                                 Content="New Object" FontSize="10" FontWeight="Medium" Margin="3 6"/>
-                    <Button Grid.Column="2" 
-                                Command="{Binding UpdateObjectCommand}"                                
+                    <Button Grid.Column="2" Width="74" Padding="0 4"
+                                Command="{Binding CompaniesDataManager.CompanyObjectCommands.UpdateCommand}"                                
                                 Content="Update" FontSize="10" FontWeight="Medium" Margin="3 6"/>
-                    <Button Grid.Column="3"
-                                Command="{Binding DeleteObjectCommand}"                                
+                    <Button Grid.Column="3" Width="74" Padding="0 4"
+                                Command="{Binding CompaniesDataManager.CompanyObjectCommands.DeleteCommand}"                                
                                 Content="Delete" FontSize="10" FontWeight="Medium" Margin="3 6"/>
                 </Grid>
+                <TextBox Grid.Row="6" x:Name="AddressDescription" Text="{Binding CompaniesDataManager.CompanyData.Description}"/>
+                <Label Grid.Row="5"  Content="Description" Target="{Binding ElementName=AddressDescription}"
+                       Padding="1" FontSize="14" FontWeight="Medium" HorizontalAlignment="Center"/>
+                <ComponentsViewa2e67bfb:EntityBaseController Grid.Row="7" DataContext="{Binding CompaniesDataManager.TradersViewModel}"/>
             </Grid>
 
-            <ComponentsViewa2e67bfb:ListOfCompanyObjects Grid.Row="1" DataContext="{Binding CurrentCompany}"/>
+            <ComponentsViewa2e67bfb:ListOfCompanyObjects Grid.Row="1" DataContext="{Binding CompaniesDataManager.Companies}"/>
         </Grid>
         <Grid Grid.Column="1">
-            <ListView Grid.Row="1"
-          ItemsSource="{Binding Companies}">
+            <ListView Grid.Row="1">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Company" Width="180">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding CompanyName}"/>
+                                    <TextBlock Text="{Binding Name}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn Header="Type" Width="auto">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding CompanyType}"/>
+                                    <TextBlock Text="{Binding Type}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -200,7 +225,7 @@
                         <GridViewColumn Header="C" Width="20">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding ObjectsCount}"/>
+                                    <TextBlock Text="{Binding CompanyObjects.Count}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

@@ -4,6 +4,7 @@ using DelitaTrade.Models;
 using MySql.Data.MySqlClient;
 using DelitaTrade.Models.MySqlDataBase;
 using System.DirectoryServices.ActiveDirectory;
+using Microsoft.Extensions.Configuration;
 
 namespace DelitaTrade.Models.DataBases
 {
@@ -18,12 +19,14 @@ namespace DelitaTrade.Models.DataBases
         private IDBDataParser _dbPayDesks;
         private IDBDataParser _dbInvoicesInDayReports;
         private MySqlParameter _mySqlParametr;
+        private IConfiguration _configuration;
 
         private readonly IDBProvider _dbProvider;
 
-        public DayReportDataService(IDBProvider dbProvider)
+        public DayReportDataService(IDBProvider dbProvider, IConfiguration configuration)
         {
             _dbProvider = dbProvider;
+            _configuration = configuration;
             _mySqlParametr = new MySqlParameter("user_name", _user);
             _dbVehicles = new DbManyObjService(new VehicleBuilder());
             _dbDayReports = new DbManyObjService(new DBDayReportBuilder());
@@ -62,7 +65,7 @@ namespace DelitaTrade.Models.DataBases
             DayReport dayReport = (DayReport)_dbDayReports.GetObject(new DayReport(dayReportId));            
             dayReport.SetPayDesk((PayDesk)_dbPayDesks.GetObject(new PayDesk(dayReport.PayDeskId)));
 
-            MySqlDbReadProvider readProvider = new MySqlDbReadProvider(new MySqlDBConnection());
+            MySqlDbReadProvider readProvider = new MySqlDbReadProvider(new MySqlDBConnection(), _configuration);
 
             foreach (var invoice in readProvider.ReadData(MySqlReadCommand.AllInvoiceInCurrentDayReport, new MySqlParameter("day_report_user", _user), new MySqlParameter("day_report_date", dayReport.DayReportID)))
             {
@@ -161,14 +164,14 @@ namespace DelitaTrade.Models.DataBases
 
         public bool IsNewInvoice(string invoiceId)
         {
-            MySqlDbReadProvider readProvider = new MySqlDbReadProvider(new MySqlDBConnection());
+            MySqlDbReadProvider readProvider = new MySqlDbReadProvider(new MySqlDBConnection(), _configuration);
             return bool.Parse(readProvider.ReadData(MySqlReadCommand.IsNewInvoice, new MySqlParameter("invoice_id", invoiceId))[0]);
         }
 
         public IEnumerable<Invoice> GetInvoices(string invoiceId)
         {
             List<Invoice> invoices = new List<Invoice>();
-            MySqlDbReadProvider readProvider = new MySqlDbReadProvider(new MySqlDBConnection());
+            MySqlDbReadProvider readProvider = new MySqlDbReadProvider(new MySqlDBConnection(), _configuration);
             string[] invoicesid = readProvider.ReadData(MySqlReadCommand.GetIdByInvoiceId, new MySqlParameter("invoice_id", invoiceId));
             foreach (string id in invoicesid)
             {

@@ -1,6 +1,5 @@
 ﻿using DelitaTrade.Commands.ReturnProtocolCommands;
 using DelitaTrade.Models.ReturnProtocol;
-using DelitaReturnProtocolProvider.ViewModels;
 using DelitaTrade.Models.ReturnProtocolSQL;
 using DelitaTrade.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,7 +7,10 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.DirectoryServices;
 using System.Windows.Input;
-using DelitaReturnProtocolProvider.Services;
+using DelitaTrade.Extensions;
+using DelitaTrade.ViewModels.Controllers;
+using DelitaTrade.Core.Contracts;
+using DelitaTrade.Core.ViewModels;
 
 namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentViewModels
 {
@@ -16,9 +18,10 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
     {   
         private DateTime _date = DateTime.Now;
         private readonly AddNewCompanyViewModel _addNewCompanyViewModel;
+        private CompaniesDataManager _companiesDataManager;
         private SearchBoxTextNotUpperViewModel _returnProtocolPayMethod;
         private ReturnProtocolViewModel _selectedReturnProtocol;
-        private ReturnProtocolViewModel _curentReturnProtocol;
+        private ReturnProtocolViewModel _currentReturnProtocol;
         private ObservableCollection<ReturnProtocolViewModel> _returnProtocols = new();
         private IServiceProvider _serviceProvider;
         private Task _loadProductsTask;
@@ -30,7 +33,8 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
         {
             _addNewCompanyViewModel = addNewCompanyViewModel as AddNewCompanyViewModel;
             _returnProtocolPayMethod = new SearchBoxTextNotUpperViewModel(CreatePayMethods(), "Pay Method");
-            _addNewCompanyViewModel.SearchBoxObject.PropertyChanged += OnViewModelPropertyChange;
+            _companiesDataManager = serviceProvider.GetRequiredService<CompaniesDataManager>();
+            _companiesDataManager.CompanyObjects.CompanyObjectsSearchBox.PropertyChanged += OnViewModelPropertyChange;
             CreateReturnProtocolCommand = new CreateReturnProtocolCommand(this);
             DeleteReturnProtocolCommand = new DeleteCommand(DeleteReturnProtocol);
             _serviceProvider = serviceProvider;
@@ -39,8 +43,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
             CreateReturnProtocolEvent += SetCurrentProtocol;
         }
 
-        public SearchBoxViewModel SearchBox => _addNewCompanyViewModel.SearchBox;
-        public SearchBoxObjectViewModel SearchBoxObject => _addNewCompanyViewModel.SearchBoxObject;
+        public CompaniesDataManager CompaniesDataManager => _companiesDataManager;
         public SearchBoxTextNotUpperDeletableItemViewModel Trader => _addNewCompanyViewModel.Trader;
         public SearchBoxTextNotUpperViewModel ReturnProtocolPayMethod => _returnProtocolPayMethod;
         public ObservableCollection<ReturnProtocolViewModel> ReturnProtocols => _returnProtocols;
@@ -59,12 +62,12 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
                 _selectedReturnProtocol = value;
                 if (value != null)
                 {
-                    SearchBox.InputText = value.CompanyObject.Company.Name;
-                    SearchBoxObject.InputTextObject = value.CompanyObject.Name;
+                    CompaniesDataManager.Companies.CompaniesSearchBox.TextValue = value.CompanyObject.Company.Name;
+                    CompaniesDataManager.CompanyObjects.CompanyObjectsSearchBox.TextValue = value.CompanyObject.Name;
                     Trader.Item = value.Trader.Name;
                     ReturnProtocolPayMethod.Item = value.PayMethod;
                 }
-                if (value != null && value != _curentReturnProtocol)
+                if (value != null && value != _currentReturnProtocol)
                 {                     
                     _loadProductsTask = LoadReturnedProducts(_selectedReturnProtocol);
                     SelectedReturnProtocolEvent(_selectedReturnProtocol);
@@ -102,27 +105,36 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
 
         public void CreateReturnProtocol(CreateReturnProtocolCommand command)
         {
+            using var scope = _serviceProvider.CreateScope();
+            var userService = scope.GetService<UserController>();
+            if (userService.Id == -1) return;
             CreateReturnProtocolEvent(new ReturnProtocolViewModel
             {
                 ReturnedDate = Date,
                 PayMethod = ReturnProtocolPayMethod.Item,
-                CompanyObject = new DelitaReturnProtocolProvider.ViewModels.CompanyObjectViewModel
+                CompanyObject = new DelitaTrade.Core.ViewModels.CompanyObjectViewModel
                 {
-                    Name = SearchBoxObject.CurrentCompanyObject.ObjectName,
-                    Address = SearchBoxObject.CurrentCompanyObject.Adrress,                    
-                    Company = new DelitaReturnProtocolProvider.ViewModels.CompanyViewModel
+                    Name = CompaniesDataManager.CompanyObjects.CompanyObjectsSearchBox.Value.Value.Name,
+                    Address = CompaniesDataManager.CompanyObjects.CompanyObjectsSearchBox.Value.Value.Address,
+                    Company = new Core.ViewModels.CompanyViewModel
                     {
-                        Name = SearchBox.InputText
+                        Name = CompaniesDataManager.Companies.CompaniesSearchBox.Value.Value.Name
                     }
                 },
                 Trader = new TraderViewModel
                 {
                     Name = Trader.Item
                 },
+                User = new UserViewModel
+                {
+                    Id = userService.Id,
+                    Name = userService.Name,
+                },
                 Products = []
 
             });
         }
+
         private ObservableCollection<string> CreatePayMethods()
         {
             return
@@ -135,7 +147,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
 
         private void OnViewModelPropertyChange(object? sender, PropertyChangedEventArgs e)
         {            
-            if (e.PropertyName == nameof(_addNewCompanyViewModel.SearchBoxObject.InputTextObject))
+            if (e.PropertyName == nameof(_companiesDataManager.CompanyObjects.CompanyObjectsSearchBox.TextValue))
             {
                 if (sender is SearchBoxObjectViewModel companyObject)
                 {
@@ -162,13 +174,13 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
 
         private async void UpdateReturnProtocolsAsync()
         {
-            var protocols = Task.Factory.StartNew(() => {
-                var returnProtocolService = _serviceProvider.GetService<ReturnProtocolService>() ?? throw new InvalidOperationException($"{nameof(ReturnProtocolService)} not available");
-                var protocols = returnProtocolService.GetProtocolAsync(ProtocolFilter);
-                return protocols;
-            });
+            using var scope = _serviceProvider.CreateScope();
+            var service = scope.GetService<IReturnProtocolService>();
+            var user = scope.GetService<UserController>();
+            var protocols = await service.GetFilteredAsync(user.Id, ProtocolFilter);
+
             _returnProtocols.Clear();
-            foreach (var protocol in await protocols.Result)
+            foreach (var protocol in protocols)
             {
                 _returnProtocols.Add(protocol);
             }
@@ -181,9 +193,9 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
 
         private async Task LoadReturnedProducts(ReturnProtocolViewModel returnProtocol)
         {
-            var productService = _serviceProvider.GetService<ReturnProductService>()
-                 ?? throw new InvalidOperationException($"Service: {nameof(ReturnProtocolService)} not available");
-            var products = await productService.GetAllProductsAsync(returnProtocol.Id);
+            using var scope = _serviceProvider.CreateScope();
+            var service = scope.GetService<IReturnProductService>();
+            var products = await service.GetAllProductsAsync(returnProtocol.Id);
             returnProtocol.Products.Clear();
             foreach (var product in products)
             {
@@ -193,7 +205,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
 
         private void SetCurrentProtocol(ReturnProtocolViewModel returnProtocol)
         {
-            _curentReturnProtocol = returnProtocol;
+            _currentReturnProtocol = returnProtocol;
             SelectedReturnProtocol = returnProtocol;
         }
 

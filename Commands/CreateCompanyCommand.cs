@@ -19,27 +19,27 @@ namespace DelitaTrade.Commands
 
         private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(AddNewCompanyViewModel.CurrentCompany) 
-                || e.PropertyName == nameof(AddNewCompanyViewModel.CompanyName)) 
-            {
-                OnCanExecuteChanged();
-            }
+            //if (e.PropertyName == nameof(AddNewCompanyViewModel.CurrentCompany) 
+            //    || e.PropertyName == nameof(AddNewCompanyViewModel.CompanyName)) 
+            //{
+            //    OnCanExecuteChanged();
+            //}
         }
 
-        public override bool CanExecute(object? parameter)
-        {
-            return _addNewCompanyViewModel.CurrentCompany == null
-                && _addNewCompanyViewModel.CompanyName != null
-                && _addNewCompanyViewModel.CompanyName?.Length >= minLengthCompanyName
-                && base.CanExecute(parameter);
-        }
+        //public override bool CanExecute(object? parameter)
+        //{
+        //    return _addNewCompanyViewModel.CurrentCompany == null
+        //        && _addNewCompanyViewModel.CompanyName != null
+        //        && _addNewCompanyViewModel.CompanyName?.Length >= minLengthCompanyName
+        //        && base.CanExecute(parameter);
+        //}
 
         public override void Execute(object? parameter)
         {
             
-            _delitaTrade.CreateNewCompany(new Company(_addNewCompanyViewModel.CompanyName,
-                _addNewCompanyViewModel.CompanyType, 
-                _addNewCompanyViewModel.Bulstad));
+            //_delitaTrade.CreateNewCompany(new Company(_addNewCompanyViewModel.CompanyName,
+            //    _addNewCompanyViewModel.CompanyType, 
+            //    _addNewCompanyViewModel.Bulstad));
         }
     }
 }

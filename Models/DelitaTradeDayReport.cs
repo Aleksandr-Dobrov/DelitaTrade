@@ -9,6 +9,7 @@ using DelitaTrade.Models.Interfaces.DataBase;
 using DelitaTrade.Models.DataBases;
 using System.Configuration;
 using System.DirectoryServices.ActiveDirectory;
+using Microsoft.Extensions.Configuration;
 
 namespace DelitaTrade.Models
 {
@@ -28,10 +29,10 @@ namespace DelitaTrade.Models
         private double _totalWeight;
         private string _transmissionDate;
 
-        public DelitaTradeDayReport(DelitaSoundService soundPlayer, IDBProvider dBProvider, Configuration appConfig)
+        public DelitaTradeDayReport(DelitaSoundService soundPlayer, IDBProvider dBProvider, Configuration appConfig, IConfiguration configuration)
         {
             _soundService = soundPlayer;
-            _dayReportData = new DayReportDataBase(this, dBProvider);            
+            _dayReportData = new DayReportDataBase(this, dBProvider, configuration);            
             _dayReportData.DayReportsIdChanged += OnDayReportsIdChanged;
             CurentDayReportSelect += SetTotalsToDayReportVievModel;
             DayReportDataChanged += SetTotalsToDayReportVievModel;

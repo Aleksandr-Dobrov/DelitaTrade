@@ -18,30 +18,30 @@ namespace DelitaTrade.Commands
 
         private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(AddNewCompanyViewModel.CurrentCompany) ||
-                e.PropertyName == nameof(AddNewCompanyViewModel.CompanyType) ||
-                e.PropertyName == nameof(AddNewCompanyViewModel.Bulstad))                
-            {
-                OnCanExecuteChanged();
-            }
+            //if (e.PropertyName == nameof(AddNewCompanyViewModel.CurrentCompany) ||
+            //    e.PropertyName == nameof(AddNewCompanyViewModel.CompanyType) ||
+            //    e.PropertyName == nameof(AddNewCompanyViewModel.Bulstad))                
+            //{
+            //    OnCanExecuteChanged();
+            //}
         }
 
-        public override bool CanExecute(object? parameter)
-        {
-            return _addNewCompanyViewModel.CurrentCompany != null 
-                && (_addNewCompanyViewModel.CurrentCompany.CompanyType != _addNewCompanyViewModel.CompanyType
-                || _addNewCompanyViewModel.CurrentCompany.Bulstad != _addNewCompanyViewModel.Bulstad)
-                && base.CanExecute(parameter);
-        }
+        //public override bool CanExecute(object? parameter)
+        //{
+        //    return _addNewCompanyViewModel.CurrentCompany != null 
+        //        && (_addNewCompanyViewModel.CurrentCompany.CompanyType != _addNewCompanyViewModel.CompanyType
+        //        || _addNewCompanyViewModel.CurrentCompany.Bulstad != _addNewCompanyViewModel.Bulstad)
+        //        && base.CanExecute(parameter);
+        //}
 
         public override void Execute(object? parameter)
         {
-            if (Agreement("Update", _addNewCompanyViewModel.CompanyName))
-            {
-                _delitaTrade.UpdateCompanyData(new Company(_addNewCompanyViewModel.CompanyName,
-                                                           _addNewCompanyViewModel.CompanyType,
-                                                           _addNewCompanyViewModel.Bulstad));
-            }
+            //if (Agreement("Update", _addNewCompanyViewModel.CompanyName))
+            //{
+            //    _delitaTrade.UpdateCompanyData(new Company(_addNewCompanyViewModel.CompanyName,
+            //                                               _addNewCompanyViewModel.CompanyType,
+            //                                               _addNewCompanyViewModel.Bulstad));
+            //}
         }
     }
 }

@@ -29,18 +29,18 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Text="Company" FontSize="14" FontWeight="Medium" HorizontalAlignment="Center"/>
-                <ComponentsView3cd9e2af:SearchBox Margin="0 0 0 5" Grid.Row="1" DataContext="{Binding SearchBox}">
+                <ComponentsView3cd9e2af:SearchComboBox Margin="0 0 0 5" Grid.Row="1" DataContext="{Binding CompaniesDataManager.Companies.CompaniesSearchBox}">
                     
-                </ComponentsView3cd9e2af:SearchBox>
+                </ComponentsView3cd9e2af:SearchComboBox>
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <ComponentsView3cd9e2af:SearchBoxObject Grid.Row="1" DataContext="{Binding SearchBoxObject}">
+                <ComponentsView3cd9e2af:SearchComboBox Grid.Row="1" DataContext="{Binding CompaniesDataManager.CompanyObjects.CompanyObjectsSearchBox}">
                     
-                </ComponentsView3cd9e2af:SearchBoxObject>            
+                </ComponentsView3cd9e2af:SearchComboBox>            
             </Grid>
             <ComponentsView3cd9e2af:SearchBoxTextDeletable Grid.Row="2" DataContext="{Binding Trader}">
 

@@ -5,6 +5,7 @@ using DelitaTrade.Models;
 using DelitaTrade.Models.Configurations;
 using DelitaTrade.Models.DataProviders;
 using DelitaTrade.Models.DataProviders.FileDirectoryProvider;
+using DelitaTrade.ViewModels.Controllers;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -77,8 +78,8 @@ namespace DelitaTrade.ViewModels
         
         public IEnumerable<string> DayReportsId => _dayReporsId;
         public IEnumerable<InvoiceViewModel> Invoices => _invoices;
-        public SearchBoxViewModel SearchBox => _addNewCompanyViewModel.SearchBox;
-        public SearchBoxObjectViewModel SearchBoxObject => _addNewCompanyViewModel.SearchBoxObject;
+        public CompaniesSearchViewModel SearchBox => _addNewCompanyViewModel.CompaniesDataManager.Companies;
+        public CompanyObjectsSearchViewModel SearchBoxObject => _addNewCompanyViewModel.CompaniesDataManager.CompanyObjects;
         public PayMethodBoxViewModel PayMethodBox => _payMethodBoxViewModel;
         public DayReportTotalsViewModel DayReportTotalsViewModel => _dayReportTotalsViewModel;
         public DayReportIdViewModel DayReportIdViewModel => _dayReportIdViewModel;
@@ -153,10 +154,10 @@ namespace DelitaTrade.ViewModels
 
         public string CompanyType
         {
-            get => _addNewCompanyViewModel.CompanyType;
+            get => _addNewCompanyViewModel.CompaniesDataManager.CompanyData.CompanyType;
             set
             {
-                _addNewCompanyViewModel.CompanyType = value;
+                _addNewCompanyViewModel.CompaniesDataManager.CompanyData.CompanyType = value;
                 OnPropertyChange();
             }
         }
@@ -230,7 +231,7 @@ namespace DelitaTrade.ViewModels
             _addNewCompanyViewModel.PropertyChanged += OnAddCompanyPropertyChanged;
             _delitaTradeDayReport.DayReportDataChanged += UpdateDayReportData;
             _delitaTradeDayReport.DayReportDataChanged += SetAddButonColor;
-            _addNewCompanyViewModel.ObjectSelected += SetPayMethod;
+            //_addNewCompanyViewModel.ObjectSelected += SetPayMethod;
             _payMethodBoxViewModel.PropertyChanged += PayMenthodBoxPropertyChanged;
             PaymentChange += SetExpenseInvoiceId;
             AmountChange += SetIncome;
@@ -307,8 +308,8 @@ namespace DelitaTrade.ViewModels
             {
                 int index = SelectedInvoiceViewModel.CompanyName.LastIndexOf(' ');
 
-                SearchBox.InputText = SelectedInvoiceViewModel.CompanyName[..index];
-                SearchBoxObject.InputTextObject = SelectedInvoiceViewModel.ObjectName;
+                //SearchBox.InputText = SelectedInvoiceViewModel.CompanyName[..index];
+                //SearchBoxObject.InputTextObject = SelectedInvoiceViewModel.ObjectName;
                 PayMethodBox.PayMethodText = SelectedInvoiceViewModel.PayMethod;
                 InvoiceID = SelectedInvoiceViewModel.InvoiceID;
                 Weight = SelectedInvoiceViewModel.Weight.ToString();
@@ -412,19 +413,19 @@ namespace DelitaTrade.ViewModels
             return id.Length == 10 && id.All(char.IsDigit);
         }
 
-        private void SetPayMethod()
-        {
-            if (_addNewCompanyViewModel.CurrentObject != null
-                    && _addNewCompanyViewModel.CurrentObject.BankPay)
-            {
-                _payMethodBoxViewModel.PayMethodText = "Банка";
-            }
-            else
-            {
-                _payMethodBoxViewModel.PayMethodText = "В брой";
-            }
-            PaymentStatusChange();
-        }
+        //private void SetPayMethod()
+        //{
+        //    if (_addNewCompanyViewModel.CurrentObject != null
+        //            && _addNewCompanyViewModel.CurrentObject.BankPay)
+        //    {
+        //        _payMethodBoxViewModel.PayMethodText = "Банка";
+        //    }
+        //    else
+        //    {
+        //        _payMethodBoxViewModel.PayMethodText = "В брой";
+        //    }
+        //    PaymentStatusChange();
+        //}
 
         private void SetIncome()
         {

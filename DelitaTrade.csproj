@@ -7,6 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Assets\DelitaIconNew.ico</ApplicationIcon>
+    <UserSecretsId>ae4d4f9a-9f24-4a52-a8cc-ebaebd7bbdb6</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -65,8 +66,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DBDelitaTrade.Infrastructure\DBDelitaTrade.Infrastructure.csproj" />
-    <ProjectReference Include="..\DelitaReturnProtocolProvider\DelitaReturnProtocolProvider.csproj" />
+    <ProjectReference Include="..\DelitaReturnProtocolProvider\DelitaTrade.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

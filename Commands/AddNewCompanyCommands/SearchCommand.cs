@@ -1,7 +1,8 @@
 ﻿using DelitaTrade.Models.Loggers;
 using DelitaTrade.ViewModels;
+using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics;
-namespace DelitaTrade.Commands.AddNewCompanyComands
+namespace DelitaTrade.Commands.AddNewCompanyCommands
 {
     public class SearchCommand : CommandBase
     {
@@ -28,17 +29,14 @@ namespace DelitaTrade.Commands.AddNewCompanyComands
 
         private void SetSearchArgs()
         {
-            string address = _viewModel.Address;
 
-            if (_viewModel.Address.Contains('(') && _viewModel.Address.Contains(')'))
-            {
-                int startIndex = address.IndexOf('(') + 1;
-                int endIndex = address.IndexOf(')');
-                _searchString = address[startIndex..endIndex];
+            if (_viewModel.CompaniesDataManager.CompanyData.GpsCoordinates.IsNullOrEmpty() == false)
+            {                
+                _searchString = _viewModel.CompaniesDataManager.CompanyData.GpsCoordinates;
             }
             else
             {
-                _searchString = address;
+                _searchString = $"{_viewModel.CompaniesDataManager.CompanyData.Town} {_viewModel.CompaniesDataManager.CompanyData.Street} {_viewModel.CompaniesDataManager.CompanyData.Number} {_viewModel.CompaniesDataManager.CompanyData.Description}";
             }
         }
 
