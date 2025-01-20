@@ -7,11 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DelitaTrade", "DelitaTrade.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DelitaTradeProjectTests", "..\DelitaTradeProjectTests\DelitaTradeProjectTests.csproj", "{CA5BBA3C-F7D1-480C-B634-C63BA5CB9044}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelitaTrade.Infrastructure", "..\DBDelitaTrade.Infrastructure\DelitaTrade.Infrastructure.csproj", "{183DB94E-10A8-4F8B-B3D5-6C47A67F84EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelitaTrade.Common", "DelitaTrade.Common\DelitaTrade.Common.csproj", "{C65D45DC-44B1-4F56-A266-8B63A13A2FEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelitaTrade.Common", "..\DBDelitaTrade.Common\DelitaTrade.Common.csproj", "{EABB6172-AF83-44CC-8B38-7D7140F60CEC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelitaTrade.Core", "DelitaTrade.Core\DelitaTrade.Core.csproj", "{725E658C-D623-4223-B69F-C8C770692CD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelitaTrade.Core", "..\DelitaReturnProtocolProvider\DelitaTrade.Core.csproj", "{BD60B418-A4AE-4382-88FA-858F4C97B526}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelitaTrade.Infrastructure", "DelitaTrade.Infrastructure\DelitaTrade.Infrastructure.csproj", "{F61104A7-E84A-4344-B07A-94CE197636CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,18 +27,18 @@ Global
 		{CA5BBA3C-F7D1-480C-B634-C63BA5CB9044}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA5BBA3C-F7D1-480C-B634-C63BA5CB9044}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA5BBA3C-F7D1-480C-B634-C63BA5CB9044}.Release|Any CPU.Build.0 = Release|Any CPU
-		{183DB94E-10A8-4F8B-B3D5-6C47A67F84EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{183DB94E-10A8-4F8B-B3D5-6C47A67F84EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{183DB94E-10A8-4F8B-B3D5-6C47A67F84EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{183DB94E-10A8-4F8B-B3D5-6C47A67F84EB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EABB6172-AF83-44CC-8B38-7D7140F60CEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EABB6172-AF83-44CC-8B38-7D7140F60CEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EABB6172-AF83-44CC-8B38-7D7140F60CEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EABB6172-AF83-44CC-8B38-7D7140F60CEC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BD60B418-A4AE-4382-88FA-858F4C97B526}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BD60B418-A4AE-4382-88FA-858F4C97B526}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BD60B418-A4AE-4382-88FA-858F4C97B526}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BD60B418-A4AE-4382-88FA-858F4C97B526}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C65D45DC-44B1-4F56-A266-8B63A13A2FEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C65D45DC-44B1-4F56-A266-8B63A13A2FEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C65D45DC-44B1-4F56-A266-8B63A13A2FEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C65D45DC-44B1-4F56-A266-8B63A13A2FEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{725E658C-D623-4223-B69F-C8C770692CD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{725E658C-D623-4223-B69F-C8C770692CD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{725E658C-D623-4223-B69F-C8C770692CD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{725E658C-D623-4223-B69F-C8C770692CD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F61104A7-E84A-4344-B07A-94CE197636CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F61104A7-E84A-4344-B07A-94CE197636CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F61104A7-E84A-4344-B07A-94CE197636CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F61104A7-E84A-4344-B07A-94CE197636CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

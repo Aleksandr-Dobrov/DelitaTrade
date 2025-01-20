@@ -1,8 +1,8 @@
 ﻿using DelitaTrade.ViewModels;
 using System.Collections.ObjectModel;
-using DelitaTrade.Common;
 using System.ComponentModel;
 using DelitaTrade.Core.Interfaces;
+using DelitaTrade.Common;
 
 namespace DelitaTrade.Components.ComponentsViewModel
 {

@@ -11,6 +11,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DelitaTrade.Common\**" />
+    <Compile Remove="DelitaTrade.Core\**" />
+    <Compile Remove="DelitaTrade.Infrastructure\**" />
+    <EmbeddedResource Remove="DelitaTrade.Common\**" />
+    <EmbeddedResource Remove="DelitaTrade.Core\**" />
+    <EmbeddedResource Remove="DelitaTrade.Infrastructure\**" />
+    <None Remove="DelitaTrade.Common\**" />
+    <None Remove="DelitaTrade.Core\**" />
+    <None Remove="DelitaTrade.Infrastructure\**" />
+    <Page Remove="DelitaTrade.Common\**" />
+    <Page Remove="DelitaTrade.Core\**" />
+    <Page Remove="DelitaTrade.Infrastructure\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Components\ComponentAssets\DayReport\add.png" />
     <None Remove="Components\ComponentAssets\DayReport\delete-file_40456.png" />
     <None Remove="Components\ComponentAssets\DayReport\remove.png" />
@@ -66,7 +81,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DelitaReturnProtocolProvider\DelitaTrade.Core.csproj" />
+    <ProjectReference Include="DelitaTrade.Common\DelitaTrade.Common.csproj" />
+    <ProjectReference Include="DelitaTrade.Core\DelitaTrade.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
