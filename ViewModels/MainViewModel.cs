@@ -19,7 +19,7 @@ namespace DelitaTrade.ViewModels
             ViewModelBase addCompanyViewModel = serviceProvider.GetRequiredService<AddNewCompanyViewModel>();
             ViewModelBase dayReportViewModel = new DayReportsViewModel(dayReportCreator, addCompanyViewModel, dayReportOptions);
             ViewModelBase payDeskViewModel = new PayDeskViewModel(dayReportCreator);
-            ViewModelBase returnProtocolViewModel = new ReturnProtocolController(addCompanyViewModel, serviceProvider);
+            ViewModelBase returnProtocolViewModel = serviceProvider.GetRequiredService<ReturnProtocolController>();
             ViewModelBase optionsViewModel = new OptionsViewModel(dayReportCreator, dayReportOptions);
             _viewModelsStore = new ViewModelsStore([addCompanyViewModel, dayReportViewModel, payDeskViewModel, returnProtocolViewModel, optionsViewModel]);
             _viewModelsStore.ViewModelChanged += OnViewModelChanged;

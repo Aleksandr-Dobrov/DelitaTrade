@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using DelitaTrade.Extensions;
 using DelitaTrade.Core.Services;
 using DelitaTrade.Core.ViewModels;
+using DelitaTrade.Core.Contracts;
 
 namespace DelitaTrade.ViewModels.ReturnProtocolControllers
 {
@@ -12,10 +13,10 @@ namespace DelitaTrade.ViewModels.ReturnProtocolControllers
         private ListViewInputViewModel _listViewInputViewModel;
         private IServiceProvider _serviceProvider;
 
-        public ReturnProtocolController(ViewModelBase addNewCompanyViewModel, IServiceProvider serviceProvider)
+        public ReturnProtocolController(InitialInformationViewModel initialInformationViewModel, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            _initialInformationViewModel = new InitialInformationViewModel(addNewCompanyViewModel, serviceProvider);
+            _initialInformationViewModel = initialInformationViewModel;
             _listViewInputViewModel = new ListViewInputViewModel(serviceProvider, this);
             InitialInformationViewModel.CreateReturnProtocolEvent += CreateProtocol;
             InitialInformationViewModel.SelectedReturnProtocolEvent += SelectProtocol;
@@ -31,7 +32,7 @@ namespace DelitaTrade.ViewModels.ReturnProtocolControllers
         private async void CreateProtocol(ReturnProtocolViewModel returnProtocol)
         {
             using var scope = _serviceProvider.CreateScope();
-            var service = scope.GetService<ReturnProtocolService>();             
+            var service = scope.GetService<IReturnProtocolService>();             
             returnProtocol.Id = await service.CreateProtocolAsync(returnProtocol);
             ReturnProtocolSelected(returnProtocol);
         }
@@ -45,7 +46,7 @@ namespace DelitaTrade.ViewModels.ReturnProtocolControllers
         private async void DeleteProtocol(ReturnProtocolViewModel returnProtocol)
         {
             using var scope = _serviceProvider.CreateScope();
-            var service = scope.GetService<ReturnProtocolService>();
+            var service = scope.GetService<IReturnProtocolService>();
             await service.DeleteProtocol(returnProtocol.Id);
             ReturnProtocolUnSelected();
         }

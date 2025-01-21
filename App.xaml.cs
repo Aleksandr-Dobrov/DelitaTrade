@@ -60,7 +60,6 @@ namespace DelitaTrade
             _soundService = new DelitaSoundService(new DefaultSoundPlayer(), new SoundStore([.. SoundBaseConfiguration.GetAllSounds(AppConfig)]));
             _delitaTrade = new DelitaTradeCompany("Delita Trade", _mySqlDataProvider, _serviceProvider);
             _dayReportCreator = new DelitaTradeDayReport(_soundService, _mySqlDataProvider, AppConfig, _configuration);
-            UserLogin(_configuration);
         }
 
         protected override async void OnStartup(StartupEventArgs e)
@@ -68,6 +67,7 @@ namespace DelitaTrade
             try
             {
                 await AppHost!.StartAsync();
+                UserLogin(_configuration);
                 MainWindow = new MainWindow()
                 {
                     DataContext = new MainViewModel(_delitaTrade, _dayReportCreator, _serviceProvider)
@@ -97,8 +97,9 @@ namespace DelitaTrade
         private async Task UserConfig(IConfiguration config)
         {
             var section = config.GetSection("MyUserAccount");
-            var userName = (string)section.GetValue(typeof(string), "Login");
-            var password = (string)section.GetValue(typeof(string), "Password");
+            var userName = section.GetValue(typeof(string), "Login") as string;
+            var password = section.GetValue(typeof(string), "Password") as string;
+            if (userName == null || password == null) throw new ArgumentNullException(nameof(userName));
             using var scope = _serviceProvider.CreateScope();
             IUserService userService = scope.GetService<IUserService>();
             var user = await userService.LogIn(new UserValidationForm { LoginName = userName, Password = password});

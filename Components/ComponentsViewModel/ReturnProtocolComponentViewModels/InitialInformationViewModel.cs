@@ -17,34 +17,36 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
     public class InitialInformationViewModel : ViewModelBase
     {   
         private DateTime _date = DateTime.Now;
-        private readonly AddNewCompanyViewModel _addNewCompanyViewModel;
         private CompaniesDataManager _companiesDataManager;
         private SearchBoxTextNotUpperViewModel _returnProtocolPayMethod;
         private ReturnProtocolViewModel _selectedReturnProtocol;
         private ReturnProtocolViewModel _currentReturnProtocol;
+        private TradersListViewModel _tradersViewModel;
+
         private ObservableCollection<ReturnProtocolViewModel> _returnProtocols = new();
         private IServiceProvider _serviceProvider;
         private Task _loadProductsTask;
 
-        private string __protocolFilter = string.Empty;
+        private string _protocolFilter = string.Empty;
         private bool _isDropDowOpen;
 
-        public InitialInformationViewModel(ViewModelBase addNewCompanyViewModel, IServiceProvider serviceProvider)
+        public InitialInformationViewModel(TradersListViewModel tradersViewModel, CompaniesDataManager companiesDataManager, IServiceProvider serviceProvider)
         {
-            _addNewCompanyViewModel = addNewCompanyViewModel as AddNewCompanyViewModel;
+            _tradersViewModel = tradersViewModel;
+            _companiesDataManager = companiesDataManager;
+            _serviceProvider = serviceProvider;
             _returnProtocolPayMethod = new SearchBoxTextNotUpperViewModel(CreatePayMethods(), "Pay Method");
-            _companiesDataManager = serviceProvider.GetRequiredService<CompaniesDataManager>();
             _companiesDataManager.CompanyObjects.CompanyObjectsSearchBox.PropertyChanged += OnViewModelPropertyChange;
             CreateReturnProtocolCommand = new CreateReturnProtocolCommand(this);
             DeleteReturnProtocolCommand = new DeleteCommand(DeleteReturnProtocol);
-            _serviceProvider = serviceProvider;
             PropertyChanged += OnCurrentViewModelPropertyChange;
+            CompaniesDataManager.CompanyObjects.ValueSelected += SetTraderBySelectedObject;
             CreateReturnProtocolEvent += AddProtocol;
             CreateReturnProtocolEvent += SetCurrentProtocol;
         }
 
         public CompaniesDataManager CompaniesDataManager => _companiesDataManager;
-        public SearchBoxTextNotUpperDeletableItemViewModel Trader => _addNewCompanyViewModel.Trader;
+        public TradersListViewModel TradersViewModel => _tradersViewModel;
         public SearchBoxTextNotUpperViewModel ReturnProtocolPayMethod => _returnProtocolPayMethod;
         public ObservableCollection<ReturnProtocolViewModel> ReturnProtocols => _returnProtocols;
         public Task LoadProductsTask => _loadProductsTask;
@@ -64,7 +66,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
                 {
                     CompaniesDataManager.Companies.CompaniesSearchBox.TextValue = value.CompanyObject.Company.Name;
                     CompaniesDataManager.CompanyObjects.CompanyObjectsSearchBox.TextValue = value.CompanyObject.Name;
-                    Trader.Item = value.Trader.Name;
+                    TradersViewModel.TraderViewModel.TextValue = value.Trader.Name;
                     ReturnProtocolPayMethod.Item = value.PayMethod;
                 }
                 if (value != null && value != _currentReturnProtocol)
@@ -78,10 +80,10 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
 
         public string ProtocolFilter 
         { 
-            get => __protocolFilter;
+            get => _protocolFilter;
             set
             {
-                __protocolFilter = value;
+                _protocolFilter = value;
                 OnPropertyChange();
             }
         }
@@ -112,18 +114,21 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
             {
                 ReturnedDate = Date,
                 PayMethod = ReturnProtocolPayMethod.Item,
-                CompanyObject = new DelitaTrade.Core.ViewModels.CompanyObjectViewModel
+                CompanyObject = new Core.ViewModels.CompanyObjectViewModel
                 {
-                    Name = CompaniesDataManager.CompanyObjects.CompanyObjectsSearchBox.Value.Value.Name,
-                    Address = CompaniesDataManager.CompanyObjects.CompanyObjectsSearchBox.Value.Value.Address,
+                    Id = CompaniesDataManager.CompanyObjects.CompanyObjectsSearchBox.SelectedValue!.Id,
+                    Name = CompaniesDataManager.CompanyObjects.CompanyObjectsSearchBox.SelectedValue.Name,
+                    Address = CompaniesDataManager.CompanyObjects.CompanyObjectsSearchBox.SelectedValue.Address,
                     Company = new Core.ViewModels.CompanyViewModel
-                    {
-                        Name = CompaniesDataManager.Companies.CompaniesSearchBox.Value.Value.Name
+                    { 
+                        Id = CompaniesDataManager.Companies.CompaniesSearchBox.SelectedValue!.Id,
+                        Name = CompaniesDataManager.Companies.CompaniesSearchBox.SelectedValue.Name 
                     }
                 },
                 Trader = new TraderViewModel
-                {
-                    Name = Trader.Item
+                { 
+                    Id = TradersViewModel.Trader.Id,
+                    Name = TradersViewModel.Trader.Name
                 },
                 User = new UserViewModel
                 {
@@ -149,13 +154,13 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
         {            
             if (e.PropertyName == nameof(_companiesDataManager.CompanyObjects.CompanyObjectsSearchBox.TextValue))
             {
-                if (sender is SearchBoxObjectViewModel companyObject)
+                if (sender is SearchComboBoxViewModel<Core.ViewModels.CompanyObjectViewModel> companyObject)
                 {
-                    if (companyObject.CurrentCompanyObject != null && companyObject.CurrentCompanyObject.BankPay)
+                    if (companyObject.SelectedValue != null && companyObject.SelectedValue.IsBankPay && ReturnProtocolPayMethod.Item != ReturnProtocolPayMethods.BankPay)
                     {
                         ReturnProtocolPayMethod.Item = ReturnProtocolPayMethods.BankPay;
                     }
-                    else
+                    else if (companyObject.SelectedValue != null && companyObject.SelectedValue.IsBankPay == false && ReturnProtocolPayMethod.Item != ReturnProtocolPayMethods.NotDeducted)
                     {
                         ReturnProtocolPayMethod.Item = ReturnProtocolPayMethods.NotDeducted;
                     }
@@ -215,6 +220,11 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
             
             DeleteReturnProtocolEvent(SelectedReturnProtocol);
             ReturnProtocols.Remove(SelectedReturnProtocol);
+        }
+
+        private void SetTraderBySelectedObject(Core.ViewModels.CompanyObjectViewModel companyObjectViewModel)
+        {            
+            TradersViewModel.TraderViewModel.TextValue = companyObjectViewModel.Trader?.Name ?? null!;
         }
     }
 }

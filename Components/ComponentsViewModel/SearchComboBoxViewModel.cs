@@ -26,6 +26,8 @@ namespace DelitaTrade.Components.ComponentsViewModel
 
         public IEnumerable<T> Items => _items;
 
+        public T? SelectedValue => Value.Value;
+
         public ItemProperty<T> Value
         { 
             get;

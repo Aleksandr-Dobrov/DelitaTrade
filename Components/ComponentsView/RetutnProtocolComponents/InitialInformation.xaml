@@ -39,12 +39,10 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <ComponentsView3cd9e2af:SearchComboBox Grid.Row="1" DataContext="{Binding CompaniesDataManager.CompanyObjects.CompanyObjectsSearchBox}">
-                    
-                </ComponentsView3cd9e2af:SearchComboBox>            
-            </Grid>
-            <ComponentsView3cd9e2af:SearchBoxTextDeletable Grid.Row="2" DataContext="{Binding Trader}">
 
-            </ComponentsView3cd9e2af:SearchBoxTextDeletable>
+                </ComponentsView3cd9e2af:SearchComboBox>
+            </Grid>
+            <ComponentsView3cd9e2af:EntityBaseView Grid.Row="3" DataContext="{Binding TradersViewModel.TraderViewModel}"/>
         </Grid>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>

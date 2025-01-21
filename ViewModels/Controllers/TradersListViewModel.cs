@@ -45,6 +45,7 @@ namespace DelitaTrade.ViewModels.Controllers
             get => _componentName;
             set
             {
+                TraderViewModel.Name = value;
                 _componentName = value;
                 OnPropertyChange();
             }

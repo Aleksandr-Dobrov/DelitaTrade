@@ -9,6 +9,8 @@ using DelitaTrade.Core.Services;
 using DelitaTrade.Infrastructure.Data;
 using DelitaTrade.Infrastructure.Common;
 using DelitaTrade.ViewModels;
+using DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentViewModels;
+using DelitaTrade.ViewModels.ReturnProtocolControllers;
 
 namespace DelitaTrade.Models.DI
 {
@@ -30,6 +32,9 @@ namespace DelitaTrade.Models.DI
             collection.AddTransient<CompaniesSearchViewModel>();
             collection.AddTransient<CompanyObjectsSearchViewModel>();
             collection.AddTransient<CompaniesDataManager>();
+            collection.AddTransient<ListViewInputViewModel>();
+            collection.AddTransient<ReturnProtocolController>();
+            collection.AddTransient<InitialInformationViewModel>();
             collection.AddTransient<CompaniesDataViewModel>();
             collection.AddTransient<AddNewCompanyViewModel>();
             collection.AddTransient<CompanyCommandsViewModel>();
