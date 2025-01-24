@@ -10,7 +10,7 @@ namespace DelitaTrade.WpfViewModels
         private CompanyViewModel _companyViewModel = new() { Name = string.Empty , Bulstad = _initialBulstad, Type = _initialCompanyType };
         private const string _initialCompanyType = "ООД";
         private const string _initialBulstad = "BG";
-        public int Id { get; set; }
+        public int Id { get => _companyViewModel.Id; }
 
         public string CompanyName
         {
