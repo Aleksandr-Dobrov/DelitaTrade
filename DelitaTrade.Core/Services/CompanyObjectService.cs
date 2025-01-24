@@ -175,7 +175,7 @@ namespace DelitaTrade.Core.Services
             await repo.SaveChangesAsync();
         }
 
-        public async Task DeleteSafeAsync(CompanyObjectViewModel companyObjectId)
+        public async Task DeleteSoftAsync(CompanyObjectViewModel companyObjectId)
         {
             var objectToRemove = await repo.GetByIdAsync<CompanyObject>(companyObjectId.Id) ?? throw new ArgumentNullException(ExceptionMessages.NotFound(nameof(CompanyObject)));
 

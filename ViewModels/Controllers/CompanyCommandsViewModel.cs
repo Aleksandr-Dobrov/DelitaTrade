@@ -116,7 +116,7 @@ namespace DelitaTrade.ViewModels.Controllers
                 {
                     using var scope = _serviceProvider.CreateScope();
                     var service = scope.GetService<ICompanyService>();
-                    await service.DeleteSafeAsync(_companiesSearchViewModel.CompaniesSearchBox.Value.Value);
+                    await service.DeleteSoftAsync(_companiesSearchViewModel.CompaniesSearchBox.Value.Value);
                     _objectsSearchViewModel.CompanyObjectsSearchBox.RemoveRange(_companiesSearchViewModel.CompaniesSearchBox.Value.Value.CompanyObjects);
                     _companiesSearchViewModel.CompaniesSearchBox.Remove(_companiesSearchViewModel.CompaniesSearchBox.Value.Value);
                 }
@@ -153,8 +153,10 @@ namespace DelitaTrade.ViewModels.Controllers
 
         private bool CanUpdateCompany()
         {
-            if (_companiesSearchViewModel.CompaniesSearchBox.Value.Value != null && _dataViewModel.HasErrors == false
-                && (_companiesSearchViewModel.CompaniesSearchBox.Value.Value.Bulstad != _dataViewModel.Bulstad || _companiesSearchViewModel.CompaniesSearchBox.Value.Value.Type != _dataViewModel.CompanyType))
+            if (_companiesSearchViewModel.CompaniesSearchBox.Value.Value != null && 
+                _dataViewModel.HasErrors == false &&
+                (_companiesSearchViewModel.CompaniesSearchBox.Value.Value.Bulstad != _dataViewModel.Bulstad ||
+                _companiesSearchViewModel.CompaniesSearchBox.Value.Value.Type != _dataViewModel.CompanyType))
             {
                 return true;
             }

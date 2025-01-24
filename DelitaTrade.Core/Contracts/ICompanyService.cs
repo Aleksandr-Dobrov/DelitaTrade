@@ -15,6 +15,6 @@ namespace DelitaTrade.Core.Contracts
         Task<CompanyViewModel> GetDetailedCompanyByIdAsync(int companyId);
         Task<int> CreateAsync(CompanyViewModel company);
         Task UpdateAsync(CompanyViewModel company);
-        Task DeleteSafeAsync(CompanyViewModel company);
+        Task DeleteSoftAsync(CompanyViewModel company);
     }
 }

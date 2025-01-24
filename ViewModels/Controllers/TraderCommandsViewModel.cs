@@ -98,7 +98,7 @@ namespace DelitaTrade.ViewModels.Controllers
                 {
                     using var scope = _serviceProvider.CreateScope();
                     var service = scope.GetService<ITraderService>();
-                    await service.DeleteSafeAsync(_tradersListViewModel.TraderViewModel.Value.Value);
+                    await service.DeleteSoftAsync(_tradersListViewModel.TraderViewModel.Value.Value);
                     _tradersListViewModel.TraderViewModel.Remove(_tradersListViewModel.TraderViewModel.Value.Value);
                 }
                 else throw new ArgumentException("Not Deleted");

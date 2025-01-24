@@ -50,7 +50,7 @@ namespace DelitaTrade.Core.Services
             await repo.SaveChangesAsync();
         }
 
-        public async Task DeleteSafeAsync(TraderViewModel traderViewModel)
+        public async Task DeleteSoftAsync(TraderViewModel traderViewModel)
         {
             var traderToDelete = await repo.GetByIdAsync<Trader>(traderViewModel.Id) ?? throw new ArgumentNullException(ExceptionMessages.NotFound(nameof(Trader)));
 

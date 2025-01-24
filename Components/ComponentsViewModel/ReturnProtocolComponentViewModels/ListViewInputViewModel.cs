@@ -59,7 +59,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
         {
             using var scope = _serviceProvider.CreateScope();
             var service = scope.GetService<IReturnProductService>();
-            await service.RemoveProductAsync(returnedProduct.Id);
+            await service.DeleteProductAsync(returnedProduct.Id);
             _list.Remove(returnedProduct);
         }
 

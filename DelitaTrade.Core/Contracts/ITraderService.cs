@@ -15,6 +15,6 @@ namespace DelitaTrade.Core.Contracts
 
         Task UpdateAsync(TraderViewModel traderViewModel);
 
-        Task DeleteSafeAsync(TraderViewModel traderViewModel);
+        Task DeleteSoftAsync(TraderViewModel traderViewModel);
     }
 }

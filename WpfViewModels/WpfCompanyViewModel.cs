@@ -1,12 +1,7 @@
 ﻿using DelitaTrade.Components.ComponentsViewModel.ErrorComponents;
 using DelitaTrade.Core.ViewModels;
 using DelitaTrade.ViewModels.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DelitaTrade.WpfViewModels
 {

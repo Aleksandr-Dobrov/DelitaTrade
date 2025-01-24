@@ -66,7 +66,7 @@ namespace DelitaTrade.Core.Services
             return outColl;
         }
 
-        public async Task RemoveProductAsync(int productId)
+        public async Task DeleteProductAsync(int productId)
         {
             var productToRemove = await repo.GetByIdAsync<ReturnedProduct>(productId) 
                 ?? throw new ArgumentNullException(ExceptionMessages.NotFound(nameof(ReturnedProduct)));

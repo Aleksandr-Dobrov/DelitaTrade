@@ -36,12 +36,7 @@ namespace DelitaTrade
 
 
         public App()
-        {            
-            //var config = new ConfigurationBuilder()
-            //    .AddJsonFile("delitaAppSetings", true)
-            //    .AddUserSecrets(Assembly.GetEntryAssembly())
-            //    .Build();
-            
+        {                 
             AppHost = Host.CreateDefaultBuilder()
                 .ConfigureAppConfiguration(c =>
                 {

@@ -11,6 +11,6 @@ namespace DelitaTrade.Core.Contracts
         Task<IEnumerable<CompanyObjectViewModel>> GetFilteredAsync(string arg, int companyId, int limit);
         Task<IEnumerable<CompanyObjectViewModel>> GetFilteredByNameAsync(string arg, int limit);
         Task UpdateAsync(CompanyObjectViewModel companyObject);
-        Task DeleteSafeAsync(CompanyObjectViewModel companyObjectId);
+        Task DeleteSoftAsync(CompanyObjectViewModel companyObjectId);
     }
 }

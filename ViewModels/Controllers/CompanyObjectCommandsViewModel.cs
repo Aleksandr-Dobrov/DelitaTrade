@@ -110,7 +110,7 @@ namespace DelitaTrade.ViewModels.Controllers
                 {
                     using var scope = _serviceProvider.CreateScope();
                     var service = scope.GetService<ICompanyObjectService>();
-                    await service.DeleteSafeAsync(_searchViewModel.CompanyObjectsSearchBox.Value.Value);
+                    await service.DeleteSoftAsync(_searchViewModel.CompanyObjectsSearchBox.Value.Value);
                     _searchViewModel.CompanyObjectsSearchBox.Remove(_searchViewModel.CompanyObjectsSearchBox.Value.Value);
                 }
                 else throw new ArgumentException("Not Deleted");
