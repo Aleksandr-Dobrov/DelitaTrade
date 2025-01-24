@@ -11,6 +11,7 @@ using DelitaTrade.Infrastructure.Common;
 using DelitaTrade.ViewModels;
 using DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentViewModels;
 using DelitaTrade.ViewModels.ReturnProtocolControllers;
+using DelitaTrade.WpfViewModels;
 
 namespace DelitaTrade.Models.DI
 {
@@ -43,6 +44,7 @@ namespace DelitaTrade.Models.DI
             collection.AddTransient<TraderCommandsViewModel>();
             collection.AddSingleton<DayReportInputOptionsViewModelComponent, DayReportInputOptionsViewModelComponent>();
             collection.AddSingleton<MySqlDbReadProvider>();
+            collection.AddTransient<WpfCompanyViewModel>();
             collection.AddSingleton<UserController>();
         }
     }

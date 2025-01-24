@@ -72,7 +72,7 @@ namespace DelitaTrade.Infrastructure.Common
             await dbContext.Entry(entry).ReloadAsync();
         }
 
-        public async Task Include<T, P>(T entry, Expression<Func<T, IEnumerable<P>>> property) where T : class where P : class
+        public async Task Include<TEntry, TReference>(TEntry entry, Expression<Func<TEntry, IEnumerable<TReference>>> property) where TEntry : class where TReference : class
         {
             await dbContext.Entry(entry)
                 .Collection(property)

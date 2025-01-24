@@ -3,10 +3,12 @@ using DelitaTrade.Core.Contracts;
 using DelitaTrade.Core.ViewModels;
 using DelitaTrade.Extensions;
 using DelitaTrade.Models.Loggers;
+using DelitaTrade.ViewModels.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +21,7 @@ namespace DelitaTrade.ViewModels.Controllers
         private readonly IServiceProvider _serviceProvider;
         private CompaniesSearchViewModel _companiesSearchViewModel;
         private CompanyObjectsSearchViewModel _objectsSearchViewModel;
-        private CompaniesDataViewModel _dataViewModel;
+        private ICompanyData _dataViewModel;
         public CompanyCommandsViewModel(IServiceProvider serviceProvider) 
         {
             _serviceProvider = serviceProvider;
@@ -29,14 +31,24 @@ namespace DelitaTrade.ViewModels.Controllers
         public ICommand UpdateCommand { get; private set; }
         public ICommand DeleteCommand { get; private set; }
 
-        public void CreateCommands(CompaniesSearchViewModel searchViewModel, CompanyObjectsSearchViewModel objectsSearchViewModel, CompaniesDataViewModel dataViewModel)
+        public void CreateCommands(CompaniesSearchViewModel searchViewModel, CompanyObjectsSearchViewModel objectsSearchViewModel, ICompanyData dataViewModel)
         {
             _companiesSearchViewModel = searchViewModel;
             _objectsSearchViewModel = objectsSearchViewModel;
             _dataViewModel = dataViewModel;
-            CreateCommand = new DefaultCommand(CreateCompany, CanCreateCompany, _companiesSearchViewModel.CompaniesSearchBox, nameof(_companiesSearchViewModel.CompaniesSearchBox.TextValue), nameof(_companiesSearchViewModel.CompaniesSearchBox.Value.Value));
-            UpdateCommand = new DefaultCommand(UpdateCompany, CanUpdateCompany, _dataViewModel, nameof(_dataViewModel.Bulstad), nameof(_dataViewModel.CompanyType));
-            DeleteCommand = new DefaultCommand(DeleteCompany, CanDeleteCompany, _companiesSearchViewModel.CompaniesSearchBox, nameof(_companiesSearchViewModel.CompaniesSearchBox.Value.Value));
+            CreateCommand = new DefaultCommand(CreateCompany, CanCreateCompany, _companiesSearchViewModel.CompaniesSearchBox, 
+                                                                                _dataViewModel,
+                                                                                nameof(_companiesSearchViewModel.CompaniesSearchBox.TextValue), 
+                                                                                nameof(_companiesSearchViewModel.CompaniesSearchBox.Value.Value), 
+                                                                                nameof(_dataViewModel.Bulstad), 
+                                                                                nameof(_dataViewModel.CompanyType));
+
+            UpdateCommand = new DefaultCommand(UpdateCompany, CanUpdateCompany, _dataViewModel, 
+                                                                                nameof(_dataViewModel.Bulstad), 
+                                                                                nameof(_dataViewModel.CompanyType));
+
+            DeleteCommand = new DefaultCommand(DeleteCompany, CanDeleteCompany, _companiesSearchViewModel.CompaniesSearchBox, 
+                                                                                nameof(_companiesSearchViewModel.CompaniesSearchBox.Value.Value));
         }
         private async Task CreateCompany()
         {
@@ -126,7 +138,10 @@ namespace DelitaTrade.ViewModels.Controllers
 
         private bool CanCreateCompany()
         {
-            if (_companiesSearchViewModel.CompaniesSearchBox.TextValue != null && _companiesSearchViewModel.CompaniesSearchBox.TextValue.Length > 2 && _companiesSearchViewModel.CompaniesSearchBox.Value.Value == null)
+            if (_companiesSearchViewModel.CompaniesSearchBox.TextValue != null && 
+                _companiesSearchViewModel.CompaniesSearchBox.HasErrors == false && 
+                _companiesSearchViewModel.CompaniesSearchBox.Value.Value == null &&
+                _dataViewModel.HasErrors == false)
             {
                 return true;
             }
@@ -138,7 +153,7 @@ namespace DelitaTrade.ViewModels.Controllers
 
         private bool CanUpdateCompany()
         {
-            if (_companiesSearchViewModel.CompaniesSearchBox.Value.Value != null
+            if (_companiesSearchViewModel.CompaniesSearchBox.Value.Value != null && _dataViewModel.HasErrors == false
                 && (_companiesSearchViewModel.CompaniesSearchBox.Value.Value.Bulstad != _dataViewModel.Bulstad || _companiesSearchViewModel.CompaniesSearchBox.Value.Value.Type != _dataViewModel.CompanyType))
             {
                 return true;

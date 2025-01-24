@@ -3,10 +3,12 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using DelitaTrade.Core.Interfaces;
 using DelitaTrade.Common;
+using DelitaTrade.Components.ComponentsViewModel.ErrorComponents;
+using System.ComponentModel.DataAnnotations;
 
 namespace DelitaTrade.Components.ComponentsViewModel
 {
-    public class SearchComboBoxViewModel<T> : ViewModelBase where T : INamed
+    public class SearchComboBoxViewModel<T> : ValidationViewModel where T : INamed
     {
         private const string _searchHere = "Search here";
         private const string _notFound = "Not found";
@@ -49,7 +51,7 @@ namespace DelitaTrade.Components.ComponentsViewModel
                 OnPropertyChange();
             }
         }
-
+        [MinLength(2)]
         public string TextValue
         {
             get => _textValue;

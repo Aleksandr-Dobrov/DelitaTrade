@@ -1,11 +1,17 @@
-﻿using DelitaTrade.Core.ViewModels;
+﻿using DelitaTrade.Common;
+using DelitaTrade.Components.ComponentsViewModel.ErrorComponents;
+using DelitaTrade.Core.ViewModels;
 using DelitaTrade.Infrastructure.Data.Models;
 using DelitaTrade.ViewModels.Interfaces;
+using System.Collections;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace DelitaTrade.ViewModels
 {
-    public class CompaniesDataViewModel : ViewModelBase, ICompanyData, ICompanyObjectData
+    public class CompaniesDataViewModel : ValidationViewModel, ICompanyData, ICompanyObjectData
     {
+       // private readonly ErrorViewModel _errorViewModel = new();
         private const string _initialCompanyType = "ООД";
         private const string _initialBulstad = "BG";
         private const string _initialAddress = "";
@@ -20,6 +26,13 @@ namespace DelitaTrade.ViewModels
         private string? _description;
         private bool _bankPay;
 
+        public CompaniesDataViewModel()
+        {
+           // _errorViewModel.ErrorsChanged += OnErrorChange;
+        }
+
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+                
         public string CompanyName
         {
             get => _company;
@@ -29,21 +42,26 @@ namespace DelitaTrade.ViewModels
                 OnPropertyChange();
             }
         }
+        [MinLength(2)]
+        [MaxLength(4)]
         public string CompanyType
         {
             get => _companyType;
             set
             {
                 _companyType = value.ToUpper();
+                //Validate(this);
                 OnPropertyChange();
             }
         }
+        [UserPasswordValidation]
         public string Bulstad
         {
             get => _bulstad;
             set
-            {                
+            {
                 _bulstad = value;
+                //Validate(this);
                 OnPropertyChange();
             }
         }
@@ -132,6 +150,8 @@ namespace DelitaTrade.ViewModels
 
         public AddressViewModel? AddressViewModel { get; set; }
 
+        //public bool HasErrors => base.HasErrors; //_errorViewModel.HasErrors;
+
         public void RestoreObjectInputData()
         {
             ObjectName = string.Empty;
@@ -154,5 +174,15 @@ namespace DelitaTrade.ViewModels
         {
             OnPropertyChange(propertyName);
         }
+
+        //public IEnumerable GetErrors(string? propertyName)
+        //{
+        //    return _errorViewModel.GetErrors(propertyName);
+        //}
+
+        //private void OnErrorChange(object? sender, DataErrorsChangedEventArgs e)
+        //{
+        //    ErrorsChanged?.Invoke(this, e);
+        //}
     }
 }

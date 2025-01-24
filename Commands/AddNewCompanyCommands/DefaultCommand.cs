@@ -7,26 +7,26 @@ namespace DelitaTrade.Commands.AddNewCompanyCommands
     public class DefaultCommand : CommandBase
     {
         private string[] _properties;
-        public DefaultCommand(Func<Task> action, Func<bool> canAction, ViewModelBase eventArg, params string[] property)
+        public DefaultCommand(Func<Task> action, Func<bool> canExecuteAction, INotifyPropertyChanged eventArg, params string[] property)
         {
             Action = action;
-            CanAction = canAction;
+            CanExecuteAction = canExecuteAction;
             eventArg.PropertyChanged += OnViewModelChange;
             _properties = property;
         }
 
-        public DefaultCommand(Func<Task> action, Func<bool> canAction, ViewModelBase eventArg, ViewModelBase secondEventArg, params string[] property)
+        public DefaultCommand(Func<Task> action, Func<bool> canExecuteAction, INotifyPropertyChanged eventArg, INotifyPropertyChanged secondEventArg, params string[] property)
         {
             Action = action;
-            CanAction = canAction;
+            CanExecuteAction = canExecuteAction;
             eventArg.PropertyChanged += OnViewModelChange;
             secondEventArg.PropertyChanged += OnViewModelChange;
             _properties = property;
         }
-        public DefaultCommand(Func<Task> action, Func<bool> canAction, ViewModelBase eventArg, ViewModelBase secondEventArg, ViewModelBase thirdEventArg, params string[] property)
+        public DefaultCommand(Func<Task> action, Func<bool> canExecuteAction, INotifyPropertyChanged eventArg, INotifyPropertyChanged secondEventArg, INotifyPropertyChanged thirdEventArg, params string[] property)
         {
             Action = action;
-            CanAction = canAction;
+            CanExecuteAction = canExecuteAction;
             eventArg.PropertyChanged += OnViewModelChange;
             secondEventArg.PropertyChanged += OnViewModelChange;
             thirdEventArg.PropertyChanged += OnViewModelChange;
@@ -34,11 +34,11 @@ namespace DelitaTrade.Commands.AddNewCompanyCommands
         }
 
         public event Func<Task> Action;
-        public event Func<bool> CanAction;
+        public event Func<bool> CanExecuteAction;
 
         public override bool CanExecute(object? parameter)
         {
-            return CanAction.Invoke();
+            return CanExecuteAction.Invoke();
         }
         public override void Execute(object? parameter)
         {

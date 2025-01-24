@@ -18,7 +18,7 @@ namespace DelitaTrade.ViewModels.Controllers
         public CompaniesSearchViewModel(IServiceProvider service)
         {
             _serviceProvider = service;
-            _companiesSearchBox = new SearchComboBoxViewModel<DelitaTrade.Core.ViewModels.CompanyViewModel>();
+            _companiesSearchBox = new SearchComboBoxViewModel<Core.ViewModels.CompanyViewModel>();
             _companiesSearchBox.PropertyChanged += OnViewModelPropertyChange;
             _companiesSearchBox.Name = "Companies";
             ValueSelected += (Core.ViewModels.CompanyViewModel obj) => { CompaniesSearchBox.Value.Value.CompanyObjects = obj.CompanyObjects; };
