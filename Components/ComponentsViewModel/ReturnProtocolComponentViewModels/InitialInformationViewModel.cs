@@ -109,7 +109,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
         {
             using var scope = _serviceProvider.CreateScope();
             var userService = scope.GetService<UserController>();
-            if (userService.Id == -1) return;
+            //if (userService.Id == -1) return;
             CreateReturnProtocolEvent(new ReturnProtocolViewModel
             {
                 ReturnedDate = Date,

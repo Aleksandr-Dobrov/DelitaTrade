@@ -97,6 +97,7 @@ namespace DelitaTrade
             if (userName == null || password == null) throw new ArgumentNullException(nameof(userName));
             using var scope = _serviceProvider.CreateScope();
             IUserService userService = scope.GetService<IUserService>();
+            //await userService.CreateUser(new UserValidationForm { LoginName = userName, Password = password });
             var user = await userService.LogIn(new UserValidationForm { LoginName = userName, Password = password});
             scope.GetService<UserController>().LogIn(user);
         }

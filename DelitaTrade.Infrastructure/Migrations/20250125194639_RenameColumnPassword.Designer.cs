@@ -4,6 +4,7 @@ using DelitaTrade.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DelitaTrade.Infrastructure.Migrations
 {
     [DbContext(typeof(DelitaDbContext))]
-    partial class DelitaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250125194639_RenameColumnPassword")]
+    partial class RenameColumnPassword
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -314,7 +317,7 @@ namespace DelitaTrade.Infrastructure.Migrations
 
                     b.Property<string>("HashedPassword")
                         .IsRequired()
-                        .HasMaxLength(300)
+                        .HasMaxLength(30)
                         .HasColumnType("NVARCHAR");
 
                     b.Property<bool>("IsDeleted")

@@ -28,7 +28,7 @@ namespace DelitaTrade.Common
         public const int CompanyBulstadMaxLength = 15;
 
         public const int UserNameMaxLength = 100;
-        public const int UserPasswordMaxLength = 30;
+        public const int UserPasswordMaxLength = 300;
 
         public const int UserNameMinLength = 4;
         public const int UserPasswordMinLength = 5;

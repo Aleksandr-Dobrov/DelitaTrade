@@ -11,7 +11,7 @@ namespace DelitaTrade.ViewModels.Controllers
     public class UserController
     {
         private UserViewModel? _userViewModel;
-        public int Id => _userViewModel != null ? _userViewModel.Id : -1;
+        public Guid Id => _userViewModel != null ? _userViewModel.Id : Guid.NewGuid();
         public string Name => _userViewModel != null ? _userViewModel.Name : "No LogIn";
         public DateTime LogInTime { get; private set; }
 

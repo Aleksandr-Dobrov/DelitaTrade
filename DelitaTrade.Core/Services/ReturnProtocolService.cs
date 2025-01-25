@@ -10,7 +10,7 @@ namespace DelitaTrade.Core.Services
 {
     public class ReturnProtocolService(IRepository repo) : IReturnProtocolService
     {
-        public async Task<IEnumerable<ReturnProtocolViewModel>> GetAllAsync(int userId)
+        public async Task<IEnumerable<ReturnProtocolViewModel>> GetAllAsync(Guid userId)
         {
             return await repo.AllReadonly<ReturnProtocol>()
                 .Where(r => r.UserId == userId) 
@@ -57,7 +57,7 @@ namespace DelitaTrade.Core.Services
                 }).ToArrayAsync();        
         }
 
-        public async Task<IEnumerable<ReturnProtocolViewModel>> GetFilteredAsync(int userId, string arg)
+        public async Task<IEnumerable<ReturnProtocolViewModel>> GetFilteredAsync(Guid userId, string arg)
         {
             return await GetFilteredReadonlyProtocol(userId,
                 p => p.Company.Name.Contains(arg)
@@ -139,7 +139,7 @@ namespace DelitaTrade.Core.Services
             await repo.SaveChangesAsync();
         }
 
-        private IQueryable<ReturnProtocol> GetFilteredReadonlyProtocol(int userId ,Expression<Func<ReturnProtocol, bool>> filter)
+        private IQueryable<ReturnProtocol> GetFilteredReadonlyProtocol(Guid userId ,Expression<Func<ReturnProtocol, bool>> filter)
         {
             return repo.AllReadonly<ReturnProtocol>()
                 .Include(r => r.Object)
