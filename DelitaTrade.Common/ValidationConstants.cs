@@ -38,5 +38,7 @@ namespace DelitaTrade.Common
         public const int StreetNumberMaxLength = 10;
         public const int GpsCoordinatesMaxLength = 30;
         public const int AddressDescriptionMaxLength = 150;
+
+        public const int InvoiceNumberMaxLength = 12;        
     }
 }

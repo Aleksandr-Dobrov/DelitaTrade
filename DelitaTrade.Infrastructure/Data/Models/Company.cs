@@ -26,5 +26,6 @@ namespace DelitaTrade.Infrastructure.Data.Models
         public string? Bulstad {  get; set; }
         public bool IsActive { get; set; } = true;
         public ICollection<CompanyObject> Objects { get; set; } = new List<CompanyObject>();
+        public ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
     }
 }

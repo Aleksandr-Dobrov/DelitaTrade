@@ -1,12 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DelitaTrade.Infrastructure.Data.Models;
 using DelitaTrade.Common;
 
 namespace DelitaTrade.Infrastructure.Data.Models
@@ -31,5 +25,6 @@ namespace DelitaTrade.Infrastructure.Data.Models
         public int CompanyId { get; set; }
         [ForeignKey(nameof(CompanyId))]
         public virtual Company Company { get; set; } = null!;
+        public ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
     }
 }
