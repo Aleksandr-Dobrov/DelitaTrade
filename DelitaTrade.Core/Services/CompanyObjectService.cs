@@ -89,7 +89,7 @@ namespace DelitaTrade.Core.Services
                     Id = detailedCompanyObject.Company.Id,
                     Name = detailedCompanyObject.Company.Name,
                     Type = detailedCompanyObject.Company.Type ?? "",
-                    Bulstad = detailedCompanyObject.Company.Bulstad ?? ""
+                    Bulstad = detailedCompanyObject.Company.Bulstad ?? ""                    
                 },
                 Trader = new TraderViewModel
                 {

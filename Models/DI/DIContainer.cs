@@ -45,6 +45,7 @@ namespace DelitaTrade.Models.DI
             collection.AddSingleton<DayReportInputOptionsViewModelComponent, DayReportInputOptionsViewModelComponent>();
             collection.AddSingleton<MySqlDbReadProvider>();
             collection.AddTransient<WpfCompanyViewModel>();
+            collection.AddTransient<WpfCompanyObjectViewModel>();
             collection.AddSingleton<UserController>();
         }
     }

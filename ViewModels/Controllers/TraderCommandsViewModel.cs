@@ -29,9 +29,19 @@ namespace DelitaTrade.ViewModels.Controllers
         public void CreateCommands(TradersListViewModel tradersListViewModel)
         {
             _tradersListViewModel = tradersListViewModel;
-            CreateCommand = new DefaultCommand(CreateTrader, CanCreateTrader, _tradersListViewModel.TraderViewModel, nameof(_tradersListViewModel.TraderViewModel.TextValue), nameof(_tradersListViewModel.TraderViewModel.Value.Value));
-            UpdateCommand = new DefaultCommand(UpdateTrader, CanUpdateTrader, _tradersListViewModel, _tradersListViewModel.TraderViewModel, nameof(_tradersListViewModel.PhoneNumber));
-            DeleteCommand = new DefaultCommand(DeleteTrader, CanDeleteTrader, _tradersListViewModel.TraderViewModel, nameof(_tradersListViewModel.TraderViewModel.Value.Value));
+            CreateCommand = new DefaultCommand(CreateTrader, CanCreateTrader,
+                _tradersListViewModel.TraderViewModel, 
+                nameof(_tradersListViewModel.TraderViewModel.TextValue), 
+                nameof(_tradersListViewModel.TraderViewModel.Value.Value));
+            UpdateCommand = new DefaultCommand(UpdateTrader, CanUpdateTrader, 
+                [
+                    _tradersListViewModel, 
+                    _tradersListViewModel.TraderViewModel 
+                ],
+                nameof(_tradersListViewModel.PhoneNumber));
+            DeleteCommand = new DefaultCommand(DeleteTrader, CanDeleteTrader, 
+                _tradersListViewModel.TraderViewModel, 
+                nameof(_tradersListViewModel.TraderViewModel.Value.Value));
         }
 
         private async Task CreateTrader()
@@ -120,8 +130,8 @@ namespace DelitaTrade.ViewModels.Controllers
         private bool CanCreateTrader()
         {
             if (_tradersListViewModel.TraderViewModel.TextValue != null
-                && _tradersListViewModel.TraderViewModel.TextValue.Length > 3
-                && _tradersListViewModel.TraderViewModel.Value.Value == null)
+                && _tradersListViewModel.TraderViewModel.Value.Value == null
+                && _tradersListViewModel.TraderViewModel.HasErrors == false)
             {
                 return true;
             }

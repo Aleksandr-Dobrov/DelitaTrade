@@ -1,11 +1,13 @@
 ﻿using DelitaTrade.Common;
+using DelitaTrade.Components.ComponentsViewModel.ErrorComponents;
 using DelitaTrade.Core.Interfaces;
 using DelitaTrade.ViewModels;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace DelitaTrade.Components.ComponentsViewModel
 {
-    public class EntityBaseControllerViewModel<T> : ViewModelBase where T : INamed, IIdent
+    public class EntityBaseControllerViewModel<T> : ValidationViewModel where T : INamed, IIdent
     {
         private string _name;
         private string _textValue;
@@ -28,7 +30,7 @@ namespace DelitaTrade.Components.ComponentsViewModel
                 _name = value; 
             } 
         }
-
+        [MinLength(3, ErrorMessage = "Min length is 3 symbols")]
         public string TextValue
         {
             get => _textValue;

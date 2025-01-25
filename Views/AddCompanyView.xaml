@@ -119,7 +119,8 @@
                         <CheckBox Grid.Row="1" Background="White"
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center"
-                                      IsChecked="{Binding CompaniesDataManager.CompanyData.BankPay}"/>
+                                      IsChecked="{Binding CompaniesDataManager.WpfCompanyObjectViewModel.BankPay}"
+                                      IsEnabled="{Binding CompaniesDataManager.WpfCompanyObjectViewModel.HasCompany}"/>
                     </Grid>
                 </Grid>
                 <Grid Grid.Row="3">
@@ -141,7 +142,8 @@
                                    FontWeight="Medium"
                                    HorizontalAlignment="Center"/>
                         <TextBox Grid.Row="1"
-                                 Text="{Binding CompaniesDataManager.CompanyData.Town, UpdateSourceTrigger=PropertyChanged}"/>
+                                 Text="{Binding CompaniesDataManager.WpfCompanyObjectViewModel.Town, UpdateSourceTrigger=PropertyChanged}"
+                                 IsEnabled="{Binding CompaniesDataManager.WpfCompanyObjectViewModel.HasCompany}"/>
                     </Grid>
                     <Grid Grid.Column="1" Margin="0 0 5 0">
                         <Grid.RowDefinitions>
@@ -155,7 +157,8 @@
                                     FontWeight="Medium"
                                     HorizontalAlignment="Center"/>
                         <TextBox Grid.Row="1"
-             Text="{Binding CompaniesDataManager.CompanyData.Street, UpdateSourceTrigger=PropertyChanged}"/>
+             Text="{Binding CompaniesDataManager.WpfCompanyObjectViewModel.Street, UpdateSourceTrigger=PropertyChanged}"
+                                 IsEnabled="{Binding CompaniesDataManager.WpfCompanyObjectViewModel.HasCompany}"/>
                     </Grid>
                     <Grid Grid.Column="2">
                         <Grid.RowDefinitions>
@@ -169,7 +172,8 @@
                                     FontWeight="Medium"
                                     HorizontalAlignment="Center"/>
                         <TextBox Grid.Row="1"
-             Text="{Binding CompaniesDataManager.CompanyData.Number, UpdateSourceTrigger=PropertyChanged}"/>
+             Text="{Binding CompaniesDataManager.WpfCompanyObjectViewModel.Number, UpdateSourceTrigger=PropertyChanged}"
+                                 IsEnabled="{Binding CompaniesDataManager.WpfCompanyObjectViewModel.HasCompany}"/>
                     </Grid>
                     <Grid Grid.Column="4">
                         <Button Margin="5" Width="30"
@@ -191,7 +195,8 @@
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
                         <Label Grid.Row="0" Content="GPS" HorizontalAlignment="Center" Padding="1" FontWeight="Medium" FontSize="14"/>
-                        <TextBox Grid.Row="1" Text="{Binding CompaniesDataManager.CompanyData.GpsCoordinates}"/>
+                        <TextBox Grid.Row="1" Text="{Binding CompaniesDataManager.WpfCompanyObjectViewModel.GpsCoordinates}"
+                                 IsEnabled="{Binding CompaniesDataManager.WpfCompanyObjectViewModel.HasCompany}"/>
                     </Grid>
                     <Button Grid.Column="1" Width="74" Padding="0 4"
                                 Command="{Binding CompaniesDataManager.CompanyObjectCommands.CreateCommand}"
@@ -203,7 +208,8 @@
                                 Command="{Binding CompaniesDataManager.CompanyObjectCommands.DeleteCommand}"                                
                                 Content="Delete" FontSize="10" FontWeight="Medium" Margin="3 6"/>
                 </Grid>
-                <TextBox Grid.Row="6" x:Name="AddressDescription" Text="{Binding CompaniesDataManager.CompanyData.Description}"/>
+                <TextBox Grid.Row="6" x:Name="AddressDescription" Text="{Binding CompaniesDataManager.WpfCompanyObjectViewModel.Description}"
+                         IsEnabled="{Binding CompaniesDataManager.WpfCompanyObjectViewModel.HasCompany}"/>
                 <Label Grid.Row="5"  Content="Description" Target="{Binding ElementName=AddressDescription}"
                        Padding="1" FontSize="14" FontWeight="Medium" HorizontalAlignment="Center"/>
                 <ComponentsViewa2e67bfb:EntityBaseController Grid.Row="7" DataContext="{Binding CompaniesDataManager.TradersViewModel}"/>

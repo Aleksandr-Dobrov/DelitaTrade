@@ -20,8 +20,9 @@ namespace DelitaTrade.ViewModels.Controllers
         private CompanyObjectCommandsViewModel _companyObjectCommands;
         private TradersListViewModel _tradersListViewModel;
         private WpfCompanyViewModel _wpfCompanyViewModel;
+        private WpfCompanyObjectViewModel _wpfCompanyObjectViewModel;
 
-        public CompaniesDataManager(CompaniesSearchViewModel companies, CompanyObjectsSearchViewModel companyObjects, CompaniesDataViewModel companyDataViewModel, CompanyCommandsViewModel companyCommandsViewModel, CompanyObjectCommandsViewModel companyObjectCommands, TradersListViewModel tradersListViewModel, WpfCompanyViewModel wpfCompanyViewModel)
+        public CompaniesDataManager(CompaniesSearchViewModel companies, CompanyObjectsSearchViewModel companyObjects, CompaniesDataViewModel companyDataViewModel, CompanyCommandsViewModel companyCommandsViewModel, CompanyObjectCommandsViewModel companyObjectCommands, TradersListViewModel tradersListViewModel, WpfCompanyViewModel wpfCompanyViewModel, WpfCompanyObjectViewModel wpfCompanyObjectViewModel)
         {
             _companies = companies;
             _companyObjects = companyObjects;
@@ -30,9 +31,10 @@ namespace DelitaTrade.ViewModels.Controllers
             _companyObjectCommands = companyObjectCommands;
             _tradersListViewModel = tradersListViewModel;
             _wpfCompanyViewModel = wpfCompanyViewModel;
+            _wpfCompanyObjectViewModel = wpfCompanyObjectViewModel;
             OnEnable();
             _companyCommands.CreateCommands(Companies, CompanyObjects, WpfCompanyViewModel);
-            _companyObjectCommands.CreateCommands(Companies, CompanyObjects, CompanyData, TradersViewModel);
+            _companyObjectCommands.CreateCommands(Companies, CompanyObjects, WpfCompanyObjectViewModel, TradersViewModel);
         }
 
         public CompaniesSearchViewModel Companies => _companies;
@@ -41,6 +43,7 @@ namespace DelitaTrade.ViewModels.Controllers
 
         public CompanyObjectsSearchViewModel CompanyObjects => _companyObjects;
         public CompaniesDataViewModel CompanyData => _companyData;
+        public WpfCompanyObjectViewModel WpfCompanyObjectViewModel => _wpfCompanyObjectViewModel;
         public CompanyObjectCommandsViewModel CompanyObjectCommands => _companyObjectCommands;
 
 
@@ -62,50 +65,33 @@ namespace DelitaTrade.ViewModels.Controllers
         }
         private void RestoreObjectInputData()
         {
-            CompanyData.RestoreObjectInputData();
+            WpfCompanyObjectViewModel.UnSelectViewModel();
         }
 
         private void RestoreCompanyInputData()
         {
-            //CompanyData.RestoreCompanyInputData();
             WpfCompanyViewModel.UnSelectViewModel();
+            WpfCompanyObjectViewModel.UnSelectCompany();
         }
 
         private void LoadCompanyInputData(Core.ViewModels.CompanyViewModel company)
         {
-            //CompanyData.CompanyType = company.Type ?? string.Empty;
-            //CompanyData.Bulstad = company.Bulstad ?? string.Empty;
-
             WpfCompanyViewModel.SelectViewModel(company);
-
-            //if (company.CompanyObjects.Count > 0)
-            //{
-            //    CompaniesDataManager.CompanyObjects.CompanyObjectsSearchBox.UpdateItems(company.CompanyObjects);
-            //    CompaniesDataManager.CompanyObjects.CompanyObjectsSearchBox.Value.Value = company.CompanyObjects[0];
-            //}
+            WpfCompanyObjectViewModel.SelectCompany(company);
         }
 
         private void LoadObjectInputData(Core.ViewModels.CompanyObjectViewModel companyObject)
         {
-            CompanyData.CompanyType = companyObject.Company.Type ?? string.Empty;
-            CompanyData.Bulstad = companyObject.Company.Bulstad ?? string.Empty;
-            if (companyObject.Address != null)
-            {
-                CompanyData.Town = companyObject.Address.Town;
-                CompanyData.Street = companyObject.Address.StreetName; //?? string.Empty;
-                CompanyData.Number = companyObject.Address.Number; //?? string.Empty;
-                CompanyData.Description = companyObject.Address.Description; //?? string.Empty;
-                CompanyData.AddressViewModel = companyObject.Address;
-                CompanyData.GpsCoordinates = companyObject.Address.GpsCoordinates; //?? string.Empty;
-            }
-            CompanyData.BankPay = companyObject.IsBankPay;
             if (Companies.CompaniesSearchBox.Value.Value == null
                 || companyObject.Company.Id != Companies.CompaniesSearchBox.Value.Value.Id)
             {
                 Companies.CompaniesSearchBox.SetSelectedValue(companyObject.Company);
+                WpfCompanyViewModel.SelectViewModel(companyObject.Company);
             }
+            WpfCompanyObjectViewModel.SelectViewModel(companyObject);
             TradersViewModel.TraderViewModel.TextValue = ((CompanyObjectDeepViewModel)companyObject).Trader.Name;
         }
+
         private void OnEnable()
         {
             Companies.ValueSelected += OnSelectedCompany;

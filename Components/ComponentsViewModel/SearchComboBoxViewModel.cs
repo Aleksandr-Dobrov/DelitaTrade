@@ -86,7 +86,7 @@ namespace DelitaTrade.Components.ComponentsViewModel
         {
             Value.Value = item;
         }
-        
+                       
         public void Add(T item)
         {
             _items.Add(item);

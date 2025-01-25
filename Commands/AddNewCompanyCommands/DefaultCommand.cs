@@ -7,6 +7,7 @@ namespace DelitaTrade.Commands.AddNewCompanyCommands
     public class DefaultCommand : CommandBase
     {
         private string[] _properties;
+
         public DefaultCommand(Func<Task> action, Func<bool> canExecuteAction, INotifyPropertyChanged eventArg, params string[] property)
         {
             Action = action;
@@ -15,21 +16,14 @@ namespace DelitaTrade.Commands.AddNewCompanyCommands
             _properties = property;
         }
 
-        public DefaultCommand(Func<Task> action, Func<bool> canExecuteAction, INotifyPropertyChanged eventArg, INotifyPropertyChanged secondEventArg, params string[] property)
+        public DefaultCommand(Func<Task> action, Func<bool> canExecuteAction, IEnumerable<INotifyPropertyChanged> eventArgs, params string[] property)
         {
             Action = action;
             CanExecuteAction = canExecuteAction;
-            eventArg.PropertyChanged += OnViewModelChange;
-            secondEventArg.PropertyChanged += OnViewModelChange;
-            _properties = property;
-        }
-        public DefaultCommand(Func<Task> action, Func<bool> canExecuteAction, INotifyPropertyChanged eventArg, INotifyPropertyChanged secondEventArg, INotifyPropertyChanged thirdEventArg, params string[] property)
-        {
-            Action = action;
-            CanExecuteAction = canExecuteAction;
-            eventArg.PropertyChanged += OnViewModelChange;
-            secondEventArg.PropertyChanged += OnViewModelChange;
-            thirdEventArg.PropertyChanged += OnViewModelChange;
+            foreach (var eventArg in eventArgs) 
+            {
+                eventArg.PropertyChanged += OnViewModelChange;
+            }
             _properties = property;
         }
 

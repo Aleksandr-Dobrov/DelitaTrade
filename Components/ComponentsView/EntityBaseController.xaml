@@ -7,9 +7,19 @@
              mc:Ignorable="d" 
              d:DesignHeight="150" d:DesignWidth="400">
     <Grid>
+        <Grid.Resources>
+            <Style TargetType="ComboBox">
+                <Style.Triggers>
+                    <Trigger Property="Validation.HasError" Value="True">
+                        <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                            Path=(Validation.Errors)/ErrorContent}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Resources>
         <StackPanel Orientation="Vertical">
             <Label Content="{Binding ComponentName}" HorizontalAlignment="Center" Padding="1" FontWeight="Medium" FontSize="14"/>
-            <ComboBox IsEditable="True"
+            <ComboBox IsEditable="True"                      
                       IsTextSearchEnabled="True"
                       ItemsSource="{Binding TraderViewModel.Items}"
                       Text="{Binding TraderViewModel.TextValue}"
@@ -25,7 +35,7 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Content="{Binding PropertyName}" HorizontalAlignment="Center" Padding="1" FontWeight="Medium" FontSize="14"/>
-                    <TextBox Grid.Row="1" Width="auto" Text="{Binding PhoneNumber}"/>
+                    <TextBox Grid.Row="1" Width="auto" Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" Height="auto">
                     <Button Width="74" Padding="0 3" FontSize="10" FontWeight="Medium" Margin="3 6" Content="New Trader"

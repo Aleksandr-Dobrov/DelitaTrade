@@ -22,7 +22,7 @@ namespace DelitaTrade.ViewModels.Controllers
         private CompaniesSearchViewModel _companiesSearchViewModel;
         private CompanyObjectsSearchViewModel _objectsSearchViewModel;
         private ICompanyData _dataViewModel;
-        public CompanyCommandsViewModel(IServiceProvider serviceProvider) 
+        public CompanyCommandsViewModel(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
@@ -36,19 +36,24 @@ namespace DelitaTrade.ViewModels.Controllers
             _companiesSearchViewModel = searchViewModel;
             _objectsSearchViewModel = objectsSearchViewModel;
             _dataViewModel = dataViewModel;
-            CreateCommand = new DefaultCommand(CreateCompany, CanCreateCompany, _companiesSearchViewModel.CompaniesSearchBox, 
-                                                                                _dataViewModel,
-                                                                                nameof(_companiesSearchViewModel.CompaniesSearchBox.TextValue), 
-                                                                                nameof(_companiesSearchViewModel.CompaniesSearchBox.Value.Value), 
-                                                                                nameof(_dataViewModel.Bulstad), 
-                                                                                nameof(_dataViewModel.CompanyType));
+            CreateCommand = new DefaultCommand(CreateCompany, CanCreateCompany,
+                [
+                    _companiesSearchViewModel.CompaniesSearchBox,
+                    _dataViewModel
+                ],
+                nameof(_companiesSearchViewModel.CompaniesSearchBox.TextValue),
+                nameof(_companiesSearchViewModel.CompaniesSearchBox.Value.Value),
+                nameof(_dataViewModel.Bulstad),
+                nameof(_dataViewModel.CompanyType));
 
-            UpdateCommand = new DefaultCommand(UpdateCompany, CanUpdateCompany, _dataViewModel, 
-                                                                                nameof(_dataViewModel.Bulstad), 
-                                                                                nameof(_dataViewModel.CompanyType));
+            UpdateCommand = new DefaultCommand(UpdateCompany, CanUpdateCompany, 
+                _dataViewModel,
+                nameof(_dataViewModel.Bulstad),
+                nameof(_dataViewModel.CompanyType));
 
-            DeleteCommand = new DefaultCommand(DeleteCompany, CanDeleteCompany, _companiesSearchViewModel.CompaniesSearchBox, 
-                                                                                nameof(_companiesSearchViewModel.CompaniesSearchBox.Value.Value));
+            DeleteCommand = new DefaultCommand(DeleteCompany, CanDeleteCompany, 
+                _companiesSearchViewModel.CompaniesSearchBox,
+                nameof(_companiesSearchViewModel.CompaniesSearchBox.Value.Value));
         }
         private async Task CreateCompany()
         {
@@ -138,8 +143,8 @@ namespace DelitaTrade.ViewModels.Controllers
 
         private bool CanCreateCompany()
         {
-            if (_companiesSearchViewModel.CompaniesSearchBox.TextValue != null && 
-                _companiesSearchViewModel.CompaniesSearchBox.HasErrors == false && 
+            if (_companiesSearchViewModel.CompaniesSearchBox.TextValue != null &&
+                _companiesSearchViewModel.CompaniesSearchBox.HasErrors == false &&
                 _companiesSearchViewModel.CompaniesSearchBox.Value.Value == null &&
                 _dataViewModel.HasErrors == false)
             {
@@ -153,7 +158,7 @@ namespace DelitaTrade.ViewModels.Controllers
 
         private bool CanUpdateCompany()
         {
-            if (_companiesSearchViewModel.CompaniesSearchBox.Value.Value != null && 
+            if (_companiesSearchViewModel.CompaniesSearchBox.Value.Value != null &&
                 _dataViewModel.HasErrors == false &&
                 (_companiesSearchViewModel.CompaniesSearchBox.Value.Value.Bulstad != _dataViewModel.Bulstad ||
                 _companiesSearchViewModel.CompaniesSearchBox.Value.Value.Type != _dataViewModel.CompanyType))

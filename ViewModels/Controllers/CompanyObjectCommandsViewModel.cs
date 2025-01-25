@@ -3,6 +3,8 @@ using DelitaTrade.Core.Contracts;
 using DelitaTrade.Core.ViewModels;
 using DelitaTrade.Extensions;
 using DelitaTrade.Models.Loggers;
+using DelitaTrade.ViewModels.Interfaces;
+using DelitaTrade.WpfViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -18,7 +20,7 @@ namespace DelitaTrade.ViewModels.Controllers
     {
         private readonly IServiceProvider _serviceProvider;
         private CompanyObjectsSearchViewModel _searchViewModel;
-        private CompaniesDataViewModel _dataViewModel;
+        private ICompanyObjectData _dataViewModel;
         private CompaniesSearchViewModel _companiesSearchView;
         private TradersListViewModel _tradersViewModel;
         public CompanyObjectCommandsViewModel(IServiceProvider serviceProvider)
@@ -30,15 +32,38 @@ namespace DelitaTrade.ViewModels.Controllers
         public ICommand UpdateCommand { get; private set; }
         public ICommand DeleteCommand { get; private set; }
 
-        public void CreateCommands(CompaniesSearchViewModel companiesSearch, CompanyObjectsSearchViewModel searchViewModel, CompaniesDataViewModel dataViewModel, TradersListViewModel tradersViewModel)
+        public void CreateCommands(CompaniesSearchViewModel companiesSearch, CompanyObjectsSearchViewModel searchViewModel, ICompanyObjectData dataViewModel, TradersListViewModel tradersViewModel)
         {
             _searchViewModel = searchViewModel;
             _dataViewModel = dataViewModel;
             _companiesSearchView = companiesSearch;
             _tradersViewModel = tradersViewModel;
-            CreateCommand = new DefaultCommand(CreateObject, CanCreateObject, _searchViewModel.CompanyObjectsSearchBox, _companiesSearchView.CompaniesSearchBox, _tradersViewModel.TraderViewModel, nameof(_searchViewModel.CompanyObjectsSearchBox.TextValue), nameof(_searchViewModel.CompanyObjectsSearchBox.Value.Value), nameof(_companiesSearchView.CompaniesSearchBox.Value.Value), nameof(_tradersViewModel.TraderViewModel.Value));
-            UpdateCommand = new DefaultCommand(UpdateObject, CanUpdateObject, _dataViewModel, _tradersViewModel.TraderViewModel, nameof(_dataViewModel.Town), nameof(_dataViewModel.Street), nameof(_dataViewModel.Number), nameof(_dataViewModel.GpsCoordinates), nameof(_dataViewModel.Description), nameof(_dataViewModel.BankPay), nameof(_tradersViewModel.TraderViewModel.Value));
-            DeleteCommand = new DefaultCommand(DeleteObject, CanDeleteObject, _searchViewModel.CompanyObjectsSearchBox, nameof(_searchViewModel.CompanyObjectsSearchBox.Value.Value));
+            CreateCommand = new DefaultCommand(CreateObject, CanCreateObject,
+                [
+                    _searchViewModel.CompanyObjectsSearchBox,
+                    _companiesSearchView.CompaniesSearchBox,
+                    _tradersViewModel.TraderViewModel
+                ],
+                nameof(_searchViewModel.CompanyObjectsSearchBox.TextValue),
+                nameof(_searchViewModel.CompanyObjectsSearchBox.Value.Value),
+                nameof(_companiesSearchView.CompaniesSearchBox.Value.Value),
+                nameof(_tradersViewModel.TraderViewModel.Value));
+            UpdateCommand = new DefaultCommand(UpdateObject, CanUpdateObject, 
+                [
+                    _dataViewModel, 
+                    _tradersViewModel.TraderViewModel
+                ], 
+                nameof(_dataViewModel.Town), 
+                nameof(_dataViewModel.Street), 
+                nameof(_dataViewModel.Number), 
+                nameof(_dataViewModel.GpsCoordinates), 
+                nameof(_dataViewModel.Description), 
+                nameof(_dataViewModel.BankPay), 
+                nameof(_tradersViewModel.TraderViewModel.Value),
+                nameof(_tradersViewModel.TraderViewModel.TextValue));
+            DeleteCommand = new DefaultCommand(DeleteObject, CanDeleteObject, 
+                _searchViewModel.CompanyObjectsSearchBox, 
+                nameof(_searchViewModel.CompanyObjectsSearchBox.Value.Value));
         }
         private async Task CreateObject()
         {
@@ -54,7 +79,7 @@ namespace DelitaTrade.ViewModels.Controllers
                         Company = _companiesSearchView.CompaniesSearchBox.Value.Value,
                         Trader = _tradersViewModel.TraderViewModel.Value.Value,
                         IsBankPay = _dataViewModel.BankPay,
-                        Address = _dataViewModel.GetAddress()
+                        Address = _dataViewModel.Address,
                     };
                     newCompanyObject.Id = await service.CreateAsync(newCompanyObject);
                     _searchViewModel.CompanyObjectsSearchBox.Add(newCompanyObject);
@@ -72,7 +97,7 @@ namespace DelitaTrade.ViewModels.Controllers
             }
         }
 
-        
+
         private async Task UpdateObject()
         {
             try
@@ -101,7 +126,7 @@ namespace DelitaTrade.ViewModels.Controllers
             }
         }
 
-        
+
         private async Task DeleteObject()
         {
             try
@@ -133,8 +158,9 @@ namespace DelitaTrade.ViewModels.Controllers
             if (_companiesSearchView.CompaniesSearchBox.Value.Value != null
                 && _tradersViewModel.TraderViewModel.Value.Value != null
                 && _searchViewModel.CompanyObjectsSearchBox.TextValue != null
-                && _searchViewModel.CompanyObjectsSearchBox.TextValue.Length > 2
-                && _searchViewModel.CompanyObjectsSearchBox.Value.Value == null)
+                && _searchViewModel.CompanyObjectsSearchBox.Value.Value == null
+                && _searchViewModel.CompanyObjectsSearchBox.HasErrors == false
+                && _dataViewModel.HasErrors == false)
             {
                 return true;
             }
@@ -146,6 +172,8 @@ namespace DelitaTrade.ViewModels.Controllers
         private bool CanUpdateObject()
         {
             if (_searchViewModel.CompanyObjectsSearchBox.Value.Value != null
+                && _tradersViewModel.TraderViewModel.HasErrors == false
+                && _tradersViewModel.Trader != null
                 && (_searchViewModel.CompanyObjectsSearchBox.Value.Value.Address == null
                 || _searchViewModel.CompanyObjectsSearchBox.Value.Value.Address?.Town != _dataViewModel.Town
                 || _searchViewModel.CompanyObjectsSearchBox.Value.Value.Address?.StreetName != _dataViewModel.Street

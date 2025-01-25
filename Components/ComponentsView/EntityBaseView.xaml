@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:DelitaTrade.Components.ComponentsView"
              mc:Ignorable="d" 
              d:DesignHeight="40" d:DesignWidth="300">
-    <Grid>
+    <Grid>        
         <StackPanel>
             <Label Content="{Binding Name}" HorizontalAlignment="Center" Padding="1" FontWeight="Medium" FontSize="14"/>
             <ComboBox IsEditable="True"

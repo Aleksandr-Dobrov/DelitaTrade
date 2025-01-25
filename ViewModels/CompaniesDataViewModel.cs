@@ -150,6 +150,8 @@ namespace DelitaTrade.ViewModels
 
         public AddressViewModel? AddressViewModel { get; set; }
 
+        public AddressViewModel Address => throw new NotImplementedException();
+
         //public bool HasErrors => base.HasErrors; //_errorViewModel.HasErrors;
 
         public void RestoreObjectInputData()

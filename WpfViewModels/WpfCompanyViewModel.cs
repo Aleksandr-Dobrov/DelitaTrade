@@ -22,7 +22,7 @@ namespace DelitaTrade.WpfViewModels
                 OnPropertyChange();
             }
         }
-        [MinLength(2, ErrorMessage = "Min length is 2 symbols")]
+
         public string CompanyType
         { 
             get => _companyViewModel.Type ?? string.Empty;
