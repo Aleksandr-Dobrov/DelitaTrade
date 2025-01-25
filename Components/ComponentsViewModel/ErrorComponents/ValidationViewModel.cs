@@ -72,7 +72,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.ErrorComponents
             {
                 if (!attr.IsValid(prop.GetValue(obj)))
                 {
-                    AddError(property, string.Empty);
+                    AddError(property, attr.ErrorMessage ?? string.Empty);
                 }
             }
         }

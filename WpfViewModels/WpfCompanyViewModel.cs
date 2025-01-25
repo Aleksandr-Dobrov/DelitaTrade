@@ -1,4 +1,5 @@
-﻿using DelitaTrade.Components.ComponentsViewModel.ErrorComponents;
+﻿using DelitaTrade.Common;
+using DelitaTrade.Components.ComponentsViewModel.ErrorComponents;
 using DelitaTrade.Core.ViewModels;
 using DelitaTrade.ViewModels.Interfaces;
 using System.ComponentModel.DataAnnotations;
@@ -21,7 +22,7 @@ namespace DelitaTrade.WpfViewModels
                 OnPropertyChange();
             }
         }
-        [MinLength(2)]
+        [MinLength(2, ErrorMessage = "Min length is 2 digits")]
         public string CompanyType
         { 
             get => _companyViewModel.Type ?? string.Empty;
@@ -31,7 +32,6 @@ namespace DelitaTrade.WpfViewModels
                 OnPropertyChange();
             }
         }
-
         public string Bulstad 
         { 
             get => _companyViewModel.Bulstad ?? string.Empty;

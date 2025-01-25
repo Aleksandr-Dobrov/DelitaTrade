@@ -15,7 +15,8 @@ using System.Windows.Input;
 namespace DelitaTrade.ViewModels
 {
     public class AddNewCompanyViewModel : ViewModelBase
-    {  
+    {
+        private const string _searchGoogleIcon = "Components\\ComponentAssets\\googleMapIcon.png";
         private SearchBoxTextNotUpperDeletableItemViewModel _trader;
         private ObservableCollection<string> _tradersViewModel;
         private StringListDataBase _tradersModel;
@@ -35,7 +36,7 @@ namespace DelitaTrade.ViewModels
 
         public CompaniesDataManager CompaniesDataManager => _companiesDataManager;
 
-        public string SearchOnMapButtonImage => FileSoursePath.GetFullFilePath("Components\\ComponentAssets\\googleMapIcon.png");
+        public string SearchOnMapButtonImage => _searchGoogleIcon.GetFullFilePath();
               
         public ICommand ShowOnMap {  get; }
 

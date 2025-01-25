@@ -20,6 +20,12 @@ namespace DelitaTrade.ViewModels
 {
     public class DayReportsViewModel : ViewModelBase
     {
+        private const string _deleteDayReportButtonImage = "Components\\ComponentAssets\\DayReport\\delete-file_40456.png";
+        private const string _createDayReportButtonImage = "Components\\ComponentAssets\\DayReport\\add-document.png";
+        private const string _addInvoiceButtonImage = "Components\\ComponentAssets\\DayReport\\add.png";
+        private const string _updateInvoiceButtonImage = "Components\\ComponentAssets\\DayReport\\update.png";
+        private const string _deleteInvoiceButtonImage = "Components\\ComponentAssets\\DayReport\\remove.png";
+
         private const string _defaultInvoiceID = "1000000000";
         private const string _lightGreenColor = "#FF90EE90";
         private const string _orangeYellowColor = "#FFFFBD00";
@@ -92,11 +98,11 @@ namespace DelitaTrade.ViewModels
         public decimal DecimalIncome => _income;
         public double DoubleWeight => _weight;
 
-        public string DeleteDayReportButtonImage => FileSoursePath.GetFullFilePath("Components\\ComponentAssets\\DayReport\\delete-file_40456.png");
-        public string CreateDayReportButtonImage => FileSoursePath.GetFullFilePath("Components\\ComponentAssets\\DayReport\\add-document.png");
-        public string AddInvoiceButtonImage => FileSoursePath.GetFullFilePath("Components\\ComponentAssets\\DayReport\\add.png");
-        public string UpdateInvoiceButtonImage => FileSoursePath.GetFullFilePath("Components\\ComponentAssets\\DayReport\\update.png");
-        public string DeleteInvoiceButtonImage => FileSoursePath.GetFullFilePath("Components\\ComponentAssets\\DayReport\\remove.png");
+        public string DeleteDayReportButtonImage => _deleteDayReportButtonImage.GetFullFilePath();
+        public string CreateDayReportButtonImage => _createDayReportButtonImage.GetFullFilePath();
+        public string AddInvoiceButtonImage => _addInvoiceButtonImage.GetFullFilePath();
+        public string UpdateInvoiceButtonImage => _updateInvoiceButtonImage.GetFullFilePath();
+        public string DeleteInvoiceButtonImage => _deleteInvoiceButtonImage.GetFullFilePath();
 
         public InvoiceViewModel SelectedInvoiceViewModel
         {
