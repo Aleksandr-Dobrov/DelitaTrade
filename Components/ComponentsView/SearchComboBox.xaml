@@ -8,6 +8,16 @@
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="150">
     <Grid>
+        <Grid.Resources>
+            <Style x:Key="ValidationToolTip" TargetType="TextBlock">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding ElementName=searchComboBoxText, Path=(Validation.HasError)}" Value="True">                        
+                        <Setter Property="ToolTip"
+                                    Value="{Binding ElementName=searchComboBoxText, Path=(Validation.Errors)/ErrorContent}"/>                        
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
@@ -15,7 +25,8 @@
         <TextBlock Grid.Row="0" Text="{Binding Name}" 
                    VerticalAlignment="Center" HorizontalAlignment="Center"
                    FontSize="14" FontWeight="Medium"/>
-        <TextBlock Grid.Row="1" x:Name="autoCompleteBox"
+        <TextBlock Grid.Row="1" Style="{DynamicResource ResourceKey=ValidationToolTip}"
+                   x:Name="autoCompleteBox"
                    Panel.ZIndex="1"
                    Margin="0 0 20 0"
                    Padding="5 3 3 0 "

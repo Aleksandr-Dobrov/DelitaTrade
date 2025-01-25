@@ -51,7 +51,7 @@ namespace DelitaTrade.Components.ComponentsViewModel
                 OnPropertyChange();
             }
         }
-        [MinLength(2)]
+        [MinLength(2, ErrorMessage = "Min length to create new is 2 symbols")]
         public string TextValue
         {
             get => _textValue;
