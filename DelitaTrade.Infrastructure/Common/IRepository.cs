@@ -22,7 +22,10 @@ namespace DelitaTrade.Infrastructure.Common
         void Update<T>(T entry) where T: class;
 
         Task ReloadAsync<T>(T entry) where T : class;
-        Task Include<T, P>(T entry, Expression<Func<T, IEnumerable<P>>> property) where T : class where P : class;
+
+        Task IncludeCollection<T, P>(T entry, Expression<Func<T, IEnumerable<P>>> property) where T : class where P : class;
+
+        Task Include<T,P>(T entry, Expression<Func<T,P?>> property) where T : class where P : class;
 
         Task<int> SaveChangesAsync();
     }

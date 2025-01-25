@@ -130,11 +130,10 @@ namespace DelitaTrade.Core.Services
         public async Task DeleteSoftAsync(CompanyViewModel company)
         {
             var companyToRemove = await repo.GetByIdAsync<Company>(company.Id) ?? throw new ArgumentNullException(ExceptionMessages.NotFound(nameof(Company)));
-            await repo.Include(companyToRemove, c => c.Objects);
-            companyToRemove.IsActive = false;
+            await repo.IncludeCollection(companyToRemove, c => c.Objects);
             foreach (var obj in companyToRemove.Objects)
             {
-                obj.IsActive = false;
+                obj.IsActive = false;                
             }
             await repo.SaveChangesAsync();
         }
