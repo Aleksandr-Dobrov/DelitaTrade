@@ -23,5 +23,6 @@ namespace DelitaTrade.Infrastructure.Data.Models
         [ForeignKey(nameof(CompanyObjectId))]
         [DeleteBehavior(DeleteBehavior.NoAction)]
         public required CompanyObject CompanyObject { get; set; }
+        public ICollection<InvoiceInDayReport> InvoicesInDayReports { get; set; } = new List<InvoiceInDayReport>();
     }
 }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DelitaTrade.Infrastructure.Data.Models;
 using System.Reflection;
+using DelitaTrade.Infrastructure.Data.Models.EntityConfigurations;
 
 namespace DelitaTrade.Infrastructure.Data
 {
@@ -23,6 +24,7 @@ namespace DelitaTrade.Infrastructure.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<CompanyObject>().HasOne(a => a.Address);
             modelBuilder.Entity<Address>().HasMany(a => a.CompanyObjects);
+            modelBuilder.ApplyConfiguration(new DayReportConfiguration());
         }
 
         //Remove comment on code below before applying migrations
@@ -47,5 +49,6 @@ namespace DelitaTrade.Infrastructure.Data
         public DbSet<Trader> Traders { get; set; }
         public DbSet<ReturnProtocol> ReturnProtocols { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<DayReport> DayReports { get; set; }
     }
 }

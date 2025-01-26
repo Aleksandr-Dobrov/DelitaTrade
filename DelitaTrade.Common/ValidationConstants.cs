@@ -39,6 +39,9 @@ namespace DelitaTrade.Common
         public const int GpsCoordinatesMaxLength = 30;
         public const int AddressDescriptionMaxLength = 150;
 
-        public const int InvoiceNumberMaxLength = 12;        
+        public const int InvoiceNumberMaxLength = 12;   
+        
+        public const int LicensePlateMaxLength = 15;
+        public const int VehicleModelMaxLength = 80;
     }
 }

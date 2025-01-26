@@ -26,5 +26,6 @@ namespace DelitaTrade.Infrastructure.Data.Models
         public string HashedPassword { get; set; } = null!;
         public bool IsDeleted { get; set; }
         public ICollection<ReturnProtocol> ReturnProtocols { get; set; } = new List<ReturnProtocol>();
+        public ICollection<DayReport> dayReports { get; set; } = new List<DayReport>();
     }
 }
