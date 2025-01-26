@@ -50,5 +50,7 @@ namespace DelitaTrade.Infrastructure.Data
         public DbSet<ReturnProtocol> ReturnProtocols { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<DayReport> DayReports { get; set; }
+        public DbSet<Vehicle> Vehicles { get; set; }
+        public DbSet<InvoiceInDayReport> InvoicesInDayReports { get; set; }
     }
 }

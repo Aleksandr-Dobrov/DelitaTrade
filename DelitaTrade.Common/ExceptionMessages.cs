@@ -29,5 +29,10 @@ namespace DelitaTrade.Common
         {
             return $"You not authenticate";
         }
+
+        public static string InvalidEntry(IExceptionName obj)
+        {
+            return $"{nameof(InvalidEntry)}: {obj} {Environment.NewLine}Entry id must be set to default";
+        }
     }
 }

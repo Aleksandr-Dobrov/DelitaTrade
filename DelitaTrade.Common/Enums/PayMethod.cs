@@ -13,7 +13,8 @@ namespace DelitaTrade.Common.Enums
         Card,
         CreditNote,
         ForCreditNote,
-        OldPay,
+        OldPayCash,
+        OldPayCard,
         Expense,
         Cancellation
     }

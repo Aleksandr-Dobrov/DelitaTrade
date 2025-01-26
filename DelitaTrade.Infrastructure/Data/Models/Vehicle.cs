@@ -10,5 +10,6 @@ namespace DelitaTrade.Infrastructure.Data.Models
         public required string LicensePlate { get; set; }
         [MaxLength(VehicleModelMaxLength)]
         public string? Model { get; set; }
+        public bool IsActive { get; set; } = true;
     }
 }

@@ -57,6 +57,7 @@ namespace DelitaTrade.Core.Services
             var user = await GetUserAsync(repo, userViewModel);
             return await repo.AllReadonly<DayReport>()
                 .Where(d => d.UserId == user.Id)
+                .Take(limit)
                 .Select(d => new DayReportViewModel()
                 {
                     Date = d.Date,
@@ -70,41 +71,7 @@ namespace DelitaTrade.Core.Services
             var user = await GetUserAsync(repo, userViewModel);
             var dayReport = await repo.All<DayReport>()
                 .Include(d => d.Vehicle)
-                .Include(d => d.Invoices)
-                .ThenInclude(i => i.Invoice)
-                .ThenInclude(i => i.CompanyObject)
-                .ThenInclude(o => o.Company)
                 .FirstOrDefaultAsync(d => d.UserId == user.Id && d.Id == id) ?? throw new ArgumentNullException(NotFound(nameof(DayReport)));
-            List<InvoiceViewModel> invoices = new List<InvoiceViewModel>();
-            foreach (var invoice in dayReport.Invoices)
-            {
-                var newCompanyViewModel = new CompanyViewModel()
-                {
-                    Id = invoice.Invoice.CompanyObject.Company.Id,
-                    Name = invoice.Invoice.CompanyObject.Company.Name,
-                    Type = invoice.Invoice.CompanyObject.Company.Type,
-                };
-
-                invoices.Add(new InvoiceViewModel()
-                {
-                    Id = invoice.Invoice.Id,
-                    IdInDayReport = invoice.Id,
-                    Company = newCompanyViewModel,
-                    CompanyObject = new CompanyObjectViewModel()
-                        {
-                            Id = invoice.Invoice.CompanyObject.Id,
-                            Name = invoice.Invoice.CompanyObject.Name,
-                            Company = newCompanyViewModel,
-                            IsBankPay = invoice.Invoice.CompanyObject.IsBankPay
-                        },
-                    Number = invoice.Invoice.Number,
-                    TotalAmount = invoice.Invoice.Amount,
-                    PayMethod = invoice.PayMethod,
-                    TotalIncome = invoice.Income,
-                    TotalWeight = invoice.Invoice.Weight,
-                    IsPaid = invoice.Invoice.IsPaid
-                });
-            }
             return new DayReportViewModel() 
             { 
                 Id = dayReport.Id,
@@ -124,10 +91,8 @@ namespace DelitaTrade.Core.Services
                         Id = dayReport.Vehicle.Id,
                         LicensePlate = dayReport.Vehicle.LicensePlate,
                         Model = dayReport.Vehicle.Model
-                    },
-                Invoices = invoices                
-            };
-                
+                    }            
+            };  
         }
 
         public async Task UpdateAsync(DayReportViewModel dayReport)
