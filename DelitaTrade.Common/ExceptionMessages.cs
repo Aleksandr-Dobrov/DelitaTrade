@@ -20,5 +20,14 @@ namespace DelitaTrade.Common
         {
             return $"Service {obj} not available";
         }
+
+        public static string NotAuthenticate(IExceptionName obj)
+        {
+            return $"User {obj.Name} not authenticate";
+        }
+        public static string NotAuthenticate()
+        {
+            return $"You not authenticate";
+        }
     }
 }

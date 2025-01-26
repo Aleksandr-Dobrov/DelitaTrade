@@ -15,6 +15,7 @@ namespace DelitaTrade.Infrastructure.Data.Models
         [Column(TypeName = Money)]
         public decimal Amount { get; set; }
         public decimal Weight { get; set; }
+        public bool IsPaid { get; set; }
         public int CompanyId { get; set; }
         [ForeignKey(nameof(CompanyId))]
         [DeleteBehavior(DeleteBehavior.NoAction)]

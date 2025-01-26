@@ -29,6 +29,6 @@ namespace DelitaTrade.Infrastructure.Data.Models
         public int? VehicleId { get; set; }
         [ForeignKey(nameof(VehicleId))]
         public Vehicle? Vehicle { get; set; }
-        public ICollection<InvoiceInDayReport> invoices { get; set; } = new List<InvoiceInDayReport>();
+        public ICollection<InvoiceInDayReport> Invoices { get; set; } = new List<InvoiceInDayReport>();
     }
 }

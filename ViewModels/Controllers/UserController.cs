@@ -15,7 +15,7 @@ namespace DelitaTrade.ViewModels.Controllers
         public string Name => _userViewModel != null ? _userViewModel.Name : "No LogIn";
         public DateTime LogInTime { get; private set; }
 
-        public UserViewModel? CurrentUser => _userViewModel;
+        public UserViewModel CurrentUser => _userViewModel ?? throw new InvalidOperationException(ExceptionMessages.NotAuthenticate());
 
         public void LogIn(UserViewModel user)
         {

@@ -9,9 +9,9 @@ namespace DelitaTrade.Core.Contracts
 {
     public interface IReturnProtocolService
     {
-        Task<IEnumerable<ReturnProtocolViewModel>> GetAllAsync(Guid userId);
+        Task<IEnumerable<ReturnProtocolViewModel>> GetAllAsync(UserViewModel user);
 
-        Task<IEnumerable<ReturnProtocolViewModel>> GetFilteredAsync(Guid userId, string arg);
+        Task<IEnumerable<ReturnProtocolViewModel>> GetFilteredAsync(UserViewModel user, string arg);
 
         Task<int> CreateProtocolAsync(ReturnProtocolViewModel protocolViewModel);
 

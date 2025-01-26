@@ -11,8 +11,4 @@
     <ProjectReference Include="..\DelitaTrade.Infrastructure\DelitaTrade.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Extensions\" />
-  </ItemGroup>
-
 </Project>

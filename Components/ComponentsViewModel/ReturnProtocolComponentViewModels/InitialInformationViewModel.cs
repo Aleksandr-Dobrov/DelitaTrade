@@ -181,8 +181,8 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
         {
             using var scope = _serviceProvider.CreateScope();
             var service = scope.GetService<IReturnProtocolService>();
-            var user = scope.GetService<UserController>();
-            var protocols = await service.GetFilteredAsync(user.Id, ProtocolFilter);
+            var userController = scope.GetService<UserController>();
+            var protocols = await service.GetFilteredAsync(userController.CurrentUser, ProtocolFilter);
 
             _returnProtocols.Clear();
             foreach (var protocol in protocols)

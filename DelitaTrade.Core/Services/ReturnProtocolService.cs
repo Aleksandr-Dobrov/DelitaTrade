@@ -10,10 +10,10 @@ namespace DelitaTrade.Core.Services
 {
     public class ReturnProtocolService(IRepository repo) : IReturnProtocolService
     {
-        public async Task<IEnumerable<ReturnProtocolViewModel>> GetAllAsync(Guid userId)
+        public async Task<IEnumerable<ReturnProtocolViewModel>> GetAllAsync(UserViewModel userViewModel)
         {
             return await repo.AllReadonly<ReturnProtocol>()
-                .Where(r => r.UserId == userId) 
+                .Where(r => r.UserId == userViewModel.Id) 
                 .Include(r => r.Trader)
                 .Include(r => r.Object)
                 .ThenInclude(o => o.Address)
@@ -49,17 +49,13 @@ namespace DelitaTrade.Core.Services
                             Type = r.Company.Type ?? ""
                         }
                     },
-                    User = new UserViewModel
-                    {
-                        Id = r.User.Id,
-                        Name = r.User.Name
-                    }
+                    User = userViewModel
                 }).ToArrayAsync();        
         }
 
-        public async Task<IEnumerable<ReturnProtocolViewModel>> GetFilteredAsync(Guid userId, string arg)
+        public async Task<IEnumerable<ReturnProtocolViewModel>> GetFilteredAsync(UserViewModel userViewModel, string arg)
         {
-            return await GetFilteredReadonlyProtocol(userId,
+            return await GetFilteredReadonlyProtocol(userViewModel.Id,
                 p => p.Company.Name.Contains(arg)
                     || p.Object.Name.Contains(arg) 
                     || p.Trader.Name.Contains(arg)
@@ -94,11 +90,7 @@ namespace DelitaTrade.Core.Services
                             Type = r.Object.Company.Type ?? ""
                         }
                     },
-                    User = new UserViewModel
-                    {
-                        Id = r.User.Id,
-                        Name = r.User.Name
-                    }
+                    User = userViewModel
                 }).ToListAsync();
         }
 
