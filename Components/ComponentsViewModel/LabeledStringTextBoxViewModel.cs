@@ -1,6 +1,7 @@
 ﻿using DelitaTrade.Components.ComponentsViewModel.ErrorComponents;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -14,11 +15,20 @@ namespace DelitaTrade.Components.ComponentsViewModel
         private string _label = "Text";
         private string _textBox = string.Empty;
         private Visibility _visibility = Visibility.Visible;
-        private bool _isEnable;
+        private bool _isEnable = true;
+
+        public LabeledStringTextBoxViewModel()
+        {
+            IsEnableChange += (e) => { };
+            VisibilityChange += (v) => { };
+        }
 
         public string DefaultTextBoxValue { get; set; } = "ООД";
 
-        public Visibility Visibility
+        public event Action<bool> IsEnableChange;
+        public event Action<Visibility> VisibilityChange;
+
+        public Visibility VisibilityProperty
         {
             get => _visibility; 
             set
@@ -63,6 +73,18 @@ namespace DelitaTrade.Components.ComponentsViewModel
         public void SetDefaultValue()
         {
             TextBox = DefaultTextBoxValue;
+        }
+
+        private void OnViewModelChange(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(VisibilityProperty))
+            {
+                VisibilityChange(VisibilityProperty);
+            }
+            else if (e.PropertyName == nameof(IsEnable))
+            {
+                IsEnableChange(IsEnable);
+            }
         }
     }
 }

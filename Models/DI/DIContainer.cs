@@ -57,6 +57,8 @@ namespace DelitaTrade.Models.DI
             collection.AddTransient<LabeledPayMethodSelectableBoxViewModel>();
             collection.AddTransient<LabeledCurrencyViewModel>();
             collection.AddTransient<InvoiceInputViewModel>();
+            collection.AddTransient<InvoiceCompaniesInputViewModel>();
+            collection.AddTransient<InvoiceCurrencyInputViewModel>();
             collection.AddSingleton<UserController>();
         }
     }

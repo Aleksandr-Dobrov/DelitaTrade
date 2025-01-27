@@ -2,6 +2,7 @@
 using DelitaTrade.Common.Enums;
 using static DelitaTrade.Common.Enums.EnumTranslators.PayMethodTranslator;
 using static DelitaTrade.Common.GlobalVariables;
+using System.ComponentModel;
 
 namespace DelitaTrade.Components.ComponentsViewModel
 {
@@ -14,10 +15,13 @@ namespace DelitaTrade.Components.ComponentsViewModel
         public LabeledPayMethodSelectableBoxViewModel()
         {
             SetAllPayMethods();
+            PropertyChanged += OnViewModelChange;
+            PayMethodChange += (p) => { };
         }
+        public event Action<PayMethod> PayMethodChange;
 
         public IEnumerable<string> PayMethods => _payMethods;
-        public PayMethod PayMethodsToEnum => _payMethodText;
+        public PayMethod CurrentPayMethod => _payMethodText;
         public override string TextBox
         {
             get => GetStringValue(Language, _payMethodText);
@@ -28,11 +32,24 @@ namespace DelitaTrade.Components.ComponentsViewModel
             }
         }
 
+        public void SetPayMethod(PayMethod payMethod)
+        {
+            TextBox = PayMethodsToString[Language][payMethod];
+        }
+
         private void SetAllPayMethods()
         {
             foreach (var payMethod in PayMethodsToString[Language])
             {
                 _payMethods.Add(payMethod.Value);
+            }
+        }
+
+        private void OnViewModelChange(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(TextBox))
+            {
+                PayMethodChange(CurrentPayMethod);
             }
         }
     }

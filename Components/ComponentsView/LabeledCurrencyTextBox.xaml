@@ -32,11 +32,15 @@
                    HorizontalAlignment="Center"
                    Content="{Binding Label}"
                    IsEnabled="{Binding IsEnable}"
-                   Visibility="{Binding Visibility}"/>
+                   Visibility="{Binding VisibilityProperty}"/>
             <TextBox Grid.Row="1"
                      Name="invoiceId"
+                     VerticalContentAlignment="Center"
+                     HorizontalContentAlignment="Center"
                      CaretBrush="Transparent"
                      Text="{Binding TextBox}"
+                     IsEnabled="{Binding IsEnable}"
+                     Visibility="{Binding VisibilityProperty}"
                      GotFocus="TextBoxIncomeGotFocus"
                      PreviewKeyDown="IncomeKeyDown"/>
         </Grid>

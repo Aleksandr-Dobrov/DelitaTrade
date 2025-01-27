@@ -19,6 +19,11 @@ namespace DelitaTrade.Components.ComponentsViewModel
                 }
             }
         }
+
+        public void SetDefaultNumber()
+        {
+            TextBox = DefaultInvoiceNumber;
+        }
         private bool CheckInvoiceIdIsValid(string id)
         {
             return id.Length == 10 && id.All(char.IsDigit);

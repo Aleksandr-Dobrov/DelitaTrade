@@ -1,10 +1,9 @@
 ﻿using DelitaTrade.Core.Interfaces;
-using DelitaTrade.Core.ViewModels;
 using DelitaTrade.Common.Interfaces;
 
 namespace DelitaTrade.Core.ViewModels
 {
-    public class CompanyObjectViewModel : IExceptionName, INamed
+    public class CompanyObjectViewModel : IExceptionName, INamed, ICompanyObjectIsBankPay
     {
         public const string DataSeparator = " -> ";
         public int Id { get; set; }
