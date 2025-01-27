@@ -12,6 +12,9 @@ using DelitaTrade.ViewModels;
 using DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentViewModels;
 using DelitaTrade.ViewModels.ReturnProtocolControllers;
 using DelitaTrade.WpfViewModels;
+using DelitaTrade.Components.ComponentsView.DayReport;
+using DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModels;
+using DelitaTrade.Components.ComponentsViewModel;
 
 namespace DelitaTrade.Models.DI
 {
@@ -30,6 +33,9 @@ namespace DelitaTrade.Models.DI
             collection.AddScoped<IProductDescriptionService ,ProductDescriptionService>();
             collection.AddScoped<IReturnProductService, ReturnProductService>();
             collection.AddScoped<ITraderService, TraderService>();
+            collection.AddScoped<IVehicleService, VehicleService>();
+            collection.AddScoped<IInvoiceIdDayReportService, InvoiceInDayReportService>();
+            collection.AddScoped<IDayReportService, DayReportService>();
             collection.AddTransient<CompaniesSearchViewModel>();
             collection.AddTransient<CompanyObjectsSearchViewModel>();
             collection.AddTransient<CompaniesDataManager>();
@@ -46,6 +52,11 @@ namespace DelitaTrade.Models.DI
             collection.AddSingleton<MySqlDbReadProvider>();
             collection.AddTransient<WpfCompanyViewModel>();
             collection.AddTransient<WpfCompanyObjectViewModel>();
+            collection.AddTransient<LabeledStringTextBoxViewModel>();
+            collection.AddTransient<LabeledInvoiceNumberViewModel>();
+            collection.AddTransient<LabeledPayMethodSelectableBoxViewModel>();
+            collection.AddTransient<LabeledCurrencyViewModel>();
+            collection.AddTransient<InvoiceInputViewModel>();
             collection.AddSingleton<UserController>();
         }
     }

@@ -86,6 +86,11 @@ namespace DelitaTrade.Components.ComponentsViewModel
         {
             Value.Value = item;
         }
+
+        public void UnSelectItem()
+        {
+            TextValue = string.Empty;
+        }
                        
         public void Add(T item)
         {

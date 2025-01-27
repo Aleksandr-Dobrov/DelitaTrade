@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="DelitaTrade.Components.ComponentsView.LabeledPayMethodBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DelitaTrade.Components.ComponentsView"
+             xmlns:componentviewmodel="clr-namespace:DelitaTrade.Components.ComponentsViewModel"
+             d:DataContext="{d:DesignInstance Type=componentviewmodel:LabeledPayMethodSelectableBoxViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="40" d:DesignWidth="50">
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="TextBox">
+                <Style.Triggers>
+                    <Trigger Property="Validation.HasError" Value="True">
+                        <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                                Path=(Validation.Errors)/ErrorContent}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Resources>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="0.7*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0"
+                   Content="{Binding Label}"
+                   IsEnabled="{Binding IsEnable}"
+                   Visibility="{Binding Visibility}"
+                   Foreground="Black"
+                   FontSize="14" 
+                   FontWeight="Medium" 
+                   HorizontalAlignment="Center"/>
+            <ComboBox Grid.Row="1"
+                      Name="payMethod"
+                      ItemsSource="{Binding PayMethods}"
+                      Text="{Binding TextBox}"/>
+        </Grid>
+    </Grid>
+</UserControl>

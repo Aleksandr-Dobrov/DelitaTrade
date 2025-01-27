@@ -1,11 +1,13 @@
 ﻿using DelitaTrade.Commands;
 using DelitaTrade.Components.ComponentsViewModel;
+using DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModels;
 using DelitaTrade.Components.ComponentsViewModel.OptionsComponentViewModels;
 using DelitaTrade.Models;
 using DelitaTrade.Models.Configurations;
 using DelitaTrade.Models.DataProviders;
 using DelitaTrade.Models.DataProviders.FileDirectoryProvider;
 using DelitaTrade.ViewModels.Controllers;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -44,6 +46,10 @@ namespace DelitaTrade.ViewModels
         private DateTime _date = DateTime.Now.Date;
         private ObservableCollection<string> _dayReporsId;
         private DayReportInputOptionsViewModelComponent _dayReportinputOptions;
+        private LabeledInvoiceNumberViewModel _labeledInvoiceNumberViewModel;
+        private LabeledCurrencyViewModel _labeledCurrencyViewModel = new();
+        private LabeledPayMethodSelectableBoxViewModel _labeledPayMethodSelectableBoxViewModel = new();
+        private InvoiceInputViewModel _invoiceInputViewModel;
 
         private string _addOrUpdateCommand = "Add";
         private double _weight;
@@ -55,7 +61,7 @@ namespace DelitaTrade.ViewModels
         private bool _isPayMethodLoad = false;
         private bool _incomeEnable = false;
 
-        public DayReportsViewModel(DelitaTradeDayReport delitaTradeDayReport, ViewModelBase addNewCompanyViewModel, DayReportInputOptionsViewModelComponent options)
+        public DayReportsViewModel(DelitaTradeDayReport delitaTradeDayReport, ViewModelBase addNewCompanyViewModel, DayReportInputOptionsViewModelComponent options, IServiceProvider serviceProvider)
         {
             _currencyProvider = new CurrencyProvider();
             _delitaTradeDayReport = delitaTradeDayReport;
@@ -72,7 +78,10 @@ namespace DelitaTrade.ViewModels
             LoadDayReportCommand = new LoadDayReportCommand(_delitaTradeDayReport, this);
             DeleteDayReportCommand = new DeleteDayReportCommand(_delitaTradeDayReport, this);
             RemoveInvoiceCommand = new RemoveInvoiceCommand(_delitaTradeDayReport, this);
+            _labeledInvoiceNumberViewModel = new LabeledInvoiceNumberViewModel();
+            _labeledInvoiceNumberViewModel.Label = "Number";
             _dayReportinputOptions = options;
+            _invoiceInputViewModel = serviceProvider.GetService<InvoiceInputViewModel>();
             _dayReportinputOptions.SetWeightConfigurator(delitaTradeDayReport.AppConfig);
             OnEnable();
         }
@@ -91,6 +100,10 @@ namespace DelitaTrade.ViewModels
         public DayReportIdViewModel DayReportIdViewModel => _dayReportIdViewModel;
         public CurrentDayReportViewModel CurrentDayReportViewModel => _currentDayReportViewModel;
         public DayReportInputOptionsViewModelComponent DayReportInputOptions => _dayReportinputOptions;
+        public LabeledInvoiceNumberViewModel LabeledInvoiceNumberViewModel => _labeledInvoiceNumberViewModel;
+        public LabeledCurrencyViewModel LabeledCurrencyViewModel => _labeledCurrencyViewModel;
+        public LabeledPayMethodSelectableBoxViewModel LabeledPayMethodSelectableBoxViewModel => _labeledPayMethodSelectableBoxViewModel;
+        public InvoiceInputViewModel InputViewModel => _invoiceInputViewModel;
         public string LoadDayReportId => _dayReportIdViewModel.DayReportId;
         public string DayReportId => _currentDayReportViewModel.DayReportId;
         public string DayReportColor => _dayReportColor;

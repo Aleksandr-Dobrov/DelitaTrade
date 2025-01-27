@@ -27,6 +27,10 @@ namespace DelitaTrade.Views.ViewComponets
             IDGotFocusSelectIndex(sender, e);
         }
 
+        public void InvoiceId_KeyUp(object sender, KeyEventArgs e)
+        {
+            KeyUp(sender, e);
+        }
         public void InvoiceId_KeyDown(object sender, KeyEventArgs e)
         {
             KeyDown(sender, e);
@@ -58,7 +62,7 @@ namespace DelitaTrade.Views.ViewComponets
             }
         }
 
-        protected virtual void KeyDown(object sender, KeyEventArgs e)
+        protected virtual void KeyUp(object sender, KeyEventArgs e)
         {
             TextBox textBox = sender as TextBox;
             switch (e.Key)
@@ -83,10 +87,12 @@ namespace DelitaTrade.Views.ViewComponets
                     textBox.Select(_textBoxIDIndex, 1);
                     break;
                 case Key.Right:
-                    TextBoxIndexMove(sender, Direction.Right);
+                    textBox.Select(_textBoxIDIndex, 1);
+                    //TextBoxIndexMove(sender, Direction.Right);
                     break;
                 case Key.Left:
-                    TextBoxIndexMove(sender, Direction.Left);
+                    textBox.Select(_textBoxIDIndex, 1);
+                    //TextBoxIndexMove(sender, Direction.Left);
                     break;
                 case Key.D0:
                 case Key.D1:
@@ -110,6 +116,23 @@ namespace DelitaTrade.Views.ViewComponets
             }
         }
 
+        protected virtual void KeyDown(object sender, KeyEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            switch (e.Key)
+            {
+                case Key.Right:
+                    //textBox.Select(_textBoxIDIndex, 1);
+                    TextBoxIndexMove(sender, Direction.Right);
+                    break;
+                case Key.Left:
+                    //textBox.Select(_textBoxIDIndex, 1);
+                    TextBoxIndexMove(sender, Direction.Left);
+                    break;
+                default:
+                    break;
+            }
+        }
         private void TextBoxResetValue(object sender)
         {
             _textBoxItems.Clear();

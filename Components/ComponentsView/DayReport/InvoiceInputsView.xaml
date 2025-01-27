@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="DelitaTrade.Components.ComponentsView.DayReport.InvoiceInputsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DelitaTrade.Components.ComponentsView.DayReport"
+             xmlns:componentsview="clr-namespace:DelitaTrade.Components.ComponentsView"
+             xmlns:componentviewmodel="clr-namespace:DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModels"
+             d:DataContext="{d:DesignInstance Type=componentviewmodel:InvoiceInputViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="60" d:DesignWidth="600">
+    <Grid Height="55" Margin="0 -5 0 0">
+        <Grid.Resources>
+            <Style TargetType="Label">
+                <Setter Property="Margin" Value="0 5 0 -5"/>
+                <Setter Property="Padding" Value="5 5"/>
+            </Style>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="1.5*"/>
+            <ColumnDefinition Width="auto" MaxWidth="60"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="80"/>
+            <ColumnDefinition Width="85"/>
+            <ColumnDefinition Width="80"/>
+        </Grid.ColumnDefinitions>                    
+        <componentsview:SearchComboBox DataContext="{Binding CompanyObjectsViewModel.CompanyObjectsSearchBox}"
+                                       Grid.Column="0"/>
+        <componentsview:SearchComboBox DataContext="{Binding CompaniesViewModel.CompaniesSearchBox}"
+                                       Grid.Column="1"/>
+        <componentsview:LabeledTextBox DataContext="{Binding CompanyTypeViewModel}"
+                                       Grid.Column="2"/>
+        <componentsview:LabeledInvoiceBox DataContext="{Binding InvoiceNumberViewModel}"
+                                          Grid.Column="3"/>
+        <componentsview:LabeledCurrencyTextBox DataContext="{Binding AmountViewModel}"
+                                               Grid.Column="4"/>
+        <componentsview:LabeledPayMethodBox DataContext="{Binding PayMethodViewModel}"
+                                            Grid.Column="5"/>
+        <componentsview:LabeledCurrencyTextBox DataContext="{Binding IncomeViewModel}"
+                                               Grid.Column="6"/>        
+    </Grid>
+</UserControl>

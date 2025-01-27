@@ -53,14 +53,14 @@ namespace DelitaTrade.Views
 
         private void InvoiceId_KeyUp(object sender, KeyEventArgs e)
         {
-            _invoiceIdViewComponet.InvoiceId_KeyDown(sender, e);            
+            _invoiceIdViewComponet.InvoiceId_KeyUp(sender, e);            
         }
 
         private void AmountKeyDown(object sender, KeyEventArgs e)
         {
             try
             {
-                _amauntViewComponent.InvoiceId_KeyDown(sender, e);
+                _amauntViewComponent.InvoiceId_KeyUp(sender, e);
             }
             catch(OverflowException ex) 
             {
@@ -73,7 +73,7 @@ namespace DelitaTrade.Views
         {
             try
             {
-                _incomeViewComponent.InvoiceId_KeyDown(sender, e);                
+                _incomeViewComponent.InvoiceId_KeyUp(sender, e);                
             }
             catch (OverflowException ex)
             {

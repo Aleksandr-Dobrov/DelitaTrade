@@ -52,7 +52,7 @@ namespace DelitaTrade.Views.ViewComponets
             }
         }
 
-        protected override void KeyDown(object sender, KeyEventArgs e)
+        protected override void KeyUp(object sender, KeyEventArgs e)
         {            
             TextBox textBox = sender as TextBox;
             switch (e.Key)
@@ -83,10 +83,10 @@ namespace DelitaTrade.Views.ViewComponets
                     ResetCurrencyValue(sender);
                     break;
                 case Key.Right:
-                    TextBoxIndexMove(sender, Direction.Right);
+                    //TextBoxIndexMove(sender, Direction.Right);
                     break;
                 case Key.Left:
-                    TextBoxIndexMove(sender, Direction.Left);
+                    //TextBoxIndexMove(sender, Direction.Left);
                     break;
                 case Key.D0:
                 case Key.D1:

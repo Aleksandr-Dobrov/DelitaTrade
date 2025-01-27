@@ -17,7 +17,7 @@ namespace DelitaTrade.ViewModels
         {
             var dayReportOptions = serviceProvider.GetService<DayReportInputOptionsViewModelComponent>();
             ViewModelBase addCompanyViewModel = serviceProvider.GetRequiredService<AddNewCompanyViewModel>();
-            ViewModelBase dayReportViewModel = new DayReportsViewModel(dayReportCreator, addCompanyViewModel, dayReportOptions);
+            ViewModelBase dayReportViewModel = new DayReportsViewModel(dayReportCreator, addCompanyViewModel, dayReportOptions, serviceProvider);
             ViewModelBase payDeskViewModel = new PayDeskViewModel(dayReportCreator);
             ViewModelBase returnProtocolViewModel = serviceProvider.GetRequiredService<ReturnProtocolController>();
             ViewModelBase optionsViewModel = new OptionsViewModel(dayReportCreator, dayReportOptions);

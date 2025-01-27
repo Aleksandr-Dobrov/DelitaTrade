@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"               
              xmlns:ComponentsView88be9dc1="clr-namespace:DelitaTrade.Components.ComponentsView"
+             xmlns:DayReportsView="clr-namespace:DelitaTrade.Components.ComponentsView.DayReport"
              xmlns:viewmodels="clr-namespace:DelitaTrade.ViewModels"
              d:DataContext="{d:DesignInstance Type=viewmodels:DayReportsViewModel}"
              mc:Ignorable="d" 
@@ -87,7 +88,7 @@
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="20"/>
                 </Style>
-            </Style.Resources>
+            </Style.Resources>            
             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
             <Setter Property="Background" Value="{StaticResource AddButton.Static.Background}"/>
             <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
@@ -229,7 +230,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0"  Margin="0 8 0 0">
+            <DayReportsView:InvoiceInputsView Grid.Column="0" DataContext="{Binding InputViewModel}"/>
+            <!--<Grid Grid.Column="0"  Margin="0 8 0 0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
@@ -245,9 +247,9 @@
                         <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="80"/>
                     </Grid.ColumnDefinitions>
-                    <!--<TextBlock Grid.Column="0" Text="Company" MinWidth="180" Width="auto" TextAlignment="Center"/>-->
+                    <<TextBlock Grid.Column="0" Text="Company" MinWidth="180" Width="auto" TextAlignment="Center"/>
                     <TextBlock Grid.Column="1" Text="Type" MinWidth="60" Width="auto" TextAlignment="Center"/>
-                    <!--<TextBlock Grid.Column="2" Text="Object" MinWidth="140" Width="auto" TextAlignment="Center"/>-->
+                    <TextBlock Grid.Column="2" Text="Object" MinWidth="140" Width="auto" TextAlignment="Center"/>
                     <TextBlock Grid.Column="3" Text="Weight" MinWidth="60" Width="auto" TextAlignment="Center" 
                                Visibility="{Binding DayReportInputOptions.Visibility}"/>
                     <TextBlock Grid.Column="4" Text="Document ID" MinWidth="80" Width="auto" TextAlignment="Center"/>
@@ -273,19 +275,15 @@
                              IsEnabled="{Binding DayReportInputOptions.WeightIsOn}"
                              Visibility="{Binding DayReportInputOptions.Visibility}"
                              GotFocus="TextBox_GotFocus"/>
-                    <TextBox Grid.Column="4" Name="invoiceId" MinWidth="80" Text="{Binding InvoiceID, UpdateSourceTrigger=PropertyChanged}" 
-                             GotFocus="TextBoxIDGotFocusSelectIndex" 
-                             PreviewKeyUp="InvoiceId_KeyUp"/>
-                    <TextBox Grid.Column="5" MinWidth="80" Name="amount" Text="{Binding Amount}"                             
-                             GotFocus="TextBoxAmountGotFocus"
-                             PreviewKeyDown="AmountKeyDown"/>
-                    <ComponentsView88be9dc1:PayMethodBox Grid.Column="6" x:Name="payMethod" DataContext="{Binding PayMethodBox}"/>
+                    <ComponentsView88be9dc1:LabeledInvoiceBox Grid.Column="4" DataContext="{Binding LabeledInvoiceNumberViewModel}"/>
+                    <ComponentsView88be9dc1:LabeledCurrencyTextBox Grid.Column="5" DataContext="{Binding LabeledCurrencyViewModel}"/>
+                    <ComponentsView88be9dc1:LabeledPayMethodBox Grid.Column="6" x:Name="payMethod" DataContext="{Binding LabeledPayMethodSelectableBoxViewModel}"/>
                     <TextBox Grid.Column="7" MinWidth="80" Name="income" Text="{Binding Income}"
                              IsEnabled="{Binding IncomeEnable}"
                              GotFocus="TextBoxIncomeGotFocus"
                              PreviewKeyDown="IncomeKeyDown"/>
                 </Grid>
-            </Grid>
+            </Grid>-->
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition/>

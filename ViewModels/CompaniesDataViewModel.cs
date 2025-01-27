@@ -11,6 +11,7 @@ namespace DelitaTrade.ViewModels
 {
     public class CompaniesDataViewModel : ValidationViewModel, ICompanyData, ICompanyObjectData
     {
+        //Deprecated
        // private readonly ErrorViewModel _errorViewModel = new();
         private const string _initialCompanyType = "ООД";
         private const string _initialBulstad = "BG";
@@ -32,7 +33,8 @@ namespace DelitaTrade.ViewModels
         }
 
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
-                
+              
+        public int Id { get; }
         public string CompanyName
         {
             get => _company;

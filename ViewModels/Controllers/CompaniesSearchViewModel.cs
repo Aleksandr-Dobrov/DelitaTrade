@@ -36,6 +36,11 @@ namespace DelitaTrade.ViewModels.Controllers
             CompaniesSearchBox.Value.Value.Bulstad = companyData.Bulstad;
         }
 
+        public void UnSelectCompany()
+        {
+            CompaniesSearchBox.UnSelectItem();
+        }
+
         private async void ReloadAllCompanies()
         {
             using var scope = _serviceProvider.CreateScope();
@@ -74,7 +79,7 @@ namespace DelitaTrade.ViewModels.Controllers
                 {
                     ValueSelected(await LoadCompanyById(CompaniesSearchBox.Value.Value.Id));
                 }
-                else if (CompaniesSearchBox.TextValue == string.Empty)
+                else if (CompaniesSearchBox.TextValue.IsNullOrEmpty())
                 {
                     ValueUnselected();
                 }

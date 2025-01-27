@@ -8,6 +8,7 @@ using Org.BouncyCastle.Asn1.IsisMtt.X509;
 using System.Windows.Threading;
 using Org.BouncyCastle.Utilities;
 using DelitaTrade.ViewModels.Interfaces;
+using Microsoft.IdentityModel.Tokens;
 
 namespace DelitaTrade.ViewModels.Controllers
 {
@@ -44,6 +45,18 @@ namespace DelitaTrade.ViewModels.Controllers
         {
             _isCompanyReference = false;
             _companyId = -1;
+        }
+
+        public void CheckCompanyReference(int companyId)
+        {
+            if(CompanyObjectsSearchBox.Value.Value?.Company.Id != companyId)
+            {
+                CompanyObjectsSearchBox.AddError(nameof(CompanyObjectsSearchBox.TextValue), "The object does not belong to this company.");
+            }
+            else
+            {
+                CompanyObjectsSearchBox.ClearErrors(nameof(CompanyObjectsSearchBox.TextValue));
+            }
         }
         public void UpdateSelectedCompany(ICompanyObjectData companyObjectData, ITraderData traderData)
         {
@@ -130,7 +143,7 @@ namespace DelitaTrade.ViewModels.Controllers
                 {
                     ValueSelected(await LoadObjectById(CompanyObjectsSearchBox.Value.Value.Id));
                 }
-                else
+                else if (CompanyObjectsSearchBox.TextValue.IsNullOrEmpty())
                 {
                     ValueUnselected();
                 }

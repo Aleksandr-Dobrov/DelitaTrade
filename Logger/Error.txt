@@ -5303,3 +5303,23 @@ StackTrace -    at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSi
    at DelitaTrade.App.OnStartup(StartupEventArgs e)
 InnerExceptioon - 
 --------------------------------------------------
+27.1.2025 г. 13:10:56 - ООД is incorrect format
+System.InvalidOperationException: ООД is incorrect format
+   at DelitaTrade.Models.DataProviders.CurrencyProvider.GetDecimalValue(String currency) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DataProviders\CurrencyProvider.cs:line 55
+   at DelitaTrade.Components.ComponentsViewModel.LabeledCurrencyViewModel.set_TextBox(String value) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Components\ComponentsViewModel\LabeledCurrencyViewModel.cs:line 19
+   at DelitaTrade.Components.ComponentsViewModel.LabeledStringTextBoxViewModel..ctor() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Components\ComponentsViewModel\LabeledStringTextBoxViewModel.cs:line 21
+   at DelitaTrade.Components.ComponentsViewModel.LabeledCurrencyViewModel..ctor() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Components\ComponentsViewModel\LabeledCurrencyViewModel.cs:line 12
+   at DelitaTrade.ViewModels.DayReportsViewModel..ctor(DelitaTradeDayReport delitaTradeDayReport, ViewModelBase addNewCompanyViewModel, DayReportInputOptionsViewModelComponent options, IServiceProvider serviceProvider) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\ViewModels\DayReportsViewModel.cs:line 50
+   at DelitaTrade.ViewModels.MainViewModel..ctor(DelitaTradeCompany delitaTrade, DelitaTradeDayReport dayReportCreator, IServiceProvider serviceProvider) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\ViewModels\MainViewModel.cs:line 20
+   at DelitaTrade.App.OnStartup(StartupEventArgs e) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\App.xaml.cs:line 66
+Source - DelitaTrade
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Models.DataProviders.CurrencyProvider.GetDecimalValue(String currency) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\DataProviders\CurrencyProvider.cs:line 55
+   at DelitaTrade.Components.ComponentsViewModel.LabeledCurrencyViewModel.set_TextBox(String value) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Components\ComponentsViewModel\LabeledCurrencyViewModel.cs:line 19
+   at DelitaTrade.Components.ComponentsViewModel.LabeledStringTextBoxViewModel..ctor() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Components\ComponentsViewModel\LabeledStringTextBoxViewModel.cs:line 21
+   at DelitaTrade.Components.ComponentsViewModel.LabeledCurrencyViewModel..ctor() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Components\ComponentsViewModel\LabeledCurrencyViewModel.cs:line 12
+   at DelitaTrade.ViewModels.DayReportsViewModel..ctor(DelitaTradeDayReport delitaTradeDayReport, ViewModelBase addNewCompanyViewModel, DayReportInputOptionsViewModelComponent options, IServiceProvider serviceProvider) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\ViewModels\DayReportsViewModel.cs:line 50
+   at DelitaTrade.ViewModels.MainViewModel..ctor(DelitaTradeCompany delitaTrade, DelitaTradeDayReport dayReportCreator, IServiceProvider serviceProvider) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\ViewModels\MainViewModel.cs:line 20
+   at DelitaTrade.App.OnStartup(StartupEventArgs e) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\App.xaml.cs:line 66
+InnerExceptioon - 
+--------------------------------------------------
