@@ -21,6 +21,7 @@
             <ColumnDefinition Width="1.5*"/>
             <ColumnDefinition Width="auto" MaxWidth="60"/>
             <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="85"/>
             <ColumnDefinition Width="auto"/>
@@ -31,13 +32,15 @@
                                        Grid.Column="1"/>
         <componentsview:LabeledTextBox DataContext="{Binding InvoiceCompanyInputViewModel.CompanyTypeViewModel}"
                                        Grid.Column="2"/>
+        <componentsview:LabeledTextBox DataContext="{Binding InvoiceCurrencyInputViewModel.LabeledStringToDecimalTextBoxViewModel}"
+                                       Grid.Column="3"/>
         <componentsview:LabeledInvoiceBox DataContext="{Binding InvoiceCurrencyInputViewModel.InvoiceNumberViewModel}"
-                                          Grid.Column="3"/>
+                                          Grid.Column="4"/>
         <componentsview:LabeledCurrencyTextBox DataContext="{Binding InvoiceCurrencyInputViewModel.AmountViewModel}"
-                                               Grid.Column="4"/>
+                                               Grid.Column="5"/>
         <componentsview:LabeledPayMethodBox DataContext="{Binding InvoiceCurrencyInputViewModel.PayMethodViewModel}"
-                                            Grid.Column="5"/>
+                                            Grid.Column="6"/>
         <componentsview:LabeledCurrencyTextBox DataContext="{Binding InvoiceCurrencyInputViewModel.IncomeViewModel}"
-                                               Grid.Column="6"/>        
+                                               Grid.Column="7"/>        
     </Grid>
 </UserControl>

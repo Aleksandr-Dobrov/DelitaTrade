@@ -59,6 +59,7 @@ namespace DelitaTrade.Models.DI
             collection.AddTransient<InvoiceInputViewModel>();
             collection.AddTransient<InvoiceCompaniesInputViewModel>();
             collection.AddTransient<InvoiceCurrencyInputViewModel>();
+            collection.AddTransient<LabeledWeightTextBoxViewModel>();
             collection.AddSingleton<UserController>();
         }
     }

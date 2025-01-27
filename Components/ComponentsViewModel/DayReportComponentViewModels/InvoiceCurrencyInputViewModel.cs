@@ -1,21 +1,24 @@
 ﻿using DelitaTrade.Common.Enums;
+using DelitaTrade.Components.ComponentsViewModel.OptionsComponentViewModels;
 
 namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModels
 {
     public class InvoiceCurrencyInputViewModel
     {
         private bool _objectIsBankPay;
+        private readonly LabeledWeightTextBoxViewModel _labeledStringToDecimalTextBoxViewModel;
         private readonly LabeledInvoiceNumberViewModel _invoiceNumberViewModel;
         private readonly LabeledCurrencyViewModel _amountViewModel;
         private readonly LabeledPayMethodSelectableBoxViewModel _payMethodViewModel;
         private readonly LabeledCurrencyViewModel _incomeViewModel;
 
-        public InvoiceCurrencyInputViewModel(LabeledInvoiceNumberViewModel invoiceNumberViewModel, LabeledCurrencyViewModel amountViewModel, LabeledPayMethodSelectableBoxViewModel payMethodViewModel, LabeledCurrencyViewModel incomeViewModel)
+        public InvoiceCurrencyInputViewModel(LabeledInvoiceNumberViewModel invoiceNumberViewModel, LabeledCurrencyViewModel amountViewModel, LabeledPayMethodSelectableBoxViewModel payMethodViewModel, LabeledCurrencyViewModel incomeViewModel, LabeledWeightTextBoxViewModel labeledStringToDecimalTextBoxViewModel)
         {
             _invoiceNumberViewModel = invoiceNumberViewModel;
             _amountViewModel = amountViewModel;
             _payMethodViewModel = payMethodViewModel;
             _incomeViewModel = incomeViewModel;
+            _labeledStringToDecimalTextBoxViewModel = labeledStringToDecimalTextBoxViewModel;
             _payMethodViewModel.PayMethodChange += OnPayMethodChange;
             _amountViewModel.CurrencyChanged += OnAmountChange;
             SetViewModels();
@@ -29,6 +32,8 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
 
         public LabeledCurrencyViewModel IncomeViewModel => _incomeViewModel;
 
+        public LabeledWeightTextBoxViewModel LabeledStringToDecimalTextBoxViewModel => _labeledStringToDecimalTextBoxViewModel;
+
         public void SetPayMethod(PayMethod payMethod)
         {
             if (payMethod == PayMethod.Bank) _objectIsBankPay = true;
@@ -38,7 +43,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
 
         private void SetViewModels()
         {
-            _incomeViewModel.Label = "Number";
+            _invoiceNumberViewModel.Label = "Number";
             _amountViewModel.Label = "Amount";
             _payMethodViewModel.Label = "PayMethod";
             _incomeViewModel.Label = "Income";

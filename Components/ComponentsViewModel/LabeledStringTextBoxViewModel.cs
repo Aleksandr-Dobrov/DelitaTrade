@@ -28,7 +28,7 @@ namespace DelitaTrade.Components.ComponentsViewModel
         public event Action<bool> IsEnableChange;
         public event Action<Visibility> VisibilityChange;
 
-        public Visibility VisibilityProperty
+        public virtual Visibility VisibilityProperty
         {
             get => _visibility; 
             set
@@ -39,7 +39,7 @@ namespace DelitaTrade.Components.ComponentsViewModel
         }
 
 
-        public bool IsEnable
+        public virtual bool IsEnable
         {
             get => _isEnable;
             set

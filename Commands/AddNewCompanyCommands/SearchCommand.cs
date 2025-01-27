@@ -30,13 +30,13 @@ namespace DelitaTrade.Commands.AddNewCompanyCommands
         private void SetSearchArgs()
         {
 
-            if (_viewModel.CompaniesDataManager.CompanyData.GpsCoordinates.IsNullOrEmpty() == false)
+            if (_viewModel.CompaniesDataManager.WpfCompanyObjectViewModel.GpsCoordinates.IsNullOrEmpty() == false)
             {                
-                _searchString = _viewModel.CompaniesDataManager.CompanyData.GpsCoordinates;
+                _searchString = _viewModel.CompaniesDataManager.WpfCompanyObjectViewModel.GpsCoordinates;
             }
             else
             {
-                _searchString = $"{_viewModel.CompaniesDataManager.CompanyData.Town} {_viewModel.CompaniesDataManager.CompanyData.Street} {_viewModel.CompaniesDataManager.CompanyData.Number} {_viewModel.CompaniesDataManager.CompanyData.Description}";
+                _searchString = $"{_viewModel.CompaniesDataManager.WpfCompanyObjectViewModel.Town} {_viewModel.CompaniesDataManager.WpfCompanyObjectViewModel.Street} {_viewModel.CompaniesDataManager.WpfCompanyObjectViewModel.Number} {_viewModel.CompaniesDataManager.WpfCompanyObjectViewModel.Description}";
             }
         }
 
