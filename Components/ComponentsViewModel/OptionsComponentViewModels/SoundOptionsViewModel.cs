@@ -4,26 +4,27 @@ using DelitaTrade.Models.Configurations;
 using DelitaTrade.Models.DataProviders;
 using System.Windows.Input;
 using DelitaTrade.ViewModels;
+using DelitaTrade.Services;
 
 namespace DelitaTrade.Components.ComponentsViewModel.OptionsComponentViewModels
 {
     public class SoundOptionsViewModel : ViewModelBase
     {
-        private readonly DelitaTradeDayReport _delitaTradeDayReport;
-        public SoundOptionsViewModel(DelitaTradeDayReport delitaTradeDayReport)
+        private readonly DelitaSoundService _delitaSoundService;
+        public SoundOptionsViewModel(DelitaSoundService delitaSoundService)
         {
-            _delitaTradeDayReport = delitaTradeDayReport;
-            SetCashSource = new SetSoureCommand(delitaTradeDayReport, SoundEfect.Cash, nameof(CashSource), this);           
-            SetAddInvoiceSource = new SetSoureCommand(delitaTradeDayReport, SoundEfect.AddInvoice, nameof(AddInvoiceSource), this);
-            SetRemoveInvoiceSource = new SetSoureCommand(delitaTradeDayReport, SoundEfect.DeleteInvoice, nameof(RemoveInvoiceSource), this);
+            _delitaSoundService = delitaSoundService;
+            SetCashSource = new SetSoureCommand(delitaSoundService, SoundEfect.Cash, nameof(CashSource), this);           
+            SetAddInvoiceSource = new SetSoureCommand(delitaSoundService, SoundEfect.AddInvoice, nameof(AddInvoiceSource), this);
+            SetRemoveInvoiceSource = new SetSoureCommand(delitaSoundService, SoundEfect.DeleteInvoice, nameof(RemoveInvoiceSource), this);
         }
 
         public bool CashSoundIsOn 
         {
-            get => _delitaTradeDayReport.DelitaSoundService.GetIsOnValue(SoundEfect.Cash);
+            get => _delitaSoundService.GetIsOnValue(SoundEfect.Cash);
             set 
             {                
-                _delitaTradeDayReport.DelitaSoundService.Configurate(
+                _delitaSoundService.Configurate(
                     new SoudFXConfigurationProvider(SoundEfect.Cash, value, GetCurrentSource(SoundEfect.Cash)));
                 OnPropertyChange();
             }
@@ -31,20 +32,20 @@ namespace DelitaTrade.Components.ComponentsViewModel.OptionsComponentViewModels
 
         public bool AddInvoiceSoundIsOn
         {
-            get => _delitaTradeDayReport.DelitaSoundService.GetIsOnValue(SoundEfect.AddInvoice);
+            get => _delitaSoundService.GetIsOnValue(SoundEfect.AddInvoice);
             set
             {
-                _delitaTradeDayReport.DelitaSoundService.Configurate(
+                _delitaSoundService.Configurate(
                     new SoudFXConfigurationProvider(SoundEfect.AddInvoice, value, GetCurrentSource(SoundEfect.AddInvoice)));
                 OnPropertyChange();
             }
         }
         public bool DeleteInvoiceSoundIsOn
         {
-            get => _delitaTradeDayReport.DelitaSoundService.GetIsOnValue(SoundEfect.DeleteInvoice);            
+            get => _delitaSoundService.GetIsOnValue(SoundEfect.DeleteInvoice);            
             set
             {
-                _delitaTradeDayReport.DelitaSoundService.Configurate(
+                _delitaSoundService.Configurate(
                     new SoudFXConfigurationProvider(SoundEfect.DeleteInvoice, value, GetCurrentSource(SoundEfect.DeleteInvoice)));
                 OnPropertyChange();
             }
@@ -57,17 +58,17 @@ namespace DelitaTrade.Components.ComponentsViewModel.OptionsComponentViewModels
 
         public string CashSource
         {
-            get => GetFileName(_delitaTradeDayReport.DelitaSoundService.GetSource(SoundEfect.Cash));
+            get => GetFileName(_delitaSoundService.GetSource(SoundEfect.Cash));
         }
 
         public string AddInvoiceSource
         {
-            get => GetFileName(_delitaTradeDayReport.DelitaSoundService.GetSource(SoundEfect.AddInvoice));
+            get => GetFileName(_delitaSoundService.GetSource(SoundEfect.AddInvoice));
         }
 
         public string RemoveInvoiceSource
         {
-            get=> GetFileName(_delitaTradeDayReport.DelitaSoundService.GetSource(SoundEfect.DeleteInvoice));            
+            get=> GetFileName(_delitaSoundService.GetSource(SoundEfect.DeleteInvoice));            
         }
 
         public ICommand SetCashSource { get; }
@@ -91,7 +92,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.OptionsComponentViewModels
 
         private string GetCurrentSource(SoundEfect sound)
         {
-            return _delitaTradeDayReport.DelitaSoundService.GetSource(sound);
+            return _delitaSoundService.GetSource(sound);
         }
     }
 }

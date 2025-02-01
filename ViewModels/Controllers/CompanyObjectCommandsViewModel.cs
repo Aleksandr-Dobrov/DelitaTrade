@@ -1,17 +1,10 @@
 ﻿using DelitaTrade.Commands.AddNewCompanyCommands;
 using DelitaTrade.Core.Contracts;
-using DelitaTrade.Core.ViewModels;
 using DelitaTrade.Extensions;
 using DelitaTrade.Models.Loggers;
 using DelitaTrade.ViewModels.Interfaces;
-using DelitaTrade.WpfViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace DelitaTrade.ViewModels.Controllers

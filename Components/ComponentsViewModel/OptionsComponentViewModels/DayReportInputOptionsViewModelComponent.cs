@@ -11,10 +11,13 @@ namespace DelitaTrade.Components.ComponentsViewModel.OptionsComponentViewModels
     public class DayReportInputOptionsViewModelComponent : ViewModelBase
     {
 		private WeightConfiguration _weightConfiguration;
+		private readonly Configuration _appConfig;
 
-        public DayReportInputOptionsViewModelComponent()
+        public DayReportInputOptionsViewModelComponent(Configuration appConfig)
         {
             _weightConfiguration = new WeightConfiguration();
+            _appConfig = appConfig;
+			SetWeightConfigurator(_appConfig);
         }
         public bool WeightIsOn
 		{

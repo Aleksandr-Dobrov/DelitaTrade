@@ -1,4 +1,5 @@
 ﻿using DelitaTrade.Sounds;
+using Microsoft.Office.Interop.Excel;
 using System.Configuration;
 
 namespace DelitaTrade.Models.Configurations
@@ -9,7 +10,7 @@ namespace DelitaTrade.Models.Configurations
         public abstract bool IsOnValueSound { get; set; }
         public abstract string Source { get; set; }
         public abstract string DefaultSource { get; }
-
+        
         public static SoundBase[] GetAllSounds(Configuration AppConfig)
         {
             List<SoundFX> sounds = new List<SoundFX>();

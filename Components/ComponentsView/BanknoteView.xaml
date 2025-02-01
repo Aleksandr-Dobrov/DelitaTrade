@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:componetsviewmodel="clr-namespace:DelitaTrade.Components.ComponentsViewModel"
                d:DataContext="{d:DesignInstance Type=componetsviewmodel:BanknoteViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="240">
@@ -35,11 +36,19 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Button Grid.Row="0" Content="+" Command="{Binding AddBanknote}"
-                    FontSize="15" FontWeight="ExtraBold" VerticalContentAlignment="Top"/>
+                    Style="{DynamicResource ButtonStyleAdd}"
+                    
+                    Padding="0 1 0 5"
+                    FontSize="18" FontWeight="ExtraBold" VerticalContentAlignment="Top"/>
             <TextBox Grid.Row="1" Text="{Binding Count, UpdateSourceTrigger=PropertyChanged}" 
                      HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                     Margin="1 -9 1 -9"
+                     Panel.ZIndex="-1"
                      MouseWheel="TextBox_MouseWheel"/>
-            <Button Grid.Row="2" Content="-" Command="{Binding RemoveBanknote}" FontSize="15" FontWeight="ExtraBold" VerticalContentAlignment="Top"/>
+            <Button Grid.Row="2" Content="-" Command="{Binding RemoveBanknote}" 
+                    Style="{DynamicResource ButtonStyleRemove}"
+                    Padding="0 1 0 5"
+                    FontSize="18" FontWeight="ExtraBold" VerticalContentAlignment="Top"/>
         </Grid>
     </Grid>
         </Border>

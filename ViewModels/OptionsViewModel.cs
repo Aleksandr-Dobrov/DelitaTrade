@@ -1,18 +1,17 @@
 ﻿using DelitaTrade.Components.ComponentsViewModel.OptionsComponentViewModels;
 using DelitaTrade.Models;
+using DelitaTrade.Services;
 
 namespace DelitaTrade.ViewModels
 {
     public class OptionsViewModel : ViewModelBase
     {
-        private readonly DelitaTradeDayReport _delitaTradeDayReport;
         private readonly SoundOptionsViewModel _soundOptionsViewModel;
         private readonly DayReportInputOptionsViewModelComponent _dayReoprtInputOptions;
         
-        public OptionsViewModel(DelitaTradeDayReport delitaTradeDayReport, DayReportInputOptionsViewModelComponent options)
+        public OptionsViewModel(SoundOptionsViewModel soundOptions, DayReportInputOptionsViewModelComponent options)
         {
-            _delitaTradeDayReport = delitaTradeDayReport;
-            _soundOptionsViewModel = new SoundOptionsViewModel(delitaTradeDayReport);
+            _soundOptionsViewModel = soundOptions;
             _dayReoprtInputOptions = options;
         }
 
