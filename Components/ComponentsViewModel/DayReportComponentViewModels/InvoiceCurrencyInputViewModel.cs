@@ -1,5 +1,6 @@
 ﻿using DelitaTrade.Common.Enums;
 using DelitaTrade.Components.ComponentsViewModel.OptionsComponentViewModels;
+using DelitaTrade.ViewModels.Interfaces;
 
 namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModels
 {
@@ -34,6 +35,11 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
 
         public LabeledWeightTextBoxViewModel LabeledStringToDecimalTextBoxViewModel => _labeledStringToDecimalTextBoxViewModel;
 
+        public bool HasError => InvoiceNumberViewModel.HasErrors ||
+                    AmountViewModel.HasErrors ||
+                    PayMethodViewModel.HasErrors ||
+                    IncomeViewModel.HasErrors ||
+                    LabeledStringToDecimalTextBoxViewModel.HasErrors;
         public void SetPayMethod(PayMethod payMethod)
         {
             if (payMethod == PayMethod.Bank) _objectIsBankPay = true;
@@ -56,31 +62,31 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             {
                 IncomeViewModel.IsEnable = false;
                 IncomeViewModel.SetCurrencyValue("0");
-                InvoiceNumberViewModel.SetDefaultNumber();
+                InvoiceNumberViewModel.SetLastNumber();
             }
             else if (payMethod == PayMethod.CreditNote && _objectIsBankPay)
             {
                 IncomeViewModel.IsEnable = true;
                 IncomeViewModel.SetCurrencyValue("0");
-                InvoiceNumberViewModel.SetDefaultNumber();
+                InvoiceNumberViewModel.SetLastNumber();
             }
             else
             {
                 if (payMethod == PayMethod.Expense)
                 {
                     IncomeViewModel.CurrencyStatus = CurrencyStatus.Negative;
-                    InvoiceNumberViewModel.TextBox = SetExpenseNumber(DateTime.Now);
+                    InvoiceNumberViewModel.SetExpenseNumber(DateTime.Now);
                     AmountViewModel.SetCurrencyValue("0");
                 }
                 else if (payMethod == PayMethod.CreditNote)
                 {
                     IncomeViewModel.CurrencyStatus = CurrencyStatus.Negative;
-                    InvoiceNumberViewModel.SetDefaultNumber();
+                    InvoiceNumberViewModel.SetLastNumber();
                 }
                 else
                 {
                     IncomeViewModel.CurrencyStatus = CurrencyStatus.Positive;
-                    InvoiceNumberViewModel.SetDefaultNumber();
+                    InvoiceNumberViewModel.SetLastNumber();
                 }
                 IncomeViewModel.IsEnable = true;
                 IncomeViewModel.SetCurrencyValue(AmountViewModel.TextBox);
@@ -97,11 +103,6 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             {
                 IncomeViewModel.SetCurrencyValue(amount);
             }
-        }
-
-        private string SetExpenseNumber(DateTime date)
-        {
-            return $"0{date.Date:ddMMyyyy}{0}";
-        }
+        }        
     }
 }

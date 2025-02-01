@@ -30,6 +30,8 @@ namespace DelitaTrade.Components.ComponentsViewModel
         public event Action<string> CurrencyChanged;
         public CurrencyStatus CurrencyStatus { get; set; }
 
+        public decimal Money => _money;
+
         public override string TextBox 
         {
             get => $"{_money:C2}";

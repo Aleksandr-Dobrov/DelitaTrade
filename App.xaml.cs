@@ -45,14 +45,14 @@ namespace DelitaTrade
                 })
                 .ConfigureServices((hostContent, services) =>
                 {
-                    services.BuildServiceCollection(hostContent.Configuration);
-                    _configuration = hostContent.Configuration;
+                    services.BuildServiceCollection(hostContent.Configuration);                    
+                    _configuration = hostContent.Configuration;                    
                 }).Build();
             _serviceProvider = AppHost.Services;
             _mySqlConnection = new MySqlDBConnection();
             _mySqlConnection.CreateConnectionToDB(_configuration);
             _mySqlDataProvider = new MySqlDBDataProvider(_mySqlConnection, new CompaniesDataBase(), _configuration);
-            _soundService = new DelitaSoundService(new DefaultSoundPlayer(), new SoundStore([.. SoundBaseConfiguration.GetAllSounds(AppConfig)]));
+            _soundService = _serviceProvider.GetRequiredService<DelitaSoundService>();
             _delitaTrade = new DelitaTradeCompany("Delita Trade", _mySqlDataProvider, _serviceProvider);
             _dayReportCreator = new DelitaTradeDayReport(_soundService, _mySqlDataProvider, AppConfig, _configuration);
         }

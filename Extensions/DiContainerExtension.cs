@@ -1,7 +1,6 @@
 ﻿using DelitaTrade.Common;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace DelitaTrade.Extensions
+namespace Microsoft.Extensions.DependencyInjection
 {
     public static class DiContainerExtension
     {

@@ -1,5 +1,6 @@
 ﻿using DelitaTrade.Models.Configurations;
 using DelitaTrade.Sounds;
+using System.Configuration;
 
 namespace DelitaTrade.Stores
 {
@@ -7,8 +8,9 @@ namespace DelitaTrade.Stores
     {
         private readonly Dictionary<SoundEfect, SoundBase> _sounds;
 
-        public SoundStore(SoundBase[] sounds)
+        public SoundStore(Configuration config)
         {
+            SoundBase[] sounds = SoundBaseConfiguration.GetAllSounds(config);
             _sounds = new Dictionary<SoundEfect, SoundBase>();
             foreach (var sound in sounds)
             {

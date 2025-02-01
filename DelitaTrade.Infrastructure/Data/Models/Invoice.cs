@@ -6,6 +6,7 @@ using static DelitaTrade.Common.ValidationTypeConstants;
 
 namespace DelitaTrade.Infrastructure.Data.Models
 {
+    [Index(nameof(Number), IsUnique = true)]
     public class Invoice
     {
         [Key]

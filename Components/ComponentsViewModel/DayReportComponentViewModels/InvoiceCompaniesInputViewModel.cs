@@ -29,6 +29,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
 
         public LabeledStringTextBoxViewModel CompanyTypeViewModel => _companyTypeViewModel;
 
+        public bool HasError => _companiesViewModel.CompaniesSearchBox.HasErrors || _companyObjectsViewModel.CompanyObjectsSearchBox.HasErrors || _companyTypeViewModel.HasErrors;
 
         public void Dispose()
         {

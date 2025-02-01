@@ -63,9 +63,10 @@ namespace DelitaTrade.Components.ComponentsViewModel.ErrorComponents
         /// <param name="obj"></param>
         /// <param name="property">Property name to validate. If parameter is null, name will take automatically</param>
         public void Validate(object obj, [CallerMemberName] string? property = null)
-        {           
+        {  
+            if (obj == null || property == null) return;
             var prop = obj.GetType().GetProperties().FirstOrDefault(p => p.Name == property);
-            if (prop == null || property == null) return;
+            if (prop == null) return;
             var attribute = prop.GetCustomAttributes<ValidationAttribute>();
                 ClearErrors(property);
             foreach (var attr in attribute)

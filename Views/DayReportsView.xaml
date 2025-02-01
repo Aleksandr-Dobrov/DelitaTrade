@@ -6,13 +6,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"               
              xmlns:ComponentsView88be9dc1="clr-namespace:DelitaTrade.Components.ComponentsView"
              xmlns:DayReportsView="clr-namespace:DelitaTrade.Components.ComponentsView.DayReport"
-             xmlns:viewmodels="clr-namespace:DelitaTrade.ViewModels"
-             d:DataContext="{d:DesignInstance Type=viewmodels:DayReportsViewModel}"
+             xmlns:viewmodels="clr-namespace:DelitaTrade.Areas.DayReportAreas"
+             d:DataContext="{d:DesignInstance Type=viewmodels:DayReportArea}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="930"
              MinWidth="800">
-    <UserControl.Resources>       
-        <Style x:Key="FocusVisual">
+    <UserControl.Resources>
+        <!--<SolidColorBrush x:Key="AddButton.Static.Background" Color="{Binding AddButtonColor}"/>-->
+        <!--<Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
                 <Setter.Value>
                     <ControlTemplate>
@@ -21,7 +22,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <SolidColorBrush x:Key="AddButton.Static.Background" Color="{Binding AddButtonColor}"/>
         <SolidColorBrush x:Key="Button.Static.Background" Color="LightGreen"/>
         <SolidColorBrush x:Key="Button.Static.Border" Color="Green"/>
         <SolidColorBrush x:Key="Button.MouseOver.Background" Color="Green"/>
@@ -217,7 +217,7 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>
+        </Style>-->
     </UserControl.Resources>
     <Grid Background="AliceBlue">
         <Grid.RowDefinitions>
@@ -230,7 +230,9 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <DayReportsView:InvoiceInputsView Grid.Column="0" DataContext="{Binding InputViewModel}"/>
+            <DayReportsView:InvoiceInputsView Grid.Column="0" 
+                                              DataContext="{Binding InvoiceInputViewModel}"
+                                              IsEnabled="{Binding IsEditable}"/>
             <!--<Grid Grid.Column="0"  Margin="0 8 0 0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -284,7 +286,7 @@
                              PreviewKeyDown="IncomeKeyDown"/>
                 </Grid>
             </Grid>-->
-            <Grid Grid.Column="1">
+            <!--<Grid Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -294,14 +296,17 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Button Style="{DynamicResource ButtonStyleAdd}"  Grid.Column="0" 
-                            Margin="6 -5 1 1 " Width="38"                           
-                            Command="{Binding AddInvoiceCommand}">
+                    <Button Style="{DynamicResource ButtonStyleAdd}"  Grid.Column="0"                             
+                            Margin="6 -5 1 1 " Width="38"   
+                            Background="{Binding InputViewModel.InvoiceInputCommandsViewModel.AddButtonColor, UpdateSourceTrigger=PropertyChanged}"
+                            IsEnabled="{Binding InputViewModel.InvoiceInputCommandsViewModel.CommandsEnable}"
+                            Command="{Binding InputViewModel.InvoiceInputCommandsViewModel.Create}">
                         <Image Source="{Binding AddInvoiceButtonImage}" Margin="0 0.3 0 0"/>
                     </Button>
                     <Button Style="{DynamicResource ButtonStyleUpdate}" Grid.Column="1"
-                            Margin="1 -5 6 1" Width="38"                     
-                            Command="{Binding UpdateInvoiceCommand}">
+                            Margin="1 -5 6 1" Width="38"
+                            IsEnabled="{Binding InputViewModel.InvoiceInputCommandsViewModel.CommandsEnable}"
+                            Command="{Binding InputViewModel.InvoiceInputCommandsViewModel.Update}">
                         <Image Source="{Binding UpdateInvoiceButtonImage}" Margin="0.9"/>
                     </Button>
                 </Grid>
@@ -309,10 +314,13 @@
                 <Button Style="{DynamicResource ButtonStyleRemove}" 
                         Grid.Row="1" Margin="0 -5 0 0" Width="38" 
                         FontSize="14" FontWeight="Medium"
-                        Command="{Binding RemoveInvoiceCommand}">
+                        IsEnabled="{Binding InputViewModel.InvoiceInputCommandsViewModel.CommandsEnable}"
+                        Command="{Binding InputViewModel.InvoiceInputCommandsViewModel.Delete}">
                     <Image Source="{Binding DeleteInvoiceButtonImage}" Margin="0.9"/>
                 </Button>
-            </Grid>
+            </Grid>-->
+            <DayReportsView:InvoiceCommandButtons Grid.Column="1"
+                                                  DataContext="{Binding InvoiceInputViewModel.InvoiceInputCommandsViewModel}"/>
         </Grid>
         <Grid Grid.Row="0" Margin="0 5 0 5">
             <Grid.ColumnDefinitions>
@@ -340,7 +348,7 @@
                 <TextBox Grid.Row="1" Text="{Binding Date}" Width="80" HorizontalAlignment="Right"/>
             </Grid>
             <Grid Grid.Column="3" Width="auto" HorizontalAlignment="Center">
-                <Button Style="{DynamicResource ButtonStyleCreateInvoice}" Margin="1" Width="38"
+                <Button Style="{DynamicResource ButtonStyleAdd}" Margin="1" Width="38"
                         Command="{Binding CreateNewDayReportCommand}" 
                         FontSize="14" FontWeight="Medium">
                     <Image Source="{Binding CreateDayReportButtonImage}" Margin="6 1 1 1"/>

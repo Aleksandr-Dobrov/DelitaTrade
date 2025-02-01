@@ -1,4 +1,5 @@
-﻿using DelitaTrade.Commands;
+﻿using DelitaTrade.Areas.DayReportAreas;
+using DelitaTrade.Commands;
 using DelitaTrade.Models.DataProviders.FileDirectoryProvider;
 using DelitaTrade.Services;
 using DelitaTrade.Stores;
@@ -23,8 +24,8 @@ namespace DelitaTrade.Components.ComponentsViewModel
         {   
             NavigateCompanyDataBaseCommand = new NavigationCommand<AddNewCompanyViewModel>
                 (new NavigationService<AddNewCompanyViewModel>(viewModelsStore));
-            NavigateDayReportCommand = new NavigationCommand<DayReportsViewModel>
-                (new NavigationService<DayReportsViewModel>(viewModelsStore));
+            NavigateDayReportCommand = new NavigationCommand<DayReportArea>
+                (new NavigationService<DayReportArea>(viewModelsStore));
             NavigatePayDeskCommand = new NavigationCommand<PayDeskViewModel>
                 (new NavigationService<PayDeskViewModel>(viewModelsStore));
             NavigateReturnProtocolCommand = new NavigationCommand<ReturnProtocolController>

@@ -15,6 +15,12 @@ using DelitaTrade.WpfViewModels;
 using DelitaTrade.Components.ComponentsView.DayReport;
 using DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModels;
 using DelitaTrade.Components.ComponentsViewModel;
+using DelitaTrade.Areas.DayReportAreas;
+using System.Configuration;
+using DelitaTrade.Stores;
+using DelitaTrade.Models.Interfaces.Sound;
+using DelitaTrade.Models.SoundPlayers;
+using DelitaTrade.Services;
 
 namespace DelitaTrade.Models.DI
 {
@@ -34,8 +40,9 @@ namespace DelitaTrade.Models.DI
             collection.AddScoped<IReturnProductService, ReturnProductService>();
             collection.AddScoped<ITraderService, TraderService>();
             collection.AddScoped<IVehicleService, VehicleService>();
-            collection.AddScoped<IInvoiceIdDayReportService, InvoiceInDayReportService>();
+            collection.AddScoped<IInvoiceInDayReportService, InvoiceInDayReportService>();
             collection.AddScoped<IDayReportService, DayReportService>();
+            collection.AddScoped<IInvoicePaymentService, InvoicePaymentService>();
             collection.AddTransient<CompaniesSearchViewModel>();
             collection.AddTransient<CompanyObjectsSearchViewModel>();
             collection.AddTransient<CompaniesDataManager>();
@@ -60,7 +67,15 @@ namespace DelitaTrade.Models.DI
             collection.AddTransient<InvoiceCompaniesInputViewModel>();
             collection.AddTransient<InvoiceCurrencyInputViewModel>();
             collection.AddTransient<LabeledWeightTextBoxViewModel>();
+            collection.AddTransient<InvoiceInputCommandsViewModel>();
+            collection.AddTransient<DayReportArea>();
             collection.AddSingleton<UserController>();
+            collection.AddSingleton<SoundStore>();
+            collection.AddSingleton<ISoundPlayable, DefaultSoundPlayer>();
+            collection.AddSingleton<DelitaSoundService>();
+            collection.AddTransient<OptionsViewModel>();
+            collection.AddSingleton<SoundOptionsViewModel>();
+            collection.AddSingleton(System.Configuration.ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None));
         }
     }
 }

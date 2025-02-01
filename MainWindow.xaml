@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModels="clr-namespace:DelitaTrade.ViewModels"
+        xmlns:areaviewmodels="clr-namespace:DelitaTrade.Areas.DayReportAreas"
         xmlns:viewModelsReturnProtocol="clr-namespace:DelitaTrade.ViewModels.ReturnProtocolControllers" 
         xmlns:views="clr-namespace:DelitaTrade.Views"
         xmlns:ComponentsViewb0f52d3e="clr-namespace:DelitaTrade.Components.ComponentsView"
@@ -30,7 +31,7 @@
                     <DataTemplate DataType="{x:Type viewModels:AddNewCompanyViewModel}">
                         <views:AddCompanyView/>
                     </DataTemplate>
-                    <DataTemplate DataType="{x:Type viewModels:DayReportsViewModel}">
+                    <DataTemplate DataType="{x:Type areaviewmodels:DayReportArea}">
                         <views:DayReportsView/>
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type viewModels:PayDeskViewModel}">

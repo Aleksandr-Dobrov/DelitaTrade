@@ -19,7 +19,7 @@ namespace DelitaTrade.Infrastructure.Data.Models
         public decimal TotalNotPay { get; set; }
         [Column(TypeName = Money)]
         public decimal TotalOldInvoice { get; set; }
-        public decimal TotalWeight { get; set; }
+        public decimal TotalWeight { get; set; }        
         public required Dictionary<decimal, int> Banknotes { get; set; } = new();
         [Column(TypeName = Money)]
         public decimal TotalCash { get; set; }

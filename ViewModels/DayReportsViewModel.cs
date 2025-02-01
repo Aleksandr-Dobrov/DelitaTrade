@@ -82,7 +82,7 @@ namespace DelitaTrade.ViewModels
             _labeledInvoiceNumberViewModel.Label = "Number";
             _dayReportinputOptions = options;
             _invoiceInputViewModel = serviceProvider.GetService<InvoiceInputViewModel>();
-            _dayReportinputOptions.SetWeightConfigurator(delitaTradeDayReport.AppConfig);
+            //_dayReportinputOptions.SetWeightConfigurator(delitaTradeDayReport.AppConfig);
             OnEnable();
         }
 

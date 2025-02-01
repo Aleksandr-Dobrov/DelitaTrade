@@ -24,6 +24,7 @@ namespace DelitaTrade.Components.ComponentsViewModel
             Value = new();
             Value.ValueChanged += PropertyChange;
             PropertyChanged += OnViewModelChange;
+            TextValue = string.Empty;
         }
 
         public IEnumerable<T> Items => _items;

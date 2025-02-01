@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 
 namespace DelitaTrade.Core.Services
 {
-    public class InvoiceInDayReportService(IRepository repo) : IInvoiceIdDayReportService
+    public class InvoiceInDayReportService(IRepository repo) : IInvoiceInDayReportService
     {
         public async Task<IEnumerable<InvoiceViewModel>> AllInDayReportAsync(int dayReportId)
         {
@@ -37,9 +37,9 @@ namespace DelitaTrade.Core.Services
         /// Create new Invoice if it not exists in storage and create new InvoiceInDayReport in day report.
         /// </summary>
         /// <param name="newInvoice">DayReport is required to create invoice</param>
-        /// <returns>Return Id of created invoice in DayReport</returns>
+        /// <returns>Return view model with Id of created invoice in DayReport</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public async Task<int> CreateAsync(InvoiceViewModel newInvoice)
+        public async Task<InvoiceViewModel> CreateAsync(InvoiceViewModel newInvoice)
         {
             if (newInvoice.IdInDayReport != 0) throw new InvalidOperationException(InvalidEntry(newInvoice));
             if (newInvoice.DayReport == null) throw new ArgumentNullException(NotFound(nameof(DayReport)));
@@ -79,14 +79,23 @@ namespace DelitaTrade.Core.Services
             await repo.AddAsync(invoiceInDayReport);
             await repo.SaveChangesAsync();
             await repo.ReloadAsync(invoiceInDayReport);
-            return invoiceInDayReport.Id;
+            newInvoice.Id = invoiceInDayReport.Id;
+            return newInvoice;
         }
 
         public async Task DeleteAsync(InvoiceViewModel invoice)
         {
-            var invoiceToDelete = await repo.GetByIdAsync<InvoiceInDayReport>(invoice.IdInDayReport) 
+            InvoiceInDayReport? invoiceToDelete = await repo.GetByIdAsync<InvoiceInDayReport>(invoice.IdInDayReport)                
                 ?? throw new ArgumentNullException(NotFound(nameof(InvoiceInDayReport)));
+            await repo.Include(invoiceToDelete, i => i.Invoice);
+            Invoice? invoiceInDb = await repo.All<Invoice>()
+                .Include(i => i.InvoicesInDayReports)
+                .FirstOrDefaultAsync(i => i.Number == invoiceToDelete.Invoice.Number);
             repo.Remove(invoiceToDelete);
+            if (invoiceInDb?.InvoicesInDayReports.Count == 0)
+            {
+                repo.Remove(invoiceInDb);
+            }
             await repo.SaveChangesAsync();
         }
 

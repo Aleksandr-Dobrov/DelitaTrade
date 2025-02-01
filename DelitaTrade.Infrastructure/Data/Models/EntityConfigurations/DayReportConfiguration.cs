@@ -9,11 +9,9 @@ namespace DelitaTrade.Infrastructure.Data.Models.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<DayReport> builder)
         {
-            builder
-                .OwnsOne
-                (d => d.Banknotes, OwnedNavigationBuilder =>
-                    OwnedNavigationBuilder.ToJson()
-                );
+            builder.Property(d => d.Banknotes)
+                .HasConversion(v => JsonConvert.SerializeObject(v),
+                                v => JsonConvert.DeserializeObject<Dictionary<decimal,int>>(v));
         }
     }
 }
