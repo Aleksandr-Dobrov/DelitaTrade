@@ -37,7 +37,7 @@ namespace DelitaTrade.ViewModels
         private CurrencyProvider _currencyProvider;
         private AddNewCompanyViewModel _addNewCompanyViewModel;
         private PayMethodBoxViewModel _payMethodBoxViewModel;
-        private DayReportTotalsViewModel _dayReportTotalsViewModel;
+        private Components.ComponentsViewModel.DayReportTotalsViewModel _dayReportTotalsViewModel;
         private ObservableCollection<InvoiceViewModel> _invoices;
         private InvoiceViewModel _selectedInvoiceViewModel;
         private DelitaTradeDayReport _delitaTradeDayReport;
@@ -69,7 +69,7 @@ namespace DelitaTrade.ViewModels
             _payMethodBoxViewModel = new PayMethodBoxViewModel();
             _dayReporsId = new ObservableCollection<string>();
             _currentDayReportViewModel = new CurrentDayReportViewModelNull();
-            _dayReportTotalsViewModel = new DayReportTotalsViewModel(delitaTradeDayReport);
+            _dayReportTotalsViewModel = new Components.ComponentsViewModel.DayReportTotalsViewModel(delitaTradeDayReport);
             _invoices = new ObservableCollection<InvoiceViewModel>();
             AddInvoiceCommand = new AddInvoiceCommand(_delitaTradeDayReport, _addNewCompanyViewModel, this);
             UpdateInvoiceCommand = new UpdateInvoiceCommand(_delitaTradeDayReport, _addNewCompanyViewModel, this);
@@ -96,7 +96,7 @@ namespace DelitaTrade.ViewModels
         public CompaniesSearchViewModel SearchBox => _addNewCompanyViewModel.CompaniesDataManager.Companies;
         public CompanyObjectsSearchViewModel SearchBoxObject => _addNewCompanyViewModel.CompaniesDataManager.CompanyObjects;
         public PayMethodBoxViewModel PayMethodBox => _payMethodBoxViewModel;
-        public DayReportTotalsViewModel DayReportTotalsViewModel => _dayReportTotalsViewModel;
+        public Components.ComponentsViewModel.DayReportTotalsViewModel DayReportTotalsViewModel => _dayReportTotalsViewModel;
         public DayReportIdViewModel DayReportIdViewModel => _dayReportIdViewModel;
         public CurrentDayReportViewModel CurrentDayReportViewModel => _currentDayReportViewModel;
         public DayReportInputOptionsViewModelComponent DayReportInputOptions => _dayReportinputOptions;
