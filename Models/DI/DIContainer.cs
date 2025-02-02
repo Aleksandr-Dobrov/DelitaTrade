@@ -21,6 +21,7 @@ using DelitaTrade.Stores;
 using DelitaTrade.Models.Interfaces.Sound;
 using DelitaTrade.Models.SoundPlayers;
 using DelitaTrade.Services;
+using DelitaTrade.ViewModels.Interfaces;
 
 namespace DelitaTrade.Models.DI
 {
@@ -69,6 +70,11 @@ namespace DelitaTrade.Models.DI
             collection.AddTransient<LabeledWeightTextBoxViewModel>();
             collection.AddTransient<InvoiceInputCommandsViewModel>();
             collection.AddTransient<DayReportArea>();
+            collection.AddTransient<DayReportLoaderViewModel>();
+            collection.AddTransient<DayReportListIdViewModel>();
+            collection.AddTransient<IDayReportCrudController, DayReportCrudController>();
+            collection.AddTransient<Components.ComponentsViewModel.DayReportComponentViewModels.DayReportTotalsViewModel>();
+            collection.AddTransient<DayReportCommandsViewModel>();
             collection.AddSingleton<UserController>();
             collection.AddSingleton<SoundStore>();
             collection.AddSingleton<ISoundPlayable, DefaultSoundPlayer>();
