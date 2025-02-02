@@ -17,6 +17,8 @@ namespace DelitaTrade.ViewModels.Controllers
 
         public UserViewModel CurrentUser => _userViewModel ?? throw new InvalidOperationException(ExceptionMessages.NotAuthenticate());
 
+        public event Action<UserViewModel> UserLogIn;
+
         public void LogIn(UserViewModel user)
         {
             _userViewModel = new UserViewModel
@@ -26,6 +28,7 @@ namespace DelitaTrade.ViewModels.Controllers
             };
 
             LogInTime = DateTime.Now;
+            UserLogIn?.Invoke(_userViewModel);
         }
     }
 }
