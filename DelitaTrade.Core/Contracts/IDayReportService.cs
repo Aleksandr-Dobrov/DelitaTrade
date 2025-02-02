@@ -8,8 +8,8 @@ namespace DelitaTrade.Core.Contracts
         Task<IEnumerable<DayReportViewModel>> GetAllDatesAsync(UserViewModel user);
         Task<IEnumerable<DayReportViewModel>> GetAllFilteredAsync(UserViewModel user, string filter, int limit);
         Task<DayReportViewModel> GetByIdAsync(UserViewModel user, int id);
-        Task<int> CreateAsync(DayReportViewModel dayReport);
+        Task<DayReportViewModel> CreateAsync(DayReportViewModel dayReport);
         Task UpdateAsync(DayReportViewModel dayReport);
-        Task DeleteAsync(UserViewModel user, int id);
+        Task DeleteAsync(UserViewModel userViewModel, int id);
     }
 }

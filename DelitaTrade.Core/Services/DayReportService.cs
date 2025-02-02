@@ -12,7 +12,7 @@ namespace DelitaTrade.Core.Services
 {
     public class DayReportService(IRepository repo) : IDayReportService
     {
-        public async Task<int> CreateAsync(DayReportViewModel dayReport)
+        public async Task<DayReportViewModel> CreateAsync(DayReportViewModel dayReport)
         {
             var user = await GetUserAsync(repo, dayReport.User);
             var newDayReport = new DayReport()
@@ -31,12 +31,43 @@ namespace DelitaTrade.Core.Services
             await repo.AddAsync(newDayReport);
             await repo.SaveChangesAsync();
             await repo.ReloadAsync(newDayReport);
-            return newDayReport.Id;
+            dayReport.Id = newDayReport.Id;
+            return dayReport;
         }
 
-        public async Task DeleteAsync(UserViewModel user, int id)
+        public async Task DeleteAsync(UserViewModel userViewModel, int id)
         {
-            throw new NotImplementedException();
+            var user = await GetUserAsync(repo, userViewModel);
+            var dayReport = await repo.All<DayReport>()
+                .Include(d => d.Invoices)
+                .ThenInclude(i => i.Invoice)
+                .ThenInclude(i => i.InvoicesInDayReports)
+                .FirstOrDefaultAsync(d => d.Id == id) ?? throw new ArgumentNullException(NotFound(nameof(DayReport)));
+
+            if (dayReport.User.Id != dayReport.UserId) throw new InvalidOperationException(NotAuthenticate(userViewModel));
+
+            if (dayReport.Invoices.Count > 0)
+            {
+                foreach (var invoiceInDayReport in dayReport.Invoices)
+                {
+                    if (invoiceInDayReport.Invoice.InvoicesInDayReports.Count == 0) throw new InvalidDataException($"Inner {nameof(Invoice)} must have at least one {nameof(InvoiceInDayReport)}");
+                    
+                    if (invoiceInDayReport.Invoice.InvoicesInDayReports.Count > 1)
+                    {
+                        invoiceInDayReport.Invoice.InvoicesInDayReports.Remove(invoiceInDayReport);
+                        repo.Remove(invoiceInDayReport);                        
+                    }
+                    else
+                    {
+                        var innerInvoice = invoiceInDayReport.Invoice;
+                        repo.Remove(invoiceInDayReport);
+                        repo.Remove(innerInvoice);
+                    }
+                }
+            }
+
+            repo.Remove(dayReport);
+            await repo.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<DayReportViewModel>> GetAllDatesAsync(UserViewModel userViewModel)
@@ -46,6 +77,7 @@ namespace DelitaTrade.Core.Services
                 .Where(d => d.UserId == user.Id)
                 .Select(d => new DayReportViewModel()
                 {
+                    Id = d.Id,
                     Date = d.Date,
                     Banknotes = d.Banknotes,
                     User = userViewModel
