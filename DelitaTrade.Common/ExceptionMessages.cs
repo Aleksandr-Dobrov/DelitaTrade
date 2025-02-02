@@ -34,5 +34,10 @@ namespace DelitaTrade.Common
         {
             return $"{nameof(InvalidEntry)}: {obj} {Environment.NewLine}Entry id must be set to default";
         }
+
+        public static string NotInitialized(string obj)
+        {
+            return $"Component: {obj} must be first initialized";
+        }
     }
 }
