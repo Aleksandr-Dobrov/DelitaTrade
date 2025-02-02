@@ -9,6 +9,7 @@ using System.Windows.Input;
 
 namespace DelitaTrade.Components.ComponentsViewModel
 {
+    //Deprecated
     public class DayReportTotalsViewModel : ViewModelBase
     {
         private SearchBoxTextViewModel _vehicle;

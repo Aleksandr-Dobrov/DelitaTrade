@@ -3,8 +3,6 @@ using DelitaTrade.Core.Interfaces;
 using DelitaTrade.Core.ViewModels;
 using DelitaTrade.Services;
 using DelitaTrade.ViewModels;
-using DelitaTrade.ViewModels.Controllers;
-using System.ComponentModel.DataAnnotations;
 
 namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModels
 {
@@ -25,12 +23,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             _invoiceInputCommandsViewModel = invoiceInputCommandsViewModel;
             _invoiceInputCommandsViewModel.InitializedCommands(InvoiceCompanyInputViewModel, InvoiceCurrencyInputViewModel);
             _invoiceInputCommandsViewModel.InvoiceCreated += OnInvoiceCreated;
-           OnLoadedDayReport(new DayReportViewModel()
-            {
-                Date = DateTime.Now,
-                Banknotes = new(),
-                User = new UserViewModel() { }
-            });
+
             _invoiceInputCommandsViewModel.SelectInvoice(new Core.ViewModels.InvoiceViewModel()
             {
                 Company = new Core.ViewModels.CompanyViewModel()
@@ -70,6 +63,13 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             _invoiceInputCommandsViewModel.SelectDayReport(dayReportViewModel);
             IsEditable = true;
         }
+
+        public void UnSelectDayReport()
+        {
+            _invoiceInputCommandsViewModel.UnSelectDayReport();
+            IsEditable = false;
+        }
+        
 
         private void OnCompanyObjectIsBankChange(ICompanyObjectIsBankPay objectIsBankPay)
         {

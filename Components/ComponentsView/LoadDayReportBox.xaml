@@ -2,25 +2,27 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"  d:DataContext="{d:DesignInstance Type=viewmodels:DayReportIdViewModel}"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:viewmodel="clr-namespace:DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModels"
+             d:DataContext="{d:DesignInstance Type=viewmodel:DayReportListIdViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="30" d:DesignWidth="120">
 	<StackPanel Orientation="Horizontal">        
-		<ComboBox ItemsSource="{Binding Years}"
-              SelectedItem="{Binding Year}"
+		<ComboBox ItemsSource="{Binding Years}"                  
+                  SelectedItem="{Binding Year}"
                   HorizontalContentAlignment="Center" VerticalContentAlignment="Center"                  
                   FontSize="14" FontWeight="Medium" IsEditable="False"
                   Width="70"/>
         <ComboBox ItemsSource="{Binding Months}"
-              SelectedItem="{Binding Month}"
+                  SelectedItem="{Binding Month}"
                   HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                   FontSize="14" FontWeight="Medium" IsEditable="False"
                   Width="50"/>
         <ComboBox ItemsSource="{Binding Days}"
-              SelectedItem="{Binding Day}"
+                  SelectedItem="{Binding Day}"
                   HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                   FontSize="14" FontWeight="Medium" IsEditable="False"
-                  Width="50"/>
+                  Width="auto" MinWidth="40"/>
     </StackPanel>
     
 </UserControl>

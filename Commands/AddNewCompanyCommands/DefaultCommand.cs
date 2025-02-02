@@ -8,6 +8,11 @@ namespace DelitaTrade.Commands.AddNewCompanyCommands
     {
         private string[] _properties;
 
+        public DefaultCommand(Func<Task> action) 
+        {
+            Action = action;
+            CanExecuteAction += () => { return true; };
+        }
         public DefaultCommand(Func<Task> action, Func<bool> canExecuteAction, INotifyPropertyChanged eventArg, params string[] property)
         {
             Action = action;

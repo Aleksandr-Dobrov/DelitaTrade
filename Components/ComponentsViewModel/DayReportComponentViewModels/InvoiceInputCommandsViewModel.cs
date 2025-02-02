@@ -122,6 +122,12 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             }
         }
 
+        public void UnSelectDayReport()
+        {
+            _dayReportViewModel = null;
+            CommandsEnable = false;
+        }
+
         public void SelectInvoice(Core.ViewModels.InvoiceViewModel invoiceViewModel)
         {
             _invoiceViewModel = invoiceViewModel;
@@ -139,7 +145,6 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             {
                 using var scope = serviceProvider.CreateScope();
                 var invoiceService = scope.GetService<IInvoiceInDayReportService>();
-                var dayReportService = scope.GetService<IDayReportService>();
                 var userService = scope.GetService<UserController>();
                 var newInvoice = new Core.ViewModels.InvoiceViewModel()
                 {
