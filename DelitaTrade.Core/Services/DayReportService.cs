@@ -103,28 +103,12 @@ namespace DelitaTrade.Core.Services
             var user = await GetUserAsync(repo, userViewModel);
             var dayReport = await repo.All<DayReport>()
                 .Include(d => d.Vehicle)
+                .Include(d => d.Invoices)
+                .ThenInclude(i => i.Invoice)
+                .ThenInclude(i => i.CompanyObject)
+                .ThenInclude(i => i.Company)
                 .FirstOrDefaultAsync(d => d.UserId == user.Id && d.Id == id) ?? throw new ArgumentNullException(NotFound(nameof(DayReport)));
-            return new DayReportViewModel() 
-            { 
-                Id = dayReport.Id,
-                Date = dayReport.Date, 
-                TotalAmount = dayReport.TotalAmount,
-                TotalExpense = dayReport.TotalExpense,
-                TotalIncome = dayReport.TotalIncome,
-                TotalNotPay = dayReport.TotalNotPay,
-                TotalOldInvoice = dayReport.TotalOldInvoice,
-                TotalWeight = dayReport.TotalWeight,
-                Banknotes = dayReport.Banknotes, 
-                TotalCash = dayReport.TotalCash,
-                User = userViewModel,
-                Vehicle = dayReport.Vehicle == null ? null : 
-                    new VehicleViewModel() 
-                    {
-                        Id = dayReport.Vehicle.Id,
-                        LicensePlate = dayReport.Vehicle.LicensePlate,
-                        Model = dayReport.Vehicle.Model
-                    }            
-            };  
+            return MapToDayReportViewModel(dayReport, userViewModel);
         }
 
         public async Task UpdateAsync(DayReportViewModel dayReport)
@@ -141,5 +125,61 @@ namespace DelitaTrade.Core.Services
             return await repo.GetByIdAsync<User>(user.Id) ??
                 throw new InvalidOperationException(NotAuthenticate(user));
         }
+
+        private DayReportViewModel MapToDayReportViewModel(DayReport dayReport, UserViewModel userViewModel)
+        {
+            var newDayReport = new DayReportViewModel()
+            {
+                Id = dayReport.Id,
+                Date = dayReport.Date,
+                TotalAmount = dayReport.TotalAmount,
+                TotalExpense = dayReport.TotalExpense,
+                TotalIncome = dayReport.TotalIncome,
+                TotalNotPay = dayReport.TotalNotPay,
+                TotalOldInvoice = dayReport.TotalOldInvoice,
+                TotalWeight = dayReport.TotalWeight,
+                Banknotes = dayReport.Banknotes,
+                TotalCash = dayReport.TotalCash,
+                User = userViewModel,
+                Vehicle = dayReport.Vehicle == null ? null :
+                    new VehicleViewModel()
+                    {
+                        Id = dayReport.Vehicle.Id,
+                        LicensePlate = dayReport.Vehicle.LicensePlate,
+                        Model = dayReport.Vehicle.Model
+                    }
+            };
+            var invoices = dayReport.Invoices.Select(i => new InvoiceViewModel()
+            {
+                Company = new CompanyViewModel()
+                {
+                    Id = i.Invoice.CompanyObject.Company.Id,
+                    Name = i.Invoice.CompanyObject.Company.Name,
+                    Type = i.Invoice.CompanyObject.Company.Type,
+                },
+                CompanyObject = new CompanyObjectViewModel()
+                {
+                    Id = i.Invoice.CompanyObject.Id,
+                    Name = i.Invoice.CompanyObject.Name,
+                    Company = new CompanyViewModel()
+                    {
+                        Id = i.Invoice.CompanyObject.Company.Id,
+                        Name = i.Invoice.CompanyObject.Company.Name,
+                        Type = i.Invoice.CompanyObject.Company.Type,
+                    }
+                },
+                Id = i.Invoice.Id,
+                IdInDayReport = i.Id,
+                DayReport = newDayReport,
+                Number = i.Invoice.Number,
+                Amount = i.Invoice.Amount,
+                Income = i.Income,
+                PayMethod = i.PayMethod,
+                IsPaid = i.Invoice.IsPaid,
+                Weight = i.Invoice.Weight
+            }).ToList();
+            newDayReport.Invoices = invoices;
+            return newDayReport;
+        }        
     }
 }

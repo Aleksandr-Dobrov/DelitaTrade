@@ -36,7 +36,7 @@ namespace DelitaTrade.ViewModels
 
         public CompaniesDataManager CompaniesDataManager => _companiesDataManager;
 
-        public string SearchOnMapButtonImage => _searchGoogleIcon.GetFullFilePath();
+        public string SearchOnMapButtonImage => _searchGoogleIcon.GetFullFilePathExt();
               
         public ICommand ShowOnMap {  get; }
 

@@ -6,7 +6,8 @@ using static DelitaTrade.Common.DelitaAppConstants;
 namespace DelitaTrade.Components.ComponentsViewModel
 {
     public class LabeledInvoiceNumberViewModel : LabeledStringTextBoxViewModel
-    {        
+    {
+        private bool _newValueIsNotEqual;
         private string _invoiceNumber = DefaultInvoiceNumber;
         private string _lastInvoiceNumber = DefaultInvoiceNumber;
         private bool IsLastNumberSet = true;
@@ -14,10 +15,10 @@ namespace DelitaTrade.Components.ComponentsViewModel
         public LabeledInvoiceNumberViewModel()
         {
             PropertyChanged += OnViewModelChange;
-            OnInvoiceNumberChanged += (i) => { };
+            OnInvoiceNumberChanged += async (i) => { await new Task(() => { }); };
         }
 
-        public event Action<string> OnInvoiceNumberChanged;
+        public event Func<string, Task> OnInvoiceNumberChanged;
 
         [IsDigitsValidation(10)]
         public override string TextBox 
@@ -27,9 +28,10 @@ namespace DelitaTrade.Components.ComponentsViewModel
             {
                 if (CheckInvoiceIdIsValid(value))
                 {
+                    _newValueIsNotEqual = _invoiceNumber != value;
                     _invoiceNumber = value;
                     if (IsLastNumberSet) _lastInvoiceNumber = value;
-                    OnPropertyChange();
+                    if (_newValueIsNotEqual) OnPropertyChange();
                 }
             }
         }
@@ -43,6 +45,16 @@ namespace DelitaTrade.Components.ComponentsViewModel
         public void InvoiceHasPaid(string number)
         {
             AddError(nameof(TextBox), $"The invoice - {number} has been paid");
+        }
+
+        public void InvoiceNotPaid(string number)
+        {
+            ClearErrors(nameof(TextBox));
+        }
+
+        public void NonPayInvoiceOnLoading(string number)
+        {
+            AddError(nameof(TextBox), $"Invoice : {number} is not loading");
         }
         private bool CheckInvoiceIdIsValid(string id)
         {

@@ -7,11 +7,12 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
 {
     public class InvoiceCompaniesInputViewModel : IDisposable
     {
+        private bool _isInvoiceOnSelect = false;
         private readonly CompaniesSearchViewModel _companiesViewModel;
         private readonly CompanyObjectsSearchViewModel _companyObjectsViewModel;
-        private readonly LabeledStringTextBoxViewModel _companyTypeViewModel;
+        private readonly LabeledCompanyTypeTextBoxViewModel _companyTypeViewModel;
 
-        public InvoiceCompaniesInputViewModel(CompaniesSearchViewModel companiesViewModel, CompanyObjectsSearchViewModel companyObjectsViewModel, LabeledStringTextBoxViewModel companyTypeViewModel)
+        public InvoiceCompaniesInputViewModel(CompaniesSearchViewModel companiesViewModel, CompanyObjectsSearchViewModel companyObjectsViewModel, LabeledCompanyTypeTextBoxViewModel companyTypeViewModel)
         {
             _companiesViewModel = companiesViewModel;
             _companyObjectsViewModel = companyObjectsViewModel;
@@ -27,9 +28,20 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
 
         public CompanyObjectsSearchViewModel CompanyObjectsViewModel => _companyObjectsViewModel;
 
-        public LabeledStringTextBoxViewModel CompanyTypeViewModel => _companyTypeViewModel;
+        public LabeledCompanyTypeTextBoxViewModel CompanyTypeViewModel => _companyTypeViewModel;
 
         public bool HasError => _companiesViewModel.CompaniesSearchBox.HasErrors || _companyObjectsViewModel.CompanyObjectsSearchBox.HasErrors || _companyTypeViewModel.HasErrors;
+
+        public void OnSelectedInvoice(InvoiceViewModel invoiceViewModel)
+        {
+            _isInvoiceOnSelect = true;
+            CompanyObjectsViewModel.CompanyObjectsSearchBox.SetSelectedValue(invoiceViewModel.CompanyObject);
+        }
+
+        public void OnLoadedInvoice(InvoiceViewModel invoiceViewModel)
+        {
+            CompanyObjectsViewModel.CompanyObjectsSearchBox.SetSelectedValue(invoiceViewModel.CompanyObject);
+        }
 
         public void Dispose()
         {
@@ -73,7 +85,8 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
                 CompaniesViewModel.CompaniesSearchBox.SetSelectedValue(companyObject.Company);
                 _companyTypeViewModel.TextBox = companyObject.Company.Type ?? string.Empty;
             }
-            OnCompanyObjectIsBankChange(companyObject);
+            if (_isInvoiceOnSelect == false) OnCompanyObjectIsBankChange(companyObject);            
+            else _isInvoiceOnSelect = false;
         }
         private void OnEnable()
         {

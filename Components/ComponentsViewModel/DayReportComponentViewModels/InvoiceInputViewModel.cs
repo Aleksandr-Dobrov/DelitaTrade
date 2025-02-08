@@ -1,6 +1,7 @@
 ﻿using DelitaTrade.Common.Enums;
 using DelitaTrade.Core.Interfaces;
 using DelitaTrade.Core.ViewModels;
+using DelitaTrade.Models.Configurations;
 using DelitaTrade.Services;
 using DelitaTrade.ViewModels;
 
@@ -23,25 +24,14 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             _invoiceInputCommandsViewModel = invoiceInputCommandsViewModel;
             _invoiceInputCommandsViewModel.InitializedCommands(InvoiceCompanyInputViewModel, InvoiceCurrencyInputViewModel);
             _invoiceInputCommandsViewModel.InvoiceCreated += OnInvoiceCreated;
+            _invoiceInputCommandsViewModel.InvoiceDeleted += OnInvoiceDeleted;
+            InvoiceInputCommandsViewModel.NonPaidInvoiceLoaded += OnLoadInvoice;
+            InvoiceInputCommandsViewModel.InvoiceUpdated += OnInvoiceUpdated;
+        }
 
-            _invoiceInputCommandsViewModel.SelectInvoice(new Core.ViewModels.InvoiceViewModel()
-            {
-                Company = new Core.ViewModels.CompanyViewModel()
-                {
-                    Name = "new"
-                },
-                CompanyObject = new Core.ViewModels.CompanyObjectViewModel()
-                {
-                    Name = "obj",
-                    Company = new Core.ViewModels.CompanyViewModel()
-                    {
-                        Name = "new"
-                    }
-                },
-                Number = "1000000005"
-            });
-            
-        }        
+        public event Action<Core.ViewModels.InvoiceViewModel>? InvoiceCreated;
+        public event Action<Core.ViewModels.InvoiceViewModel>? InvoiceDeleted;
+        public event Action<Core.ViewModels.InvoiceViewModel>? InvoiceUpdated;
         public InvoiceCompaniesInputViewModel InvoiceCompanyInputViewModel => _invoiceCompanyInputViewModel;
 
         public InvoiceCurrencyInputViewModel InvoiceCurrencyInputViewModel => _invoiceCurrencyInputViewModel;
@@ -64,12 +54,28 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             IsEditable = true;
         }
 
-        public void UnSelectDayReport()
+        public void OnUnSelectDayReport()
         {
             _invoiceInputCommandsViewModel.UnSelectDayReport();
             IsEditable = false;
         }
         
+        public void OnSelectInvoice(Core.ViewModels.InvoiceViewModel invoiceViewModel)
+        {
+            InvoiceInputCommandsViewModel.SelectInvoice(invoiceViewModel);
+            InvoiceCompanyInputViewModel.OnSelectedInvoice(invoiceViewModel);
+            InvoiceCurrencyInputViewModel.OnInvoiceSelected(invoiceViewModel);
+        }
+        public void OnLoadInvoice(Core.ViewModels.InvoiceViewModel invoiceViewModel)
+        {
+            InvoiceCompanyInputViewModel.OnLoadedInvoice(invoiceViewModel);
+            InvoiceCurrencyInputViewModel.AmountViewModel.SetCurrencyValue(invoiceViewModel.Amount);
+        }
+
+        public void OnUnSelectInvoice()
+        {
+            InvoiceInputCommandsViewModel.UnselectInvoice();
+        }
 
         private void OnCompanyObjectIsBankChange(ICompanyObjectIsBankPay objectIsBankPay)
         {
@@ -79,7 +85,19 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
 
         private void OnInvoiceCreated(Core.ViewModels.InvoiceViewModel invoiceViewModel)
         {
-            _soundService.PlaySound(Models.Configurations.SoundEfect.AddInvoice);
+            _soundService.PlaySound(SoundEfect.AddInvoice);
+            InvoiceCreated?.Invoke(invoiceViewModel);
+        }
+
+        private void OnInvoiceDeleted(Core.ViewModels.InvoiceViewModel invoiceViewModel)
+        {
+            _soundService.PlaySound(SoundEfect.DeleteInvoice);
+            InvoiceDeleted?.Invoke(invoiceViewModel);
+        }
+
+        private void OnInvoiceUpdated(Core.ViewModels.InvoiceViewModel invoiceViewModel)
+        {
+            InvoiceUpdated?.Invoke(invoiceViewModel);
         }
     }
 }

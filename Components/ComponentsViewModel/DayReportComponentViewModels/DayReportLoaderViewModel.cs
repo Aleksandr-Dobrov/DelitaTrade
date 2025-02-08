@@ -57,6 +57,12 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
 
         public bool HasDayReportLoad => _dayReportViewModel != null;
         
+        public async void DayReportUpdate(Core.ViewModels.InvoiceViewModel invoiceViewModel)
+        {
+            if (_dayReportViewModel?.Id != invoiceViewModel!.DayReport!.Id) throw new InvalidOperationException(nameof(DayReportUpdate));
+            DayReportTotalsViewModel.UpdateDayReport(await _dayReportCrudController.ReadDayReportByIdAsync(invoiceViewModel!.DayReport!.Id));
+        }
+
         private void OnUserLogIn(UserViewModel userViewModel)
         {
             if (DayReportListIdViewModel.IsInitialized == false)

@@ -40,16 +40,16 @@ namespace DelitaTrade.Components.ComponentsViewModel
             get => _logoFullFilePath;
             set
             {
-                _logoFullFilePath = value.GetFullFilePath();
+                _logoFullFilePath = value.GetFullFilePathExt();
                 OnPropertyChange(nameof(LogoFullFilePath));
             }
         }
 
-        public string OptionsImage => _optionsImage.GetFullFilePath();
-        public string PayDeskImage => _payDeskImage.GetFullFilePath();
-        public string CompaniesImage => _companiesImage.GetFullFilePath();
-        public string DayReportImage => _dayReportImage.GetFullFilePath();
-        public string ReturnProtocolImage => _returnProtocolImage.GetFullFilePath();
+        public string OptionsImage => _optionsImage.GetFullFilePathExt();
+        public string PayDeskImage => _payDeskImage.GetFullFilePathExt();
+        public string CompaniesImage => _companiesImage.GetFullFilePathExt();
+        public string DayReportImage => _dayReportImage.GetFullFilePathExt();
+        public string ReturnProtocolImage => _returnProtocolImage.GetFullFilePathExt();
 
         public ICommand NavigateCompanyDataBaseCommand { get; }
 

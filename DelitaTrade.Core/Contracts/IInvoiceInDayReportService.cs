@@ -12,6 +12,7 @@ namespace DelitaTrade.Core.Contracts
         Task<IEnumerable<InvoiceViewModel>> AllReadonlyAsync();
         Task<IEnumerable<InvoiceViewModel>> SearchReadonlyAsync(string arg, int limit);
         Task<IEnumerable<InvoiceViewModel>> AllInDayReportAsync(int dayReportId);
+        Task<InvoiceViewModel> LoadNotPaidInvoice(string number);
         Task<InvoiceViewModel> CreateAsync(InvoiceViewModel newInvoice);
         Task UpdateAsync(InvoiceViewModel invoice);
         Task DeleteAsync(InvoiceViewModel invoice);

@@ -33,6 +33,38 @@ namespace DelitaTrade.Core.Services
                 .ToArrayAsync();
         }
 
+        public async Task<InvoiceViewModel> LoadNotPaidInvoice(string number)
+        {
+            return MapToLoadedInvoice(await repo.AllReadonly<Invoice>()
+                .Include(i => i.CompanyObject)
+                .ThenInclude(i => i.Company)
+                .FirstOrDefaultAsync(i => i.Number == number) ?? throw new ArgumentNullException(NotFound(nameof(Invoice))));
+        }
+
+        private static InvoiceViewModel MapToLoadedInvoice(Invoice i)
+        {
+            var newCompany = new CompanyViewModel()
+            {
+                Id = i.CompanyObject.Company.Id,
+                Name = i.CompanyObject.Company.Name,
+                Type = i.CompanyObject.Company.Type,
+            };
+            return new InvoiceViewModel()
+            {
+                Company = newCompany,
+                CompanyObject = new CompanyObjectViewModel()
+                {
+                    Id = i.CompanyObject.Id,
+                    Name = i.CompanyObject.Name,
+                    Company = newCompany,
+                    IsBankPay = i.CompanyObject.IsBankPay
+                },
+                Number = i.Number,
+                Amount = i.Amount,
+                Weight = i.Weight,
+            };
+        }
+
         /// <summary>
         /// Create new Invoice if it not exists in storage and create new InvoiceInDayReport in day report.
         /// </summary>
@@ -45,9 +77,13 @@ namespace DelitaTrade.Core.Services
             if (newInvoice.DayReport == null) throw new ArgumentNullException(NotFound(nameof(DayReport)));
             var company = await repo.GetByIdAsync<Company>(newInvoice.Company.Id) ?? throw new ArgumentNullException(NotFound(nameof(Company)));
             var companyObject = await repo.GetByIdAsync<CompanyObject>(newInvoice.CompanyObject.Id) ?? throw new ArgumentNullException(NotFound(nameof(CompanyObject)));
-            var dayReport = await repo.GetByIdAsync<DayReport>(newInvoice.DayReport.Id) ?? throw new ArgumentNullException(NotFound(nameof(DayReport)));
-            var invoice = await repo.All<Invoice>().
-                Where(i => i.Number == newInvoice.Number)
+            var dayReport = await repo.All<DayReport>()
+                .Include(d => d.Invoices)
+                .ThenInclude(i => i.Invoice)
+                .FirstOrDefaultAsync(d => d.Id == newInvoice.DayReport.Id) ?? throw new ArgumentNullException(NotFound(nameof(DayReport)));
+
+            var invoice = await repo.All<Invoice>()
+                .Where(i => i.Number == newInvoice.Number)
                 .FirstOrDefaultAsync();
             if (invoice == null)
             {
@@ -58,7 +94,7 @@ namespace DelitaTrade.Core.Services
                     CompanyObject = companyObject,
                     Amount = newInvoice.Amount,
                     Weight = newInvoice.Weight,
-                    IsPaid = IsPaid(newInvoice)
+                    IsPaid = SetIsPaid(newInvoice)
                 };
                 await repo.AddAsync(invoice);
                 await repo.SaveChangesAsync();
@@ -66,7 +102,7 @@ namespace DelitaTrade.Core.Services
             }
             else
             {
-                await IsPaid(newInvoice, invoice);
+                await SetIsPaid(newInvoice, invoice);
             }
 
             var invoiceInDayReport = new InvoiceInDayReport()
@@ -76,26 +112,50 @@ namespace DelitaTrade.Core.Services
                 Income = newInvoice.Income,
                 PayMethod = newInvoice.PayMethod,
             };
+            dayReport.AddInvoiceToTotals(invoiceInDayReport);
             await repo.AddAsync(invoiceInDayReport);
+
             await repo.SaveChangesAsync();
             await repo.ReloadAsync(invoiceInDayReport);
-            newInvoice.Id = invoiceInDayReport.Id;
+
+            newInvoice.Id = invoiceInDayReport.Invoice.Id;
+            newInvoice.IdInDayReport = invoiceInDayReport.Id;
+            newInvoice.IsPaid = invoiceInDayReport.Invoice.IsPaid;
+
             return newInvoice;
         }
 
         public async Task DeleteAsync(InvoiceViewModel invoice)
         {
+            if (invoice.DayReport == null) throw new ArgumentNullException(NotFound(nameof(DayReport)));
+            
             InvoiceInDayReport? invoiceToDelete = await repo.GetByIdAsync<InvoiceInDayReport>(invoice.IdInDayReport)                
                 ?? throw new ArgumentNullException(NotFound(nameof(InvoiceInDayReport)));
             await repo.Include(invoiceToDelete, i => i.Invoice);
+            
+            var dayReport = await repo.All<DayReport>()
+                .Include(d => d.Invoices)
+                .ThenInclude(i => i.Invoice)
+                .FirstOrDefaultAsync(d => d.Id == invoice.DayReport.Id) ?? throw new ArgumentNullException(NotFound(nameof(DayReport)));
+           
             Invoice? invoiceInDb = await repo.All<Invoice>()
                 .Include(i => i.InvoicesInDayReports)
-                .FirstOrDefaultAsync(i => i.Number == invoiceToDelete.Invoice.Number);
+                .FirstOrDefaultAsync(i => i.Number == invoiceToDelete.Invoice.Number) ?? throw new InvalidOperationException(NotFound(nameof(Invoice)));
+
             repo.Remove(invoiceToDelete);
+            invoiceInDb.InvoicesInDayReports.Remove(invoiceToDelete);
+
             if (invoiceInDb?.InvoicesInDayReports.Count == 0)
             {
                 repo.Remove(invoiceInDb);
             }
+            else
+            {
+                SetIsPaid(invoiceInDb!);
+            }
+            
+            dayReport.RemoveInvoiceFromTotals(invoiceToDelete);
+
             await repo.SaveChangesAsync();
         }
 
@@ -115,14 +175,29 @@ namespace DelitaTrade.Core.Services
 
         public async Task UpdateAsync(InvoiceViewModel invoice)
         {
-            var invoiceToUpdate = await repo.AllReadonly<InvoiceInDayReport>()
+            if (invoice.DayReport == null) throw new ArgumentNullException(NotFound(nameof(DayReport)));
+
+            var invoiceToUpdate = await repo.All<InvoiceInDayReport>()
                 .Include(i => i.Invoice)
                 .ThenInclude(i => i.CompanyObject)
                 .ThenInclude(i => i.Company)
                 .Where(i => i.Id == invoice.IdInDayReport)
                 .FirstOrDefaultAsync()
                 ?? throw new ArgumentNullException(NotFound(nameof(InvoiceInDayReport)));
+
+            var dayReport = await repo.All<DayReport>()
+                .Include(d => d.Invoices)
+                .ThenInclude(i => i.Invoice)
+                .FirstOrDefaultAsync(d => d.Id == invoice.DayReport.Id) ?? throw new ArgumentNullException(NotFound(nameof(DayReport)));
+
+            dayReport.RemoveInvoiceFromTotals(invoiceToUpdate);
+            dayReport.Invoices.Remove(invoiceToUpdate);
+
             invoiceToUpdate.Update(invoice);
+
+            dayReport.AddInvoiceToTotals(invoiceToUpdate);
+            dayReport.Invoices.Add(invoiceToUpdate);
+
             await repo.SaveChangesAsync();
         }
 
@@ -147,6 +222,7 @@ namespace DelitaTrade.Core.Services
                     Company = newCompany,
                     IsBankPay = i.CompanyObject.IsBankPay
                 },
+                Amount = i.Amount,
                 IsPaid = i.IsPaid
             };
         }
@@ -181,7 +257,7 @@ namespace DelitaTrade.Core.Services
             };
         }
 
-        private bool IsPaid(InvoiceViewModel invoice)
+        private bool SetIsPaid(InvoiceViewModel invoice)
         {
             if (invoice.PayMethod == PayMethod.Card || invoice.PayMethod == PayMethod.Cash) return invoice.Amount <= invoice.Income;
             else if (invoice.PayMethod == PayMethod.Bank) return true;
@@ -192,7 +268,7 @@ namespace DelitaTrade.Core.Services
             else return false;
         }
 
-        private async Task IsPaid(InvoiceViewModel newInvoice, Invoice invoice)
+        private async Task SetIsPaid(InvoiceViewModel newInvoice, Invoice invoice)
         {
             decimal totalIncome = newInvoice.Income;
             var invoices = await repo.AllReadonly<InvoiceInDayReport>()
@@ -204,6 +280,18 @@ namespace DelitaTrade.Core.Services
                 item.Income += totalIncome;
             }
             if (totalIncome < newInvoice.Amount) invoice.IsPaid = false;
+            else invoice.IsPaid = true;
+        }
+
+        private void SetIsPaid(Invoice invoice)
+        {
+            decimal totalIncome = 0;
+            
+            foreach (var item in invoice.InvoicesInDayReports)
+            {
+                item.Income += totalIncome;
+            }
+            if (totalIncome < invoice.Amount) invoice.IsPaid = false;
             else invoice.IsPaid = true;
         }
         private IQueryable<InvoiceInDayReport> GetFilteredReadonlyObjects(Expression<Func<InvoiceInDayReport, bool>> filter)

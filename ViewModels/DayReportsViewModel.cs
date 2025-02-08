@@ -111,11 +111,11 @@ namespace DelitaTrade.ViewModels
         public decimal DecimalIncome => _income;
         public double DoubleWeight => _weight;
 
-        public string DeleteDayReportButtonImage => _deleteDayReportButtonImage.GetFullFilePath();
-        public string CreateDayReportButtonImage => _createDayReportButtonImage.GetFullFilePath();
-        public string AddInvoiceButtonImage => _addInvoiceButtonImage.GetFullFilePath();
-        public string UpdateInvoiceButtonImage => _updateInvoiceButtonImage.GetFullFilePath();
-        public string DeleteInvoiceButtonImage => _deleteInvoiceButtonImage.GetFullFilePath();
+        public string DeleteDayReportButtonImage => _deleteDayReportButtonImage.GetFullFilePathExt();
+        public string CreateDayReportButtonImage => _createDayReportButtonImage.GetFullFilePathExt();
+        public string AddInvoiceButtonImage => _addInvoiceButtonImage.GetFullFilePathExt();
+        public string UpdateInvoiceButtonImage => _updateInvoiceButtonImage.GetFullFilePathExt();
+        public string DeleteInvoiceButtonImage => _deleteInvoiceButtonImage.GetFullFilePathExt();
 
         public InvoiceViewModel SelectedInvoiceViewModel
         {

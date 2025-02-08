@@ -61,6 +61,7 @@ namespace DelitaTrade.Models.DI
             collection.AddTransient<WpfCompanyViewModel>();
             collection.AddTransient<WpfCompanyObjectViewModel>();
             collection.AddTransient<LabeledStringTextBoxViewModel>();
+            collection.AddTransient<LabeledCompanyTypeTextBoxViewModel>();
             collection.AddTransient<LabeledInvoiceNumberViewModel>();
             collection.AddTransient<LabeledPayMethodSelectableBoxViewModel>();
             collection.AddTransient<LabeledCurrencyViewModel>();
@@ -75,6 +76,7 @@ namespace DelitaTrade.Models.DI
             collection.AddTransient<IDayReportCrudController, DayReportCrudController>();
             collection.AddTransient<Components.ComponentsViewModel.DayReportComponentViewModels.DayReportTotalsViewModel>();
             collection.AddTransient<DayReportCommandsViewModel>();
+            collection.AddTransient<InvoicesListController>();
             collection.AddSingleton<UserController>();
             collection.AddSingleton<SoundStore>();
             collection.AddSingleton<ISoundPlayable, DefaultSoundPlayer>();

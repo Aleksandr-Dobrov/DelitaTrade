@@ -15,6 +15,8 @@ namespace DelitaTrade.Components.ComponentsViewModel
             Label = "Weight";
         }
 
+        public decimal Weight => _weight;
+
         //TODO Create validation attribute for positive number
         public override string TextBox 
         {

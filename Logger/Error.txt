@@ -5507,3 +5507,110 @@ StackTrace -    at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSi
    at DelitaTrade.App.OnStartup(StartupEventArgs e) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\App.xaml.cs:line 66
 InnerExceptioon - 
 --------------------------------------------------
+3.2.2025 г. 11:06:27 - Unable to connect to any of the specified MySQL hosts
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts
+ ---> System.ArgumentException: The value cannot be an empty string. (Parameter 'host')
+   at System.ArgumentException.ThrowNullOrEmptyException(String argument, String paramName)
+   at System.ArgumentException.ThrowIfNullOrEmpty(String argument, String paramName)
+   at System.Net.DnsEndPoint..ctor(String host, Int32 port, AddressFamily addressFamily)
+   at System.Net.Sockets.Socket.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.ConnectAsync(String host, Int32 port)
+   at System.Net.Sockets.TcpClient.ConnectAsync(String host, Int32 port)
+   at MySql.Data.Common.StreamCreator.GetTcpStreamAsync(MySqlConnectionStringBuilder settings, CancellationToken cancellationToken, Boolean execAsync)
+   at MySql.Data.Common.StreamCreator.GetStreamAsync(MySqlConnectionStringBuilder settings, CancellationToken cancellationToken, Boolean execAsync)
+   at MySql.Data.MySqlClient.NativeDriver.OpenAsync(Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.NativeDriver.OpenAsync(Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.Driver.OpenAsync(Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.Driver.CreateAsync(MySqlConnectionStringBuilder settings, Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.Driver.CreateAsync(MySqlConnectionStringBuilder settings, Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnectionAsync(Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnectionAsync(Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriverAsync(Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlPool.GetConnectionAsync(Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlConnection.OpenAsync(Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at DelitaTrade.Models.MySqlDataBase.MySqlDBReader.GetAllData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\MySqlDataBase\MySqlDBReader.cs:line 78
+Source - MySql.Data
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at MySql.Data.MySqlClient.NativeDriver.OpenAsync(Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.Driver.OpenAsync(Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.Driver.CreateAsync(MySqlConnectionStringBuilder settings, Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.Driver.CreateAsync(MySqlConnectionStringBuilder settings, Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnectionAsync(Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnectionAsync(Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriverAsync(Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlPool.GetConnectionAsync(Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlConnection.OpenAsync(Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at DelitaTrade.Models.MySqlDataBase.MySqlDBReader.GetAllData() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Models\MySqlDataBase\MySqlDBReader.cs:line 78
+InnerExceptioon - System.ArgumentException: The value cannot be an empty string. (Parameter 'host')
+   at System.ArgumentException.ThrowNullOrEmptyException(String argument, String paramName)
+   at System.ArgumentException.ThrowIfNullOrEmpty(String argument, String paramName)
+   at System.Net.DnsEndPoint..ctor(String host, Int32 port, AddressFamily addressFamily)
+   at System.Net.Sockets.Socket.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.ConnectAsync(String host, Int32 port)
+   at System.Net.Sockets.TcpClient.ConnectAsync(String host, Int32 port)
+   at MySql.Data.Common.StreamCreator.GetTcpStreamAsync(MySqlConnectionStringBuilder settings, CancellationToken cancellationToken, Boolean execAsync)
+   at MySql.Data.Common.StreamCreator.GetStreamAsync(MySqlConnectionStringBuilder settings, CancellationToken cancellationToken, Boolean execAsync)
+   at MySql.Data.MySqlClient.NativeDriver.OpenAsync(Boolean execAsync, CancellationToken cancellationToken)
+--------------------------------------------------
+8.2.2025 г. 20:41:29 - Value cannot be null. (Parameter 'InvoiceInDayReport not found')
+System.ArgumentNullException: Value cannot be null. (Parameter 'InvoiceInDayReport not found')
+   at DelitaTrade.Core.Services.InvoiceInDayReportService.DeleteAsync(InvoiceViewModel invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\DelitaTrade.Core\Services\InvoiceInDayReportService.cs:line 132
+   at DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModels.InvoiceInputCommandsViewModel.DeleteAsync() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Components\ComponentsViewModel\DayReportComponentViewModels\InvoiceInputCommandsViewModel.cs:line 190
+Source - DelitaTrade.Core
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Core.Services.InvoiceInDayReportService.DeleteAsync(InvoiceViewModel invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\DelitaTrade.Core\Services\InvoiceInDayReportService.cs:line 132
+   at DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModels.InvoiceInputCommandsViewModel.DeleteAsync() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Components\ComponentsViewModel\DayReportComponentViewModels\InvoiceInputCommandsViewModel.cs:line 190
+InnerExceptioon - 
+--------------------------------------------------
+8.2.2025 г. 20:41:33 - Value cannot be null. (Parameter 'InvoiceInDayReport not found')
+System.ArgumentNullException: Value cannot be null. (Parameter 'InvoiceInDayReport not found')
+   at DelitaTrade.Core.Services.InvoiceInDayReportService.DeleteAsync(InvoiceViewModel invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\DelitaTrade.Core\Services\InvoiceInDayReportService.cs:line 132
+   at DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModels.InvoiceInputCommandsViewModel.DeleteAsync() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Components\ComponentsViewModel\DayReportComponentViewModels\InvoiceInputCommandsViewModel.cs:line 190
+Source - DelitaTrade.Core
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Core.Services.InvoiceInDayReportService.DeleteAsync(InvoiceViewModel invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\DelitaTrade.Core\Services\InvoiceInDayReportService.cs:line 132
+   at DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModels.InvoiceInputCommandsViewModel.DeleteAsync() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Components\ComponentsViewModel\DayReportComponentViewModels\InvoiceInputCommandsViewModel.cs:line 190
+InnerExceptioon - 
+--------------------------------------------------
+8.2.2025 г. 20:42:37 - Value cannot be null. (Parameter 'InvoiceInDayReport not found')
+System.ArgumentNullException: Value cannot be null. (Parameter 'InvoiceInDayReport not found')
+   at DelitaTrade.Core.Services.InvoiceInDayReportService.DeleteAsync(InvoiceViewModel invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\DelitaTrade.Core\Services\InvoiceInDayReportService.cs:line 132
+   at DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModels.InvoiceInputCommandsViewModel.DeleteAsync() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Components\ComponentsViewModel\DayReportComponentViewModels\InvoiceInputCommandsViewModel.cs:line 190
+Source - DelitaTrade.Core
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Core.Services.InvoiceInDayReportService.DeleteAsync(InvoiceViewModel invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\DelitaTrade.Core\Services\InvoiceInDayReportService.cs:line 132
+   at DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModels.InvoiceInputCommandsViewModel.DeleteAsync() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Components\ComponentsViewModel\DayReportComponentViewModels\InvoiceInputCommandsViewModel.cs:line 190
+InnerExceptioon - 
+--------------------------------------------------
+8.2.2025 г. 20:44:24 - Value cannot be null. (Parameter 'InvoiceInDayReport not found')
+System.ArgumentNullException: Value cannot be null. (Parameter 'InvoiceInDayReport not found')
+   at DelitaTrade.Core.Services.InvoiceInDayReportService.DeleteAsync(InvoiceViewModel invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\DelitaTrade.Core\Services\InvoiceInDayReportService.cs:line 132
+   at DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModels.InvoiceInputCommandsViewModel.DeleteAsync() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Components\ComponentsViewModel\DayReportComponentViewModels\InvoiceInputCommandsViewModel.cs:line 190
+Source - DelitaTrade.Core
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Core.Services.InvoiceInDayReportService.DeleteAsync(InvoiceViewModel invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\DelitaTrade.Core\Services\InvoiceInDayReportService.cs:line 132
+   at DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModels.InvoiceInputCommandsViewModel.DeleteAsync() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Components\ComponentsViewModel\DayReportComponentViewModels\InvoiceInputCommandsViewModel.cs:line 190
+InnerExceptioon - 
+--------------------------------------------------
+8.2.2025 г. 20:48:32 - Value cannot be null. (Parameter 'InvoiceInDayReport not found')
+System.ArgumentNullException: Value cannot be null. (Parameter 'InvoiceInDayReport not found')
+   at DelitaTrade.Core.Services.InvoiceInDayReportService.DeleteAsync(InvoiceViewModel invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\DelitaTrade.Core\Services\InvoiceInDayReportService.cs:line 132
+   at DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModels.InvoiceInputCommandsViewModel.DeleteAsync() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Components\ComponentsViewModel\DayReportComponentViewModels\InvoiceInputCommandsViewModel.cs:line 190
+Source - DelitaTrade.Core
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Core.Services.InvoiceInDayReportService.DeleteAsync(InvoiceViewModel invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\DelitaTrade.Core\Services\InvoiceInDayReportService.cs:line 132
+   at DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModels.InvoiceInputCommandsViewModel.DeleteAsync() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Components\ComponentsViewModel\DayReportComponentViewModels\InvoiceInputCommandsViewModel.cs:line 190
+InnerExceptioon - 
+--------------------------------------------------
+8.2.2025 г. 20:50:10 - Value cannot be null. (Parameter 'InvoiceInDayReport not found')
+System.ArgumentNullException: Value cannot be null. (Parameter 'InvoiceInDayReport not found')
+   at DelitaTrade.Core.Services.InvoiceInDayReportService.DeleteAsync(InvoiceViewModel invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\DelitaTrade.Core\Services\InvoiceInDayReportService.cs:line 132
+   at DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModels.InvoiceInputCommandsViewModel.DeleteAsync() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Components\ComponentsViewModel\DayReportComponentViewModels\InvoiceInputCommandsViewModel.cs:line 190
+Source - DelitaTrade.Core
+Data - System.Collections.ListDictionaryInternal
+StackTrace -    at DelitaTrade.Core.Services.InvoiceInDayReportService.DeleteAsync(InvoiceViewModel invoice) in C:\Users\aleks\OneDrive\Документы\DelitaTrade\DelitaTrade.Core\Services\InvoiceInDayReportService.cs:line 132
+   at DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModels.InvoiceInputCommandsViewModel.DeleteAsync() in C:\Users\aleks\OneDrive\Документы\DelitaTrade\Components\ComponentsViewModel\DayReportComponentViewModels\InvoiceInputCommandsViewModel.cs:line 190
+InnerExceptioon - 
+--------------------------------------------------

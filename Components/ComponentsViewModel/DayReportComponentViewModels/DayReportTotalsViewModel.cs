@@ -1,4 +1,5 @@
-﻿using DelitaTrade.Core.ViewModels;
+﻿using DelitaTrade.Core.Extensions;
+using DelitaTrade.Core.ViewModels;
 using DelitaTrade.Models;
 using DelitaTrade.ViewModels;
 
@@ -17,6 +18,13 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
         public void SelectDayReport(DayReportViewModel dayReportViewModel)
         {
             _dayReportViewModel = dayReportViewModel;
+            TotalsChanged();
+        }
+
+        public void UpdateDayReport(DayReportViewModel dayReportViewModel)
+        {
+            if (_dayReportViewModel == null) return;
+            _dayReportViewModel.Update(dayReportViewModel);
             TotalsChanged();
         }
 

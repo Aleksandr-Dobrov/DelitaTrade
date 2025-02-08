@@ -1,11 +1,13 @@
 ﻿using DelitaTrade.Common.Enums;
 using DelitaTrade.Components.ComponentsViewModel.OptionsComponentViewModels;
+using DelitaTrade.Core.ViewModels;
 using DelitaTrade.ViewModels.Interfaces;
 
 namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModels
 {
     public class InvoiceCurrencyInputViewModel
     {
+        private bool _isInvoiceSelected;
         private bool _objectIsBankPay;
         private readonly LabeledWeightTextBoxViewModel _labeledStringToDecimalTextBoxViewModel;
         private readonly LabeledInvoiceNumberViewModel _invoiceNumberViewModel;
@@ -47,6 +49,17 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             PayMethodViewModel.SetPayMethod(payMethod);
         }
 
+        public void OnInvoiceSelected(InvoiceViewModel invoiceViewModel)
+        {
+            _isInvoiceSelected = true;
+            PayMethodViewModel.SetPayMethod(invoiceViewModel.PayMethod);
+            InvoiceNumberViewModel.TextBox = invoiceViewModel.Number;
+            AmountViewModel.SetCurrencyValue(invoiceViewModel.Amount);
+            IncomeViewModel.SetCurrencyValue(invoiceViewModel.Income);
+            LabeledStringToDecimalTextBoxViewModel.TextBox = invoiceViewModel.Weight.ToString();
+            _isInvoiceSelected = false;
+        }
+
         private void SetViewModels()
         {
             _invoiceNumberViewModel.Label = "Number";
@@ -75,8 +88,11 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
                 if (payMethod == PayMethod.Expense)
                 {
                     IncomeViewModel.CurrencyStatus = CurrencyStatus.Negative;
-                    InvoiceNumberViewModel.SetExpenseNumber(DateTime.Now);
                     AmountViewModel.SetCurrencyValue("0");
+                    if (_isInvoiceSelected == false)
+                    {
+                        InvoiceNumberViewModel.SetExpenseNumber(DateTime.Now);
+                    }
                 }
                 else if (payMethod == PayMethod.CreditNote)
                 {

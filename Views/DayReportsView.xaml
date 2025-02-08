@@ -164,7 +164,8 @@
                 <ColumnDefinition Width="*" MinWidth="650"/>                
                 <ColumnDefinition Width="170"/>
             </Grid.ColumnDefinitions>
-            <ListView Grid.Column="0"
+            <DayReportsView:InvoicesListView DataContext="{Binding InvoicesListController}"/>
+            <!--<ListView Grid.Column="0"
                       SelectedItem="{Binding SelectedInvoiceViewModel}"
                     ItemsSource="{Binding Invoices}" Grid.ColumnSpan="2">
                 <ListView.View>
@@ -213,7 +214,7 @@
                         </GridViewColumn>
                     </GridView>
                 </ListView.View>
-            </ListView>
+            </ListView>-->
             <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>

@@ -67,5 +67,10 @@
             if (PayMethodsToEnum[language].TryGetValue(payMethod, out PayMethod value)) return value;
             throw new InvalidDataException($"Incorrect value {payMethod}");
         }
+
+        public static string GetStringValue(this PayMethod payMethod, DelitaLanguage language)
+        {
+            return PayMethodsToString[language][payMethod];
+        }
     }
 }

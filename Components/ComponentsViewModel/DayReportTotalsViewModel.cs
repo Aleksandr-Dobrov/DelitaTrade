@@ -42,7 +42,7 @@ namespace DelitaTrade.Components.ComponentsViewModel
         public string TotalNonPay => $"{_delitaTradeDayReport.TotalNonPay:C}";               
         public string TotalOldInvoice => $"{_delitaTradeDayReport.TotalOldInvoice:C}";
         public string TotalWeight => $"{_delitaTradeDayReport.TotalWeight:F0} kg.";
-        public string ExportImageSource => _exportImageSource.GetFullFilePath();
+        public string ExportImageSource => _exportImageSource.GetFullFilePathExt();
         
         public ICommand AddNewVehicle { get; }
 

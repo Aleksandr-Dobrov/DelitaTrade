@@ -8,6 +8,7 @@ namespace DelitaTrade.Components.ComponentsViewModel
 {
     public class LabeledPayMethodSelectableBoxViewModel : LabeledStringTextBoxViewModel
     {
+        private bool _isPayMethodSilent;
         private readonly List<string> _payMethods = new();
 
         private PayMethod _payMethodText = PayMethod.Bank;
@@ -47,7 +48,7 @@ namespace DelitaTrade.Components.ComponentsViewModel
 
         private void OnViewModelChange(object? sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(TextBox))
+            if (e.PropertyName == nameof(TextBox) && _isPayMethodSilent == false)
             {
                 PayMethodChange(CurrentPayMethod);
             }

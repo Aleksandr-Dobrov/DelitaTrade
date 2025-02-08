@@ -24,8 +24,8 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             Create = new DefaultCommand(CreateDayReport);
             OnDayReportCreated += (d) => { };
         }
-        public string DeleteDayReportButtonImage => _deleteDayReportButtonImage.GetFullFilePath();
-        public string CreateDayReportButtonImage => _createDayReportButtonImage.GetFullFilePath();
+        public string DeleteDayReportButtonImage => _deleteDayReportButtonImage.GetFullFilePathExt();
+        public string CreateDayReportButtonImage => _createDayReportButtonImage.GetFullFilePathExt();
 
         public bool IsInitialized => _isInitialized;
 

@@ -48,6 +48,11 @@ namespace DelitaTrade.Components.ComponentsViewModel
             TextBox = value;
         }
 
+        public void SetCurrencyValue(decimal value)
+        {
+            TextBox = $"{value:C2}";
+        }
+
         private void OnViewModelChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(TextBox))
