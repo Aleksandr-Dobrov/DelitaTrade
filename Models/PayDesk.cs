@@ -36,6 +36,8 @@ namespace DelitaTrade.Models
             }
         }
 
+        public Dictionary<decimal, int> Banknotes => _banknotes;
+
         public string Parameters => throw new NotImplementedException();
 
         public string Data => throw new NotImplementedException();

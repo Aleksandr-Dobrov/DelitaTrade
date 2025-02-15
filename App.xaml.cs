@@ -54,7 +54,7 @@ namespace DelitaTrade
             _mySqlDataProvider = new MySqlDBDataProvider(_mySqlConnection, new CompaniesDataBase(), _configuration);
             _soundService = _serviceProvider.GetRequiredService<DelitaSoundService>();
             _delitaTrade = new DelitaTradeCompany("Delita Trade", _mySqlDataProvider, _serviceProvider);
-            _dayReportCreator = new DelitaTradeDayReport(_soundService, _mySqlDataProvider, AppConfig, _configuration);
+            _dayReportCreator = new DelitaTradeDayReport(_soundService, _mySqlDataProvider, AppConfig, _configuration, _serviceProvider);
         }
 
         protected override async void OnStartup(StartupEventArgs e)
@@ -72,6 +72,7 @@ namespace DelitaTrade
                 _delitaTrade.LoadData();
                 _delitaTrade.UpdateLoadDataBase();
                 //_delitaTrade.CopyCompaniesToEF();
+                //_dayReportCreator.CopyDayReportsToEF();
             }
             catch (Exception ex)
             {

@@ -1,10 +1,12 @@
-﻿namespace DelitaTrade.Models.Interfaces.Builder
+﻿using DelitaTrade.ViewModels.Interfaces;
+
+namespace DelitaTrade.Models.Interfaces.Builder
 {
     public interface IDayReportBuilder : IDisposable
     {
         public string ExportedFilePath { get; }
 
-        public void InitializedExporter(DayReport report);
+        public void InitializedExporter(IExportedDayReport report);
 
         public void BuildHeather();
 

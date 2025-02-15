@@ -65,10 +65,20 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             if (_dayReportViewModel?.Id != invoiceViewModel!.DayReport!.Id) throw new InvalidOperationException(nameof(DayReportUpdate));
             DayReportTotalsViewModel.UpdateDayReport(await _dayReportCrudController.ReadDayReportByIdAsync(invoiceViewModel!.DayReport!.Id));
         }
-
+          
         public async void DayReportUpdate(DayReportViewModel dayReport)
         {
             await _dayReportCrudController.UpdateDayReportAsync(dayReport);
+        }
+
+        public void AddInvoice(Core.ViewModels.InvoiceViewModel invoiceViewModel)
+        {
+            _dayReportViewModel?.Invoices.Add(invoiceViewModel);
+        }
+
+        public void RemoveInvoice(Core.ViewModels.InvoiceViewModel invoiceViewModel)
+        {
+            _dayReportViewModel?.Invoices.Remove(invoiceViewModel);
         }
 
         private void OnUserLogIn(UserViewModel userViewModel)

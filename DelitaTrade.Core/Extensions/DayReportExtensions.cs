@@ -137,7 +137,7 @@ namespace DelitaTrade.Core.Extensions
         public static bool IsEnoughCash(this DayReportViewModel dayReportViewModel)
         {
             if (dayReportViewModel == null) throw new ArgumentNullException(nameof(DayReportViewModel));
-            if (dayReportViewModel.TotalCash < dayReportViewModel.TotalAmount) return false;
+            if (dayReportViewModel.TotalCash < dayReportViewModel.TotalIncome) return false;
             return true;
         }
     }

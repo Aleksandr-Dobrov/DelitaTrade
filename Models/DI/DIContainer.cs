@@ -23,6 +23,8 @@ using DelitaTrade.Models.SoundPlayers;
 using DelitaTrade.Services;
 using DelitaTrade.ViewModels.Interfaces;
 using DelitaTrade.Models.DataProviders;
+using DelitaTrade.Core.Interfaces;
+using DelitaTrade.Core.Exporters.ExcelExporters;
 
 namespace DelitaTrade.Models.DI
 {
@@ -84,7 +86,9 @@ namespace DelitaTrade.Models.DI
             collection.AddTransient<AdvanceViewModel>();
             collection.AddTransient<DayReportExportCommandViewModel>();
             collection.AddTransient<InternetProvider>();
+            collection.AddTransient<InternetProviderViewModel>();
             collection.AddTransient<MainViewModel>();
+            collection.AddTransient<DayReportExporter>();
             collection.AddSingleton<UserController>();
             collection.AddSingleton<SoundStore>();
             collection.AddSingleton<ISoundPlayable, DefaultSoundPlayer>();

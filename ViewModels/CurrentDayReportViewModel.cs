@@ -12,7 +12,7 @@ namespace DelitaTrade.ViewModels
         }
 
         public string DayReportId => _currentDayReport.DayReportID;
-        public decimal TotalAmaunt => _currentDayReport.TotalAmaunt;
+        public decimal TotalAmaunt => _currentDayReport.TotalAmount;
         public decimal TotalIncome => _currentDayReport.TotalIncome;
         public decimal TotalExpenses => _currentDayReport.TotalExpenses;
         public decimal TotalNonPay => _currentDayReport.TotalNonPay;

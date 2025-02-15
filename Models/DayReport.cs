@@ -61,10 +61,11 @@ namespace DelitaTrade.Models
         }
 
         public IDBData PayDesk => _payDesk;
+        public PayDesk PayDeskBanknotes => _payDesk;
         public IEnumerable<IDBData> Invoices => _invoices;
         public string DayReportID => _dayReportID;
 
-        public decimal TotalAmaunt => _totalAmaunt;
+        public decimal TotalAmount => _totalAmaunt;
 
         public decimal TotalIncome => _totalIncome;
 
@@ -107,7 +108,7 @@ namespace DelitaTrade.Models
             "day_report_total_amount-=-day_report_total_income-=-day_report_total_expenses-=-day_report_total_nonPay-=-" +
             "day_report_total_oldInvoice-=-day_report_total_weight-=-pay_desk_amount-=-pay_desk_banknotes";
 
-        public string Data => $"{_user}-=-{DayReportID}-=-{string.Join('-', TransmissionDate.Split('-').Reverse())}-=-{Vehicle}-=-{TotalAmaunt}-=-" +
+        public string Data => $"{_user}-=-{DayReportID}-=-{string.Join('-', TransmissionDate.Split('-').Reverse())}-=-{Vehicle}-=-{TotalAmount}-=-" +
             $"{TotalIncome}-=-{TotalExpenses}-=-{TotalNonPay}-=-{TotalOldInvoice}-=-{TotalWeight}-=-{_payDesk.Amount}-=-{_payDesk.AllBankcote}";
 
         public string Procedure => "create_day_report";
@@ -116,7 +117,7 @@ namespace DelitaTrade.Models
 
         public object Clone()
         {
-            var clone = new DayReport(Id.ToString(), DayReportID, TotalAmaunt, TotalIncome, TotalExpenses, TotalNonPay, TotalWeight, TotalOldInvoice, Vehicle,
+            var clone = new DayReport(Id.ToString(), DayReportID, TotalAmount, TotalIncome, TotalExpenses, TotalNonPay, TotalWeight, TotalOldInvoice, Vehicle,
                                 TransmissionDate, PayDeskId, (PayDesk)_payDesk.Clone(), CloneAllInvoice());
             foreach (var item in clone.GetAllInvoices())
             {

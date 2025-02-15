@@ -26,7 +26,9 @@ namespace DelitaTrade.Core.Services
                 TotalNotPay = dayReport.TotalNotPay,
                 TotalOldInvoice = dayReport.TotalOldInvoice,
                 TotalExpense = dayReport.TotalExpense,
-                TotalWeight = dayReport.TotalWeight                
+                TotalWeight = dayReport.TotalWeight,
+                TransmissionDate = dayReport.TransmissionDate,
+                VehicleId = dayReport.Vehicle != null && dayReport.Vehicle.Id != 0 ? dayReport.Vehicle.Id : null
             };
             await repo.AddAsync(newDayReport);
             await repo.SaveChangesAsync();

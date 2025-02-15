@@ -29,9 +29,13 @@ namespace DelitaTrade.Areas.DayReportAreas
             InvoiceInputViewModel.InvoiceCreated += DayReportLoaderViewModel.DayReportUpdate;
             InvoiceInputViewModel.InvoiceDeleted += DayReportLoaderViewModel.DayReportUpdate;
             InvoiceInputViewModel.InvoiceUpdated += DayReportLoaderViewModel.DayReportUpdate;
+            InvoiceInputViewModel.InvoiceCreated += DayReportLoaderViewModel.AddInvoice;
+            InvoiceInputViewModel.InvoiceDeleted += DayReportLoaderViewModel.RemoveInvoice;
             DayReportLoaderViewModel.DayReportSelected += AdvancedViewModel.OnDayReportSelected;
             DayReportLoaderViewModel.DayReportUnSelect += AdvancedViewModel.OnDayReportUnselected;
             AdvancedViewModel.DayReportChange += DayReportLoaderViewModel.DayReportUpdate;
+            DayReportLoaderViewModel.DayReportSelected += AdvancedViewModel.DayReportExportViewModel.OnDayReportSelected;
+            DayReportLoaderViewModel.DayReportUnSelect += AdvancedViewModel.DayReportExportViewModel.OnDayReportUnselected;
         }
 
         public InvoiceInputViewModel InvoiceInputViewModel => _invoiceInputViewModel;

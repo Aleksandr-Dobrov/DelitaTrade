@@ -99,7 +99,7 @@ namespace DelitaTrade.Models
 
         public void CopyCompaniesToEF()
         {
-            var dbContext = _serviceProvider.GetService<DelitaDbContext>();
+            var dbContext = _serviceProvider.GetRequiredService<DelitaDbContext>();
             dbContext.ReturnProtocols.ExecuteDelete();
             dbContext.Objects.ExecuteDelete();
             dbContext.Traders.ExecuteDelete();

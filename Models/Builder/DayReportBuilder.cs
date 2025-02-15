@@ -15,7 +15,7 @@ namespace DelitaTrade.Models.Builder
         {
             using (_builder)
             { 
-                _builder.InitializedExporter(dayReport);
+                //_builder.InitializedExporter(dayReport);
                 _builder.BuildHeather();
                 _builder.BuildBody();
                 _builder.BuildFooter();

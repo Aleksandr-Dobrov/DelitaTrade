@@ -14,10 +14,10 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
         public AdvanceViewModel(VehiclesListViewModel vehiclesListViewModel, DayReportExportCommandViewModel dayReportExportViewModel)
         {
             _vehiclesListViewModel = vehiclesListViewModel;
+            _dayReportExportViewModel = dayReportExportViewModel;
             VehiclesListViewModel.VehiclesViewModel.Name = "Vehicle";
             VehiclesListViewModel.VehicleSelected += OnVehicleSelected;
             DayReportChange += (d) => { };
-            _dayReportExportViewModel = dayReportExportViewModel;
         }
 
         public VehiclesListViewModel VehiclesListViewModel => _vehiclesListViewModel;

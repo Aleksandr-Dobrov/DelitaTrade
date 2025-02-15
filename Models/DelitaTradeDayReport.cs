@@ -10,6 +10,13 @@ using DelitaTrade.Models.DataBases;
 using System.Configuration;
 using System.DirectoryServices.ActiveDirectory;
 using Microsoft.Extensions.Configuration;
+using DelitaTrade.Infrastructure.Data;
+using Microsoft.Extensions.DependencyInjection;
+using DelitaTrade.Core.Services;
+using DelitaTrade.ViewModels.Controllers;
+using DelitaTrade.Core.Contracts;
+using DelitaTrade.Infrastructure.Data.Models;
+using DelitaTrade.Common.Enums.EnumTranslators;
 
 namespace DelitaTrade.Models
 {
@@ -20,6 +27,7 @@ namespace DelitaTrade.Models
         private DayReportDataBase _dayReportData;
         private DayReportBuilder _dayReportBuilder;
         private readonly Configuration _appConfig;
+        private readonly IServiceProvider _serviceProvider;
 
         private decimal _totalAmound;
         private decimal _totalIncome;
@@ -29,8 +37,9 @@ namespace DelitaTrade.Models
         private double _totalWeight;
         private string _transmissionDate;
 
-        public DelitaTradeDayReport(DelitaSoundService soundPlayer, IDBProvider dBProvider, Configuration appConfig, IConfiguration configuration)
+        public DelitaTradeDayReport(DelitaSoundService soundPlayer, IDBProvider dBProvider, Configuration appConfig, IConfiguration configuration, IServiceProvider serviceProvider)
         {
+            _serviceProvider = serviceProvider;
             _soundService = soundPlayer;
             _dayReportData = new DayReportDataBase(this, dBProvider, configuration);            
             _dayReportData.DayReportsIdChanged += OnDayReportsIdChanged;
@@ -175,6 +184,10 @@ namespace DelitaTrade.Models
             {
                 new MessageBoxLogger().Log(ex, Logger.LogLevel.Warning).Log(ex, Logger.LogLevel.Warning);
             }
+        }
+        public DayReport LoadDayReportFromMySqlDb(string dayReportID)
+        {
+            return _dayReportData.LoadDayReport(dayReportID);            
         }
 
         public void DeleteDayReport(string dayReportId)
@@ -426,7 +439,7 @@ namespace DelitaTrade.Models
 
         private void SetTotalsToDayReportVievModel()
         {
-            TotalAmount = _dayReport.TotalAmaunt;
+            TotalAmount = _dayReport.TotalAmount;
             TotalIncome = _dayReport.TotalIncome;
             TotalExpenses = _dayReport.TotalExpenses;
             TotalNonPay = _dayReport.TotalNonPay;
@@ -449,6 +462,57 @@ namespace DelitaTrade.Models
         private void SetTransmissionDateToDayReportViewModel()
         {
             TransmissionDate = _dayReport.TransmissionDate;
+        }
+        public async void CopyDayReportsToEF()
+        {
+            var dayReportService = _serviceProvider.GetRequiredService<IDayReportService>();
+            var userController = _serviceProvider.GetRequiredService<UserController>();
+            var InvoiceService = _serviceProvider.GetRequiredService<IInvoiceInDayReportService>();
+            var vehicleService = _serviceProvider.GetRequiredService<IVehicleService>();
+            var companyService = _serviceProvider.GetRequiredService<ICompanyService>();
+            var companyObjectService = _serviceProvider.GetRequiredService<ICompanyObjectService>();
+
+            List<Core.ViewModels.VehicleViewModel> vehicles = (await vehicleService.AllAsync()).ToList();
+
+            foreach (var dayReportId in _dayReportData.DayReportsId)
+            {
+                var dayReport = LoadDayReportFromMySqlDb(dayReportId);
+                Core.ViewModels.VehicleViewModel? vehicle;
+                if ((vehicle = vehicles.FirstOrDefault(v => v.LicensePlate == dayReport.Vehicle)) == null)
+                {
+                    vehicle = await vehicleService.CreateAsync(new Core.ViewModels.VehicleViewModel() { LicensePlate = dayReport.Vehicle });
+                }
+
+                var newDayReport = new Core.ViewModels.DayReportViewModel()
+                {
+                    Date = DateTime.Parse(dayReport.DayReportID),
+                    TransmissionDate = DateTime.Parse(dayReport.TransmissionDate),
+                    User = userController.CurrentUser,
+                    Banknotes = dayReport.PayDeskBanknotes.Banknotes,
+                    TotalCash = dayReport.PayDeskBanknotes.Amount,
+                    Vehicle = vehicle,
+                };
+
+                newDayReport = await dayReportService.CreateAsync(newDayReport);
+
+                foreach (var invoice in dayReport.GetAllInvoices())
+                {
+                    var company = (await companyService.GetFilteredByNameAsync(invoice.CompanyName, 1)).ToArray()[0];
+                    var companyObject = (await companyObjectService.GetFilteredAsync(invoice.ObjectName.Substring(0,3),company.Id, 1)).ToArray()[0];
+                    var newInvoice = new Core.ViewModels.InvoiceViewModel()
+                    {
+                        Company = company,
+                        CompanyObject = companyObject,
+                        Number = invoice.InvoiceID,
+                        Weight = (decimal)invoice.Weight,
+                        Amount = invoice.Amount,
+                        Income = invoice.Income,
+                        PayMethod = PayMethodTranslator.GetPayMethod(Common.Enums.DelitaLanguage.Bulgarian, invoice.PayMethod),
+                        DayReport = newDayReport
+                    };
+                    await InvoiceService.CreateAsync(newInvoice);
+                }
+            }
         }
     }
 }

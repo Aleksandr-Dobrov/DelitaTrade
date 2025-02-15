@@ -1,6 +1,7 @@
 ﻿using DelitaTrade.Models.Loggers;
 using DelitaTrade.ViewModels;
 using System.ComponentModel;
+using System.Windows;
 
 namespace DelitaTrade.Commands.AddNewCompanyCommands
 {
@@ -57,7 +58,7 @@ namespace DelitaTrade.Commands.AddNewCompanyCommands
             {
                 if (e.PropertyName == property)
                 {
-                    OnCanExecuteChanged();
+                    Application.Current.Dispatcher.Invoke(new Action(OnCanExecuteChanged));
                 }
             }
         }

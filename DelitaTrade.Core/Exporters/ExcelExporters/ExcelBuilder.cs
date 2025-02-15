@@ -2,16 +2,15 @@
 using System.IO;
 using _Excel = Microsoft.Office.Interop.Excel;
 using System.Reflection;
-using DelitaTrade.Models.Interfaces.Builder;
 using System.Windows;
-using DelitaTrade.ViewModels.Interfaces;
 using DelitaTrade.Common.Enums;
 using static DelitaTrade.Common.Enums.EnumTranslators.PayMethodTranslator;
 using static DelitaTrade.Common.GlobalVariables;
+using DelitaTrade.Core.Interfaces;
 
-namespace DelitaTrade.Models.Builder
+namespace DelitaTrade.Core.Exporters.ExcelExporters
 {
-    public class ExcelBuilder : IDayReportBuilder
+    internal class ExcelBuilder : IDayReportBuilder
     {
         private const int rowsOnPage = 51;
 
@@ -30,49 +29,59 @@ namespace DelitaTrade.Models.Builder
         private int _startRow;
         private int _row;
         private int _counter = 1;
-        private int _pageCount = 0;        
+        private int _pageCount = 0;
 
-        private string _inputPath;
+        private readonly string _inputPath;
         private string _path;
         private string _excelPath;
 
-        public ExcelBuilder(string inputPath, string path)
+        public ExcelBuilder(string inputPath)
         {
             _writer = new ExcelWriter();
             _drawing = new ExcelDrawing();
             _invoiceMarker = new List<InvoiceMarker>();
             _inputPath = inputPath;
-            Path = path;
         }
 
         public string ExportedFilePath => _excelPath;
 
-        public void InitializedExporter(IExportedDayReport report)        
+        public string Path
         {
+            get => _path;
+            set
+            {
+                _path = value;
+            }
+        }
+
+        public IDayReportBuilder InitializedExporter(IExportedDayReport report, string filePath, Func<string, bool> messageToCloseAndContinue)
+        {
+            Path = filePath;
             if (IsFileNotInUse())
             {
                 _dayReport = report;
-                _excel = new _Excel.Application();
+                _excel = new Application();
                 OpenFile();
                 CreateSheet();
             }
-            else if (MesageToCloseExportFile()) 
+            else if (MessageToCloseExportFile(messageToCloseAndContinue))
             {
-                InitializedExporter(report);
+                InitializedExporter(report, filePath, messageToCloseAndContinue);
             }
             else
             {
                 throw new InvalidOperationException($"Can not export, because file:{Path} is open.");
             }
+            return this;
         }
-        
-        public void BuildHeather()
-        {   
+
+        public IDayReportBuilder BuildHeather()
+        {
             _writer.WriteDataToRange(_ws, "Дневен Отчет", true, 22, false
                 , XlHAlign.xlHAlignCenter, XlVAlign.xlVAlignCenter
                 , 1, 1, 2, 5);
             _writer.WriteDataToRange(_ws, "Дата на доставките:", false, 12, false
-                , XlHAlign.xlHAlignCenter, XlVAlign.xlVAlignCenter 
+                , XlHAlign.xlHAlignCenter, XlVAlign.xlVAlignCenter
                 , 1, 6, 1, 8);
             _writer.WriteDataToRange(_ws, _dayReport.DayReportID, false, 14, true
                 , XlHAlign.xlHAlignCenter, XlVAlign.xlVAlignCenter
@@ -84,9 +93,10 @@ namespace DelitaTrade.Models.Builder
 
             _startRow = 3;
             _pageCount = 1;
+            return this;
         }
 
-        public void BuildBody()
+        public IDayReportBuilder BuildBody()
         {
             BuildBodyHeather();
             IEnumerable<IExportedInvoice> invoices = _dayReport.Invoices
@@ -115,40 +125,40 @@ namespace DelitaTrade.Models.Builder
             List<string> nonPayInvoices = new List<string>();
 
             foreach (IExportedInvoice invoice in invoices)
-            {               
+            {
                 switch (invoice.PayMethod)
                 {
                     case PayMethod.Bank:
-                        BuildBodyComponent("Плащане по банка", ref bankPay, ref nonPayExists, invoice, nonPayInvoices, _dayReport.GetRepeatNumbering);                        
+                        BuildBodyComponent("Плащане по банка", ref bankPay, ref nonPayExists, invoice, nonPayInvoices, _dayReport.GetRepeatNumbering);
                         break;
                     case PayMethod.Card:
                         BuildBodyComponent("Плащане с карта", ref cardPay, ref nonPayExists, invoice, nonPayInvoices, _dayReport.GetRepeatNumbering);
-                        
+
                         break;
                     case PayMethod.Cash:
                     case PayMethod.ForCreditNote:
                     case PayMethod.Cancellation:
                         BuildBodyComponent("Плащане в брой", ref cashPay, ref nonPayExists, invoice, nonPayInvoices, _dayReport.GetRepeatNumbering);
-                       
+
                         break;
                     case PayMethod.CreditNote:
                         BuildBodyComponent("Кредитни известия", ref creditNote, ref nonPayExists, invoice, nonPayInvoices, _dayReport.GetRepeatNumbering);
-                        
+
                         break;
                     case PayMethod.Expense:
                         BuildBodyComponent("Разходи", ref expenses, ref nonPayExists, invoice, nonPayInvoices, _dayReport.GetRepeatNumbering);
-                        
+
                         break;
                     case PayMethod.OldPayCash:
                     case PayMethod.OldPayCard:
                         BuildBodyComponent("Стари сметки", ref oldInvoice, ref nonPayExists, invoice, nonPayInvoices, _dayReport.GetRepeatNumbering);
-                        
+
                         break;
                 }
 
                 if (IsNewPage())
                 {
-                    _drawing.BordersAroundDraw(_ws, _startRow + 2, 1, _row - 1, 8, XlLineStyle.xlContinuous, XlBorderWeight.xlMedium, "#A6A6A6");                   
+                    _drawing.BordersAroundDraw(_ws, _startRow + 2, 1, _row - 1, 8, XlLineStyle.xlContinuous, XlBorderWeight.xlMedium, "#A6A6A6");
                 }
             }
 
@@ -159,9 +169,10 @@ namespace DelitaTrade.Models.Builder
                 _drawing.BordersAroundDraw(_ws, _startRow + 2, 1, _row - 1, 8, XlLineStyle.xlContinuous, XlBorderWeight.xlMedium, "#A6A6A6");
             }
             _invoiceMarker = new List<InvoiceMarker>();
+            return this;
         }
 
-        public void BuildFooter()
+        public IDayReportBuilder BuildFooter()
         {
             var filteredBanknotes = _dayReport.Banknotes.Where(b => b.Value > 0);
             int banknotesCount = filteredBanknotes.Count();
@@ -179,11 +190,12 @@ namespace DelitaTrade.Models.Builder
             BuildTotalsFooter();
             BuildVehicleFooter();
             BuildPersonalInformationFooter();
+            return this;
         }
 
         public void Export()
         {
-            Save(); 
+            Save();
         }
 
         public void Dispose()
@@ -194,18 +206,9 @@ namespace DelitaTrade.Models.Builder
             }
         }
 
-        public string Path
-        {
-            get => _path;
-            set
-            {
-                _path = value;
-            }
-        }
-
         private void Save()
         {
-            _wb.Save();            
+            _wb.Save();
         }
 
         private void Close()
@@ -225,7 +228,7 @@ namespace DelitaTrade.Models.Builder
 
         private void Release(object obj)
         {
-            try 
+            try
             {
                 System.Runtime.InteropServices.Marshal.FinalReleaseComObject(obj);
             }
@@ -258,7 +261,7 @@ namespace DelitaTrade.Models.Builder
                 using (FileStream stream = fileInfo.Open(FileMode.Open, FileAccess.Read, FileShare.None))
                 {
                     stream.Close();
-                }                
+                }
             }
             catch
             {
@@ -267,15 +270,9 @@ namespace DelitaTrade.Models.Builder
             return true;
         }
 
-        private bool MesageToCloseExportFile()
+        private bool MessageToCloseExportFile(Func<string, bool> message)
         {
-            MessageBoxResult result = MessageBox.Show("Export file is open. Please close it and click OK.", 
-                                                        "Export",MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-            if (result == MessageBoxResult.OK)
-            {
-                return true;
-            }
-            return false;
+            return message.Invoke($"File {Path} is open. Please close it and Press OK");
         }
 
         private void InitializeData()
@@ -299,7 +296,7 @@ namespace DelitaTrade.Models.Builder
 
         private void SetBodyComponentColor()
         {
-            if(_counter % 2 == 0)
+            if (_counter % 2 == 0)
             {
                 _drawing.BackgroundColorRange(_ws, "#ededed", _row, 1, _row, 8);
             }
@@ -402,13 +399,13 @@ namespace DelitaTrade.Models.Builder
                     marker = new InvoiceMarker(_invoiceMarker[^1], invoice.Number);
                     _invoiceMarker.Add(marker);
                 }
-                else 
+                else
                 {
                     marker = _invoiceMarker.FirstOrDefault(m => m.InvoiceId == invoice.Number);
                 }
                 _writer.WriteDataToCell(_ws, $"{marker}{invoice.CompanyFullName}", _row, 2);
             }
-            else 
+            else
             {
                 _writer.WriteDataToCell(_ws, $"{invoice.CompanyFullName}", _row, 2);
             }
@@ -446,7 +443,7 @@ namespace DelitaTrade.Models.Builder
                 _writer.WriteDataToRange(_ws, "Неплатени", true, 11, false, XlHAlign.xlHAlignCenter, XlVAlign.xlVAlignCenter, _row, 1, _row, 8);
                 _counter = 1;
                 _row++;
-               
+
                 foreach (string invoice in orderedList)
                 {
                     string[] amountIncome = invoice.Split(" -- ", StringSplitOptions.RemoveEmptyEntries);
@@ -502,7 +499,7 @@ namespace DelitaTrade.Models.Builder
             }
             else
             {
-                rowCount = (banknotesCount / 2) + 1;
+                rowCount = banknotesCount / 2 + 1;
             }
 
             int rowStart = _row;
@@ -535,12 +532,12 @@ namespace DelitaTrade.Models.Builder
             _writer.WriteDataToCell(_ws, "Тотал:", true, 11,
                 XlHAlign.xlHAlignCenter, XlVAlign.xlVAlignCenter, _row, 6);
             _writer.WriteDataToRange(_ws, _totalSum.ToString("C"), true, 11, false
-                ,XlHAlign.xlHAlignLeft, XlVAlign.xlVAlignCenter, _row, 7, _row, 8);
+                , XlHAlign.xlHAlignLeft, XlVAlign.xlVAlignCenter, _row, 7, _row, 8);
             _drawing.BordersAroundDraw(_ws, rowStart - 1, 3, _row, 8, XlLineStyle.xlContinuous, XlBorderWeight.xlMedium, default);
             _row++;
-            
+
             _writer.WriteDataToCell(_ws, "Преброена сума", false, 11,
-                XlHAlign.xlHAlignCenter, XlVAlign.xlVAlignCenter, _row, 2);            
+                XlHAlign.xlHAlignCenter, XlVAlign.xlVAlignCenter, _row, 2);
             _writer.WriteDataToCell(_ws, "Разлика", false, 11,
                 XlHAlign.xlHAlignCenter, XlVAlign.xlVAlignCenter, _row + 2, 2);
             _drawing.BordersAroundDraw(_ws, _row, 2, _row + 2, 2, XlLineStyle.xlContinuous, XlBorderWeight.xlMedium, default);
@@ -618,7 +615,7 @@ namespace DelitaTrade.Models.Builder
         }
 
         private void BuildPersonalInformationFooter()
-        {   
+        {
             _writer.WriteDataToRange(_ws, "Съставил отчета / Предал:", false, 11, false
                 , XlHAlign.xlHAlignLeft, XlVAlign.xlVAlignBottom
                 , _row + 7, 2, _row + 7, 2);
@@ -626,7 +623,7 @@ namespace DelitaTrade.Models.Builder
                 , XlHAlign.xlHAlignLeft, XlVAlign.xlVAlignBottom
                 , _row + 7, 4, _row + 7, 5);
 
-            _writer.WriteDataToRange(_ws, "Александър Сергеевич Добров", true, 16, false
+            _writer.WriteDataToRange(_ws, _dayReport.EmployeeFullName, true, 16, false
                 , XlHAlign.xlHAlignCenter, XlVAlign.xlVAlignBottom
                 , _row + 8, 2, _row + 9, 3);
 
@@ -649,12 +646,10 @@ namespace DelitaTrade.Models.Builder
                 , _row + 14, 5, _row + 14, 8);
             _drawing.BorderDraw(_ws, _row + 14, 5, _row + 14, 8, XlLineStyle.xlContinuous, XlBorderWeight.xlThin, XlBordersIndex.xlEdgeTop);
 
-            string transmissionDate = string.Join('-', _dayReport.TransmissionDate.Split('-',StringSplitOptions.RemoveEmptyEntries).Reverse());
-
             _drawing.WriteDataToRange(_ws, "Дата на предаване", false, 12, false
                 , XlHAlign.xlHAlignCenter, XlVAlign.xlVAlignCenter
                 , _row + 13, 2, _row + 13, 2);
-            _drawing.WriteDataToRange(_ws, $"{transmissionDate}", true, 12, true
+            _drawing.WriteDataToRange(_ws, $"{_dayReport.TransmissionDate}", true, 12, true
                 , XlHAlign.xlHAlignCenter, XlVAlign.xlVAlignCenter
                 , _row + 14, 2, _row + 14, 2);
             _drawing.BordersAroundDraw(_ws, _row + 13, 2, _row + 14, 2, XlLineStyle.xlContinuous, XlBorderWeight.xlMedium, default);
@@ -662,23 +657,23 @@ namespace DelitaTrade.Models.Builder
 
         private bool IsNotEnoughSpaceForFooterOnPage(int banknotesCount)
         {
-            int rowRemaining = 51 - (_row % 52);
+            int rowRemaining = 51 - _row % 52;
             int banknoteIndex = 0;
-            if (banknotesCount > 0) 
+            if (banknotesCount > 0)
             {
                 banknoteIndex = 2;
             }
-            return rowRemaining < 16 + banknotesCount / 2 + banknoteIndex;            
+            return rowRemaining < 16 + banknotesCount / 2 + banknoteIndex;
         }
 
         private void BuildSheet(int sheet)
         {
             double[] columnSize = [2, 32, 9.33, 10.56, 12.78, 11.56, 11.56, 2];
             _ws = _wb.Worksheets[sheet];
-            for (int i = 1; i <= columnSize.Length; i++) 
+            for (int i = 1; i <= columnSize.Length; i++)
             {
                 _ws.Range[_ws.Cells[1, i], _ws.Cells[1, i]].ColumnWidth = columnSize[i - 1];
-            }            
+            }
         }
     }
 }
