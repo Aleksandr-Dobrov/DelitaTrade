@@ -15,18 +15,16 @@ namespace DelitaTrade.ViewModels.Controllers
     {
         private readonly CompaniesSearchViewModel _companies;
         private readonly CompanyObjectsSearchViewModel _companyObjects;
-        private CompaniesDataViewModel _companyData;
         private CompanyCommandsViewModel _companyCommands;
         private CompanyObjectCommandsViewModel _companyObjectCommands;
         private TradersListViewModel _tradersListViewModel;
         private WpfCompanyViewModel _wpfCompanyViewModel;
         private WpfCompanyObjectViewModel _wpfCompanyObjectViewModel;
 
-        public CompaniesDataManager(CompaniesSearchViewModel companies, CompanyObjectsSearchViewModel companyObjects, CompaniesDataViewModel companyDataViewModel, CompanyCommandsViewModel companyCommandsViewModel, CompanyObjectCommandsViewModel companyObjectCommands, TradersListViewModel tradersListViewModel, WpfCompanyViewModel wpfCompanyViewModel, WpfCompanyObjectViewModel wpfCompanyObjectViewModel)
+        public CompaniesDataManager(CompaniesSearchViewModel companies, CompanyObjectsSearchViewModel companyObjects, CompanyCommandsViewModel companyCommandsViewModel, CompanyObjectCommandsViewModel companyObjectCommands, TradersListViewModel tradersListViewModel, WpfCompanyViewModel wpfCompanyViewModel, WpfCompanyObjectViewModel wpfCompanyObjectViewModel)
         {
             _companies = companies;
             _companyObjects = companyObjects;
-            _companyData = companyDataViewModel;
             _companyCommands = companyCommandsViewModel;
             _companyObjectCommands = companyObjectCommands;
             _tradersListViewModel = tradersListViewModel;
@@ -42,7 +40,6 @@ namespace DelitaTrade.ViewModels.Controllers
         public CompanyCommandsViewModel CompanyCommands => _companyCommands;
 
         public CompanyObjectsSearchViewModel CompanyObjects => _companyObjects;
-        public CompaniesDataViewModel CompanyData => _companyData;
         public WpfCompanyObjectViewModel WpfCompanyObjectViewModel => _wpfCompanyObjectViewModel;
         public CompanyObjectCommandsViewModel CompanyObjectCommands => _companyObjectCommands;
 
@@ -54,7 +51,7 @@ namespace DelitaTrade.ViewModels.Controllers
             OnDisable();
         }
 
-        private void OnSelectedCompany(Core.ViewModels.CompanyViewModel company)
+        private void OnSelectedCompany(CompanyViewModel company)
         {
             CompanyObjects.SelectCompanyReference(company.Id);
         }
@@ -74,13 +71,13 @@ namespace DelitaTrade.ViewModels.Controllers
             WpfCompanyObjectViewModel.UnSelectCompany();
         }
 
-        private void LoadCompanyInputData(Core.ViewModels.CompanyViewModel company)
+        private void LoadCompanyInputData(CompanyViewModel company)
         {
             WpfCompanyViewModel.SelectViewModel(company);
             WpfCompanyObjectViewModel.SelectCompany(company);
         }
 
-        private void LoadObjectInputData(Core.ViewModels.CompanyObjectViewModel companyObject)
+        private void LoadObjectInputData(CompanyObjectViewModel companyObject)
         {
             if (Companies.CompaniesSearchBox.Value.Value == null
                 || companyObject.Company.Id != Companies.CompaniesSearchBox.Value.Value.Id)

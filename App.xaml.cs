@@ -1,16 +1,8 @@
 ﻿using DelitaTrade.ViewModels;
-using DelitaTrade.Models;
 using System.Windows;
-using System.Configuration;
-using DelitaTrade.Models.Configurations;
-using DelitaTrade.Models.SoundPlayers;
-using DelitaTrade.Services;
-using DelitaTrade.Stores;
-using DelitaTrade.Models.MySqlDataBase;
 using DelitaTrade.Models.DI;
 using DelitaTrade.Common;
 using Microsoft.Extensions.Configuration;
-using DelitaTrade.Extensions;
 using DelitaTrade.ViewModels.Controllers;
 using System.Reflection;
 using DelitaTrade.Core.Contracts;
@@ -25,14 +17,7 @@ namespace DelitaTrade
         public static IHost? AppHost { get; private set; }
         private IConfiguration _configuration;
 
-        private readonly DelitaTradeCompany _delitaTrade;
-
-        private readonly DelitaTradeDayReport _dayReportCreator;
-        private readonly DelitaSoundService _soundService;
-        private readonly Configuration AppConfig = System.Configuration.ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-        private readonly MySqlDBConnection _mySqlConnection;
-        private readonly MySqlDBDataProvider _mySqlDataProvider;
-        IServiceProvider _serviceProvider;
+        private IServiceProvider _serviceProvider;
 
 
         public App()
@@ -49,12 +34,6 @@ namespace DelitaTrade
                     _configuration = hostContent.Configuration;                    
                 }).Build();
             _serviceProvider = AppHost.Services;
-            _mySqlConnection = new MySqlDBConnection();
-            _mySqlConnection.CreateConnectionToDB(_configuration);
-            _mySqlDataProvider = new MySqlDBDataProvider(_mySqlConnection, new CompaniesDataBase(), _configuration);
-            _soundService = _serviceProvider.GetRequiredService<DelitaSoundService>();
-            _delitaTrade = new DelitaTradeCompany("Delita Trade", _mySqlDataProvider, _serviceProvider);
-            _dayReportCreator = new DelitaTradeDayReport(_soundService, _mySqlDataProvider, AppConfig, _configuration, _serviceProvider);
         }
 
         protected override async void OnStartup(StartupEventArgs e)
@@ -69,10 +48,6 @@ namespace DelitaTrade
                 };
                 MainWindow.Show();
                 base.OnStartup(e);
-                _delitaTrade.LoadData();
-                _delitaTrade.UpdateLoadDataBase();
-                //_delitaTrade.CopyCompaniesToEF();
-                //_dayReportCreator.CopyDayReportsToEF();
             }
             catch (Exception ex)
             {

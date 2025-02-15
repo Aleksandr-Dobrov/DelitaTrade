@@ -1,6 +1,6 @@
 ﻿using DelitaTrade.Commands.AddNewCompanyCommands;
 using DelitaTrade.Core.Contracts;
-using DelitaTrade.Extensions;
+using DelitaTrade.Core.ViewModels;
 using DelitaTrade.Models.Loggers;
 using DelitaTrade.ViewModels.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -66,7 +66,7 @@ namespace DelitaTrade.ViewModels.Controllers
                 {
                     using var scope = _serviceProvider.CreateScope();
                     var service = scope.GetService<ICompanyObjectService>();
-                    Core.ViewModels.CompanyObjectDeepViewModel newCompanyObject = new()
+                    CompanyObjectDeepViewModel newCompanyObject = new()
                     {
                         Name = _searchViewModel.CompanyObjectsSearchBox.TextValue,
                         Company = _companiesSearchView.CompaniesSearchBox.Value.Value,

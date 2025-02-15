@@ -1,5 +1,4 @@
 ﻿using DelitaTrade.Components.ComponentsViewModel.OptionsComponentViewModels;
-using DelitaTrade.Models.MySqlDataBase;
 using DelitaTrade.ViewModels.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -54,14 +53,12 @@ namespace DelitaTrade.Models.DI
             collection.AddTransient<ListViewInputViewModel>();
             collection.AddTransient<ReturnProtocolController>();
             collection.AddTransient<InitialInformationViewModel>();
-            collection.AddTransient<CompaniesDataViewModel>();
             collection.AddTransient<AddNewCompanyViewModel>();
             collection.AddTransient<CompanyCommandsViewModel>();
             collection.AddTransient<CompanyObjectCommandsViewModel>();
             collection.AddTransient<TradersListViewModel>();
             collection.AddTransient<TraderCommandsViewModel>();
             collection.AddSingleton<DayReportInputOptionsViewModelComponent, DayReportInputOptionsViewModelComponent>();
-            collection.AddSingleton<MySqlDbReadProvider>();
             collection.AddTransient<WpfCompanyViewModel>();
             collection.AddTransient<WpfCompanyObjectViewModel>();
             collection.AddTransient<LabeledStringTextBoxViewModel>();
@@ -78,7 +75,7 @@ namespace DelitaTrade.Models.DI
             collection.AddTransient<DayReportLoaderViewModel>();
             collection.AddTransient<DayReportListIdViewModel>();
             collection.AddTransient<IDayReportCrudController, DayReportCrudController>();
-            collection.AddTransient<Components.ComponentsViewModel.DayReportComponentViewModels.DayReportTotalsViewModel>();
+            collection.AddTransient<DayReportTotalsViewModel>();
             collection.AddTransient<DayReportCommandsViewModel>();
             collection.AddTransient<InvoicesListController>();
             collection.AddTransient<PayDeskViewModel>();

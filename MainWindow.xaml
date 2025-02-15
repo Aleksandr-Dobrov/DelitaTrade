@@ -47,8 +47,8 @@
                 </ContentControl.Resources>
             </ContentControl>
             <StackPanel Grid.Row="2" Orientation="Horizontal">
-                <TextBlock Text="Version 1.5" Margin="20 0 0 0"/>
-                <TextBlock Text="C 2024-2025" Margin="20 0 0 0"/>
+                <TextBlock Text="{Binding Version}"  Margin="20 0 0 0"/>
+                <TextBlock Text="{Binding CopyRight}" Margin="20 0 0 0"/>
             </StackPanel>
         </Grid>
     </Grid>

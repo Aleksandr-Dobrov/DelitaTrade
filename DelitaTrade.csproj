@@ -59,7 +59,6 @@
   <ItemGroup>
     <Folder Include="Assets\Command\" />
     <Folder Include="DayReportsDataBase\ExportFiles\" />
-    <Folder Include="Models\DataProviders\DayReportProviders\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,14 +1,13 @@
-﻿using DelitaTrade.Models.ReturnProtocol;
-using DelitaTrade.ViewModels;
+﻿using DelitaTrade.ViewModels;
+using DelitaTrade.Common.Constants;
 using DelitaTrade.ViewModels.ReturnProtocolControllers;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
-using DelitaTrade.Extensions;
 using DelitaTrade.Core.Contracts;
 using DelitaTrade.Core.ViewModels;
 
 namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentViewModels
-{    
+{
     public class ListViewInputViewModel : ViewModelBase
     {   
         private IServiceProvider _serviceProvider;
