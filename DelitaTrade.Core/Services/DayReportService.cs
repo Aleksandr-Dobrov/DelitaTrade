@@ -70,17 +70,15 @@ namespace DelitaTrade.Core.Services
             await repo.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<DayReportViewModel>> GetAllDatesAsync(UserViewModel userViewModel)
+        public async Task<IEnumerable<DayReportHeaderViewModel>> GetAllDatesAsync(UserViewModel userViewModel)
         {
             var user = await GetUserAsync(repo, userViewModel);
             return await repo.AllReadonly<DayReport>()
                 .Where(d => d.UserId == user.Id)
-                .Select(d => new DayReportViewModel()
+                .Select(d => new DayReportHeaderViewModel()
                 {
                     Id = d.Id,
-                    Date = d.Date,
-                    Banknotes = d.Banknotes,
-                    User = userViewModel
+                    Date = d.Date
                 }).ToArrayAsync();
         }
 
@@ -96,6 +94,18 @@ namespace DelitaTrade.Core.Services
                     Banknotes = d.Banknotes,
                     User = userViewModel
                 }).ToArrayAsync();
+        }
+
+        public async Task<DayReportBanknotesViewModel> GetBanknotesReadonlyAsync(UserViewModel user, int id)
+        {
+            return await repo.AllReadonly<DayReport>()
+                .Where(d => d.UserId == user.Id && d.Id == id)
+                .Select(d => new DayReportBanknotesViewModel()
+                {
+                    Id = id,
+                    Date = d.Date,
+                    Banknotes = d.Banknotes,
+                }).FirstOrDefaultAsync() ?? throw new ArgumentNullException(NotFound(nameof(DayReport)));
         }
 
         public async Task<DayReportViewModel> GetByIdAsync(UserViewModel userViewModel, int id)
@@ -114,7 +124,6 @@ namespace DelitaTrade.Core.Services
         public async Task UpdateAsync(DayReportViewModel dayReport)
         {
             var updatedDayReport = await repo.GetByIdAsync<DayReport>(dayReport.Id) ?? throw new ArgumentNullException(NotFound(nameof(DayReport)));
-            if(dayReport.Vehicle != null && await repo.GetByIdAsync<Vehicle>(dayReport.Vehicle.Id) == null) throw new ArgumentNullException(NotFound(nameof(Vehicle)));
             
             updatedDayReport.Update(dayReport);
             await repo.SaveChangesAsync();
@@ -140,6 +149,7 @@ namespace DelitaTrade.Core.Services
                 TotalWeight = dayReport.TotalWeight,
                 Banknotes = dayReport.Banknotes,
                 TotalCash = dayReport.TotalCash,
+                TransmissionDate = dayReport.TransmissionDate == null ? DateTime.Now : (DateTime)dayReport.TransmissionDate,
                 User = userViewModel,
                 Vehicle = dayReport.Vehicle == null ? null :
                     new VehicleViewModel()

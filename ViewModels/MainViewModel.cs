@@ -15,16 +15,19 @@ namespace DelitaTrade.ViewModels
         private ViewModelsStore _viewModelsStore;
         private NavigationBarViewModel _navigationBarViewModel;
 
-        public MainViewModel(DelitaTradeCompany delitaTrade, DelitaTradeDayReport dayReportCreator, IServiceProvider serviceProvider)
+        public MainViewModel(AddNewCompanyViewModel addCompanyViewModel, DayReportArea dayReportArea, PayDeskViewModel payDeskViewModel, ReturnProtocolController returnProtocolViewModel, OptionsViewModel optionsViewModel)
         {
             //var dayReportOptions = serviceProvider.GetService<DayReportInputOptionsViewModelComponent>();
             //ViewModelBase dayReportViewModel = new DayReportsViewModel(dayReportCreator, addCompanyViewModel, dayReportOptions, serviceProvider);
-            ViewModelBase addCompanyViewModel = serviceProvider.GetRequiredService<AddNewCompanyViewModel>();
-            ViewModelBase DayReportArea = serviceProvider.GetRequiredService<DayReportArea>();
-            ViewModelBase payDeskViewModel = new PayDeskViewModel(dayReportCreator);
-            ViewModelBase returnProtocolViewModel = serviceProvider.GetRequiredService<ReturnProtocolController>();
-            ViewModelBase optionsViewModel = serviceProvider.GetRequiredService<OptionsViewModel>();
-            _viewModelsStore = new ViewModelsStore([addCompanyViewModel, DayReportArea, payDeskViewModel, returnProtocolViewModel, optionsViewModel]);
+            //ViewModelBase addCompanyViewModel = serviceProvider.GetRequiredService<AddNewCompanyViewModel>();
+            //DayReportArea dayReportArea = serviceProvider.GetRequiredService<DayReportArea>();
+            //PayDeskViewModel payDeskViewModel = new PayDeskViewModel(serviceProvider);
+            //ViewModelBase returnProtocolViewModel = serviceProvider.GetRequiredService<ReturnProtocolController>();
+            //ViewModelBase optionsViewModel = serviceProvider.GetRequiredService<OptionsViewModel>();
+            dayReportArea.DayReportLoaderViewModel.DayReportSelected += payDeskViewModel.OnDayReportSelected;
+            dayReportArea.DayReportLoaderViewModel.DayReportUnSelect += payDeskViewModel.OnDayReportUnselected;
+            dayReportArea.DayReportLoaderViewModel.DayReportTotalsViewModel.DayReportUpdated += payDeskViewModel.GetAllBanknotes;
+            _viewModelsStore = new ViewModelsStore([addCompanyViewModel, dayReportArea, payDeskViewModel, returnProtocolViewModel, optionsViewModel]);
             _viewModelsStore.ViewModelChanged += OnViewModelChanged;
             _navigationBarViewModel = new NavigationBarViewModel(_viewModelsStore);
             _viewModelsStore.SetViewModel<AddNewCompanyViewModel>();

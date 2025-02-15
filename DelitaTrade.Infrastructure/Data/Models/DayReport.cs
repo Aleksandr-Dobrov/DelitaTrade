@@ -9,6 +9,7 @@ namespace DelitaTrade.Infrastructure.Data.Models
         [Key]
         public int Id { get; set; }
         public required DateTime Date { get; set; }
+        public DateTime? TransmissionDate { get; set; }
         [Column(TypeName = Money)]
         public decimal TotalAmount { get; set; }
         [Column(TypeName = Money)]

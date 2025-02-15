@@ -24,7 +24,7 @@ namespace DelitaTrade.ViewModels.Controllers
             var newDayReport = new DayReportViewModel()
             {
                 Date = dayReport.Date,
-                Banknotes = dayReport.Banknotes,
+                TransmissionDate = DateTime.Now,
                 User = userController.CurrentUser
             };
 
@@ -42,12 +42,20 @@ namespace DelitaTrade.ViewModels.Controllers
             OnDeleted?.Invoke(new WpfDayReportIdViewModel() { Id = dayReportId });
         }
 
-        public async Task<IEnumerable<DayReportViewModel>> ReadAll()
+        public async Task<IEnumerable<DayReportHeaderViewModel>> ReadAllHeaders()
         {
             using var scope = serviceProvider.CreateScope();
             var service = scope.GetService<IDayReportService>();
             var userController = scope.GetService<UserController>();
             return await service.GetAllDatesAsync(userController.CurrentUser);
+        }
+
+        public async Task<DayReportBanknotesViewModel> ReadDayReportBanknotesByIdAsync(int Id)
+        {
+            using var scope = serviceProvider.CreateScope();
+            var service = scope.GetService<IDayReportService>();
+            var userController = scope.GetService<UserController>();
+            return await service.GetBanknotesReadonlyAsync(userController.CurrentUser, Id);
         }
 
         public async Task<DayReportViewModel> ReadDayReportByIdAsync(int Id)
@@ -58,9 +66,11 @@ namespace DelitaTrade.ViewModels.Controllers
             return await service.GetByIdAsync(userController.CurrentUser, Id);
         }
 
-        public Task<DayReportViewModel> UpdateDayReportAsync(DayReportViewModel dayReport)
+        public async Task UpdateDayReportAsync(DayReportViewModel dayReport)
         {
-            throw new NotImplementedException();
+            using var scope = serviceProvider.CreateScope();
+            var service = scope.GetService<IDayReportService>();
+            await service.UpdateAsync(dayReport);
         }
     }
 }

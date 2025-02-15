@@ -11,7 +11,7 @@ namespace DelitaTrade.Core.Services
     {
         public async Task<IEnumerable<VehicleViewModel>> AllAsync()
         {
-            return await repo.All<Vehicle>()
+            return await repo.AllReadonly<Vehicle>()
                 .Select(v => new VehicleViewModel() 
                 { 
                     Id = v.Id,
@@ -21,7 +21,7 @@ namespace DelitaTrade.Core.Services
                 ).ToArrayAsync();
         }
 
-        public async Task<int> CreateAsync(VehicleViewModel vehicle)
+        public async Task<VehicleViewModel> CreateAsync(VehicleViewModel vehicle)
         {
             if (await repo.GetByIdAsync<Vehicle>(vehicle.Id) != null) throw new ArgumentException(IsExists(vehicle));
             var newVehicle = new Vehicle() 
@@ -32,7 +32,8 @@ namespace DelitaTrade.Core.Services
             await repo.AddAsync(newVehicle);
             await repo.SaveChangesAsync();
             await repo.ReloadAsync(newVehicle);
-            return newVehicle.Id;
+            vehicle.Id = newVehicle.Id;
+            return vehicle;
         }
 
         public async Task DeleteSoftAsync(int id)

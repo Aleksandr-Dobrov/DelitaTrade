@@ -22,204 +22,34 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
+            </Grid.ColumnDefinitions>            
             <DayReportsView:InvoiceInputsView Grid.Column="0" 
                                               DataContext="{Binding InvoiceInputViewModel}"
                                               IsEnabled="{Binding IsEditable}"/>
-            <!--<Grid Grid.Column="0"  Margin="0 8 0 0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Background="AliceBlue">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*"/>
-                        <ColumnDefinition Width="60"/>
-                        <ColumnDefinition Width="1.5*"/>
-                        <ColumnDefinition Width="auto" MaxWidth="60"/>
-                        <ColumnDefinition Width="80"/>
-                        <ColumnDefinition Width="80"/>
-                        <ColumnDefinition Width="80"/>
-                        <ColumnDefinition Width="80"/>
-                    </Grid.ColumnDefinitions>
-                    <<TextBlock Grid.Column="0" Text="Company" MinWidth="180" Width="auto" TextAlignment="Center"/>
-                    <TextBlock Grid.Column="1" Text="Type" MinWidth="60" Width="auto" TextAlignment="Center"/>
-                    <TextBlock Grid.Column="2" Text="Object" MinWidth="140" Width="auto" TextAlignment="Center"/>
-                    <TextBlock Grid.Column="3" Text="Weight" MinWidth="60" Width="auto" TextAlignment="Center" 
-                               Visibility="{Binding DayReportInputOptions.Visibility}"/>
-                    <TextBlock Grid.Column="4" Text="Document ID" MinWidth="80" Width="auto" TextAlignment="Center"/>
-                    <TextBlock Grid.Column="5" Text="Amount" MinWidth="80" Width="auto" TextAlignment="Center"/>
-                    <TextBlock Grid.Column="6" Text="Pay Method" MinWidth="80" Width="auto" TextAlignment="Center"/>
-                    <TextBlock Grid.Column="7" Text="Income" MinWidth="80" Width="auto" TextAlignment="Center"/>
-                </Grid>
-                <Grid Grid.Row="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*"/>
-                        <ColumnDefinition Width="60"/>
-                        <ColumnDefinition Width="1.5*"/>
-                        <ColumnDefinition Width="auto" MaxWidth="60"/>
-                        <ColumnDefinition Width="80"/>
-                        <ColumnDefinition Width="80"/>
-                        <ColumnDefinition Width="80"/>
-                        <ColumnDefinition Width="80"/>
-                    </Grid.ColumnDefinitions>
-                    <ComponentsView88be9dc1:SearchComboBox Grid.Column="0" MinWidth="180" x:Name="company" DataContext="{Binding SearchBox.CompaniesSearchBox}"/>
-                    <TextBox Grid.Column="1" MinWidth="60" Name="type" Text="{Binding SearchBox.CompaniesSearchBox.Value.Value.Type, UpdateSourceTrigger=PropertyChanged}"/>
-                    <ComponentsView88be9dc1:SearchComboBox Grid.Column="2" MinWidth="140" x:Name="companyObject" DataContext="{Binding SearchBoxObject.CompanyObjectsSearchBox}"/>
-                    <TextBox Grid.Column="3" MinWidth="60" Name="weight" Text="{Binding Weight}" 
-                             IsEnabled="{Binding DayReportInputOptions.WeightIsOn}"
-                             Visibility="{Binding DayReportInputOptions.Visibility}"
-                             GotFocus="TextBox_GotFocus"/>
-                    <ComponentsView88be9dc1:LabeledInvoiceBox Grid.Column="4" DataContext="{Binding LabeledInvoiceNumberViewModel}"/>
-                    <ComponentsView88be9dc1:LabeledCurrencyTextBox Grid.Column="5" DataContext="{Binding LabeledCurrencyViewModel}"/>
-                    <ComponentsView88be9dc1:LabeledPayMethodBox Grid.Column="6" x:Name="payMethod" DataContext="{Binding LabeledPayMethodSelectableBoxViewModel}"/>
-                    <TextBox Grid.Column="7" MinWidth="80" Name="income" Text="{Binding Income}"
-                             IsEnabled="{Binding IncomeEnable}"
-                             GotFocus="TextBoxIncomeGotFocus"
-                             PreviewKeyDown="IncomeKeyDown"/>
-                </Grid>
-            </Grid>-->
-            <!--<Grid Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Button Style="{DynamicResource ButtonStyleAdd}"  Grid.Column="0"                             
-                            Margin="6 -5 1 1 " Width="38"   
-                            Background="{Binding InputViewModel.InvoiceInputCommandsViewModel.AddButtonColor, UpdateSourceTrigger=PropertyChanged}"
-                            IsEnabled="{Binding InputViewModel.InvoiceInputCommandsViewModel.CommandsEnable}"
-                            Command="{Binding InputViewModel.InvoiceInputCommandsViewModel.Create}">
-                        <Image Source="{Binding AddInvoiceButtonImage}" Margin="0 0.3 0 0"/>
-                    </Button>
-                    <Button Style="{DynamicResource ButtonStyleUpdate}" Grid.Column="1"
-                            Margin="1 -5 6 1" Width="38"
-                            IsEnabled="{Binding InputViewModel.InvoiceInputCommandsViewModel.CommandsEnable}"
-                            Command="{Binding InputViewModel.InvoiceInputCommandsViewModel.Update}">
-                        <Image Source="{Binding UpdateInvoiceButtonImage}" Margin="0.9"/>
-                    </Button>
-                </Grid>
-
-                <Button Style="{DynamicResource ButtonStyleRemove}" 
-                        Grid.Row="1" Margin="0 -5 0 0" Width="38" 
-                        FontSize="14" FontWeight="Medium"
-                        IsEnabled="{Binding InputViewModel.InvoiceInputCommandsViewModel.CommandsEnable}"
-                        Command="{Binding InputViewModel.InvoiceInputCommandsViewModel.Delete}">
-                    <Image Source="{Binding DeleteInvoiceButtonImage}" Margin="0.9"/>
-                </Button>
-            </Grid>-->
             <DayReportsView:InvoiceCommandButtons Grid.Column="1"
-                                                  DataContext="{Binding InvoiceInputViewModel.InvoiceInputCommandsViewModel}"/>
+                          DataContext="{Binding InvoiceInputViewModel.InvoiceInputCommandsViewModel}"/>
+            
         </Grid>
         <DayReportsView:DayReportLoaderView Grid.Row="0"
                                             Panel.ZIndex="-1"
                                             Margin="0 5 0 -15"
                                             DataContext="{Binding DayReportLoaderViewModel}"/>
-        <!--<Grid Grid.Row="0" Margin="0 5 0 5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-            <Button Style="{DynamicResource ButtonStyleRemove}" 
-                    Grid.Column="0" Margin="1" Width="38"
-                    Command="{Binding DeleteDayReportCommand}">
-                <Image Source="{Binding DeleteDayReportButtonImage}" Margin="6 1 1 1"/>
-            </Button>
-            <ComponentsView88be9dc1:LoadDayReportBox DataContext="{Binding DayReportLoaderViewModel.DayReportListIdViewModel}" Grid.Column="1" Width="auto" Height="28" 
-                                         HorizontalAlignment="Left" Margin="6"/>
-            <Grid Grid.Column="2" Margin="10 0 5 6">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Text="Day report ID" HorizontalAlignment="Right" 
-                           Background="AliceBlue" Width="80" TextAlignment="Center"/>
-                <TextBox Grid.Row="1" Text="{Binding Date}" Width="80" HorizontalAlignment="Right"/>
-            </Grid>
-            <Grid Grid.Column="3" Width="auto" HorizontalAlignment="Center">
-                <Button Style="{DynamicResource ButtonStyleAdd}" Margin="1" Width="38"
-                        Command="{Binding CreateNewDayReportCommand}" 
-                        FontSize="14" FontWeight="Medium">
-                    <Image Source="{Binding CreateDayReportButtonImage}" Margin="6 1 1 1"/>
-                </Button>                
-            </Grid>            
-            <Border Grid.Column="4" Margin="10 0 0 0" HorizontalAlignment="Right" BorderThickness="0" Background="{Binding DayReportColor}" CornerRadius="12">
-                <TextBlock Grid.Column="2" Text="Day Report :" Background="Transparent" 
-                           Margin="5 0 5 0" FontSize="30" FontWeight="Medium" TextAlignment="Right"/>
-            </Border>
-            <TextBlock Grid.Column="5" Text="{Binding DayReportId}"
-                       Background="AliceBlue" TextAlignment="Center"
-                       Width="200" FontSize="30" FontWeight="Medium"/>
-        </Grid>-->
         <Grid Grid.Row="2" Background="AliceBlue">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" MinWidth="650"/>                
                 <ColumnDefinition Width="170"/>
             </Grid.ColumnDefinitions>
             <DayReportsView:InvoicesListView DataContext="{Binding InvoicesListController}"/>
-            <!--<ListView Grid.Column="0"
-                      SelectedItem="{Binding SelectedInvoiceViewModel}"
-                    ItemsSource="{Binding Invoices}" Grid.ColumnSpan="2">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Company" Width="210">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding CompanyName}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Header="Object Name" Width="210">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding ObjectName}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Header="InvoiceID" Width="80">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding InvoiceID}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Header="Amount" Width="85">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding StringAmount}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Header="Income" Width="85">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding StringIncome}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Header="Pay Method" Width="67">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding PayMethod}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView>
-                </ListView.View>
-            </ListView>-->
             <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <ComponentsView88be9dc1:DayReportTotalsViewComponent DataContext="{Binding DayReportLoaderViewModel.DayReportTotalsViewModel}"/>
+                <ComponentsView88be9dc1:DayReportTotalsViewComponent Grid.Row="0" 
+                                                                     DataContext="{Binding DayReportLoaderViewModel.DayReportTotalsViewModel}"/>
+                <DayReportsView:AdvanceView Grid.Row="1"
+                                            DataContext="{Binding AdvancedViewModel}"
+                                            IsEnabled="{Binding IsEditable}"/>
             </Grid>
         </Grid>
     </Grid>

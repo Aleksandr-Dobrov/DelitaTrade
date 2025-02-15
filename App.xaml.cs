@@ -65,7 +65,7 @@ namespace DelitaTrade
                 UserLogin(_configuration);
                 MainWindow = new MainWindow()
                 {
-                    DataContext = new MainViewModel(_delitaTrade, _dayReportCreator, _serviceProvider)
+                    DataContext = _serviceProvider.GetRequiredService<MainViewModel>()
                 };
                 MainWindow.Show();
                 base.OnStartup(e);

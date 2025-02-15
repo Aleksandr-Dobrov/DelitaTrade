@@ -8,7 +8,7 @@
              d:DataContext="{d:DesignInstance Type=viewmodels:PayDeskViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid IsEnabled="{Binding IsEditable}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition/>

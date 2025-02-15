@@ -61,7 +61,7 @@
                        TextAlignment="Right"/>
         </Border>
         <TextBlock Grid.Column="5"
-                   Text="{Binding DayReportId}"
+                   Text="{Binding DayReportDate}"
                    Background="AliceBlue" 
                    TextAlignment="Left"
                    Width="200"

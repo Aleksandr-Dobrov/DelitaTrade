@@ -1,39 +1,45 @@
 ﻿using DelitaTrade.Models.Loggers;
-using DelitaTrade.ViewModels;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.util;
 
 namespace DelitaTrade.Commands.AddNewCompanyCommands
 {
-    public class DefaultCommand : CommandBase
+    public class NotAsyncDefaultCommand : CommandBase
     {
         private string[] _properties;
 
-        public DefaultCommand(Func<Task> action) 
+        public NotAsyncDefaultCommand(Action action)
         {
             Action = action;
             CanExecuteAction += () => { return true; };
             _properties = [];
         }
-        public DefaultCommand(Func<Task> action, Func<bool> canExecuteAction, INotifyPropertyChanged eventArg, params string[] property)
+
+        public NotAsyncDefaultCommand(Action action, Func<bool> canExecuteAction, INotifyPropertyChanged eventArg, params string[] property)
         {
             Action = action;
             CanExecuteAction = canExecuteAction;
             eventArg.PropertyChanged += OnViewModelChange;
             _properties = property;
         }
-
-        public DefaultCommand(Func<Task> action, Func<bool> canExecuteAction, IEnumerable<INotifyPropertyChanged> eventArgs, params string[] property)
+        public NotAsyncDefaultCommand(Action action, Func<bool> canExecuteAction, IEnumerable<INotifyPropertyChanged> eventArgs, params string[] property)
         {
             Action = action;
             CanExecuteAction = canExecuteAction;
-            foreach (var eventArg in eventArgs) 
+            foreach (var eventArg in eventArgs)
             {
                 eventArg.PropertyChanged += OnViewModelChange;
             }
             _properties = property;
         }
 
-        public event Func<Task> Action;
+        public event Action Action;
+
         public event Func<bool> CanExecuteAction;
 
         public override bool CanExecute(object? parameter)
@@ -61,8 +67,5 @@ namespace DelitaTrade.Commands.AddNewCompanyCommands
                 }
             }
         }
-
-        
     }
 }
-

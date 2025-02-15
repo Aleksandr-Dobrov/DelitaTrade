@@ -16,7 +16,7 @@ using System.Windows.Media.Media3D;
 namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModels
 {
     public class InvoiceInputCommandsViewModel(IServiceProvider serviceProvider) : ViewModelBase
-    {        
+    {
         private const string _addInvoiceButtonImage = "Components\\ComponentAssets\\DayReport\\add.png";
         private const string _updateInvoiceButtonImage = "Components\\ComponentAssets\\DayReport\\update.png";
         private const string _deleteInvoiceButtonImage = "Components\\ComponentAssets\\DayReport\\remove.png";
@@ -26,6 +26,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
         private string _addButtonColor = _lightGreenColor;
 
         private bool _isInitialized;
+        private bool _isInvoiceNotPay;
 
 
         private InvoiceCompaniesInputViewModel _companiesViewModel;
@@ -49,7 +50,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
         public bool CommandsEnable
         {
             get => _commandsEnable;
-            set 
+            set
             {
                 _commandsEnable = value;
                 OnPropertyChange();
@@ -77,6 +78,8 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             _currencyViewModel = currencyViewModel;
             _currencyViewModel.InvoiceNumberViewModel.OnInvoiceNumberChanged += OnInvoiceNumberChange;
             InvoiceCreated += SetAddInvoiceStatus;
+            InvoiceUpdated += SetAddInvoiceStatus;
+            _currencyViewModel.InvoiceNumberViewModel.OnLostFocusEvent += OnInvoiceNumberLostFocus;
             NotPaidInvoiceNumberSelected += LoadNotPaidInvoice;
 
             Create = new DefaultCommand(CreateAsync, CanCreate,
@@ -94,6 +97,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             nameof(_companiesViewModel.CompanyObjectsViewModel.CompanyObjectsSearchBox.TextValue),
             nameof(_companiesViewModel.CompanyTypeViewModel.TextBox),
             nameof(_currencyViewModel.InvoiceNumberViewModel),
+            nameof(_currencyViewModel.InvoiceNumberViewModel.HasErrors),
             nameof(_currencyViewModel.AmountViewModel.TextBox),
             nameof(_currencyViewModel.IncomeViewModel.TextBox),
             nameof(_currencyViewModel.LabeledStringToDecimalTextBoxViewModel),
@@ -150,6 +154,21 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             _invoiceViewModel = null;
             OnPropertyChange(nameof(_invoiceViewModel));
         }
+
+        private async Task LoadNotPaidInvoice(string number)
+        {
+            _currencyViewModel.InvoiceNumberViewModel.NonPayInvoiceOnLoading(number);
+            using var scope = serviceProvider.CreateScope();
+            var service = scope.GetService<IInvoiceInDayReportService>();
+            var res = await Task.Run(() =>
+            {
+                return service.LoadNotPaidInvoice(number);
+            });
+            NonPaidInvoiceLoaded?.Invoke(res);
+            _currencyViewModel.InvoiceNumberViewModel.InvoiceNotPaid(number);
+            AddButtonColor = _orangeYellowColor;
+        }
+
         private async Task CreateAsync()
         {
             try
@@ -171,32 +190,47 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
                 newInvoice = await invoiceService.CreateAsync(newInvoice);
                 InvoiceCreated?.Invoke(newInvoice);
             }
+            catch (InvalidOperationException e)
+            {
+                new MessageBoxLogger().Log(e, Logger.LogLevel.Information);
+            }
             catch (ArgumentNullException ex)
-            { 
+            {
                 new MessageBoxLogger().Log(ex, Logger.LogLevel.Error).Log(ex, Logger.LogLevel.Error);
             }
-            
+
         }
 
-        private async Task UpdateAsync() 
+        private async Task UpdateAsync()
         {
-            if(_invoiceViewModel == null) throw new ArgumentNullException(ExceptionMessages.NotFound(nameof(Core.ViewModels.InvoiceViewModel)));
-            _invoiceViewModel.Company = _companiesViewModel.CompaniesViewModel.CompaniesSearchBox.Value.Value;
-            _invoiceViewModel.CompanyObject = _companiesViewModel.CompanyObjectsViewModel.CompanyObjectsSearchBox.Value.Value;
-            _invoiceViewModel.Weight = _currencyViewModel.LabeledStringToDecimalTextBoxViewModel.Weight;
-            _invoiceViewModel.Amount = _currencyViewModel.AmountViewModel.Money;
-            _invoiceViewModel.Income = _currencyViewModel.IncomeViewModel.Money;
-            _invoiceViewModel.PayMethod = _currencyViewModel.PayMethodViewModel.CurrentPayMethod;
+            try
+            {
+                if (_invoiceViewModel == null) throw new ArgumentNullException(ExceptionMessages.NotFound(nameof(Core.ViewModels.InvoiceViewModel)));
+                _invoiceViewModel.Company = _companiesViewModel.CompaniesViewModel.CompaniesSearchBox.Value.Value;
+                _invoiceViewModel.CompanyObject = _companiesViewModel.CompanyObjectsViewModel.CompanyObjectsSearchBox.Value.Value;
+                _invoiceViewModel.Weight = _currencyViewModel.LabeledStringToDecimalTextBoxViewModel.Weight;
+                _invoiceViewModel.Amount = _currencyViewModel.AmountViewModel.Money;
+                _invoiceViewModel.Income = _currencyViewModel.IncomeViewModel.Money;
+                _invoiceViewModel.PayMethod = _currencyViewModel.PayMethodViewModel.CurrentPayMethod;
 
-            using var scope = serviceProvider.CreateScope();
-            var service = scope.GetService<IInvoiceInDayReportService>();
-            await service.UpdateAsync(_invoiceViewModel);
-            InvoiceUpdated?.Invoke(_invoiceViewModel);
+                using var scope = serviceProvider.CreateScope();
+                var service = scope.GetService<IInvoiceInDayReportService>();
+                await service.UpdateAsync(_invoiceViewModel);
+                InvoiceUpdated?.Invoke(_invoiceViewModel);
+            }
+            catch (InvalidOperationException e) 
+            {
+                new MessageBoxLogger().Log(e, Logger.LogLevel.Information);
+            }
+            catch (ArgumentNullException ex)
+            {
+                new MessageBoxLogger().Log(ex, Logger.LogLevel.Error).Log(ex, Logger.LogLevel.Error);
+            }
         }
-        private async Task DeleteAsync() 
+        private async Task DeleteAsync()
         {
-            try 
-            { 
+            try
+            {
                 var invoiceToDelete = _invoiceViewModel ?? throw new ArgumentNullException(ExceptionMessages.NotFound(nameof(Core.ViewModels.InvoiceViewModel)));
                 using var scope = serviceProvider.CreateScope();
                 var service = scope.GetService<IInvoiceInDayReportService>();
@@ -205,7 +239,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
                 InvoiceDeleted?.Invoke(invoiceToDelete);
             }
             catch (ArgumentNullException ex)
-            { 
+            {
                 new MessageBoxLogger().Log(ex, Logger.LogLevel.Error).Log(ex, Logger.LogLevel.Error);
             }
         }
@@ -215,18 +249,19 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             return _companiesViewModel.HasError == false && _currencyViewModel.HasError == false;
         }
 
-        private bool CanUpdate() 
+        private bool CanUpdate()
         {
             return _companiesViewModel.HasError == false && _invoiceViewModel != null;
         }
 
         private bool CanDelete()
         {
-            return _invoiceViewModel != null; 
+            return _invoiceViewModel != null;
         }
 
         private async Task OnInvoiceNumberChange(string number)
-        {           
+        {
+            _isInvoiceNotPay = false;
             using var scope = serviceProvider.CreateScope();
             var invoiceService = scope.GetService<IInvoicePaymentService>();
             if (await invoiceService.IsExists(number))
@@ -237,13 +272,13 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
                 }
                 else
                 {
-                    NotPaidInvoiceNumberSelected?.Invoke(number);                    
+                    _isInvoiceNotPay = true;
                 }
             }
             else
             {
                 AddButtonColor = _lightGreenColor;
-            }            
+            }
             OnPropertyChange(nameof(OnInvoiceNumberChange));
         }
 
@@ -262,18 +297,16 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             }
         }
 
-        public async Task LoadNotPaidInvoice(string number)
+        private void OnInvoiceNumberLostFocus(string number)
         {
-            _currencyViewModel.InvoiceNumberViewModel.NonPayInvoiceOnLoading(number);
-            using var scope = serviceProvider.CreateScope();
-            var service = scope.GetService<IInvoiceInDayReportService>();
-            var res = await Task.Run(() => 
+            if (_isInvoiceNotPay)
             {
-                return service.LoadNotPaidInvoice(number);
-            });
-            NonPaidInvoiceLoaded?.Invoke(res);
-            _currencyViewModel.InvoiceNumberViewModel.InvoiceNotPaid(number);
-            AddButtonColor = _orangeYellowColor;
+                NotPaidInvoiceNumberSelected?.Invoke(number);
+            }
+            else
+            {
+                _currencyViewModel.IncomeViewModel.SetMaxCurrencyValue(_currencyViewModel.AmountViewModel.Money);
+            }
         }
     }
 }

@@ -5,10 +5,11 @@ namespace DelitaTrade.ViewModels.Interfaces
 {
     public interface IDayReportCrudController
     {
-        Task<IEnumerable<DayReportViewModel>> ReadAll();
+        Task<IEnumerable<DayReportHeaderViewModel>> ReadAllHeaders();
         Task<DayReportViewModel> ReadDayReportByIdAsync(int Id);
+        Task<DayReportBanknotesViewModel> ReadDayReportBanknotesByIdAsync(int Id);
         Task<DayReportViewModel> CreateDayReportAsync(WpfDayReportViewModel dayReport);
-        Task<DayReportViewModel> UpdateDayReportAsync(DayReportViewModel dayReport);
+        Task UpdateDayReportAsync(DayReportViewModel dayReport);
         Task DeleteDayReportByIdAsync(int dayReportId);
 
         event Action<DayReportViewModel> OnCreated;

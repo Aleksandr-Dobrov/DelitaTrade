@@ -128,14 +128,14 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             if (IsInitialized) return;
             dayReportController.OnCreated += YearMonthDayAdd;
             dayReportController.OnDeleted += YearMontDayRemove;
-            LoadDayReportIds(await dayReportController.ReadAll());
+            LoadDayReportIds(await dayReportController.ReadAllHeaders());
             _isInitialized = true;
         }
 
         public async void UpdateCollection(IDayReportCrudController dayReportController)
         {
             if (IsInitialized == false) throw new InvalidOperationException(ExceptionMessages.NotInitialized(nameof(DayReportListIdViewModel)));
-            LoadDayReportIds(await dayReportController.ReadAll());
+            LoadDayReportIds(await dayReportController.ReadAllHeaders());
         }
 
         private void YearMonthDayUpdate()
@@ -201,7 +201,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             OnPropertyChange(nameof(Days));
         }
 
-        private void LoadDayReportIds(IEnumerable<DayReportViewModel> dayReports)
+        private void LoadDayReportIds(IEnumerable<DayReportHeaderViewModel> dayReports)
         {
             foreach (var dayReport in dayReports)
             {

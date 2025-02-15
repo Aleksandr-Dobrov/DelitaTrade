@@ -19,7 +19,8 @@ using System.Windows.Input;
 using System.Windows.Xps.Packaging;
 
 namespace DelitaTrade.ViewModels
-{
+{   
+    //Deprecated
     public class DayReportsViewModel : ViewModelBase
     {
         private const string _deleteDayReportButtonImage = "Components\\ComponentAssets\\DayReport\\delete-file_40456.png";
@@ -255,7 +256,7 @@ namespace DelitaTrade.ViewModels
             PaymentChange += SetExpenseInvoiceId;
             AmountChange += SetIncome;
             PaymentChange += SetIncome;
-            _delitaTradeDayReport.CurentDayReportSelect += CurrendDayReportViewModelSelect;
+            _delitaTradeDayReport.CurentDayReportSelect += CurrentDayReportViewModelSelect;
             _delitaTradeDayReport.CurentDayReportSelect += OnCurentDayReportChanged;
             _delitaTradeDayReport.CurentDayReportSelect += OnSelectDayReportColorCanged;
             _delitaTradeDayReport.CurrentDayReportUnselected += CurrentDayReportViewModelUnselect;
@@ -351,7 +352,7 @@ namespace DelitaTrade.ViewModels
             }
         }
 
-        private void CurrendDayReportViewModelSelect()
+        private void CurrentDayReportViewModelSelect()
         {
             _currentDayReportViewModel = new CurrentDayReportViewModel(_delitaTradeDayReport.DayReport);
             SetDayReportIdNextDate();

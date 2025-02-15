@@ -35,6 +35,7 @@
         <componentsview:LabeledTextBox DataContext="{Binding InvoiceCurrencyInputViewModel.LabeledStringToDecimalTextBoxViewModel}"
                                        Grid.Column="3"/>
         <componentsview:LabeledInvoiceBox DataContext="{Binding InvoiceCurrencyInputViewModel.InvoiceNumberViewModel}"
+                                          LostFocusToViewModel="{Binding LostFocus}"
                                           Grid.Column="4"/>
         <componentsview:LabeledCurrencyTextBox DataContext="{Binding InvoiceCurrencyInputViewModel.AmountViewModel}"
                                                Grid.Column="5"/>

@@ -22,6 +22,7 @@ using DelitaTrade.Models.Interfaces.Sound;
 using DelitaTrade.Models.SoundPlayers;
 using DelitaTrade.Services;
 using DelitaTrade.ViewModels.Interfaces;
+using DelitaTrade.Models.DataProviders;
 
 namespace DelitaTrade.Models.DI
 {
@@ -44,6 +45,7 @@ namespace DelitaTrade.Models.DI
             collection.AddScoped<IInvoiceInDayReportService, InvoiceInDayReportService>();
             collection.AddScoped<IDayReportService, DayReportService>();
             collection.AddScoped<IInvoicePaymentService, InvoicePaymentService>();
+            collection.AddScoped<IBanknotesService, BanknotesService>();
             collection.AddTransient<CompaniesSearchViewModel>();
             collection.AddTransient<CompanyObjectsSearchViewModel>();
             collection.AddTransient<CompaniesDataManager>();
@@ -77,6 +79,12 @@ namespace DelitaTrade.Models.DI
             collection.AddTransient<Components.ComponentsViewModel.DayReportComponentViewModels.DayReportTotalsViewModel>();
             collection.AddTransient<DayReportCommandsViewModel>();
             collection.AddTransient<InvoicesListController>();
+            collection.AddTransient<PayDeskViewModel>();
+            collection.AddTransient<VehiclesListViewModel>();
+            collection.AddTransient<AdvanceViewModel>();
+            collection.AddTransient<DayReportExportCommandViewModel>();
+            collection.AddTransient<InternetProvider>();
+            collection.AddTransient<MainViewModel>();
             collection.AddSingleton<UserController>();
             collection.AddSingleton<SoundStore>();
             collection.AddSingleton<ISoundPlayable, DefaultSoundPlayer>();

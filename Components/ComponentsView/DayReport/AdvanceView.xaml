@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="DelitaTrade.Components.ComponentsView.DayReport.AdvanceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DelitaTrade.Components.ComponentsView.DayReport"
+             xmlns:ComponentsView3deb65b9="clr-namespace:DelitaTrade.Components.ComponentsView"
+             xmlns:ComponentViewModel="clr-namespace:DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModels"
+             d:DataContext="{d:DesignInstance Type=ComponentViewModel:AdvanceViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="80" d:DesignWidth="130">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <ComponentsView3deb65b9:EntityBaseView DataContext="{Binding VehiclesListViewModel.VehiclesViewModel}" 
+                                               Grid.Row="0" 
+                                               Margin="15 5"
+                                               FontSize="15"
+                                               FontWeight="Medium"/>
+        <Button Command="{Binding DayReportExportViewModel.ExportDayReport}" Grid.Row="1" Margin="20 5" VerticalAlignment="Bottom">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Export" Margin="37 1 0 0"/>
+                <Image Source="{Binding DayReportExportViewModel.ExportImageSource}" Width="20" Margin="26 0 0 0"/>
+            </StackPanel>
+        </Button>
+    </Grid>
+</UserControl>

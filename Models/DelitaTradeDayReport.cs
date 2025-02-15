@@ -268,7 +268,7 @@ namespace DelitaTrade.Models
 
         public bool IsValidLicencePlate(string licencePlate)
         {
-            return _dayReportData.IsValidLicencePlate(licencePlate);
+            return _dayReportData.IsValidLicensePlate(licencePlate);
         }
 
         public void AddVehicle(string vehicle)

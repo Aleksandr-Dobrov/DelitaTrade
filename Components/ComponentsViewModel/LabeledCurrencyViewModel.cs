@@ -1,4 +1,5 @@
 ﻿using DelitaTrade.Models.DataProviders;
+using Google.Protobuf.WellKnownTypes;
 using Org.BouncyCastle.Crypto.Engines;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,8 @@ namespace DelitaTrade.Components.ComponentsViewModel
     {
         private CurrencyProvider _currencyProvider = new();
         private decimal _money;
-
+        private bool _isLoaded;
+        private decimal _maxCurrency = decimal.MaxValue;
         public LabeledCurrencyViewModel()
         {
             PropertyChanged += OnViewModelChanged;
@@ -37,20 +39,64 @@ namespace DelitaTrade.Components.ComponentsViewModel
             get => $"{_money:C2}";
             set
             {
-                _money = _currencyProvider.GetDecimalValue(value);
+                _money = _currencyProvider.GetDecimalValue(value);                
                 SetCurrency();
                 OnPropertyChange();
+                Validate($"Max value is {_maxCurrency:C2}", _money <= _maxCurrency);               
             }
         }
 
         public void SetCurrencyValue(string value)
         {
-            TextBox = value;
+            if (_isLoaded)
+            {
+                _isLoaded = false;
+            }
+            else
+            {
+                TextBox = value;
+            }
+        }
+
+        public void SetMaxAvailableCurrencyValue(string value)
+        {
+            if (_isLoaded)
+            {
+                _isLoaded = false;
+            }
+            else
+            {
+                if (_maxCurrency == decimal.MaxValue)
+                {
+                    TextBox = value;
+                }
+                else
+                {
+                    TextBox = $"{_maxCurrency:C2}";                    
+                }
+            }
         }
 
         public void SetCurrencyValue(decimal value)
         {
             TextBox = $"{value:C2}";
+        }
+
+        public void SetLoadedCurrencyValue(decimal value)
+        {
+            _isLoaded = true;
+            SetCurrencyValue(value);
+        }
+
+        public void SetMaxCurrencyValue(decimal value)
+        {
+            _maxCurrency = value;
+        }
+
+        public void ResetMaxValue()
+        {
+            _maxCurrency = decimal.MaxValue;
+            Validate(_money <= _maxCurrency, nameof(TextBox));
         }
 
         private void OnViewModelChanged(object? sender, PropertyChangedEventArgs e)

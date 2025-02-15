@@ -4,6 +4,7 @@ using DelitaTrade.ViewModels;
 using DelitaTrade.ViewModels.Controllers;
 using DelitaTrade.ViewModels.Interfaces;
 using DelitaTrade.WpfViewModels;
+using System.ComponentModel;
 using System.Windows;
 
 namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModels
@@ -32,6 +33,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             _dayReportCommandsViewModel.InitializedCommands(_dayReportCrudController, this);
             _dayReportCommandsViewModel.OnDayReportCreated += OnDayReportCreated;
             _dayReportCrudController.OnDeleted += OnDayReportUnSelected;
+            DayReportTotalsViewModel.PropertyChanged += OnTransmissionDateChange;
             DayReportSelected += (d) => { };
             DayReportUnSelect += () => { };
         }
@@ -40,7 +42,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
         public DayReportTotalsViewModel DayReportTotalsViewModel => _dayReportTotalsViewModel;
         public DayReportCommandsViewModel DayReportCommandsViewModel => _dayReportCommandsViewModel;
 
-        public string DayReportId => _dayReportViewModel?.Date.Date.ToString("yyyy-MM-dd") ?? "Not Load";
+        public string DayReportDate => _dayReportViewModel?.Date.Date.ToString("yyyy-MM-dd") ?? "Not Load";
         public string DayReportColor => _dayReportViewModel == null ? _unselectDayReportColor : _selectDayReportColor;
 
         public int CurrentDayReportId => _dayReportViewModel?.Id ?? 0;
@@ -56,11 +58,17 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
         }
 
         public bool HasDayReportLoad => _dayReportViewModel != null;
-        
+
+
         public async void DayReportUpdate(Core.ViewModels.InvoiceViewModel invoiceViewModel)
         {
             if (_dayReportViewModel?.Id != invoiceViewModel!.DayReport!.Id) throw new InvalidOperationException(nameof(DayReportUpdate));
             DayReportTotalsViewModel.UpdateDayReport(await _dayReportCrudController.ReadDayReportByIdAsync(invoiceViewModel!.DayReport!.Id));
+        }
+
+        public async void DayReportUpdate(DayReportViewModel dayReport)
+        {
+            await _dayReportCrudController.UpdateDayReportAsync(dayReport);
         }
 
         private void OnUserLogIn(UserViewModel userViewModel)
@@ -78,30 +86,39 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
         private async void OnDayReportSelected(int Id)
         {
             _dayReportViewModel = await _dayReportCrudController.ReadDayReportByIdAsync(Id);
-            DayReportTotalsViewModel.SelectDayReport(_dayReportViewModel);
-            OnPropertyChange(nameof(DayReportId));
+            OnPropertyChange(nameof(DayReportDate));
             OnPropertyChange(nameof(HasDayReportLoad));
             OnPropertyChange(nameof(DayReportColor));
             DayReportSelected(_dayReportViewModel);
+            DayReportTotalsViewModel.SelectDayReport(_dayReportViewModel);
         }
 
         private void OnDayReportCreated(DayReportViewModel dayReport)
         {
             _dayReportViewModel = dayReport;
-            DayReportTotalsViewModel.SelectDayReport(_dayReportViewModel);
-            OnPropertyChange(nameof(DayReportId));
+            OnPropertyChange(nameof(DayReportDate));
             OnPropertyChange(nameof(HasDayReportLoad));
             OnPropertyChange(nameof(DayReportColor));
             DayReportSelected(_dayReportViewModel);
+            DayReportTotalsViewModel.SelectDayReport(_dayReportViewModel);
         }
 
         private void OnDayReportUnSelected(WpfDayReportIdViewModel wpfDayReportId)
         {
             _dayReportViewModel = null;
-            OnPropertyChange(nameof(DayReportId));
+            OnPropertyChange(nameof(DayReportDate));
             OnPropertyChange(nameof(HasDayReportLoad));
             OnPropertyChange(nameof(DayReportColor));
             DayReportUnSelect();
+        }  
+        
+        private void OnTransmissionDateChange(object? sender, PropertyChangedEventArgs e)
+        {
+            if(_dayReportViewModel != null && e.PropertyName == nameof(DayReportTotalsViewModel.Date))
+            {
+                _dayReportViewModel.TransmissionDate = DayReportTotalsViewModel.Date;
+                _dayReportCrudController.UpdateDayReportAsync(_dayReportViewModel);
+            }
         }
     }
 }

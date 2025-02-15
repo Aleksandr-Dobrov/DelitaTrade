@@ -35,10 +35,19 @@ namespace DelitaTrade.Core.Services
 
         public async Task<InvoiceViewModel> LoadNotPaidInvoice(string number)
         {
-            return MapToLoadedInvoice(await repo.AllReadonly<Invoice>()
+            Invoice baseInvoice = await repo.AllReadonly<Invoice>()
                 .Include(i => i.CompanyObject)
                 .ThenInclude(i => i.Company)
-                .FirstOrDefaultAsync(i => i.Number == number) ?? throw new ArgumentNullException(NotFound(nameof(Invoice))));
+                .Include(i => i.InvoicesInDayReports)
+                .FirstOrDefaultAsync(i => i.Number == number) ?? throw new ArgumentNullException(NotFound(nameof(Invoice)));
+            decimal totalIncome = 0;
+            foreach (var invoice in baseInvoice.InvoicesInDayReports)
+            {
+                totalIncome += invoice.Income;
+            }
+            var nonPayInvoice = MapToLoadedInvoice(baseInvoice);
+            nonPayInvoice.Income = baseInvoice.Amount - totalIncome;
+            return nonPayInvoice;
         }
 
         private static InvoiceViewModel MapToLoadedInvoice(Invoice i)
@@ -87,6 +96,8 @@ namespace DelitaTrade.Core.Services
                 .FirstOrDefaultAsync();
             if (invoice == null)
             {
+                if (newInvoice.Income > newInvoice.Amount) throw new InvalidOperationException(IncomeNotGreatestAmount());
+
                 invoice = new Invoice()
                 {
                     Number = newInvoice.Number,
@@ -199,6 +210,10 @@ namespace DelitaTrade.Core.Services
             dayReport.Invoices.Add(invoiceToUpdate);
 
             await repo.SaveChangesAsync();
+            
+            SetIsPaid(await repo.All<Invoice>().Include(i => i.InvoicesInDayReports).FirstAsync(i => i.Number == invoice.Number));            
+
+            await repo.SaveChangesAsync();
         }
 
         private InvoiceViewModel MapToViewModel(Invoice i)
@@ -271,15 +286,16 @@ namespace DelitaTrade.Core.Services
         private async Task SetIsPaid(InvoiceViewModel newInvoice, Invoice invoice)
         {
             decimal totalIncome = newInvoice.Income;
-            var invoices = await repo.AllReadonly<InvoiceInDayReport>()
+            var invoices = await repo.All<InvoiceInDayReport>()
                 .Include(i => i.Invoice)
                 .Where(i => i.Invoice.Number == newInvoice.Number)
                 .ToArrayAsync();
             foreach (var item in invoices)
             {
-                item.Income += totalIncome;
+                totalIncome += item.Income;
             }
             if (totalIncome < newInvoice.Amount) invoice.IsPaid = false;
+            else if (totalIncome > newInvoice.Amount) throw new InvalidOperationException(IncomeNotGreatestAmount());
             else invoice.IsPaid = true;
         }
 
@@ -289,9 +305,10 @@ namespace DelitaTrade.Core.Services
             
             foreach (var item in invoice.InvoicesInDayReports)
             {
-                item.Income += totalIncome;
+                totalIncome += item.Income;
             }
             if (totalIncome < invoice.Amount) invoice.IsPaid = false;
+            else if (totalIncome > invoice.Amount) throw new InvalidOperationException(IncomeNotGreatestAmount());
             else invoice.IsPaid = true;
         }
         private IQueryable<InvoiceInDayReport> GetFilteredReadonlyObjects(Expression<Func<InvoiceInDayReport, bool>> filter)

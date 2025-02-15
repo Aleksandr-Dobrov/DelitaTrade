@@ -154,7 +154,7 @@ namespace DelitaTrade.Models
 
         public void AddVehicle(string vehicle)
         {
-            if (IsValidLicencePlate(vehicle))
+            if (IsValidLicensePlate(vehicle))
             {
                 if (_dayReport != null && _dayReport.Vehicle != vehicle)
                 {                    
@@ -292,7 +292,7 @@ namespace DelitaTrade.Models
             DayReportIdRemove.Invoke(dayReportId);
         }
                 
-        public bool IsValidLicencePlate(string vehicle)
+        public bool IsValidLicensePlate(string vehicle)
         {
             if (vehicle.Length == 10)
             {

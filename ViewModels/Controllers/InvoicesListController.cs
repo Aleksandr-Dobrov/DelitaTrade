@@ -31,10 +31,10 @@ namespace DelitaTrade.ViewModels.Controllers
         }
 
         public ObservableCollection<WpfInvoiceListViewModel> InvoicesListViewModel => _invoicesListViewModel;
-
+               
         public void AddInvoice(Core.ViewModels.InvoiceViewModel invoice)
         {
-            _invoicesListViewModel.Add(new WpfInvoiceListViewModel(invoice));
+            _invoicesListViewModel.Add(new WpfInvoiceListViewModel(invoice));            
         }
 
         public void DeleteInvoice(Core.ViewModels.InvoiceViewModel invoice)
@@ -54,7 +54,9 @@ namespace DelitaTrade.ViewModels.Controllers
             {
                 if (dayReportViewModel.Invoices.Count > 0) 
                 {
-                    foreach (var invoice in dayReportViewModel.Invoices)
+                    foreach (var invoice in dayReportViewModel.Invoices.OrderBy(i => i.PayMethod)
+                                                              .ThenBy(i => i.Number)
+                                                              .ThenBy(i => i.CompanyObject.Name))
                     {
                         AddInvoice(invoice);
                     }

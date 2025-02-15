@@ -39,5 +39,10 @@ namespace DelitaTrade.Common
         {
             return $"Component: {obj} must be first initialized";
         }
+
+        public static string IncomeNotGreatestAmount()
+        {
+            return "Income can not be greatest that amount";
+        }
     }
 }

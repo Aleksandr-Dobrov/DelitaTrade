@@ -24,7 +24,7 @@ namespace DelitaTrade.Components.ComponentsViewModel
             _vehicles = new ObservableCollection<string>();
             _vehicle = new SearchBoxTextViewModel(_vehicles, "Vehicle");
             _transmissionDate = new SearchBoxTextViewModel(CreateDates(DateTime.Now), "Date");
-            PrintDayReport = new ExportDayReportCommand(_delitaTradeDayReport);
+            //PrintDayReport = new ExportDayReportCommand(_delitaTradeDayReport);
             _delitaTradeDayReport.VehiclesChanged += VehiclesUpdate;
             _delitaTradeDayReport.CurentDayReportSelect += UpdateDayReportData;
             _delitaTradeDayReport.TotalsChanged += TotalsChanged;

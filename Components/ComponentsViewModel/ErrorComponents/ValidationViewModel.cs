@@ -39,6 +39,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.ErrorComponents
             }
             _propertyErrors[propertyName].Add(errorMessage);
             OnErrorChange(propertyName);
+            OnPropertyChange(nameof(HasErrors));
         }
 
         public void ClearErrors(string propertyName)
@@ -46,15 +47,24 @@ namespace DelitaTrade.Components.ComponentsViewModel.ErrorComponents
             if (_propertyErrors.Remove(propertyName))
             {
                 OnErrorChange(propertyName);
+                OnPropertyChange(nameof(HasErrors));
             }
         }
 
         public void Validate(bool validationArgument,[CallerMemberName] string property = null)
         {
             ClearErrors(property);
-            if (validationArgument)
+            if (validationArgument == false)
             {
                 AddError(property, string.Empty);
+            }
+        }
+        public void Validate(string message, bool validationArgument, [CallerMemberName] string property = null)
+        {
+            ClearErrors(property);
+            if (validationArgument == false)
+            {
+                AddError(property, message);
             }
         }
         /// <summary>

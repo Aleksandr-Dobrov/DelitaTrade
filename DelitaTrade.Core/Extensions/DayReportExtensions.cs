@@ -23,7 +23,8 @@ namespace DelitaTrade.Core.Extensions
             if (dayReport.TotalOldInvoice != newDayReport.TotalOldInvoice) dayReport.TotalOldInvoice = newDayReport.TotalOldInvoice;
             if (dayReport.TotalExpense != newDayReport.TotalExpense) dayReport.TotalExpense = newDayReport.TotalExpense;
             if (dayReport.TotalWeight != newDayReport.TotalWeight) dayReport.TotalWeight = newDayReport.TotalWeight;
-            if (dayReport.VehicleId != newDayReport.Vehicle?.Id) dayReport.VehicleId = newDayReport.Vehicle?.Id;
+            if (dayReport.VehicleId != newDayReport.Vehicle?.Id) dayReport.VehicleId = newDayReport.Vehicle?.Id; 
+            if (dayReport.TransmissionDate != newDayReport.TransmissionDate) dayReport.TransmissionDate = newDayReport.TransmissionDate;
         }
         public static void Update(this DayReportViewModel dayReport, DayReportViewModel newDayReport)
         {
@@ -36,6 +37,7 @@ namespace DelitaTrade.Core.Extensions
             if (dayReport.TotalOldInvoice != newDayReport.TotalOldInvoice) dayReport.TotalOldInvoice = newDayReport.TotalOldInvoice;
             if (dayReport.TotalExpense != newDayReport.TotalExpense) dayReport.TotalExpense = newDayReport.TotalExpense;
             if (dayReport.TotalWeight != newDayReport.TotalWeight) dayReport.TotalWeight = newDayReport.TotalWeight;
+            if (dayReport.TransmissionDate != newDayReport.TransmissionDate) dayReport.TransmissionDate = newDayReport.TransmissionDate;
         }
 
 
@@ -80,6 +82,7 @@ namespace DelitaTrade.Core.Extensions
                     dayReport.TotalNotPay -= newInvoice.Invoice.Amount - totalIncome;
                 }
                 totalIncome += newInvoice.Income;
+                
                 dayReport.TotalNotPay += newInvoice.Invoice.Amount - totalIncome;
             }
         }
@@ -114,17 +117,28 @@ namespace DelitaTrade.Core.Extensions
             {
                 decimal totalIncome = 0;
                 List<InvoiceInDayReport> invoices = dayReport.Invoices.Where(i => i.Invoice.Number == deleteInvoice.Invoice.Number).ToList();
-                if (invoices.Count > 1)
+                if (invoices.Count > 0)
                 {
                     foreach (var invoice in invoices)
-                    {
-                        totalIncome += invoice.Income;
+                    {                        
+                        totalIncome += invoice.Income;                        
                     }
                     dayReport.TotalNotPay -= deleteInvoice.Invoice.Amount - totalIncome;
                 }
-                totalIncome += deleteInvoice.Income;
-                dayReport.TotalNotPay -= deleteInvoice.Invoice.Amount - totalIncome;
+                if(invoices.Count > 1)
+                {
+                    totalIncome -= deleteInvoice.Income;
+                    dayReport.TotalNotPay += deleteInvoice.Invoice.Amount - totalIncome;
+                }
+                
             }
+        }
+
+        public static bool IsEnoughCash(this DayReportViewModel dayReportViewModel)
+        {
+            if (dayReportViewModel == null) throw new ArgumentNullException(nameof(DayReportViewModel));
+            if (dayReportViewModel.TotalCash < dayReportViewModel.TotalAmount) return false;
+            return true;
         }
     }
 }

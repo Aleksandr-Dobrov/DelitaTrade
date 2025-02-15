@@ -27,7 +27,8 @@ namespace DelitaTrade.Components.ComponentsViewModel
             get => _name;
             set 
             { 
-                _name = value; 
+                _name = value;
+                OnPropertyChange();
             } 
         }
         [MinLength(3, ErrorMessage = "Min length is 3 symbols")]

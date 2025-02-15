@@ -1,4 +1,5 @@
 ﻿using DelitaTrade.Components.ComponentsCommands;
+using DelitaTrade.Core.ViewModels;
 using DelitaTrade.Models;
 using DelitaTrade.ViewModels;
 using System.Windows.Input;
@@ -10,19 +11,26 @@ namespace DelitaTrade.Components.ComponentsViewModel
         private readonly decimal _value;
         private int _count = 1;
         private int _totalCount;
-        private string _amount;
+        private string _amount = string.Empty;
         private readonly string _imagePath;
 
-        public BanknoteViewModel(DelitaTradeDayReport delitaTradeDayReport, decimal value, string imagePath)
+        private DayReportViewModel? _dayReportViewModel;
+
+        public BanknoteViewModel(IServiceProvider serviceProvider, decimal value, string imagePath)
         {  
             _value = value;
             _imagePath = imagePath;
-            AddBanknote = new AddBanknotesCommand(this, delitaTradeDayReport);
-            RemoveBanknote = new RemoveBanknotesCommand(this, delitaTradeDayReport);
-            TotalCountChanged += CalculateAmount;            
+            AddBanknote = new AddBanknotesCommand(this, serviceProvider);
+            RemoveBanknote = new RemoveBanknotesCommand(this, serviceProvider);
+            TotalCountChanged += CalculateAmount;
+            BanknoteChange += () => { };
         }
 
         public event Action TotalCountChanged;
+
+        public event Action BanknoteChange;
+
+        public int DayReportId => _dayReportViewModel != null ? _dayReportViewModel.Id : 0;
 
         public string ImagePath => _imagePath;
         public decimal Value => _value;
@@ -60,6 +68,25 @@ namespace DelitaTrade.Components.ComponentsViewModel
 
         public ICommand AddBanknote { get; }
         public ICommand RemoveBanknote { get; }
+
+        public void OnDayReportSelected(DayReportViewModel dayReportViewModel)
+        {
+            _dayReportViewModel = dayReportViewModel;
+            Count = 1;
+        }
+
+        public void OnBanknoteChange()
+        {
+            BanknoteChange();
+        }
+
+        public void OnDayReportUnselected()
+        {
+            _dayReportViewModel = null;
+            Amount = 0.ToString("C");
+            Count = 1;
+            TotalCount = 0;
+        }
 
         private void CalculateAmount()
         {

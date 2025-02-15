@@ -70,6 +70,8 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
         {
             InvoiceCompanyInputViewModel.OnLoadedInvoice(invoiceViewModel);
             InvoiceCurrencyInputViewModel.AmountViewModel.SetCurrencyValue(invoiceViewModel.Amount);
+            InvoiceCurrencyInputViewModel.IncomeViewModel.SetMaxCurrencyValue(invoiceViewModel.Income);
+            InvoiceCurrencyInputViewModel.IncomeViewModel.SetLoadedCurrencyValue(invoiceViewModel.Income);
         }
 
         public void OnUnSelectInvoice()

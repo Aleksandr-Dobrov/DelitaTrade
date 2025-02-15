@@ -3,6 +3,7 @@ using DelitaTrade.Models;
 using System.Windows;
 using DelitaTrade.Models.Loggers;
 using DelitaTrade.Models.DataProviders;
+using DelitaTrade.Core.ViewModels;
 
 namespace DelitaTrade.Components.ComponentsCommands
 {
@@ -12,10 +13,10 @@ namespace DelitaTrade.Components.ComponentsCommands
         private InternetProvider _internetProvider;
         private bool _isComplete = true;
 
-        public ExportDayReportCommand(DelitaTradeDayReport delitaTradeDayReport)
+        public ExportDayReportCommand(InternetProvider internetProvider)
         {
-            _delitaTradeDayReport = delitaTradeDayReport;
-            _internetProvider = new InternetProvider();
+            //_delitaTradeDayReport = delitaTradeDayReport;
+            _internetProvider = internetProvider;
             _delitaTradeDayReport.CurentDayReportSelect += CurrentDayReportChanged;
             _delitaTradeDayReport.CurrentDayReportUnselected += CurrentDayReportChanged;
             _delitaTradeDayReport.DayReportDataChanged += CurrentDayReportChanged;

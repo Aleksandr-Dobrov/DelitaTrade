@@ -20,10 +20,11 @@
                 <GradientStop Color="AliceBlue"  Offset="0.8"/>
             </LinearGradientBrush>
         </Grid.Background>
-            <Grid Margin="10 0 10 10">
+            <Grid Margin="10 0 10 0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
+                <RowDefinition Height="20"/>
             </Grid.RowDefinitions>
             <ComponentsViewb0f52d3e:NavigationBarView Grid.Row="0" DataContext="{Binding NavigationBarViewModel}"/>
             <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}">
@@ -45,6 +46,10 @@
                     </DataTemplate>
                 </ContentControl.Resources>
             </ContentControl>
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <TextBlock Text="Version 1.5" Margin="20 0 0 0"/>
+                <TextBlock Text="C 2024-2025" Margin="20 0 0 0"/>
+            </StackPanel>
         </Grid>
     </Grid>
 </Window>

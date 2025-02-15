@@ -27,7 +27,7 @@ namespace DelitaTrade.ViewModels.Controllers
             //ReloadAllCompanies();
             _companyObjectsSearchBox.Name = "Company Objects";
             ValueUnselected += () => { };
-            ValueSelected += (Core.ViewModels.CompanyObjectViewModel obj) =>{ CompanyObjectsSearchBox.Value.Value.Trader = obj.Trader; };
+            ValueSelected += (Core.ViewModels.CompanyObjectViewModel obj) => { CompanyObjectsSearchBox.Value.Value.Trader = obj.Trader; };
         }
 
         public SearchComboBoxViewModel<Core.ViewModels.CompanyObjectViewModel> CompanyObjectsSearchBox => _companyObjectsSearchBox;

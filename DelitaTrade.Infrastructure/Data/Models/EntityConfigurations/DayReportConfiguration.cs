@@ -8,7 +8,7 @@ namespace DelitaTrade.Infrastructure.Data.Models.EntityConfigurations
     public class DayReportConfiguration : IEntityTypeConfiguration<DayReport>
     {
         public void Configure(EntityTypeBuilder<DayReport> builder)
-        {
+        {            
             builder.Property(d => d.Banknotes)
                 .HasConversion(v => JsonConvert.SerializeObject(v),
                                 v => JsonConvert.DeserializeObject<Dictionary<decimal,int>>(v));

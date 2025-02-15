@@ -1,6 +1,8 @@
-﻿using DelitaTrade.Common.DelitaValidations;
+﻿using DelitaTrade.Commands.AddNewCompanyCommands;
+using DelitaTrade.Common.DelitaValidations;
 using DelitaTrade.ViewModels.Interfaces;
 using System.ComponentModel;
+using System.Windows.Input;
 using static DelitaTrade.Common.DelitaAppConstants;
 
 namespace DelitaTrade.Components.ComponentsViewModel
@@ -16,9 +18,13 @@ namespace DelitaTrade.Components.ComponentsViewModel
         {
             PropertyChanged += OnViewModelChange;
             OnInvoiceNumberChanged += async (i) => { await new Task(() => { }); };
+            OnLostFocusEvent += (s) => { };
+            LostFocus = new NotAsyncDefaultCommand(OnLostFocus);
         }
 
         public event Func<string, Task> OnInvoiceNumberChanged;
+        public event Action<string> OnLostFocusEvent;
+        public ICommand LostFocus { get; }
 
         [IsDigitsValidation(10)]
         public override string TextBox 
@@ -56,6 +62,14 @@ namespace DelitaTrade.Components.ComponentsViewModel
         {
             AddError(nameof(TextBox), $"Invoice : {number} is not loading");
         }
+
+        public void SetExpenseNumber(DateTime date)
+        {
+            _lastInvoiceNumber = TextBox;
+            IsLastNumberSet = false;
+            TextBox = $"0{date.Date:ddMMyyyy}{0}";
+        }
+
         private bool CheckInvoiceIdIsValid(string id)
         {
             return id.Length == 10 && id.All(char.IsDigit);
@@ -69,11 +83,9 @@ namespace DelitaTrade.Components.ComponentsViewModel
             }
         }
 
-        public void SetExpenseNumber(DateTime date)
+        private void OnLostFocus()
         {
-            _lastInvoiceNumber = TextBox;
-            IsLastNumberSet = false;
-            TextBox = $"0{date.Date:ddMMyyyy}{0}";
+            OnLostFocusEvent?.Invoke(TextBox);
         }
     }
 }

@@ -12,6 +12,17 @@ namespace DelitaTrade.Components.ComponentsView
     {
         private InputViewComponent _invoiceIdViewComponent;
 
+
+        public ICommand LostFocusToViewModel
+        {
+            get { return (ICommand)GetValue(LostFocusProperty); }
+            set { SetValue(LostFocusProperty, value); }
+        }
+
+        public static readonly DependencyProperty LostFocusProperty =
+            DependencyProperty.Register("LostFocusToViewModel", typeof(ICommand), typeof(LabeledInvoiceBox), new PropertyMetadata(null));
+
+
         public LabeledInvoiceBox()
         {
             InitializeComponent();
@@ -28,6 +39,11 @@ namespace DelitaTrade.Components.ComponentsView
         private void InvoiceId_KeyDown(object sender, KeyEventArgs e)
         {
             _invoiceIdViewComponent.InvoiceId_KeyDown(sender, e);
+        }
+
+        private void invoiceId_LostFocus(object sender, RoutedEventArgs e)
+        {
+            LostFocusToViewModel?.Execute(null);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             _labeledStringToDecimalTextBoxViewModel = labeledStringToDecimalTextBoxViewModel;
             _payMethodViewModel.PayMethodChange += OnPayMethodChange;
             _amountViewModel.CurrencyChanged += OnAmountChange;
-            SetViewModels();
+            InitializeViewModels();
         }
 
         public LabeledInvoiceNumberViewModel InvoiceNumberViewModel => _invoiceNumberViewModel;
@@ -60,7 +60,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             _isInvoiceSelected = false;
         }
 
-        private void SetViewModels()
+        private void InitializeViewModels()
         {
             _invoiceNumberViewModel.Label = "Number";
             _amountViewModel.Label = "Amount";
@@ -105,7 +105,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
                     InvoiceNumberViewModel.SetLastNumber();
                 }
                 IncomeViewModel.IsEnable = true;
-                IncomeViewModel.SetCurrencyValue(AmountViewModel.TextBox);
+                IncomeViewModel.SetMaxAvailableCurrencyValue(AmountViewModel.TextBox);
             }
         }
 
@@ -117,8 +117,23 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
                 PayMethodViewModel.CurrentPayMethod == PayMethod.OldPayCash ||
                 PayMethodViewModel.CurrentPayMethod == PayMethod.Card)
             {
+                SetMaxIncomeValue();
                 IncomeViewModel.SetCurrencyValue(amount);
             }
-        }        
+            else
+            {
+                ResetMaxIncomeValue();
+            }
+        }
+
+        private void SetMaxIncomeValue()
+        {
+            IncomeViewModel.SetMaxCurrencyValue(AmountViewModel.Money);
+        }
+
+        private void ResetMaxIncomeValue()
+        {
+            IncomeViewModel.ResetMaxValue();
+        }
     }
 }
