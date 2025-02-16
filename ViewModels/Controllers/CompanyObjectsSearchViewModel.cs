@@ -16,23 +16,23 @@ namespace DelitaTrade.ViewModels.Controllers
     {
         private bool _isCompanyReference;
         private int _companyId = -1;
-        private SearchComboBoxViewModel<Core.ViewModels.CompanyObjectViewModel> _companyObjectsSearchBox;
+        private SearchComboBoxViewModel<CompanyObjectViewModel> _companyObjectsSearchBox;
         private IServiceProvider _serviceProvider;
 
         public CompanyObjectsSearchViewModel(IServiceProvider service)
         {
             _serviceProvider = service;
-            _companyObjectsSearchBox = new SearchComboBoxViewModel<Core.ViewModels.CompanyObjectViewModel>();
+            _companyObjectsSearchBox = new SearchComboBoxViewModel<CompanyObjectViewModel>();
             _companyObjectsSearchBox.PropertyChanged += OnViewModelPropertyChange;
             //ReloadAllCompanies();
             _companyObjectsSearchBox.Name = "Company Objects";
             ValueUnselected += () => { };
-            ValueSelected += (Core.ViewModels.CompanyObjectViewModel obj) => { CompanyObjectsSearchBox.Value.Value.Trader = obj.Trader; };
+            ValueSelected += (CompanyObjectViewModel obj) => { CompanyObjectsSearchBox.Value.Value.Trader = obj.Trader; };
         }
 
-        public SearchComboBoxViewModel<Core.ViewModels.CompanyObjectViewModel> CompanyObjectsSearchBox => _companyObjectsSearchBox;
+        public SearchComboBoxViewModel<CompanyObjectViewModel> CompanyObjectsSearchBox => _companyObjectsSearchBox;
 
-        public event Action<Core.ViewModels.CompanyObjectViewModel> ValueSelected;
+        public event Action<CompanyObjectViewModel> ValueSelected;
         public event Action ValueUnselected;
 
         public void SelectCompanyReference(int companyId)

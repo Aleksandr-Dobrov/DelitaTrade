@@ -1,12 +1,6 @@
 ﻿using DelitaTrade.Core.Exporters.ExportedModels;
 using DelitaTrade.Core.Interfaces;
 using DelitaTrade.Core.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DelitaTrade.Core.Factories
 {

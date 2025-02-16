@@ -32,15 +32,15 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
         private InvoiceCompaniesInputViewModel _companiesViewModel;
         private InvoiceCurrencyInputViewModel _currencyViewModel;
         private DayReportViewModel? _dayReportViewModel;
-        private Core.ViewModels.InvoiceViewModel? _invoiceViewModel;
+        private InvoiceViewModel? _invoiceViewModel;
 
         private bool _commandsEnable = true;
 
-        public event Action<Core.ViewModels.InvoiceViewModel>? InvoiceCreated;
-        public event Action<Core.ViewModels.InvoiceViewModel>? InvoiceDeleted;
-        public event Action<Core.ViewModels.InvoiceViewModel>? InvoiceUpdated;
+        public event Action<InvoiceViewModel>? InvoiceCreated;
+        public event Action<InvoiceViewModel>? InvoiceDeleted;
+        public event Action<InvoiceViewModel>? InvoiceUpdated;
         public event Func<string, Task>? NotPaidInvoiceNumberSelected;
-        public event Action<Core.ViewModels.InvoiceViewModel>? NonPaidInvoiceLoaded;
+        public event Action<InvoiceViewModel>? NonPaidInvoiceLoaded;
 
         public bool IsInitialized => _isInitialized;
         public string AddInvoiceButtonImage => _addInvoiceButtonImage.GetFullFilePathExt();
@@ -143,7 +143,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             CommandsEnable = false;
         }
 
-        public void SelectInvoice(Core.ViewModels.InvoiceViewModel invoiceViewModel)
+        public void SelectInvoice(InvoiceViewModel invoiceViewModel)
         {
             _invoiceViewModel = invoiceViewModel;
             OnPropertyChange(nameof(_invoiceViewModel));
@@ -176,7 +176,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
                 using var scope = serviceProvider.CreateScope();
                 var invoiceService = scope.GetService<IInvoiceInDayReportService>();
                 var userService = scope.GetService<UserController>();
-                var newInvoice = new Core.ViewModels.InvoiceViewModel()
+                var newInvoice = new InvoiceViewModel()
                 {
                     Company = _companiesViewModel.CompaniesViewModel.CompaniesSearchBox.Value.Value,
                     CompanyObject = _companiesViewModel.CompanyObjectsViewModel.CompanyObjectsSearchBox.Value.Value,
@@ -282,7 +282,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             OnPropertyChange(nameof(OnInvoiceNumberChange));
         }
 
-        private async void SetAddInvoiceStatus(Core.ViewModels.InvoiceViewModel invoiceViewModel)
+        private async void SetAddInvoiceStatus(InvoiceViewModel invoiceViewModel)
         {
             if (invoiceViewModel == null) return;
 

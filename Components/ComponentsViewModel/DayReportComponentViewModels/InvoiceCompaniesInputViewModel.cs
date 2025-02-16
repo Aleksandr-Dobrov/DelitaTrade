@@ -43,6 +43,14 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             CompanyObjectsViewModel.CompanyObjectsSearchBox.SetSelectedValue(invoiceViewModel.CompanyObject);
         }
 
+        public void OnInvoiceCrudAction(InvoiceViewModel invoiceViewModel)
+        {
+            if (invoiceViewModel != null && invoiceViewModel.CompanyObject.Name == CompanyObjectsViewModel.CompanyObjectsSearchBox.Value.Value.Name)
+            {
+                CompanyObjectsViewModel.UnSelectCompanyReference();
+            }
+        }
+
         public void Dispose()
         {
             OnDisable();

@@ -15,7 +15,7 @@ namespace DelitaTrade
     public partial class App : Application
     {
         public static IHost? AppHost { get; private set; }
-        private IConfiguration _configuration;
+        private IConfiguration? _configuration;
 
         private IServiceProvider _serviceProvider;
 

@@ -50,14 +50,5 @@ namespace DelitaTrade.ViewModels.ReturnProtocolControllers
             await service.DeleteProtocol(returnProtocol.Id);
             ReturnProtocolUnSelected();
         }
-
-        //private async Task<int> AddReturnedProduct(ReturnedProductViewModel returnProduct)
-        //{
-        //    if (_currentProtocol == null) throw new ArgumentNullException("No return protocol loaded");
-        //    var service = _serviceProvider.GetService<ReturnProductService>() ?? throw new InvalidOperationException($"Service {nameof(ReturnProductService)} not available");
-        //    returnProduct.Id = await service.AddProductAsync(returnProduct, _currentReturnProtocolId);
-        //    _currentProtocol.Products.Add(returnProduct);
-        //    return returnProduct.Id;
-        //}
     }
 }

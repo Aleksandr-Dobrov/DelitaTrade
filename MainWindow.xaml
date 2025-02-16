@@ -10,7 +10,7 @@
         xmlns:ComponentsViewb0f52d3e="clr-namespace:DelitaTrade.Components.ComponentsView"
         d:DataContext="{d:DesignInstance Type=viewModels:MainViewModel}"
         mc:Ignorable="d"
-        Title="Delita Trade" Height="600" Width="950" MinWidth="950" MinHeight="600">
+        Title="Delita Trade" Height="605" Width="950" MinWidth="950" MinHeight="605">
     
     <Grid>
         <Grid.Background>
@@ -24,7 +24,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
-                <RowDefinition Height="20"/>
+                <RowDefinition Height="17"/>
             </Grid.RowDefinitions>
             <ComponentsViewb0f52d3e:NavigationBarView Grid.Row="0" DataContext="{Binding NavigationBarViewModel}"/>
             <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}">
@@ -47,8 +47,12 @@
                 </ContentControl.Resources>
             </ContentControl>
             <StackPanel Grid.Row="2" Orientation="Horizontal">
-                <TextBlock Text="{Binding Version}"  Margin="20 0 0 0"/>
-                <TextBlock Text="{Binding CopyRight}" Margin="20 0 0 0"/>
+                <TextBlock Text="{Binding Version}"  
+                           Margin="20 0 0 0"
+                           FontWeight="Medium"/>
+                <TextBlock Text="{Binding CopyRight}" 
+                           Margin="20 0 0 0"
+                           FontWeight="Medium"/>
             </StackPanel>
         </Grid>
     </Grid>
