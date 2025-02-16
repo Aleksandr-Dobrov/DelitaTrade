@@ -353,7 +353,7 @@ namespace DelitaTrade.Core.Exporters.ExcelExporters
                     if (invoice.IsPaid == false)
                     {
                         nonPayExists = true;
-                        nonPayInvoices.Add($"{invoice.Amount:C} -- {invoice.Income:C} -- {invoice.CompanyFullName} -- {invoice.PayMethod} -- {invoice.Number}");
+                        nonPayInvoices.Add($"{invoice.Amount:C} -- {invoice.Income:C} -- {invoice.CompanyFullName} -- {PayMethodsToString[Language][invoice.PayMethod]} -- {invoice.Number}");
                         return;
                     }
                     else

@@ -12,17 +12,17 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
     {
         private bool _isInitialized;
         private bool _isOnCollectionChange;
-        private Dictionary<string, Dictionary<string, ObservableCollection<string>>> _yearMonthDay;
+        private Dictionary<string, Dictionary<string, ObservableCollection<DayReportDayIdViewModel>>> _yearMonthDay;
 
         private HashSet<WpfDayReportIdViewModel> _dayReportIds;
 
-        private string _day = string.Empty;
+        private DayReportDayIdViewModel? _day;
         private string _month = string.Empty;
         private string _year = string.Empty;
 
         public DayReportListIdViewModel()
         {
-            _yearMonthDay = new Dictionary<string, Dictionary<string, ObservableCollection<string>>>();
+            _yearMonthDay = new Dictionary<string, Dictionary<string, ObservableCollection<DayReportDayIdViewModel>>>();
             _dayReportIds = new HashSet<WpfDayReportIdViewModel>();
             DayReportIdSelected += (Id) => { };
             DataBaseChange += () => { };
@@ -33,7 +33,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
 
         public event Action DataBaseChange;
 
-        public string DayReportId => $"{Year}-{Month}-{Day}";
+        public string DayReportId => $"{Year}-{Month}-{Day?.Day}.{Day?.Id}";
 
         public bool IsInitialized => _isInitialized;
 
@@ -59,7 +59,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
                 OnPropertyChange(nameof(Days));
             }
         }
-        public string Day
+        public DayReportDayIdViewModel? Day
         {
             get => _day;
             set
@@ -105,18 +105,18 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             }
         }
 
-        public IEnumerable<string> Days
+        public IEnumerable<DayReportDayIdViewModel> Days
         {
             get
             {
-                IEnumerable<string> days;
+                IEnumerable<DayReportDayIdViewModel> days;
                 if (string.IsNullOrEmpty(Year) == false && string.IsNullOrEmpty(Month) == false && _yearMonthDay[Year][Month].Count > 0)
                 {
-                    days = _yearMonthDay[Year][Month].Order();
+                    days = _yearMonthDay[Year][Month].OrderBy(d => d.Day);
                 }
                 else
                 {
-                    days = new List<string>();
+                    days = new List<DayReportDayIdViewModel>();
                 }
 
                 return days;
@@ -143,7 +143,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             _yearMonthDay.Clear();
             foreach (var day in _dayReportIds)
             {
-                AddDayToYearMontDay($"{day.Date:yyyy-MM-dd}.{day.Id}");
+                AddDayToYearMontDay(day);
             }
             UpdateDateProperties();
         }
@@ -151,47 +151,56 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
         private void YearMonthDayAdd(DayReportViewModel dayReport)
         {
             _isOnCollectionChange = true;
-            _dayReportIds.Add(new WpfDayReportIdViewModel() { Id = dayReport.Id, Date = dayReport.Date });
-            AddDayToYearMontDay($"{dayReport.Date:yyyy-MM-dd}.{dayReport.Id}");
+            WpfDayReportIdViewModel newDayReportId = new () { Id = dayReport.Id, Date = dayReport.Date };
+            _dayReportIds.Add(newDayReportId);
+            var day = AddDayToYearMontDay(newDayReportId);
             UpdateDateProperties();
             Year = $"{dayReport.Date:yyyy}";
             Month = $"{dayReport.Date:MM}";
-            Day = $"{dayReport.Date:dd}.{dayReport.Id}";
+            Day = day;
             _isOnCollectionChange = false;
         }
 
         private void YearMontDayRemove(WpfDayReportIdViewModel dayReport)
         {
+            var date = _dayReportIds.FirstOrDefault(d => d.Id == dayReport.Id) ?? throw new InvalidOperationException("Incorrect Id");
+            string year = $"{date.Date:yyyy}";
+            string month = $"{date.Date:MM}";
+            DayReportDayIdViewModel day = new () { Id = dayReport.Id, Day = $"{date.Date:dd}" };
             _dayReportIds.Remove(dayReport);
-            string[] yearMonthDay = DayReportId.Split('-');
-            _yearMonthDay[yearMonthDay[0]][yearMonthDay[1]].Remove(yearMonthDay[2]);
-            if (_yearMonthDay[yearMonthDay[0]][yearMonthDay[1]].Count == 0)
+
+            _yearMonthDay[year][month].Remove(day);
+            if (_yearMonthDay[year][month].Count == 0)
             {
-                _yearMonthDay[yearMonthDay[0]].Remove(yearMonthDay[1]);
+                _yearMonthDay[year].Remove(month);
             }
-            if (_yearMonthDay[yearMonthDay[0]].Count == 0)
+            if (_yearMonthDay[year].Count == 0)
             {
-                _yearMonthDay.Remove(yearMonthDay[0]);
+                _yearMonthDay.Remove(year);
             }
             UpdateDateProperties();
 
         }
 
-        private void AddDayToYearMontDay(string DayReportId)
+        private DayReportDayIdViewModel AddDayToYearMontDay(WpfDayReportIdViewModel dayReport)
         {
-            string[] yearMonthDay = DayReportId.Split('-');
-            if (_yearMonthDay.ContainsKey(yearMonthDay[0]) == false)
+            string year = $"{dayReport.Date:yyyy}";
+            string month = $"{dayReport.Date:MM}";
+            DayReportDayIdViewModel day = new() { Id = dayReport.Id, Day = $"{dayReport.Date:dd}" };
+
+            if (_yearMonthDay.ContainsKey(year) == false)
             {
-                _yearMonthDay[yearMonthDay[0]] = new Dictionary<string, ObservableCollection<string>>();
-                Year = yearMonthDay[0];
+                _yearMonthDay[year] = new Dictionary<string, ObservableCollection<DayReportDayIdViewModel>>();
+                Year = year;
             }
-            if (_yearMonthDay[yearMonthDay[0]].ContainsKey(yearMonthDay[1]) == false)
+            if (_yearMonthDay[year].ContainsKey(month) == false)
             {
-                _yearMonthDay[yearMonthDay[0]][yearMonthDay[1]] = new ObservableCollection<string>();
-                Month = yearMonthDay[1];
+                _yearMonthDay[year][month] = new ObservableCollection<DayReportDayIdViewModel>();
+                Month = month;
             }
-            _yearMonthDay[yearMonthDay[0]][yearMonthDay[1]].Add(yearMonthDay[2]);
+            _yearMonthDay[year][month].Add(day);
             UpdateDateProperties();
+            return day;
         }
 
         private void UpdateDateProperties()

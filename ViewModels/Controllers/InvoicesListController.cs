@@ -10,7 +10,7 @@ namespace DelitaTrade.ViewModels.Controllers
 
         private WpfInvoiceListViewModel? _selectedInvoice;
 
-        public event Action<Core.ViewModels.InvoiceViewModel>? InvoiceSelected;
+        public event Action<InvoiceViewModel>? InvoiceSelected;
         public event Action? InvoiceUnSelected;
 
         public WpfInvoiceListViewModel? SelectedInvoiceViewModel
@@ -32,17 +32,17 @@ namespace DelitaTrade.ViewModels.Controllers
 
         public ObservableCollection<WpfInvoiceListViewModel> InvoicesListViewModel => _invoicesListViewModel;
                
-        public void AddInvoice(Core.ViewModels.InvoiceViewModel invoice)
+        public void AddInvoice(InvoiceViewModel invoice)
         {
             _invoicesListViewModel.Add(new WpfInvoiceListViewModel(invoice));            
         }
 
-        public void DeleteInvoice(Core.ViewModels.InvoiceViewModel invoice)
+        public void DeleteInvoice(InvoiceViewModel invoice)
         {
             _invoicesListViewModel.Remove(new WpfInvoiceListViewModel(invoice));
         }
 
-        public void UpdateInvoice(Core.ViewModels.InvoiceViewModel invoice)
+        public void UpdateInvoice(InvoiceViewModel invoice)
         {
             _invoicesListViewModel.FirstOrDefault(i => i.Id == invoice.IdInDayReport)?.OnViewModelChange();
         }
@@ -55,6 +55,8 @@ namespace DelitaTrade.ViewModels.Controllers
                 if (dayReportViewModel.Invoices.Count > 0) 
                 {
                     foreach (var invoice in dayReportViewModel.Invoices.OrderBy(i => i.PayMethod)
+                                                              .ThenByDescending(i => i.Income == 0 && i.PayMethod != Common.Enums.PayMethod.Bank)
+                                                              .ThenBy(i => i.Amount == 0)
                                                               .ThenBy(i => i.Number)
                                                               .ThenBy(i => i.CompanyObject.Name))
                     {
