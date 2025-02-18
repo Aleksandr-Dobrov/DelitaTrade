@@ -30,15 +30,6 @@
         <Viewbox Grid.Column="2" Width="120" HorizontalAlignment="Right">
             <DatePicker SelectedDate="{Binding Path=Date, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
         </Viewbox>
-        <!--<Grid Grid.Column="2" Margin="10 0 5 6">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Text="Day report ID" HorizontalAlignment="Right" 
-                   Background="AliceBlue" Width="80" TextAlignment="Center"/>
-            <TextBox Grid.Row="1" Text="{Binding Date}" Width="80" HorizontalAlignment="Right"/>
-        </Grid>-->
         <Grid Grid.Column="3" Width="auto" HorizontalAlignment="Center">
             <Button Style="{DynamicResource ButtonStyleAdd}" Margin="1" Width="38"
                 Command="{Binding DayReportCommandsViewModel.Create}" 

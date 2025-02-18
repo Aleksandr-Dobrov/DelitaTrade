@@ -5,7 +5,8 @@ using System.Windows;
 namespace DelitaTrade.Components.ComponentsViewModel
 {
     public class LabeledWeightTextBoxViewModel : LabeledStringTextBoxViewModel
-    {
+    {        
+        private const string _unit = "kg.";
         private decimal _weight;
         private DayReportInputOptionsViewModelComponent _options;
 
@@ -20,11 +21,18 @@ namespace DelitaTrade.Components.ComponentsViewModel
         //TODO Create validation attribute for positive number
         public override string TextBox 
         {
-            get => $"{_weight:F2} kg.";
+            get => $"{_weight:F2} {_unit}";
             set
             {
-                decimal.TryParse(value, out _weight);
-                OnPropertyChange();
+                if (value != null && value.Contains(_unit))
+                {
+                    value = value.Replace(_unit, "").Trim();
+                }
+
+                if(decimal.TryParse(value, out _weight))
+                {
+                    OnPropertyChange();
+                }
             }
         }
 

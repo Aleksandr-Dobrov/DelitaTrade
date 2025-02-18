@@ -24,5 +24,13 @@ namespace DelitaTrade.Components.ComponentsView
         {
             InitializeComponent();
         }
+
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (sender is TextBox box)
+            {
+                box.SelectAll();
+            }
+        }
     }
 }

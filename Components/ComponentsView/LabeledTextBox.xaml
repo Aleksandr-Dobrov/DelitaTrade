@@ -36,7 +36,8 @@
                      VerticalContentAlignment="Center"
                      Text="{Binding TextBox}"
                      Visibility="{Binding VisibilityProperty}"
-                     IsEnabled="{Binding IsEnable}"/>
+                     IsEnabled="{Binding IsEnable}"
+                     GotFocus="TextBox_GotFocus"/>
         </Grid>
     </Grid>
 </UserControl>

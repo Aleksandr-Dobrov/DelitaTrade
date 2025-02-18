@@ -3,6 +3,7 @@ using DelitaTrade.Core.Contracts;
 using DelitaTrade.Core.ViewModels;
 using DelitaTrade.Infrastructure.Common;
 using DelitaTrade.Infrastructure.Data.Models;
+using System.ComponentModel;
 
 
 namespace DelitaTrade.Core.Services
@@ -18,7 +19,7 @@ namespace DelitaTrade.Core.Services
             }).ToArrayAsync();
         }
 
-        public async Task<int> AddDescription(ReturnedProductDescriptionViewModel description)
+        public async Task<ReturnedProductDescriptionViewModel> AddDescription(ReturnedProductDescriptionViewModel description)
         {
             var dbDescription = await repo.AllReadonly<ReturnedProductDescription>().FirstOrDefaultAsync(d => d.Description == description.Description);
             if (dbDescription == null)
@@ -27,11 +28,13 @@ namespace DelitaTrade.Core.Services
                 await repo.AddAsync(newDescription);
                 await repo.SaveChangesAsync();
                 await repo.ReloadAsync(newDescription);
-                return newDescription.Id;
+                description.Id = newDescription.Id;
+                return description;
             }
             else
             {
-                return dbDescription.Id;
+                description.Id = dbDescription.Id;
+                return description;
             }
         }
 

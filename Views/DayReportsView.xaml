@@ -17,7 +17,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition/>
-        </Grid.RowDefinitions>
+        </Grid.RowDefinitions>        
         <Grid Grid.Row="1" Width="auto">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -27,13 +27,11 @@
                                               DataContext="{Binding InvoiceInputViewModel}"
                                               IsEnabled="{Binding IsEditable}"/>
             <DayReportsView:InvoiceCommandButtons Grid.Column="1"
-                          DataContext="{Binding InvoiceInputViewModel.InvoiceInputCommandsViewModel}"/>
-            
+                                                  DataContext="{Binding InvoiceInputViewModel.InvoiceInputCommandsViewModel}"/>            
         </Grid>
         <DayReportsView:DayReportLoaderView Grid.Row="0"
-                                            Panel.ZIndex="-1"
-                                            Margin="0 5 0 -15"
-                                            DataContext="{Binding DayReportLoaderViewModel}"/>
+                    Margin="0 5 50 -15"
+                    DataContext="{Binding DayReportLoaderViewModel}"/>
         <Grid Grid.Row="2" Background="AliceBlue">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" MinWidth="650"/>                
@@ -51,6 +49,6 @@
                                             DataContext="{Binding AdvancedViewModel}"
                                             IsEnabled="{Binding IsEditable}"/>
             </Grid>
-        </Grid>
+        </Grid>        
     </Grid>
 </UserControl>

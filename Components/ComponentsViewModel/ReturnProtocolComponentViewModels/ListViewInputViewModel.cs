@@ -28,9 +28,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
             _list = new ObservableCollection<ProductToReturnViewModel>();
             _productUnit = new ObservableCollection<string> { ProductUnit.Count, ProductUnit.Kg, ProductUnit.Box };
             ProductCreate += OnCreatedProduct;
-            ProductCreate += AddProduct;
             DescriptionCreate += OnDescriptionCreate;
-            DescriptionCreate += AddDescription;
             UpdateProduct();
             _returnProtocolController.ReturnProtocolSelected += InitializedList;
             _returnProtocolController.ReturnProtocolUnSelected += UnselectedProtocol;
@@ -41,8 +39,8 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
         public ObservableCollection<ProductViewModel> ProductsList => _products;
         public ObservableCollection<ReturnedProductDescriptionViewModel> Descriptions => _description;
         public ObservableCollection<string> Unit => _productUnit;
-        public event Action<ProductViewModel> ProductCreate;
-        public event Action<ReturnedProductDescriptionViewModel> DescriptionCreate;
+        public event Func<ProductViewModel, Task> ProductCreate;
+        public event Func<ReturnedProductDescriptionViewModel, Task<ReturnedProductDescriptionViewModel>> DescriptionCreate;
         public event Func<ReturnedProductViewModel, Task<int>> ReturnedProductCreate;
 
         public ProductViewModel SelectedProduct
@@ -79,8 +77,9 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
                 var product = new ProductViewModel { Name = _list[^1].ProductName, Unit = _list[^1].Unit };
                 var description = new ReturnedProductDescriptionViewModel(_list[^1].Description);
                 _list[^1].IsCompleted -= AddRow;                
-                ProductCreate(product);
-                DescriptionCreate(description);
+                var t = ProductCreate(product);
+                description = await DescriptionCreate(description);
+                await t;
                 _list[^1].Id = await ReturnedProductCreate(new ReturnedProductViewModel
                 {
                     Batch = _list[^1].Batch,
@@ -89,6 +88,8 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
                     Product = product,
                     Description = description
                 });
+                AddProduct(product);
+                AddDescription(description);
             }
             _list.Add(new("", this));
             _list[^1].IsCompleted += AddRow;            
@@ -159,18 +160,18 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
             }
         }
 
-        private async void OnCreatedProduct(ProductViewModel product)
+        private async Task OnCreatedProduct(ProductViewModel product)
         {
             using var scope = _serviceProvider.CreateScope();
             var service = scope.GetService<IProductService>();
             await service.AddProductAsync(product);
         }
 
-        private async void OnDescriptionCreate(ReturnedProductDescriptionViewModel description)
+        private async Task<ReturnedProductDescriptionViewModel> OnDescriptionCreate(ReturnedProductDescriptionViewModel description)
         {
             using var scope = _serviceProvider.CreateScope();
             var service = scope.GetService<IProductDescriptionService>();
-            description.Id = await service.AddDescription(description);
+            return await service.AddDescription(description);
         }
 
         private void UnselectedProtocol()

@@ -7,17 +7,24 @@
              d:DataContext="{d:DesignInstance Type=returnprotocolcomponentviewmodels:ListViewInputViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid>        
         <Grid Grid.Row="1" Margin="0 10 0 0">
             <ListView ItemsSource="{Binding List, UpdateSourceTrigger=PropertyChanged}">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <Setter Property="BorderBrush" Value="LightGray" />
+                        <Setter Property="BorderThickness" Value="0,0,0,2" />
+                    </Style>
+                </ListView.ItemContainerStyle>
                 <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Name" Width="270">
+                    <GridView>                        
+                        <GridViewColumn Header="Name" Width="290">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <ComboBox Name="ProductsBox" 
                                               IsTextSearchEnabled="True"
                                               IsEditable="True"
+                                              BorderThickness="0"
                                               Text="{Binding ProductName, Mode=TwoWay}"
                                               SelectedValue="{Binding ListViewInputViewModel.SelectedProduct}"
                                               ItemsSource="{Binding ListViewInputViewModel.ProductsList, UpdateSourceTrigger=PropertyChanged}"
@@ -29,7 +36,7 @@
                         <GridViewColumn Header="Quantity" Width="65">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBox Text="{Binding ProductQuantity, Mode=TwoWay}" MinWidth="40"/>
+                                    <TextBox Text="{Binding ProductQuantity, Mode=TwoWay}" HorizontalContentAlignment="Center" BorderThickness="0" MinWidth="40"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -39,21 +46,24 @@
                                     <ComboBox SelectedItem="{Binding Unit, Mode=TwoWay}"
                                               ItemsSource="{Binding ListViewInputViewModel.Unit}"
                                               IsEditable="False"
+                                              BorderThickness="0"
                                               MinWidth="50"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="BestBefore" Width="140">
+                        <GridViewColumn Header="BestBefore" Width="120">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <DatePicker SelectedDate="{Binding BestBefore, Mode=TwoWay}" MinWidth="100"/>
+                                    <DatePicker SelectedDate="{Binding BestBefore, Mode=TwoWay}" 
+                                              BorderThickness="0"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn Header="Batch" Width="150">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBox Text="{Binding Batch, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MinWidth="100"/>
+                                    <TextBox Text="{Binding Batch, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                              BorderThickness="0" MinWidth="100"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -61,7 +71,8 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <ComboBox IsTextSearchEnabled="True"
-                                              IsEditable="True"
+                                              IsEditable="True"                                              
+                                              BorderThickness="0"
                                               Text="{Binding Description, UpdateSourceTrigger = LostFocus}"
                                               ItemsSource="{Binding ListViewInputViewModel.Descriptions}"
                                               PreviewTextInput="ComboBox_PreviewTextInput"
