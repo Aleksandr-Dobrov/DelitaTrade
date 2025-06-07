@@ -9,7 +9,7 @@ namespace DelitaTrade.Infrastructure.Data
     public class DelitaDbContext : IdentityDbContext<DelitaUser, IdentityRole<Guid>, Guid>
     {
         //Remove comment on code below before applying migrations
-        public DelitaDbContext() { }
+        //public DelitaDbContext() { }
 
         public DelitaDbContext(DbContextOptions<DelitaDbContext> options) : base(options) { }
 
@@ -22,13 +22,13 @@ namespace DelitaTrade.Infrastructure.Data
         }
 
         //Remove comment on code below and add connection string before applying migrations
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (optionsBuilder.IsConfigured == false)
-            {
-                optionsBuilder.UseSqlServer("Server=(localDb)\\MSSQLLocalDB;Database=DelitaTradeDb;Integrated Security=true;"); //Add your connection string here manually 
-            }
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    if (optionsBuilder.IsConfigured == false)
+        //    {
+        //        optionsBuilder.UseSqlServer(); //Add your connection string here manually 
+        //    }
+        //}
 
         public DbSet<Product> Products { get; set; }
         public DbSet<ReturnedProductDescription> ReturnedProductDescriptions { get; set; }
