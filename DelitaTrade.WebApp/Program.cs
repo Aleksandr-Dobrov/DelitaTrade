@@ -5,7 +5,6 @@ using DelitaTrade.Infrastructure.Data;
 using DelitaTrade.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace DelitaTrade.WebApp
@@ -17,43 +16,18 @@ namespace DelitaTrade.WebApp
             var builder = WebApplication.CreateBuilder(args);
             // Add services to the container.
             builder.Configuration.AddUserSecrets(Assembly.GetEntryAssembly() ?? throw new ArgumentException("Unable to get entry assembly"));
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-            builder.Services.AddDbContext<DelitaDbContext>(options =>
-                options.UseSqlServer(connectionString));
+            builder.Services.AddApplicationDatabase(builder.Configuration);
             builder.Services.AddRazorPages();
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+            
+            builder.Services.AddWebApplicationIdentity();
+            builder.Services.AddApplicationConfigurationManager();
+            builder.Services.AddApplicationExporterServices();
 
-            builder.Services.AddIdentity<DelitaUser, IdentityRole<Guid>>(options =>
-            {
-                options.User.RequireUniqueEmail = false;
-                options.Password.RequireDigit = true;
-                options.Password.RequiredLength = 6;
-                options.Password.RequireLowercase = true;
-                options.Password.RequireUppercase = true;
-                options.Password.RequireNonAlphanumeric = true;
-            })
-                .AddUserManager<UserManager<DelitaUser>>()
-                .AddRoleManager<RoleManager<IdentityRole<Guid>>>()
-                .AddSignInManager<SignInManager<DelitaUser>>()
-                .AddUserStore<UserStore<DelitaUser, IdentityRole<Guid>, DelitaDbContext, Guid>>()
-                .AddEntityFrameworkStores<DelitaDbContext>()
-                .AddDefaultUI()
-                .AddDefaultTokenProviders();
+
             builder.Services.AddControllersWithViews();
-            builder.Services.AddScoped<IRepository, DelitaRepository>();
-            builder.Services.AddScoped<ICompanyService, CompanyService>();
-            builder.Services.AddScoped<ICompanyObjectService, CompanyObjectService>();
-            builder.Services.AddScoped<IReturnProtocolService, ReturnProtocolService>();
-            builder.Services.AddScoped<IProductService, ProductService>();
-            builder.Services.AddScoped<IProductDescriptionService, ProductDescriptionService>();
-            builder.Services.AddScoped<IReturnProductService, ReturnProductService>();
-            builder.Services.AddScoped<ITraderService, TraderService>();
-            builder.Services.AddScoped<IVehicleService, VehicleService>();
-            builder.Services.AddScoped<IInvoiceInDayReportService, InvoiceInDayReportService>();
-            builder.Services.AddScoped<IDayReportService, DayReportService>();
-            builder.Services.AddScoped<IInvoicePaymentService, InvoicePaymentService>();
-            builder.Services.AddScoped<IBanknotesService, BanknotesService>();
-            builder.Services.AddScoped<IDescriptionCategoryService, DescriptionCategoryService>();
+
+            builder.Services.AddApplicationServices();
 
             var app = builder.Build();
 

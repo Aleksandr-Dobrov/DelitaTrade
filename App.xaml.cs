@@ -1,17 +1,10 @@
 ﻿using DelitaTrade.ViewModels;
 using System.Windows;
-using DelitaTrade.Models.DI;
-using DelitaTrade.Common;
 using Microsoft.Extensions.Configuration;
-using DelitaTrade.ViewModels.Controllers;
 using System.Reflection;
-using DelitaTrade.Core.Contracts;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using DelitaTrade.Models.Loggers;
-using DelitaTrade.Infrastructure.Data.Models;
-using Microsoft.AspNetCore.Identity;
-using DelitaTrade.Infrastructure.Data;
 
 namespace DelitaTrade
 {
@@ -30,18 +23,13 @@ namespace DelitaTrade
                 })
                 .ConfigureServices((hostContent, services) =>
                 {
-                    services.BuildServiceCollection(hostContent.Configuration);
-                    services.AddIdentity<DelitaUser, IdentityRole<Guid>>(options =>
-                    {
-                        options.User.RequireUniqueEmail = false;
-                        options.Password.RequireDigit = false;
-                        options.Password.RequiredLength = 6;
-                        options.Password.RequireLowercase = false;
-                        options.Password.RequireUppercase = false;
-                        options.Password.RequireNonAlphanumeric = false;
-                    })
-                    .AddEntityFrameworkStores<DelitaDbContext>()
-                    .AddDefaultTokenProviders();
+                    services.AddApplicationDatabase(hostContent.Configuration)
+                        .AddApplicationConfigurationManager()
+                        .AddApplicationServices()
+                        .AddWpfUserServiceAndUserUi()
+                        .AddWpfApplicationViewModelsAndControllers()
+                        .AddApplicationIdentity()
+                        .AddWpfApplicationExporterServices();
                     
                 }).Build();
         }
