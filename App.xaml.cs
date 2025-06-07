@@ -38,13 +38,13 @@ namespace DelitaTrade
         {
             try
             {
-                await AppHost!.StartAsync();                
                 MainWindow = new MainWindow()
                 {
-                    DataContext = AppHost.Services.GetRequiredService<MainViewModel>()
+                    DataContext = AppHost!.Services.GetRequiredService<MainViewModel>()
                 };                
                 MainWindow.Show();
                 base.OnStartup(e);
+                await AppHost.StartAsync();                
             }
             catch (Exception ex)
             {
