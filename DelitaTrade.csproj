@@ -14,18 +14,22 @@
     <Compile Remove="DelitaTrade.Common\**" />
     <Compile Remove="DelitaTrade.Core\**" />
     <Compile Remove="DelitaTrade.Infrastructure\**" />
+    <Compile Remove="DelitaTrade.WebApp\**" />
     <Compile Remove="DelitaTrade.WPFCore\**" />
     <EmbeddedResource Remove="DelitaTrade.Common\**" />
     <EmbeddedResource Remove="DelitaTrade.Core\**" />
     <EmbeddedResource Remove="DelitaTrade.Infrastructure\**" />
+    <EmbeddedResource Remove="DelitaTrade.WebApp\**" />
     <EmbeddedResource Remove="DelitaTrade.WPFCore\**" />
     <None Remove="DelitaTrade.Common\**" />
     <None Remove="DelitaTrade.Core\**" />
     <None Remove="DelitaTrade.Infrastructure\**" />
+    <None Remove="DelitaTrade.WebApp\**" />
     <None Remove="DelitaTrade.WPFCore\**" />
     <Page Remove="DelitaTrade.Common\**" />
     <Page Remove="DelitaTrade.Core\**" />
     <Page Remove="DelitaTrade.Infrastructure\**" />
+    <Page Remove="DelitaTrade.WebApp\**" />
     <Page Remove="DelitaTrade.WPFCore\**" />
   </ItemGroup>
 

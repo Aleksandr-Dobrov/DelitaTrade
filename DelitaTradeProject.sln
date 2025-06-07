@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelitaTrade", "DelitaTrade.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelitaTrade.WPFCore", "DelitaTrade.WPFCore\DelitaTrade.WPFCore.csproj", "{14E6D5F3-D1DA-0E0C-007D-8056228A7FE9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelitaTrade.WebApp", "DelitaTrade.WebApp\DelitaTrade.WebApp.csproj", "{4BCDA01B-ABD9-454F-9868-D0AC47EB1486}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{14E6D5F3-D1DA-0E0C-007D-8056228A7FE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14E6D5F3-D1DA-0E0C-007D-8056228A7FE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14E6D5F3-D1DA-0E0C-007D-8056228A7FE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BCDA01B-ABD9-454F-9868-D0AC47EB1486}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BCDA01B-ABD9-454F-9868-D0AC47EB1486}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BCDA01B-ABD9-454F-9868-D0AC47EB1486}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BCDA01B-ABD9-454F-9868-D0AC47EB1486}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
