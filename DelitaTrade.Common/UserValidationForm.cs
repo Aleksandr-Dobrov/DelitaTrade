@@ -12,5 +12,9 @@ namespace DelitaTrade.Common
         [MinLength(ValidationConstants.UserPasswordMinLength, ErrorMessage = "Password must be at least 5 characters long")]
         [UserPasswordValidation(ErrorMessage = "Password must contains: letters, digits and punctuation symbols")]
         public required string Password { get; set; }
+
+        public string? FirstName { get; set; }
+
+        public string? LastName { get; set; }
     }
 }

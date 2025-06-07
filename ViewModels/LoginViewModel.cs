@@ -19,6 +19,7 @@ namespace DelitaTrade.ViewModels
         private Visibility _logInButtonVisibility;
         private Visibility _singUpButtonVisibility;
         private Visibility _rememberMeVisibility;
+
         private string _headWord = "Log in";
         private bool _isRememberMe = false;
         private bool _isNotLoaded = false;
@@ -107,15 +108,19 @@ namespace DelitaTrade.ViewModels
 
         public UserNamePlaceHolderViewModel UserNamePlaceHolder => _userNamePlaceHolder;
 
+        public FirstNamePlaceHolderViewModel FirstNamePlaceHolder { get; } = new FirstNamePlaceHolderViewModel("First name") { Visibility = Visibility.Collapsed };
+
+        public LastNamePlaceHolderViewModel LastNamePlaceHolder { get; } = new LastNamePlaceHolderViewModel("Last name") { Visibility = Visibility.Collapsed };
+
         public PasswordBoxViewModel PasswordBox { get; private set; } = new PasswordBoxViewModel("Password");
 
         public PasswordBoxViewModel ConfirmPasswordBox { get; } = new PasswordBoxViewModel("Confirm Password") { Visibility = Visibility.Collapsed };
 
         public UserLoginController UserLoginController => _userLoginController;
 
-        private async Task Login(UserNamePlaceHolderViewModel userName, PasswordBoxViewModel password, bool isRememberMe = false)
+        private async Task Login(UserNamePlaceHolderViewModel userName, PasswordBoxViewModel password, FirstNamePlaceHolderViewModel firstName, LastNamePlaceHolderViewModel lastName, bool isRememberMe = false)
         {
-            await _userLoginController.Login(userName, password, isRememberMe);
+            await _userLoginController.Login(userName, password, firstName, lastName, isRememberMe);
         }
 
         public ICommand LogInCommand => new NotAsyncDefaultCommand(LogCallback);
@@ -163,11 +168,11 @@ namespace DelitaTrade.ViewModels
                 {
                     if (UserNamePlaceHolder.HasErrors || PasswordBox.HasErrors) return;
 
-                    await Login(UserNamePlaceHolder, PasswordBox, IsRememberMe);
+                    await Login(UserNamePlaceHolder, PasswordBox, FirstNamePlaceHolder, LastNamePlaceHolder, IsRememberMe);
                 }
                 else
                 {
-                    UserLoginController.LogOut(UserNamePlaceHolder, PasswordBox);
+                    UserLoginController.LogOut(UserNamePlaceHolder, PasswordBox, FirstNamePlaceHolder, LastNamePlaceHolder);
                 }
             }
             catch (Exception ex)
@@ -187,7 +192,7 @@ namespace DelitaTrade.ViewModels
                     PasswordBox.PropertyChanged += OnViewModelPropertyChange;
                     OnPropertyChange(nameof(PasswordBox));
                 }
-                await UserLoginController.InitiateCreateAccount(UserNamePlaceHolder, PasswordBox, ConfirmPasswordBox, IsRememberMe);
+                await UserLoginController.InitiateCreateAccount(UserNamePlaceHolder, PasswordBox, ConfirmPasswordBox, FirstNamePlaceHolder, LastNamePlaceHolder, IsRememberMe);
             }
             catch (Exception ex)
             {

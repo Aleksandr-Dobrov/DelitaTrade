@@ -22,7 +22,9 @@ namespace DelitaTrade.Components.ComponentsViewModel
             _placeHolderInitialText = placeHolderInitialText;
 			PlaceHolder = placeHolderInitialText;
         }
-				
+		
+		public string Name => _placeHolderInitialText;
+
         public string PlaceHolder
 		{
 			get => _placeHolder;

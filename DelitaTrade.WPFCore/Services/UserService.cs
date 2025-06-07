@@ -21,7 +21,8 @@ namespace DelitaTrade.WPFCore.Services
                 return new UserViewModel
                 {
                     Id = loginUser.Id,
-                    Name = $"{loginUser.Name} {loginUser.LastName}"
+                    Name = $"{loginUser.Name} {loginUser.LastName}",
+                    UserName = loginUser.UserName ?? throw new ArgumentException("User name is null")
                 };
             }
             else
@@ -41,12 +42,17 @@ namespace DelitaTrade.WPFCore.Services
 
             var newUser = new DelitaUser()
             {
-                Name = userForm.LoginName.Split(" ")[0],
-                LastName = userForm.LoginName.Split(" ").Length > 1 ? userForm.LoginName.Split(" ")[1] : string.Empty,
+                Name = userForm.FirstName ?? throw new ArgumentException("First name is required"),
+                LastName = userForm.LastName ?? throw new ArgumentException("Last name is required")
             };
             await userStore.SetUserNameAsync(newUser, userForm.LoginName, CancellationToken.None);
 
             var identityResult = await userManager.CreateAsync(newUser, userForm.Password);
+
+            if (identityResult.Succeeded == false)
+            {
+                throw new ArgumentException($"User creation failed: {string.Join(", ", identityResult.Errors.Select(e => e.Description))}");
+            }
         }
 
         public async Task<bool> IsUserExist(UserValidationForm userLogin)

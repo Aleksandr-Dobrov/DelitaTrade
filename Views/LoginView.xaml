@@ -21,9 +21,19 @@
                    Text="{Binding HeadWord}"
                    FontSize="40"
                    FontWeight="Medium"/>
+        
         <viewcomponent:PlaceHolderTextBox DataContext="{Binding UserNamePlaceHolder}" Grid.Row="1"
                                           Margin="20"
                                           Visibility="{Binding Visibility}"/>
+        
+        <viewcomponent:PlaceHolderTextBox DataContext="{Binding FirstNamePlaceHolder}" Grid.Row="1"
+                                          Margin="20"
+                                          Visibility="{Binding Visibility}"/>
+        
+        <viewcomponent:PlaceHolderTextBox DataContext="{Binding LastNamePlaceHolder}" Grid.Row="1"
+                                          Margin="20"
+                                          Visibility="{Binding Visibility}"/>
+        
         <viewcomponent:PlaceHolderPasswordBox DataContext="{Binding PasswordBox}" FontSize="15"                 
                                               Margin="20"
                                               Visibility="{Binding Visibility}"/>
