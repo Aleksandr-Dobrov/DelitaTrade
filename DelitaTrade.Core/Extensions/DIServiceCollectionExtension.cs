@@ -16,7 +16,7 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class DIServiceCollectionExtension
     {
-        public static IServiceCollection AddApplicationDatabase(this IServiceCollection service, IConfiguration configuration, string connectionStringSection = "DefaultConnection")
+        public static IServiceCollection AddApplicationDatabase(this IServiceCollection service, IConfiguration configuration, string connectionStringSection = "DelitaConnection")
         {
             service.AddDbContext<DelitaDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString(connectionStringSection) ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.")));
