@@ -1,21 +1,15 @@
-﻿using Google.Protobuf.WellKnownTypes;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
 using DelitaTrade.Infrastructure.Data.Models;
-using System.Reflection;
 using DelitaTrade.Infrastructure.Data.Models.EntityConfigurations;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace DelitaTrade.Infrastructure.Data
 {
-    public class DelitaDbContext : DbContext
+    public class DelitaDbContext : IdentityDbContext<DelitaUser, IdentityRole<Guid>, Guid>
     {
         //Remove comment on code below before applying migrations
-        //public DelitaDbContext() { }
+        public DelitaDbContext() { }
 
         public DelitaDbContext(DbContextOptions<DelitaDbContext> options) : base(options) { }
 
@@ -24,26 +18,21 @@ namespace DelitaTrade.Infrastructure.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<CompanyObject>().HasOne(a => a.Address);
             modelBuilder.Entity<Address>().HasMany(a => a.CompanyObjects);
-            modelBuilder.ApplyConfiguration(new DayReportConfiguration());
+            modelBuilder.ApplyConfiguration(new DayReportConfiguration());            
         }
 
-        //Remove comment on code below before applying migrations
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    if (optionsBuilder.IsConfigured == false)
-        //    {
-        //        var config = new ConfigurationBuilder()
-        //            .AddJsonFile("delitaAppSetings", true)
-        //            .AddUserSecrets("100f3212-86c7-4ff4-ba58-d07f5ab41e50")
-        //            .Build();
-        //        string connectionString = config.GetConnectionString("DelitaConnection");
-        //        optionsBuilder.UseSqlServer(connectionString);
-        //    }
-        //}
+        //Remove comment on code below and add connection string before applying migrations
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (optionsBuilder.IsConfigured == false)
+            {
+                optionsBuilder.UseSqlServer("Server=(localDb)\\MSSQLLocalDB;Database=DelitaTradeDb;Integrated Security=true;"); //Add your connection string here manually 
+            }
+        }
 
         public DbSet<Product> Products { get; set; }
         public DbSet<ReturnedProductDescription> ReturnedProductDescriptions { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<DescriptionCategory> DescriptionCategories { get; set; }  
         public DbSet<Company> Companies { get; set; }
         public DbSet<CompanyObject> Objects { get; set; }
         public DbSet<Trader> Traders { get; set; }

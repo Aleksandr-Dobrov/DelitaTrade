@@ -15,7 +15,8 @@ namespace DelitaTrade.Core.Services
             return await repo.AllReadonly<Product>().Select(p => new ProductViewModel
             {
                 Name = p.Name,
-                Unit = p.Unit
+                Unit = p.Unit,
+                Number = p.Number,
             }).ToArrayAsync();
         }
         public async Task<IEnumerable<ProductViewModel>> GetProductsAsync(string name)
@@ -23,7 +24,8 @@ namespace DelitaTrade.Core.Services
             return await GetFilteredReadonlyProduct(p => p.Name.Contains(name)).Select(p => new ProductViewModel
             {
                 Name = p.Name,
-                Unit = p.Unit
+                Unit = p.Unit,
+                Number = p.Number,
             }).ToArrayAsync();
         }
 
@@ -36,9 +38,62 @@ namespace DelitaTrade.Core.Services
             }
         }
 
+        public async Task<IEnumerable<ProductViewModel>> GetFilteredProductsAsync(string[] args)
+        {
+            IQueryable<Product> query = repo.AllReadonly<Product>()
+                .Where(p => p.Number != null);
+
+            foreach (var arg in args)
+            {
+                query = query.Where(p => p.Name.Contains(arg)
+                    || p.Unit.Contains(arg)
+                    || (p.Number != null && p.Number.Contains(arg)));
+            }
+            string orderArg = string.Empty;
+            
+            if (args.Length > 0)
+            {
+                orderArg = args[0];
+            }
+
+            query = query.OrderByDescending(p => EF.Functions.Like(p.Name, $"{orderArg}%"))
+                .ThenBy(p => p.Name)
+                .Take(20);
+
+            return await query
+                .Select(p => new ProductViewModel
+                {
+                    Name = p.Name,
+                    Unit = p.Unit,
+                    Number = p.Number,
+                }).ToArrayAsync();
+        }
+
+        public async Task<int> AddRangeProductAsync(IEnumerable<ProductViewModel> dtoProducts)
+        {
+            foreach (var dtoProduct in dtoProducts) 
+            {
+                var product = await repo
+                    .All<Product>()
+                    .FirstOrDefaultAsync(p => p.Unit == dtoProduct.Unit && p.Name == dtoProduct.Name);
+                if (product == null)
+                {
+                    await repo.AddAsync(new Product { Name = dtoProduct.Name, Unit = dtoProduct.Unit, Number = dtoProduct.Number });
+                }
+                else if (product.Number == null)
+                {
+                    product.Number = dtoProduct.Number;
+                }
+
+            }
+
+            return await repo.SaveChangesAsync();
+        }
+
         private IQueryable<Product> GetFilteredReadonlyProduct(Expression<Func<Product, bool>> predicate)
         {
             return repo.AllReadonly<Product>().Where(predicate);
         }
+
     }
 }

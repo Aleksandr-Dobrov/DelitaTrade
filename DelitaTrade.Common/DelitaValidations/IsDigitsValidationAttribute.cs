@@ -4,7 +4,7 @@ using DelitaTrade.Common.Extensions;
 
 namespace DelitaTrade.Common.DelitaValidations
 {
-    [AttributeUsage(AttributeTargets.Property,  AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Property,  AllowMultiple = false, Inherited = true)]    
     public class IsDigitsValidationAttribute : ValidationAttribute
     {
         private int _maxLength;

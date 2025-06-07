@@ -15,9 +15,10 @@ namespace DelitaTrade.ViewModels.Controllers
         public string Name => _userViewModel != null ? _userViewModel.Name : "No LogIn";
         public DateTime LogInTime { get; private set; }
 
-        public UserViewModel CurrentUser => _userViewModel ?? throw new InvalidOperationException(ExceptionMessages.NotAuthenticate());
+        public UserViewModel? CurrentUser => _userViewModel;
 
-        public event Action<UserViewModel> UserLogIn;
+        public event Action<UserViewModel>? UserLogIn;
+        public event Action? UserLogout;
 
         public void LogIn(UserViewModel user)
         {
@@ -29,6 +30,13 @@ namespace DelitaTrade.ViewModels.Controllers
 
             LogInTime = DateTime.Now;
             UserLogIn?.Invoke(_userViewModel);
+        }
+
+        public void LogOut()
+        {
+            _userViewModel = null;
+            LogInTime = DateTime.MinValue;
+            UserLogout?.Invoke();
         }
     }
 }

@@ -20,6 +20,7 @@ namespace DelitaTrade.ViewModels.Controllers
         private TradersListViewModel _tradersListViewModel;
         private WpfCompanyViewModel _wpfCompanyViewModel;
         private WpfCompanyObjectViewModel _wpfCompanyObjectViewModel;
+        private bool _isObjectHaveCompanyReference = true;
 
         public CompaniesDataManager(CompaniesSearchViewModel companies, CompanyObjectsSearchViewModel companyObjects, CompanyCommandsViewModel companyCommandsViewModel, CompanyObjectCommandsViewModel companyObjectCommands, TradersListViewModel tradersListViewModel, WpfCompanyViewModel wpfCompanyViewModel, WpfCompanyObjectViewModel wpfCompanyObjectViewModel)
         {
@@ -51,9 +52,17 @@ namespace DelitaTrade.ViewModels.Controllers
             OnDisable();
         }
 
+        public void RemoveCompanyReferences()
+        {
+            _isObjectHaveCompanyReference = false;
+        }
+
         private void OnSelectedCompany(CompanyViewModel company)
         {
-            CompanyObjects.SelectCompanyReference(company.Id);
+            if (_isObjectHaveCompanyReference) 
+            {
+                CompanyObjects.SelectCompanyReference(company.Id);
+            }
         }
 
         private void OnUnSelectedCompany()

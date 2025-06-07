@@ -38,7 +38,7 @@ namespace DelitaTrade.ViewModels.Controllers
 
         public TraderCommandsViewModel TraderCommands => _traderCommands;
 
-        public TraderViewModel Trader => TraderViewModel.Value.Value;
+        public TraderViewModel Trader => TraderViewModel.Value.Value;        
 
         public string ComponentName
         {

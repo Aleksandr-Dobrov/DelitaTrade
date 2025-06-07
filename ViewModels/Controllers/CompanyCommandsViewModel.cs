@@ -1,4 +1,4 @@
-﻿using DelitaTrade.Commands.AddNewCompanyCommands;
+﻿using DelitaTrade.Commands;
 using DelitaTrade.Core.Contracts;
 using DelitaTrade.Core.ViewModels;
 using DelitaTrade.Extensions;

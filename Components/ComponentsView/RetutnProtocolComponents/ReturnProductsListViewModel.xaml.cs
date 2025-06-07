@@ -29,5 +29,13 @@ namespace DelitaTrade.Components.ComponentsView.RetutnProtocolComponents
         {
             if(sender is ComboBox products) products.IsDropDownOpen = true;
         }
+
+        private void TextBoxGotFocus(object sender, RoutedEventArgs e)
+        {
+            if(sender is TextBox textBox)
+            {
+                textBox.SelectAll();
+            }
+        }
     }
 }

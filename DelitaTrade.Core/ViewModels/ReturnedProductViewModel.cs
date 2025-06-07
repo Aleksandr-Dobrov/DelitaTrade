@@ -9,6 +9,7 @@ namespace DelitaTrade.Core.ViewModels
         public double Quantity { get; set; }
         public required string Batch {  get; set; }
         public DateTime BestBefore { get; set; }
-        public required ReturnedProductDescriptionViewModel Description { get; set; }
+        public ReturnedProductDescriptionViewModel? Description { get; set; }
+        public required DescriptionCategoryViewModel DescriptionCategory { get; set; }
     }
 }

@@ -9,43 +9,52 @@ using DelitaTrade.Core.Contracts;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using DelitaTrade.Models.Loggers;
+using DelitaTrade.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity;
+using DelitaTrade.Infrastructure.Data;
 
 namespace DelitaTrade
 {
     public partial class App : Application
     {
         public static IHost? AppHost { get; private set; }
-        private IConfiguration? _configuration;
-
-        private IServiceProvider _serviceProvider;
-
 
         public App()
         {                 
             AppHost = Host.CreateDefaultBuilder()
                 .ConfigureAppConfiguration(c =>
                 {
-                    c.AddJsonFile("delitaAppSetings", true)
-                    .AddUserSecrets(Assembly.GetEntryAssembly());
+                    c.AddJsonFile("delitaAppSetings.json", true)
+                    .AddJsonFile("userRememberAccount.json", false)
+                    .AddUserSecrets(Assembly.GetEntryAssembly() ?? throw new ArgumentNullException("Assembly not found"));                  
                 })
                 .ConfigureServices((hostContent, services) =>
                 {
-                    services.BuildServiceCollection(hostContent.Configuration);                    
-                    _configuration = hostContent.Configuration;                    
+                    services.BuildServiceCollection(hostContent.Configuration);
+                    services.AddIdentity<DelitaUser, IdentityRole<Guid>>(options =>
+                    {
+                        options.User.RequireUniqueEmail = false;
+                        options.Password.RequireDigit = false;
+                        options.Password.RequiredLength = 6;
+                        options.Password.RequireLowercase = false;
+                        options.Password.RequireUppercase = false;
+                        options.Password.RequireNonAlphanumeric = false;
+                    })
+                    .AddEntityFrameworkStores<DelitaDbContext>()
+                    .AddDefaultTokenProviders();
+                    
                 }).Build();
-            _serviceProvider = AppHost.Services;
         }
 
         protected override async void OnStartup(StartupEventArgs e)
         {
             try
             {
-                await AppHost!.StartAsync();
-                UserLogin(_configuration);
+                await AppHost!.StartAsync();                
                 MainWindow = new MainWindow()
                 {
-                    DataContext = _serviceProvider.GetRequiredService<MainViewModel>()
-                };
+                    DataContext = AppHost.Services.GetRequiredService<MainViewModel>()
+                };                
                 MainWindow.Show();
                 base.OnStartup(e);
             }
@@ -63,24 +72,6 @@ namespace DelitaTrade
             await AppHost!.StopAsync();
             AppHost.Dispose();
             base.OnExit(e);
-        }
-
-        private async Task UserConfig(IConfiguration config)
-        {
-            var section = config.GetSection("MyUserAccount");
-            var userName = section.GetValue(typeof(string), "Login") as string;
-            var password = section.GetValue(typeof(string), "Password") as string;
-            if (userName == null || password == null) throw new ArgumentNullException(nameof(userName));
-            using var scope = _serviceProvider.CreateScope();
-            IUserService userService = scope.GetService<IUserService>();
-            //await userService.CreateUser(new UserValidationForm { LoginName = userName, Password = password });
-            var user = await userService.LogIn(new UserValidationForm { LoginName = userName, Password = password});
-            scope.GetService<UserController>().LogIn(user);
-        }
-
-        private async void UserLogin(IConfiguration config)
-        {
-            await UserConfig(config);
         }
     }
 }

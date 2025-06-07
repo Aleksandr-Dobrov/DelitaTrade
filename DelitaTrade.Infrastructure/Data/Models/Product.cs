@@ -22,6 +22,10 @@ namespace DelitaTrade.Infrastructure.Data.Models
         [Column(TypeName = ValidationTypeConstants.NVarchar)]
         public string Unit { get; set; } = null!;
 
+        [MaxLength(ValidationConstants.ProductNumberMaxLength)]
+        [Column(TypeName = ValidationTypeConstants.NVarchar)]
+        public string? Number { get; set; }
+
         public override int GetHashCode()
         {
             return $"{Name}{Unit}".GetHashCode();

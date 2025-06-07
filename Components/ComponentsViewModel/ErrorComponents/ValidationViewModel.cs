@@ -28,6 +28,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.ErrorComponents
 
         public IEnumerable GetErrors(string? propertyName)
         {
+            if (propertyName == null) return null;  
             return _propertyErrors.GetValueOrDefault(propertyName, null);
         }
 

@@ -1,7 +1,5 @@
 ﻿using DelitaTrade.Infrastructure.Data;
-using DelitaTrade.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Linq.Expressions;
 
 namespace DelitaTrade.Infrastructure.Common

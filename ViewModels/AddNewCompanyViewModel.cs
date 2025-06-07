@@ -29,7 +29,7 @@ namespace DelitaTrade.ViewModels
 
         public string SearchOnMapButtonImage => _searchGoogleIcon.GetFullFilePathExt();
               
-        public ICommand ShowOnMap {  get; }
+        public ICommand ShowOnMap { get; }
 
     }
 }

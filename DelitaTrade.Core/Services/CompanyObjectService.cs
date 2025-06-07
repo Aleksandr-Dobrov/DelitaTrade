@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Mysqlx.Crud;
 using System.Linq.Expressions;
 using DelitaTrade.Core.Contracts;
 using DelitaTrade.Core.ViewModels;
@@ -140,7 +139,7 @@ namespace DelitaTrade.Core.Services
             var objectToUpdate = await repo.All<CompanyObject>()
                 .Include(o => o.Address)
                 .Include(o => o.Trader)
-                .FirstOrDefaultAsync()
+                .FirstOrDefaultAsync(о => о.Id == companyObject.Id)
                 ?? throw new ArgumentNullException(ExceptionMessages.NotFound(nameof(CompanyObject)));
             var trader = await repo.GetByIdAsync<Trader>(companyObject.Trader!.Id) ?? throw new ArgumentNullException(ExceptionMessages.NotFound(nameof(Trader)));
             if (companyObject.Address != null)

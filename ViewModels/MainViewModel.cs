@@ -8,6 +8,7 @@ using DelitaTrade.Components.ComponentsViewModel.OptionsComponentViewModels;
 using DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModels;
 using System.Windows;
 using Microsoft.Extensions.Configuration;
+using DelitaTrade.ViewModels.Controllers;
 
 namespace DelitaTrade.ViewModels
 {
@@ -20,17 +21,17 @@ namespace DelitaTrade.ViewModels
         private ViewModelsStore _viewModelsStore;
         private NavigationBarViewModel _navigationBarViewModel;
 
-        public MainViewModel(AddNewCompanyViewModel addCompanyViewModel, DayReportArea dayReportArea, PayDeskViewModel payDeskViewModel, ReturnProtocolController returnProtocolViewModel, OptionsViewModel optionsViewModel, IConfiguration configuration)
+        public MainViewModel(AddNewCompanyViewModel addCompanyViewModel, DayReportArea dayReportArea, PayDeskViewModel payDeskViewModel, ReturnProtocolController returnProtocolViewModel, OptionsViewModel optionsViewModel, LoginViewModel loginViewModel, IConfiguration configuration, UserController userController)
         {
             _version = configuration.GetSection("ApplicationVersion").GetValue(typeof(string), "Version") as string ?? string.Empty;
             _releaseYear = configuration.GetSection("ReleaseDate").GetValue(typeof(string), "Year") as string ?? string.Empty;
             dayReportArea.DayReportLoaderViewModel.DayReportSelected += payDeskViewModel.OnDayReportSelected;
             dayReportArea.DayReportLoaderViewModel.DayReportUnSelect += payDeskViewModel.OnDayReportUnselected;
             dayReportArea.DayReportLoaderViewModel.DayReportTotalsViewModel.DayReportUpdated += payDeskViewModel.GetAllBanknotes;
-            _viewModelsStore = new ViewModelsStore([addCompanyViewModel, dayReportArea, payDeskViewModel, returnProtocolViewModel, optionsViewModel]);
+            _viewModelsStore = new ViewModelsStore([addCompanyViewModel, dayReportArea, payDeskViewModel, returnProtocolViewModel, optionsViewModel, loginViewModel]);
             _viewModelsStore.ViewModelChanged += OnViewModelChanged;
-            _navigationBarViewModel = new NavigationBarViewModel(_viewModelsStore);
-            _viewModelsStore.SetViewModel<AddNewCompanyViewModel>();            
+            _navigationBarViewModel = new NavigationBarViewModel(_viewModelsStore, userController);
+            _viewModelsStore.SetViewModel<LoginViewModel>();            
         }
 
         public ViewModelBase CurrentViewModel => _viewModelsStore.CurrentViewModel;

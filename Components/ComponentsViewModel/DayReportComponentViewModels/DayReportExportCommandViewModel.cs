@@ -1,4 +1,4 @@
-﻿using DelitaTrade.Commands.AddNewCompanyCommands;
+﻿using DelitaTrade.Commands;
 using DelitaTrade.Core.ViewModels;
 using DelitaTrade.Models.DataProviders;
 using DelitaTrade.Models.DataProviders.FileDirectoryProvider;

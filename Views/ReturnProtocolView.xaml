@@ -16,7 +16,7 @@
         <Grid Grid.Row="0">
             <RetutnProtocolComponents3c1c13e5:InitialInformation DataContext="{Binding InitialInformationViewModel}"/>
         </Grid>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" IsEnabled="{Binding InitialInformationViewModel.IsReturnProtocolSelected}">
             <RetutnProtocolComponents3c1c13e5:ReturnProductsListViewModel DataContext="{Binding ReturnProductsListViewModel}"/>
         </Grid>
     </Grid>

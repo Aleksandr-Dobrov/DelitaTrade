@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DelitaTrade.Infrastructure.Data.Models;
 using DelitaTrade.Common;
+using Microsoft.EntityFrameworkCore;
 
 namespace DelitaTrade.Infrastructure.Data.Models
 {
@@ -21,7 +22,9 @@ namespace DelitaTrade.Infrastructure.Data.Models
         public string Batch { get; set; } = null!;
         public DateTime BestBefore { get; set; }
         public virtual Product Product { get; set; } = null!;
-        public virtual ReturnedProductDescription Description { get; set; } = null!;
+        public virtual ReturnedProductDescription? Description { get; set; }
+        [DeleteBehavior(DeleteBehavior.Restrict)]
+        public virtual DescriptionCategory DescriptionCategory { get; set; } = null!;
         public int ReturnProtocolId { get; set; }
         [ForeignKey(nameof(ReturnProtocolId))]
         public virtual ReturnProtocol ReturnProtocol { get; set; } = null!;

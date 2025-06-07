@@ -1,12 +1,5 @@
 ﻿using DelitaTrade.Models.DataProviders;
-using Google.Protobuf.WellKnownTypes;
-using Org.BouncyCastle.Crypto.Engines;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DelitaTrade.Components.ComponentsViewModel
 {

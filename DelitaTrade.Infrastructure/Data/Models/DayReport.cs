@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static DelitaTrade.Common.ValidationTypeConstants;
 
@@ -24,9 +25,12 @@ namespace DelitaTrade.Infrastructure.Data.Models
         public required Dictionary<decimal, int> Banknotes { get; set; } = new();
         [Column(TypeName = Money)]
         public decimal TotalCash { get; set; }
-        public Guid UserId { get; set; }
-        [ForeignKey(nameof(UserId))]
-        public required User User { get; set; }
+       
+        public Guid IdentityUserId { get; set; }
+        [ForeignKey(nameof(IdentityUserId))]
+        [DeleteBehavior(DeleteBehavior.NoAction)]
+        public required virtual DelitaUser IdentityUser { get; set; }
+
         public int? VehicleId { get; set; }
         [ForeignKey(nameof(VehicleId))]
         public Vehicle? Vehicle { get; set; }

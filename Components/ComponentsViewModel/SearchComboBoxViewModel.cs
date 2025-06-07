@@ -10,10 +10,10 @@ namespace DelitaTrade.Components.ComponentsViewModel
 {
     public class SearchComboBoxViewModel<T> : ValidationViewModel where T : INamed
     {
-        private const string _searchHere = "Search here";
+        private const string _searchHere = "Search";
         private const string _notFound = "Not found";
         private string _name;
-        private string _textValue;
+        protected string _textValue;
         private string _autoComplete = _searchHere;
         private ObservableCollection<T> _items;
         private bool _isFocusable;
@@ -53,7 +53,7 @@ namespace DelitaTrade.Components.ComponentsViewModel
             }
         }
         [MinLength(2, ErrorMessage = "Min length to create new is 2 symbols")]
-        public string TextValue
+        public virtual string TextValue
         {
             get => _textValue;
             set 

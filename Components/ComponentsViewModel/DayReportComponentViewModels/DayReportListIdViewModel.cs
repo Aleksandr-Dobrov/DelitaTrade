@@ -138,6 +138,19 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             LoadDayReportIds(await dayReportController.ReadAllHeaders());
         }
 
+        public void LogOut(IDayReportCrudController dayReportController)
+        {
+            if (IsInitialized == false) return;
+            dayReportController.OnCreated -= YearMonthDayAdd;
+            dayReportController.OnDeleted -= YearMontDayRemove;
+            _isInitialized = false;
+            _dayReportIds.Clear();
+            YearMonthDayUpdate();
+            Year = string.Empty;
+            Month = string.Empty;
+            Day = null;
+        }
+
         private void YearMonthDayUpdate()
         {
             _yearMonthDay.Clear();

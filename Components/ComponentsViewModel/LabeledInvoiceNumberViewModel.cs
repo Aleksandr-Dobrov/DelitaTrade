@@ -1,4 +1,4 @@
-﻿using DelitaTrade.Commands.AddNewCompanyCommands;
+﻿using DelitaTrade.Commands;
 using DelitaTrade.Common.DelitaValidations;
 using DelitaTrade.ViewModels.Interfaces;
 using System.ComponentModel;

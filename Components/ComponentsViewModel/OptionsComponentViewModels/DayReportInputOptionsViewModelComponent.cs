@@ -1,8 +1,5 @@
-﻿using DelitaTrade.Models.Configurations;
-using DelitaTrade.Models.Configurations.DayReportConfiguration;
+﻿using DelitaTrade.Models.Configurations.DayReportConfiguration;
 using DelitaTrade.ViewModels;
-using Google.Protobuf.WellKnownTypes;
-using iTextSharp.text.io;
 using System.Configuration;
 using System.Windows;
 

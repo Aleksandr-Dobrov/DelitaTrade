@@ -22,7 +22,7 @@ namespace DelitaTrade.Components.ComponentsView
 
         private void SearchComboBoxText_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if (e.Key == System.Windows.Input.Key.Tab && !(autoCompleteBox.Text == "Search here" || autoCompleteBox.Text == string.Empty))
+            if (e.Key == System.Windows.Input.Key.Tab && !(autoCompleteBox.Text == "Search" || autoCompleteBox.Text == string.Empty))
             {
                 if (searchComboBoxText.Items.Count > 0 && !_isCancelCopy)
                 {

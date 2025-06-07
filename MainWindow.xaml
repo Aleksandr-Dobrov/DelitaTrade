@@ -26,7 +26,9 @@
                 <RowDefinition/>
                 <RowDefinition Height="17"/>
             </Grid.RowDefinitions>
-            <ComponentsViewb0f52d3e:NavigationBarView Grid.Row="0" DataContext="{Binding NavigationBarViewModel}"/>
+            <ComponentsViewb0f52d3e:NavigationBarView Grid.Row="0" 
+                                                      DataContext="{Binding NavigationBarViewModel}"
+                                                      IsEnabled="{Binding IsEditable}"/>
             <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}">
                 <ContentControl.Resources>
                     <DataTemplate DataType="{x:Type viewModels:AddNewCompanyViewModel}">
@@ -43,6 +45,9 @@
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type viewModels:OptionsViewModel}">
                         <views:OptionsView/>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type viewModels:LoginViewModel}">
+                        <views:LoginView/>
                     </DataTemplate>
                 </ContentControl.Resources>
             </ContentControl>

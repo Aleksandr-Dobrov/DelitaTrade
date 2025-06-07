@@ -1,12 +1,8 @@
 ﻿using DelitaTrade.Components.ComponentsViewModel;
-using DelitaTrade.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using System.ComponentModel;
 using DelitaTrade.Core.Contracts;
 using DelitaTrade.Core.ViewModels;
-using Org.BouncyCastle.Asn1.IsisMtt.X509;
-using System.Windows.Threading;
-using Org.BouncyCastle.Utilities;
 using DelitaTrade.ViewModels.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 
@@ -24,7 +20,6 @@ namespace DelitaTrade.ViewModels.Controllers
             _serviceProvider = service;
             _companyObjectsSearchBox = new SearchComboBoxViewModel<CompanyObjectViewModel>();
             _companyObjectsSearchBox.PropertyChanged += OnViewModelPropertyChange;
-            //ReloadAllCompanies();
             _companyObjectsSearchBox.Name = "Company Objects";
             ValueUnselected += () => { };
             ValueSelected += (CompanyObjectViewModel obj) => { CompanyObjectsSearchBox.Value.Value.Trader = obj.Trader; };

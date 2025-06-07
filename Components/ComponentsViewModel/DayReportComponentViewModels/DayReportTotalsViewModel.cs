@@ -49,6 +49,18 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             TotalsChanged();
         }
 
+        public void UnSelectDayReport()
+        {
+            _dayReportViewModel = null;
+            Date = DateTime.Now; 
+            OnPropertyChange(nameof(TotalAmount));
+            OnPropertyChange(nameof(TotalIncome));
+            OnPropertyChange(nameof(TotalNonPay));
+            OnPropertyChange(nameof(TotalOldInvoice));
+            OnPropertyChange(nameof(TotalExpenses));
+            OnPropertyChange(nameof(TotalWeight));
+        }
+
         private void TotalsChanged()
         {
             OnPropertyChange(nameof(TotalAmount));

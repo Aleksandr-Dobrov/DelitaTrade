@@ -14,11 +14,13 @@ namespace DelitaTrade.Common
 
         public const int ProductNameMaxLength = 150;
         public const int ProductUnitMaxLength = 15;
+        public const int ProductNumberMaxLength = 10;
 
         public const int ReturnProtocolPayMethodLength = 20;
 
         public const int ReturnedProductDescriptionMaxLength = 100;
         public const int ReturnedProductBatchMaxLength = 30;
+        public const int DescriptionCategoryMaxLength = 50;
 
         public const int CompanyObjectNameMaxLength = 100;
         public const int CompanyObjectAddressMaxLength = 150;
@@ -43,5 +45,11 @@ namespace DelitaTrade.Common
         
         public const int LicensePlateMaxLength = 15;
         public const int VehicleModelMaxLength = 80;
+
+        public class DelitaUserConstants
+        {
+            public const int NameMaxLength = 50;
+            public const int LastNameMaxLength = 50;
+        }
     }
 }

@@ -11,6 +11,8 @@ namespace DelitaTrade.Core.Contracts
     {
         Task<IEnumerable<ReturnedProductDescriptionViewModel>> GetAllAsync();
 
-        Task<ReturnedProductDescriptionViewModel> AddDescription(ReturnedProductDescriptionViewModel description);
+        Task<IEnumerable<ReturnedProductDescriptionViewModel>> GetFilteredDescriptions(string[] args);
+
+        Task<ReturnedProductDescriptionViewModel> AddDescriptionAsync(ReturnedProductDescriptionViewModel description);
     }
 }

@@ -13,6 +13,8 @@ namespace DelitaTrade.Core.Contracts
 
         Task<IEnumerable<ReturnedProductViewModel>> GetAllProductsAsync(int protocolId);
 
+        Task UpdateProductAsync(ReturnedProductViewModel returnedProduct);
+
         Task DeleteProductAsync(int productId);
     }
 }

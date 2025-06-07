@@ -19,7 +19,7 @@ namespace DelitaTrade.Core.Exporters.ExcelExporters
         private Worksheet _ws;
 
         private ExcelWriter _writer;
-        private ExcelDrawing _drawing;
+        private ExcelDrawer _drawing;
 
         private IExportedDayReport _dayReport;
 
@@ -38,7 +38,7 @@ namespace DelitaTrade.Core.Exporters.ExcelExporters
         public ExcelBuilder(string inputPath)
         {
             _writer = new ExcelWriter();
-            _drawing = new ExcelDrawing();
+            _drawing = new ExcelDrawer();
             _invoiceMarker = new List<InvoiceMarker>();
             _inputPath = inputPath;
         }
@@ -350,10 +350,10 @@ namespace DelitaTrade.Core.Exporters.ExcelExporters
                     _writer.WriteDataToCell(_ws, invoice.Income.ToString("C"), _row, 7);
                     break;
                 case "Плащане в брой":
-                    if (invoice.IsPaid == false)
+                    if (invoice.IsPaid == false || invoice.PayMethod == PayMethod.ForCreditNote || invoice.PayMethod == PayMethod.Cancellation)
                     {
                         nonPayExists = true;
-                        nonPayInvoices.Add($"{invoice.Amount:C} -- {invoice.Income:C} -- {invoice.CompanyFullName} -- {PayMethodsToString[Language][invoice.PayMethod]} -- {invoice.Number}");
+                        nonPayInvoices.Add($"{invoice.Amount:C} -- {invoice.Income:C} -- {invoice.CompanyFullName} -- ({PayMethodsToString[Language][invoice.PayMethod]}){invoice.ObjectName} -- {invoice.Number}");
                         return;
                     }
                     else
@@ -409,7 +409,16 @@ namespace DelitaTrade.Core.Exporters.ExcelExporters
             {
                 _writer.WriteDataToCell(_ws, $"{invoice.CompanyFullName}", _row, 2);
             }
-            _writer.WriteDataToRange(_ws, invoice.ObjectName, false, 11, false, XlHAlign.xlHAlignLeft, XlVAlign.xlVAlignTop, _row, 3, _row, 4);
+
+            if(invoice.PayMethod == PayMethod.OldPayCard)
+            {
+                _writer.WriteDataToRange(_ws, $"(С Карта){invoice.ObjectName}", false, 11, false, XlHAlign.xlHAlignLeft, XlVAlign.xlVAlignTop, _row, 3, _row, 4);
+            }
+            else
+            {
+                _writer.WriteDataToRange(_ws, invoice.ObjectName, false, 11, false, XlHAlign.xlHAlignLeft, XlVAlign.xlVAlignTop, _row, 3, _row, 4);
+            }
+
             _writer.WriteDataToCell(_ws, invoice.Number, false, 11, XlHAlign.xlHAlignLeft, XlVAlign.xlVAlignTop, _row, 5);
 
             SetBodyComponentColor();

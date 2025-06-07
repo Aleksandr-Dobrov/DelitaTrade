@@ -1,9 +1,11 @@
 ﻿using DelitaTrade.Areas.DayReportAreas;
 using DelitaTrade.Commands;
+using DelitaTrade.Core.ViewModels;
 using DelitaTrade.Models.DataProviders.FileDirectoryProvider;
 using DelitaTrade.Services;
 using DelitaTrade.Stores;
 using DelitaTrade.ViewModels;
+using DelitaTrade.ViewModels.Controllers;
 using DelitaTrade.ViewModels.ReturnProtocolControllers;
 using System.Windows.Input;
 
@@ -17,10 +19,12 @@ namespace DelitaTrade.Components.ComponentsViewModel
         private const string _companiesImage = "\\Components\\ComponentAssets\\NavigationBar\\data.png";
         private const string _dayReportImage = "\\Components\\ComponentAssets\\NavigationBar\\daily-report.png";
         private const string _returnProtocolImage = "\\Components\\ComponentAssets\\NavigationBar\\pngegg.png";
+        private const string _loginImage = "\\Components\\ComponentAssets\\NavigationBar\\user.png";
 
         private string _logoFullFilePath;
+        private bool _isEditable;
 
-        public NavigationBarViewModel(ViewModelsStore viewModelsStore)
+        public NavigationBarViewModel(ViewModelsStore viewModelsStore, UserController userController)
         {   
             NavigateCompanyDataBaseCommand = new NavigationCommand<AddNewCompanyViewModel>
                 (new NavigationService<AddNewCompanyViewModel>(viewModelsStore));
@@ -32,7 +36,11 @@ namespace DelitaTrade.Components.ComponentsViewModel
                 (new NavigationService<ReturnProtocolController>(viewModelsStore));
             NavigateOptionsCommand = new NavigationCommand<OptionsViewModel>
                 (new NavigationService<OptionsViewModel>(viewModelsStore));
+            NavigateLoginCommand = new NavigationCommand<LoginViewModel>
+                (new NavigationService<LoginViewModel>(viewModelsStore));
             LogoFullFilePath = _logoFilePath;
+            userController.UserLogIn += OnLogin;
+            userController.UserLogout += OnLogout;
         }
 
         public string LogoFullFilePath
@@ -45,11 +53,22 @@ namespace DelitaTrade.Components.ComponentsViewModel
             }
         }
 
+        public bool IsEditable
+        {
+            get => _isEditable;
+            set
+            {
+                _isEditable = value;
+                OnPropertyChange();
+            }
+        }
+
         public string OptionsImage => _optionsImage.GetFullFilePathExt();
         public string PayDeskImage => _payDeskImage.GetFullFilePathExt();
         public string CompaniesImage => _companiesImage.GetFullFilePathExt();
         public string DayReportImage => _dayReportImage.GetFullFilePathExt();
         public string ReturnProtocolImage => _returnProtocolImage.GetFullFilePathExt();
+        public string LoginImage => _loginImage.GetFullFilePathExt();
 
         public ICommand NavigateCompanyDataBaseCommand { get; }
 
@@ -60,5 +79,17 @@ namespace DelitaTrade.Components.ComponentsViewModel
         public ICommand NavigateReturnProtocolCommand {  get; }
 
         public ICommand NavigateOptionsCommand { get; }
+
+        public ICommand NavigateLoginCommand { get; }
+
+        private void OnLogin(UserViewModel userViewModel)
+        {
+            IsEditable = true;
+        }
+
+        private void OnLogout()
+        {
+            IsEditable = false;
+        }
     }
 }

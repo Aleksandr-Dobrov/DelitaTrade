@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MySql.EntityFrameworkCore.Extensions;
 using System.Linq.Expressions;
 using DelitaTrade.Core.Contracts;
 using DelitaTrade.Core.ViewModels;

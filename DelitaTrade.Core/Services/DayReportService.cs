@@ -4,20 +4,22 @@ using DelitaTrade.Core.Extensions;
 using DelitaTrade.Core.ViewModels;
 using DelitaTrade.Infrastructure.Common;
 using DelitaTrade.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using static DelitaTrade.Common.ExceptionMessages;
 
 namespace DelitaTrade.Core.Services
 {
-    public class DayReportService(IRepository repo) : IDayReportService
+    public class DayReportService(IRepository repo, UserManager<DelitaUser> userManager) : IDayReportService
     {
         public async Task<DayReportViewModel> CreateAsync(DayReportViewModel dayReport)
         {
-            var user = await GetUserAsync(repo, dayReport.User);
+            var user = await GetUserAsync(userManager, dayReport.User);
             var newDayReport = new DayReport()
-            {
-                User = user,
+            {   
+                IdentityUser = user,
+                IdentityUserId = dayReport.User.Id,
                 Date = dayReport.Date,
                 Banknotes = dayReport.Banknotes,
                 TotalCash = dayReport.TotalCash,
@@ -39,14 +41,13 @@ namespace DelitaTrade.Core.Services
 
         public async Task DeleteAsync(UserViewModel userViewModel, int id)
         {
-            var user = await GetUserAsync(repo, userViewModel);
             var dayReport = await repo.All<DayReport>()
                 .Include(d => d.Invoices)
                 .ThenInclude(i => i.Invoice)
                 .ThenInclude(i => i.InvoicesInDayReports)
                 .FirstOrDefaultAsync(d => d.Id == id) ?? throw new ArgumentNullException(NotFound(nameof(DayReport)));
 
-            if (dayReport.User.Id != dayReport.UserId) throw new InvalidOperationException(NotAuthenticate(userViewModel));
+            if (dayReport.IdentityUserId != userViewModel.Id) throw new InvalidOperationException(NotAuthenticate(userViewModel));
 
             if (dayReport.Invoices.Count > 0)
             {
@@ -74,9 +75,8 @@ namespace DelitaTrade.Core.Services
 
         public async Task<IEnumerable<DayReportHeaderViewModel>> GetAllDatesAsync(UserViewModel userViewModel)
         {
-            var user = await GetUserAsync(repo, userViewModel);
             return await repo.AllReadonly<DayReport>()
-                .Where(d => d.UserId == user.Id)
+                .Where(d => d.IdentityUserId == userViewModel.Id)
                 .Select(d => new DayReportHeaderViewModel()
                 {
                     Id = d.Id,
@@ -86,9 +86,8 @@ namespace DelitaTrade.Core.Services
 
         public async Task<IEnumerable<DayReportViewModel>> GetAllFilteredAsync(UserViewModel userViewModel, string filter, int limit)
         {
-            var user = await GetUserAsync(repo, userViewModel);
             return await repo.AllReadonly<DayReport>()
-                .Where(d => d.UserId == user.Id)
+                .Where(d => d.IdentityUserId == userViewModel.Id)
                 .Take(limit)
                 .Select(d => new DayReportViewModel()
                 {
@@ -101,7 +100,7 @@ namespace DelitaTrade.Core.Services
         public async Task<DayReportBanknotesViewModel> GetBanknotesReadonlyAsync(UserViewModel user, int id)
         {
             return await repo.AllReadonly<DayReport>()
-                .Where(d => d.UserId == user.Id && d.Id == id)
+                .Where(d => d.IdentityUserId == user.Id && d.Id == id)
                 .Select(d => new DayReportBanknotesViewModel()
                 {
                     Id = id,
@@ -112,14 +111,13 @@ namespace DelitaTrade.Core.Services
 
         public async Task<DayReportViewModel> GetByIdAsync(UserViewModel userViewModel, int id)
         {
-            var user = await GetUserAsync(repo, userViewModel);
             var dayReport = await repo.All<DayReport>()
                 .Include(d => d.Vehicle)
                 .Include(d => d.Invoices)
                 .ThenInclude(i => i.Invoice)
                 .ThenInclude(i => i.CompanyObject)
                 .ThenInclude(i => i.Company)
-                .FirstOrDefaultAsync(d => d.UserId == user.Id && d.Id == id) ?? throw new ArgumentNullException(NotFound(nameof(DayReport)));
+                .FirstOrDefaultAsync(d => d.IdentityUserId == userViewModel.Id && d.Id == id) ?? throw new ArgumentNullException(NotFound(nameof(DayReport)));
             return MapToDayReportViewModel(dayReport, userViewModel);
         }
 
@@ -131,9 +129,9 @@ namespace DelitaTrade.Core.Services
             await repo.SaveChangesAsync();
         }
 
-        private async Task<User> GetUserAsync(IRepository repo, UserViewModel user)
+        private async Task<DelitaUser> GetUserAsync(UserManager<DelitaUser> userManager, UserViewModel user)
         {
-            return await repo.GetByIdAsync<User>(user.Id) ??
+            return await userManager.FindByIdAsync(user.Id.ToString()) ??
                 throw new InvalidOperationException(NotAuthenticate(user));
         }
 

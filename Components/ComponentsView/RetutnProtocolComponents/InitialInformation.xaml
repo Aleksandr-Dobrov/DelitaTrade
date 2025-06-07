@@ -12,7 +12,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="300"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
@@ -22,36 +22,67 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>            
-                <ComponentsView3cd9e2af:SearchComboBox Margin="0 0 0 5" Grid.Row="0" DataContext="{Binding CompaniesDataManager.Companies.CompaniesSearchBox}"/>
+            </Grid.RowDefinitions>  
             <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <ComponentsView3cd9e2af:SearchComboBox Grid.Row="1" DataContext="{Binding CompaniesDataManager.CompanyObjects.CompanyObjectsSearchBox}">
-
-                </ComponentsView3cd9e2af:SearchComboBox>
+                <ComponentsView3cd9e2af:SearchComboBox Grid.Row="1" DataContext="{Binding CompaniesDataManager.CompanyObjects.CompanyObjectsSearchBox}"/>
             </Grid>
             <ComponentsView3cd9e2af:EntityBaseView Grid.Row="3" DataContext="{Binding TradersViewModel.TraderViewModel}"/>
+            <Grid Grid.Row="4">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="Add" Margin="10 10 5 10" Width="70"
+                            Command="{Binding CreateReturnProtocolCommand}"/>
+                    <Button Content="Update" Margin="5 10" Width="70"
+                            Command="{Binding UpdateReturnProtocolCommand}"/>
+                    <Button Content="Remove" Margin="5 10" Width="70"
+                            Command="{Binding DeleteReturnProtocolCommand}"/>
+                    <Button Content="Export" Margin="5 10" Width="70"
+                            Command="{Binding ReturnProtocolExportCommandsViewModel.ExportDayReport}"
+                            IsEnabled="{Binding IsReturnProtocolSelected}"/>
+                </StackPanel>
+            </Grid>
         </Grid>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition/>
-                <RowDefinition/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
-                <StackPanel Orientation="Horizontal">
-                    <Button Content="Add" Margin="10"
-                            Command="{Binding CreateReturnProtocolCommand}"/>
-                    <Button Content="Remove" Margin="10"
-                            Command="{Binding DeleteReturnProtocolCommand}"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                    <TextBlock Text="From" FontSize="10" VerticalAlignment="Bottom" FontWeight="Bold" Margin="5 0 32 0"/>
+                    <TextBlock Text="Filter" FontSize="15" VerticalAlignment="Top" FontWeight="Medium" Margin="10 0 10 3"/>
+                    <TextBlock Text="To" FontSize="10" VerticalAlignment="Bottom" FontWeight="Bold" Margin="16 0 30 0" Foreground="{Binding DateIntervalViewModel.EndDateColor}"/>
                 </StackPanel>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                        <DatePicker SelectedDate="{Binding Path=DateIntervalViewModel.StartDate, Mode=TwoWay, TargetNullValue={x:Static System:DateTime.Now}}"
+                                    Margin="10 0"/>
+                        <DatePicker SelectedDate="{Binding Path=DateIntervalViewModel.EndDate, Mode=TwoWay, TargetNullValue={x:Static System:DateTime.Now}}"
+                                    Margin="10 0"/>
+                    </StackPanel>
             </Grid>
-            <TextBox Grid.Row="1" Text="{Binding ProtocolFilter, UpdateSourceTrigger=PropertyChanged}"/>
-            <ComboBox Grid.Row="2" Margin="5"
+            <TextBox Grid.Row="1" 
+                     Margin="5"
+                     Height="25"
+                     VerticalContentAlignment="Center"
+                     Text="{Binding ProtocolFilter, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Grid.Row="2" Text="Return Protocol" FontSize="15" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontWeight="Medium" Margin="0 5 0 0"/>
+            <ComboBox Grid.Row="3" Margin="5"
+                      Height="25"
                       IsEditable="True"
+                      VerticalContentAlignment="Center"
                       SelectedItem="{Binding SelectedReturnProtocol}"
                       IsDropDownOpen="{Binding IsProtocolsDropDownOpen}"
                       ItemsSource="{Binding ReturnProtocols}"/>
@@ -67,12 +98,15 @@
             <Viewbox Grid.Row="0" Width="150" HorizontalAlignment="Right">
                 <DatePicker  SelectedDate="{Binding Path=Date, Mode=TwoWay, TargetNullValue={x:Static System:DateTime.Now}}"/>
             </Viewbox>
-            <ComponentsView3cd9e2af:ItemsBoxNonDeletable Grid.Row="1"
+            <ComponentsView3cd9e2af:ItemsBoxNonDeletableNonEditable Grid.Row="1"
                                                  Width="150"
                                                  HorizontalAlignment="Right"
                                                  Margin="0 20 0 0"
                                                  DataContext="{Binding ReturnProtocolPayMethod}"/>
-            
+            <Button Grid.Row="2" Command="{Binding ImportProductsController.ImportFile}"
+                    Content="Import Products"
+                    Margin="25 5"/>
+
         </Grid>
     </Grid>
 </UserControl>

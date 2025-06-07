@@ -3,11 +3,11 @@ using DelitaTrade.ViewModels;
 
 namespace DelitaTrade.Commands
 {
-    public class NavigationCommand<TVievModel> : CommandBase where TVievModel : ViewModelBase
+    public class NavigationCommand<TViewModel> : CommandBase where TViewModel : ViewModelBase
     {
-        private readonly NavigationService<TVievModel> _navigationService;
+        private readonly NavigationService<TViewModel> _navigationService;
 
-        public NavigationCommand(NavigationService<TVievModel> navigationService)
+        public NavigationCommand(NavigationService<TViewModel> navigationService)
         {
              _navigationService = navigationService;
         }

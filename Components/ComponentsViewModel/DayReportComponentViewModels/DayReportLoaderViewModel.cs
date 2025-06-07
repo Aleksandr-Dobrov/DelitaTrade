@@ -27,6 +27,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             _dayReportListIdViewModel = dayReportListIdViewModel;
             _dayReportCrudController = dayReportCrudController;
             userController.UserLogIn += OnUserLogIn;
+            userController.UserLogout += OnUserLogUot;
             _dayReportListIdViewModel.DayReportIdSelected += OnDayReportSelected;
             _dayReportTotalsViewModel = dayReportTotalsViewModel;
             _dayReportCommandsViewModel = dayReportCommandsViewModel;
@@ -36,6 +37,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             DayReportTotalsViewModel.PropertyChanged += OnTransmissionDateChange;
             DayReportSelected += (d) => { };
             DayReportUnSelect += () => { };
+            DayReportUnSelect += DayReportTotalsViewModel.UnSelectDayReport;
         }
 
         public DayReportListIdViewModel DayReportListIdViewModel => _dayReportListIdViewModel;
@@ -93,6 +95,12 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             }
         }
 
+        private void OnUserLogUot() 
+        {
+            DayReportListIdViewModel.LogOut(_dayReportCrudController);
+            OnDayReportUnSelected(null);
+        }
+
         private async void OnDayReportSelected(int Id)
         {
             _dayReportViewModel = await _dayReportCrudController.ReadDayReportByIdAsync(Id);
@@ -113,7 +121,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             DayReportTotalsViewModel.SelectDayReport(_dayReportViewModel);
         }
 
-        private void OnDayReportUnSelected(WpfDayReportIdViewModel wpfDayReportId)
+        private void OnDayReportUnSelected(WpfDayReportIdViewModel? wpfDayReportId)
         {
             _dayReportViewModel = null;
             OnPropertyChange(nameof(DayReportDate));

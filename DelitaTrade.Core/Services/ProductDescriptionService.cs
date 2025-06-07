@@ -19,7 +19,7 @@ namespace DelitaTrade.Core.Services
             }).ToArrayAsync();
         }
 
-        public async Task<ReturnedProductDescriptionViewModel> AddDescription(ReturnedProductDescriptionViewModel description)
+        public async Task<ReturnedProductDescriptionViewModel> AddDescriptionAsync(ReturnedProductDescriptionViewModel description)
         {
             var dbDescription = await repo.AllReadonly<ReturnedProductDescription>().FirstOrDefaultAsync(d => d.Description == description.Description);
             if (dbDescription == null)
@@ -38,5 +38,31 @@ namespace DelitaTrade.Core.Services
             }
         }
 
+        public async Task<IEnumerable<ReturnedProductDescriptionViewModel>> GetFilteredDescriptions(string[] args)
+        {
+            IQueryable<ReturnedProductDescription> query = repo.AllReadonly<ReturnedProductDescription>();
+
+            foreach (var arg in args)
+            {
+                query = query.Where(d => d.Description.Contains(arg));
+            }
+            string orderArg = string.Empty;
+
+            if (args.Length > 0)
+            {
+                orderArg = args[0];
+            }
+
+            query = query.OrderByDescending(d => EF.Functions.Like(d.Description, $"{orderArg}%"))
+                .ThenBy(d => d.Description)
+                .Take(10);
+
+            return await query
+                .Select(d => new ReturnedProductDescriptionViewModel 
+                { 
+                    Id = d.Id,
+                    Description = d.Description
+                }).ToArrayAsync();
+        }
     }
 }

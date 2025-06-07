@@ -21,7 +21,7 @@ namespace DelitaTrade.Core.ViewModels
             return AdvanceJoin(' ', Town, StreetName, Number, Description);
         }
 
-        private string AdvanceJoin(char separator, params string[] args)
+        private string AdvanceJoin(char separator, params string?[] args)
         {
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < args.Length; i++)

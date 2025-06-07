@@ -11,7 +11,7 @@ namespace DelitaTrade.Infrastructure.Data.Models.EntityConfigurations
         {            
             builder.Property(d => d.Banknotes)
                 .HasConversion(v => JsonConvert.SerializeObject(v),
-                                v => JsonConvert.DeserializeObject<Dictionary<decimal,int>>(v));
+                                 v => JsonConvert.DeserializeObject<Dictionary<decimal,int>>(v));
         }
     }
 }

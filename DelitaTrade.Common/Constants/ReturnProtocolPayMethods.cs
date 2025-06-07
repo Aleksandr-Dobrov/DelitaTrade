@@ -11,5 +11,6 @@ namespace DelitaTrade.Common.Constants
         public const string BankPay = "Банка";
         public const string Deducted = "Приспаднато";
         public const string NotDeducted = "Не Приспаднато";
+        public const string ForCancellation = "За Анулиране";
     }
 }

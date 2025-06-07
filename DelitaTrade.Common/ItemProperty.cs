@@ -9,6 +9,12 @@ namespace DelitaTrade.Common
     public class ItemProperty<T>
     {
         private T _value;
+
+        public ItemProperty()
+        {
+            ValueChanged += (v) => { };
+        }
+
         public event Action<T> ValueChanged;
 
         public bool IsValueCleared { get; set; }
@@ -22,7 +28,7 @@ namespace DelitaTrade.Common
             set
             {
                 _value = value;
-                ValueChanged(Value);
+                ValueChanged(Value);                
             }
         }
 

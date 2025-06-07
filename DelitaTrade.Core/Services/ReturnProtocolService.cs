@@ -5,20 +5,21 @@ using DelitaTrade.Core.ViewModels;
 using DelitaTrade.Infrastructure.Common;
 using DelitaTrade.Infrastructure.Data.Models;
 using DelitaTrade.Common;
+using Microsoft.AspNetCore.Identity;
+using static DelitaTrade.Common.ExceptionMessages;
 
 namespace DelitaTrade.Core.Services
 {
-    public class ReturnProtocolService(IRepository repo) : IReturnProtocolService
+    public class ReturnProtocolService(IRepository repo, UserManager<DelitaUser> userManager) : IReturnProtocolService
     {
         public async Task<IEnumerable<ReturnProtocolViewModel>> GetAllAsync(UserViewModel userViewModel)
         {
             return await repo.AllReadonly<ReturnProtocol>()
-                .Where(r => r.UserId == userViewModel.Id) 
+                .Where(r => r.IdentityUserId == userViewModel.Id) 
                 .Include(r => r.Trader)
                 .Include(r => r.Object)
                 .ThenInclude(o => o.Address)
                 .Include(r => r.Company)
-                .Include(r => r.User)
                 .Select(r => new ReturnProtocolViewModel
                 {
                     Id = r.Id,
@@ -94,19 +95,95 @@ namespace DelitaTrade.Core.Services
                 }).ToListAsync();
         }
 
-        public async Task<int> CreateProtocolAsync(ReturnProtocolViewModel protocolViewModel)
+        public async Task<IEnumerable<ReturnProtocolViewModel>> GetFilteredAsync(UserViewModel user, string[] args)
         {
-            var user = await repo.GetByIdAsync<User>(protocolViewModel.User.Id) 
-                ?? throw new ArgumentNullException(ExceptionMessages.NotFound(nameof(User)));
+            IQueryable<ReturnProtocol> query = GetFilteredProtocolsQuery(user, args);
+            return await query
+                .Select(r => new ReturnProtocolViewModel
+                {
+                    Id = r.Id,
+                    PayMethod = r.PayMethod,
+                    ReturnedDate = r.ReturnedDate,
+                    Trader = new TraderViewModel
+                    {
+                        Id = r.Trader.Id,
+                        Name = r.Trader.Name
+                    },
+                    CompanyObject = new CompanyObjectViewModel
+                    {
+                        Id = r.Object.Id,
+                        Name = r.Object.Name,
+                        Address = r.Object.Address != null ? new AddressViewModel
+                        {
+                            Id = r.Object.Address.Id,
+                            Town = r.Object.Address.Town,
+                            StreetName = r.Object.Address.StreetName,
+                            Number = r.Object.Address.Number,
+                            GpsCoordinates = r.Object.Address.GpsCoordinates,
+                            Description = r.Object.Address.Description,
+                        } : null,
+                        Company = new CompanyViewModel
+                        {
+                            Id = r.Object.CompanyId,
+                            Name = r.Object.Company.Name,
+                            Type = r.Object.Company.Type ?? ""
+                        }
+                    },
+                    User = user
+                }).ToListAsync();
+        }
+
+        public async Task<IEnumerable<ReturnProtocolViewModel>> GetFilteredAsync(UserViewModel user, string[] arg, DateTime startDate, DateTime endDate)
+        {
+            IQueryable<ReturnProtocol> query = SetDateInterval(GetFilteredProtocolsQuery(user, arg),startDate, endDate);
+            return await query
+                .Select(r => new ReturnProtocolViewModel
+                {
+                    Id = r.Id,
+                    PayMethod = r.PayMethod,
+                    ReturnedDate = r.ReturnedDate,
+                    Trader = new TraderViewModel
+                    {
+                        Id = r.Trader.Id,
+                        Name = r.Trader.Name
+                    },
+                    CompanyObject = new CompanyObjectViewModel
+                    {
+                        Id = r.Object.Id,
+                        Name = r.Object.Name,
+                        Address = r.Object.Address != null ? new AddressViewModel
+                        {
+                            Id = r.Object.Address.Id,
+                            Town = r.Object.Address.Town,
+                            StreetName = r.Object.Address.StreetName,
+                            Number = r.Object.Address.Number,
+                            GpsCoordinates = r.Object.Address.GpsCoordinates,
+                            Description = r.Object.Address.Description,
+                        } : null,
+                        Company = new CompanyViewModel
+                        {
+                            Id = r.Object.CompanyId,
+                            Name = r.Object.Company.Name,
+                            Type = r.Object.Company.Type ?? ""
+                        }
+                    },
+                    User = user
+                }).ToListAsync();
+        }
+
+        public async Task<int> CreateProtocolAsync(ReturnProtocolViewModel protocolViewModel)
+        { 
+            var user = await GetUserAsync(userManager, protocolViewModel.User)
+                ?? throw new InvalidOperationException(NotAuthenticate(protocolViewModel.User));
 
             var trader = await repo.GetByIdAsync<Trader>(protocolViewModel.Trader.Id) 
-                ?? throw new ArgumentNullException(ExceptionMessages.NotFound(nameof(Trader)));
+                ?? throw new ArgumentNullException(NotFound(nameof(Trader)));
 
             var company = await repo.GetByIdAsync<Company>(protocolViewModel.CompanyObject.Company.Id) 
-                ?? throw new ArgumentNullException(ExceptionMessages.NotFound(nameof(Company)));
+                ?? throw new ArgumentNullException(NotFound(nameof(Company)));
 
             var companyObject = await repo.GetByIdAsync<CompanyObject>(protocolViewModel.CompanyObject.Id) 
-                ?? throw new ArgumentNullException(ExceptionMessages.NotFound(nameof(CompanyObject)));
+                ?? throw new ArgumentNullException(NotFound(nameof(CompanyObject)));
 
             var newReturnProtocol = new ReturnProtocol
             {
@@ -115,7 +192,8 @@ namespace DelitaTrade.Core.Services
                 Trader = trader,
                 Company = company,
                 Object = companyObject,
-                User = user
+                IdentityUserId = protocolViewModel.User.Id,
+                IdentityUser = user
             };
             await repo.AddAsync(newReturnProtocol);
             await repo.SaveChangesAsync();
@@ -123,10 +201,32 @@ namespace DelitaTrade.Core.Services
             return newReturnProtocol.Id;
         }
 
+        public async Task UpdateProtocolAsync(ReturnProtocolViewModel returnProtocol)
+        {
+            var protocolToUpdate = await repo.GetByIdAsync<ReturnProtocol>(returnProtocol.Id)
+                ?? throw new ArgumentNullException(NotFound(nameof(ReturnProtocol)));
+
+            var trader = await repo.GetByIdAsync<Trader>(returnProtocol.Trader.Id)
+                ?? throw new ArgumentNullException(NotFound(nameof(Trader)));
+
+            var company = await repo.GetByIdAsync<Company>(returnProtocol.CompanyObject.Company.Id)
+                ?? throw new ArgumentNullException(NotFound(nameof(Company)));
+
+            var companyObject = await repo.GetByIdAsync<CompanyObject>(returnProtocol.CompanyObject.Id)
+                ?? throw new ArgumentNullException(NotFound(nameof(CompanyObject)));
+
+            protocolToUpdate.Trader = trader;
+            protocolToUpdate.Company = company;
+            protocolToUpdate.Object = companyObject;
+            protocolToUpdate.ReturnedDate = returnProtocol.ReturnedDate;
+            protocolToUpdate.PayMethod = returnProtocol.PayMethod;
+            await repo.SaveChangesAsync();
+        }
+
         public async Task DeleteProtocol(int protocolId)
         {
             var protocolToDelete = await repo.GetByIdAsync<ReturnProtocol>(protocolId)
-                ?? throw new ArgumentNullException(ExceptionMessages.NotFound(nameof(ReturnProtocol)));
+                ?? throw new ArgumentNullException(NotFound(nameof(ReturnProtocol)));
             repo.Remove(protocolToDelete);
             await repo.SaveChangesAsync();
         }
@@ -137,8 +237,34 @@ namespace DelitaTrade.Core.Services
                 .Include(r => r.Object)
                 .Include(r => r.Company)
                 .Include(r => r.Trader)
-                .Where(p => p.UserId == userId)
+                .Where(p => p.IdentityUserId == userId)
                 .Where(filter);
+        }
+
+        private IQueryable<ReturnProtocol> GetFilteredProtocolsQuery(UserViewModel user, string[] args)
+        {
+            IQueryable<ReturnProtocol> query = repo.AllReadonly<ReturnProtocol>()
+                            .Where(r => r.IdentityUserId == user.Id);
+            foreach (var arg in args)
+            {
+                query = query.Where(p => p.Company.Name.Contains(arg)
+                     || p.Object.Name.Contains(arg)
+                     || p.Trader.Name.Contains(arg)
+                     || p.ReturnedDate.ToString().Contains(arg));
+            }
+
+            return query;
+        }
+
+        private IQueryable<ReturnProtocol> SetDateInterval(IQueryable<ReturnProtocol> query, DateTime startDate, DateTime endDate)
+        {
+            return query.Where(p => p.ReturnedDate >= startDate.Date && p.ReturnedDate <= endDate.Date);
+        }
+
+        private async Task<DelitaUser> GetUserAsync(UserManager<DelitaUser> userManager, UserViewModel user)
+        {
+            return await userManager.FindByIdAsync(user.Id.ToString()) ??
+                throw new InvalidOperationException(NotAuthenticate(user));
         }
     }
 }

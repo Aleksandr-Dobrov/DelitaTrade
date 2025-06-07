@@ -6,7 +6,7 @@ namespace DelitaTrade.Models.Loggers
     {       
         public override Logger Log(Exception exception, LogLevel logLevel)
         {           
-            MessageBox.Show($"{exception.Source} - {exception.Message}",logLevel.ToString(),MessageBoxButton.OK, (MessageBoxImage)logLevel);
+            MessageBox.Show($"{exception.Message}",logLevel.ToString(),MessageBoxButton.OK, (MessageBoxImage)logLevel);
             return new FileLogger();
         }
 

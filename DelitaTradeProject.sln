@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DelitaTrade", "DelitaTrade.csproj", "{A69D94F7-6EF0-4A21-AD0A-2899A3302E63}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DelitaTradeProjectTests", "..\DelitaTradeProjectTests\DelitaTradeProjectTests.csproj", "{CA5BBA3C-F7D1-480C-B634-C63BA5CB9044}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelitaTrade.Common", "DelitaTrade.Common\DelitaTrade.Common.csproj", "{C65D45DC-44B1-4F56-A266-8B63A13A2FEA}"
@@ -13,16 +11,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelitaTrade.Core", "DelitaT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelitaTrade.Infrastructure", "DelitaTrade.Infrastructure\DelitaTrade.Infrastructure.csproj", "{F61104A7-E84A-4344-B07A-94CE197636CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelitaTrade", "DelitaTrade.csproj", "{ACC31C86-E1B8-E8B3-4158-F9C224E36081}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelitaTrade.WPFCore", "DelitaTrade.WPFCore\DelitaTrade.WPFCore.csproj", "{14E6D5F3-D1DA-0E0C-007D-8056228A7FE9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A69D94F7-6EF0-4A21-AD0A-2899A3302E63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A69D94F7-6EF0-4A21-AD0A-2899A3302E63}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A69D94F7-6EF0-4A21-AD0A-2899A3302E63}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A69D94F7-6EF0-4A21-AD0A-2899A3302E63}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CA5BBA3C-F7D1-480C-B634-C63BA5CB9044}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CA5BBA3C-F7D1-480C-B634-C63BA5CB9044}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA5BBA3C-F7D1-480C-B634-C63BA5CB9044}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +37,14 @@ Global
 		{F61104A7-E84A-4344-B07A-94CE197636CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F61104A7-E84A-4344-B07A-94CE197636CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F61104A7-E84A-4344-B07A-94CE197636CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACC31C86-E1B8-E8B3-4158-F9C224E36081}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACC31C86-E1B8-E8B3-4158-F9C224E36081}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACC31C86-E1B8-E8B3-4158-F9C224E36081}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACC31C86-E1B8-E8B3-4158-F9C224E36081}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14E6D5F3-D1DA-0E0C-007D-8056228A7FE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14E6D5F3-D1DA-0E0C-007D-8056228A7FE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14E6D5F3-D1DA-0E0C-007D-8056228A7FE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14E6D5F3-D1DA-0E0C-007D-8056228A7FE9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

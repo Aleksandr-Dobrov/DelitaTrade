@@ -25,10 +25,12 @@ namespace DelitaTrade.Infrastructure.Data.Models
         [ForeignKey(nameof(TraderId))]
         [DeleteBehavior(DeleteBehavior.NoAction)]
         public Trader Trader { get; set; } = null!;
-        public Guid UserId { get; set; }
-        [ForeignKey(nameof(UserId))]
+        
+        public Guid IdentityUserId { get; set; }
+
+        [ForeignKey(nameof(IdentityUserId))]
         [DeleteBehavior(DeleteBehavior.NoAction)]
-        public virtual User User { get; set; } = null!;
+        public required virtual DelitaUser IdentityUser { get; set; }
         public virtual ICollection<ReturnedProduct> ReturnedProducts { get; set; } = new List<ReturnedProduct>();
     }
 }
