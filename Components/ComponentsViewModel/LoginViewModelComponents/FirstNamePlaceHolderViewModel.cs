@@ -14,6 +14,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.LoginViewModelComponents
         {
         }
 
+        [Required(ErrorMessage = "First name is required")]
         [MinLength(ValidationConstants.DelitaUserConstants.NamesMinLength, ErrorMessage = "First name must contain min 2 symbols")]
         [MaxLength(ValidationConstants.DelitaUserConstants.NameMaxLength, ErrorMessage = "First name must contain max 50 symbols")]
         public override string TextValue
