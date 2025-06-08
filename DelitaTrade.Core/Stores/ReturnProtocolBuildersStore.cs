@@ -13,8 +13,12 @@ namespace DelitaTrade.Core.Stores
     {
         private readonly List<IReturnProtocolBuilder> _builders = new List<IReturnProtocolBuilder>();
 
-        public ReturnProtocolBuildersStore(ExcelReturnProtocolBuilder excelReturnProtocolBuilder, ExcelCrisisReturnProtocolBuilder excelCrisisReturnProtocolBuilder,
-                ExcelStupidReturnProtocolBuilder excelStupidReturnProtocolBuilder, ExcelStupidCardReturnProtocolBuilder excelStupidCardReturnProtocolBuilder)
+        public ReturnProtocolBuildersStore(
+            ExcelReturnProtocolBuilder excelReturnProtocolBuilder, 
+            ExcelCrisisReturnProtocolBuilder excelCrisisReturnProtocolBuilder,
+            ExcelStupidReturnProtocolBuilder excelStupidReturnProtocolBuilder,
+            ExcelStupidCardReturnProtocolBuilder excelStupidCardReturnProtocolBuilder
+            )
         {    
             AddBuilders(
                 excelReturnProtocolBuilder,
