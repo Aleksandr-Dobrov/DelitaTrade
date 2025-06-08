@@ -6,6 +6,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using DelitaTrade.Common;
 using DelitaTrade.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -59,18 +60,32 @@ namespace DelitaTrade.WebApp.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            [MaxLength(ValidationConstants.DelitaUserConstants.NameMaxLength)]
+            [MinLength(ValidationConstants.DelitaUserConstants.NamesMinLength)]
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
+
+            [MaxLength(ValidationConstants.DelitaUserConstants.LastNameMaxLength)]
+            [MinLength(ValidationConstants.DelitaUserConstants.NamesMinLength)]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
         }
 
         private async Task LoadAsync(DelitaUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var firstName = user.Name;
+            var lastName = user.LastName;
 
             Username = userName;
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                FirstName = firstName,
+                LastName = lastName
             };
         }
 
@@ -94,22 +109,54 @@ namespace DelitaTrade.WebApp.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid == false)
             {
                 await LoadAsync(user);
                 return Page();
             }
+            string statusMessage = "Unexpected error when trying to set ";
+            IdentityResult setPhoneResult = null;
+            IdentityResult setFirstNameResult = null;
+            IdentityResult setLastNameResult = null;
 
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             if (Input.PhoneNumber != phoneNumber)
             {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
+                setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
+                if (setPhoneResult.Succeeded == false)
                 {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
-                    return RedirectToPage();
+                    statusMessage += "phone number,";
                 }
             }
+
+            if (Input.FirstName != user.Name)
+            {
+                user.Name = Input.FirstName;
+                setFirstNameResult = await _userManager.UpdateAsync(user);
+                if (setFirstNameResult.Succeeded == false)
+                {
+                    statusMessage += "first name,";
+                }
+            }
+
+            if (Input.LastName != user.LastName)
+            {
+                user.LastName = Input.LastName;
+                setLastNameResult = await _userManager.UpdateAsync(user);
+                if (setLastNameResult.Succeeded == false)
+                {
+                    statusMessage += "last name.";
+                }
+            }
+
+            if ((setPhoneResult != null && setPhoneResult.Succeeded == false) ||
+                (setFirstNameResult != null && setFirstNameResult.Succeeded == false) ||
+                (setLastNameResult != null && setLastNameResult.Succeeded == false))
+            {
+                StatusMessage = $"{statusMessage[..^1]}.";
+                return RedirectToPage();
+            }
+
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";

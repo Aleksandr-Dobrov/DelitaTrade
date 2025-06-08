@@ -10,7 +10,7 @@ namespace DelitaTrade.Core.ViewModels
     public class UserViewModel : IExceptionName
     {
         public Guid Id { get; set; }
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         public string? UserName { get; set; }
     }

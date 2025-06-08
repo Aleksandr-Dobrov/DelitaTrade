@@ -1,0 +1,20 @@
+﻿@using DelitaTrade.Core.ViewModels;
+@model IEnumerable<DayReportHeaderViewModel>
+
+@{
+    ViewData["Title"] = "All daily Reports";
+    ViewData["User"] = User?.Identity?.Name ?? "Anonymous";
+}
+
+<h2>Daily Reports</h2>
+
+<div>
+    <ul>        
+        @foreach (var report in Model)
+        {
+            <li>
+                <a asp-action="Details" asp-route-id="@report.Id">@report.FormattedDate</a>
+            </li>
+        }
+    </ul>
+</div>

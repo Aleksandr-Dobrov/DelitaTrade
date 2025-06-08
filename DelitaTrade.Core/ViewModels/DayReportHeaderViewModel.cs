@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DelitaTrade.Common.Constants;
 
 namespace DelitaTrade.Core.ViewModels
 {
@@ -10,5 +6,8 @@ namespace DelitaTrade.Core.ViewModels
     {
         public int Id { get; set; }
         public required DateTime Date { get; set; }
+
+        public string? FormattedDate => Date.ToString(FormatConstant.DateTimeFormat.DayReportHeader);
+
     }
 }

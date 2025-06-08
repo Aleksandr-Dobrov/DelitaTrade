@@ -1,0 +1,50 @@
+﻿@using DelitaTrade.Core.ViewModels
+
+@model DayReportViewModel
+@{
+    ViewData["Title"] = $"Daily Report for {Model.FormattedDate}";
+    ViewData["CashDifference"] = (Model.TotalIncome - Model.TotalCash).ToString("C");
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div>
+    <h3>Report Details</h3>
+    <p><strong>Total Amount</strong> @Model.TotalAmount.ToString("C")</p>
+    <p><strong>Total Unpaid</strong> @Model.TotalNotPay.ToString("C")</p>
+    <p><strong>Total Expense</strong> @Model.TotalExpense.ToString("C")</p>
+    <p><strong>Total Income</strong> @Model.TotalIncome.ToString("C")</p>
+    <p><strong>Total Cash</strong> @Model.TotalCash.ToString("C")</p>
+    <p><strong>Cash Difference</strong> @ViewData["CashDifference"]</p>
+    <p><strong>Employee:</strong> @Model.User.Name</p>
+    <h4>Invoices</h4>
+    <table class="table">
+        <thead style="font-size:medium; background-color:cyan; border-left:medium; border-right:medium">
+            <tr>
+                <th>Invoice number</th>
+                <th>Object</th>
+                <th>Payment type</th>
+                <th>Amount</th>
+                <th>Income</th>
+                <th>Is paid</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{int i = 1;}
+            @foreach (var invoice in Model.Invoices)
+            {
+                string backgroundColor = i % 2 == 0 ? "lightGray" : "white";
+                <tr style="background-color: @backgroundColor">
+                    <td>@invoice.Number</td>
+                    <td>@invoice.CompanyObject.Name</td>
+                    <td>@invoice.PayMethod</td>
+                    <td>@invoice.Amount.ToString("C")</td>
+                    <td>@invoice.Income.ToString("C")</td>
+                    <td>@(invoice.IsPaid ? "Yes" : "No")</td>
+                </tr>
+                i++;
+            }
+        </tbody>
+    </table>
+</div>
+    <a asp-action="Index" class="btn btn-primary">Back to Reports</a>
