@@ -52,7 +52,7 @@ namespace DelitaTrade.Core.Exporters.ExcelExporters
                 AddBodyListElement(item, productNumber);
                 productNumber++;
             }
-            if (productNumber < 5) 
+            if (productNumber <= 5) 
             {
                 for (int i = productNumber; i <= 5; i++)
                 {
