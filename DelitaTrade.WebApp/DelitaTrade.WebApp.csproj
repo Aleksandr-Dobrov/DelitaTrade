@@ -8,6 +8,66 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\Assets\ComponentAssets\Banknotes\0.01lv.png" />
+    <Content Remove="wwwroot\Assets\ComponentAssets\Banknotes\0.02lv.png" />
+    <Content Remove="wwwroot\Assets\ComponentAssets\Banknotes\0.05lv.png" />
+    <Content Remove="wwwroot\Assets\ComponentAssets\Banknotes\0.1lv.png" />
+    <Content Remove="wwwroot\Assets\ComponentAssets\Banknotes\0.2lv.png" />
+    <Content Remove="wwwroot\Assets\ComponentAssets\Banknotes\0.5lv.png" />
+    <Content Remove="wwwroot\Assets\ComponentAssets\Banknotes\100lv.png" />
+    <Content Remove="wwwroot\Assets\ComponentAssets\Banknotes\10lv.png" />
+    <Content Remove="wwwroot\Assets\ComponentAssets\Banknotes\1lv.png" />
+    <Content Remove="wwwroot\Assets\ComponentAssets\Banknotes\20lv.png" />
+    <Content Remove="wwwroot\Assets\ComponentAssets\Banknotes\2lv.png" />
+    <Content Remove="wwwroot\Assets\ComponentAssets\Banknotes\50lv.png" />
+    <Content Remove="wwwroot\Assets\ComponentAssets\Banknotes\5lv.png" />
+    <Content Remove="wwwroot\Assets\ComponentAssets\DayReport\add-document.png" />
+    <Content Remove="wwwroot\Assets\ComponentAssets\DayReport\add.png" />
+    <Content Remove="wwwroot\Assets\ComponentAssets\DayReport\delete-file_40456.png" />
+    <Content Remove="wwwroot\Assets\ComponentAssets\DayReport\excelIcon.png" />
+    <Content Remove="wwwroot\Assets\ComponentAssets\DayReport\remove.png" />
+    <Content Remove="wwwroot\Assets\ComponentAssets\DayReport\update.png" />
+    <Content Remove="wwwroot\Assets\ComponentAssets\delitaTradeLogo.png" />
+    <Content Remove="wwwroot\Assets\ComponentAssets\Exporter\xIcon.png" />
+    <Content Remove="wwwroot\Assets\ComponentAssets\Exporter\xIcon2.png" />
+    <Content Remove="wwwroot\Assets\ComponentAssets\googleMapIcon.png" />
+    <Content Remove="wwwroot\Assets\ComponentAssets\NavigationBar\daily-report.png" />
+    <Content Remove="wwwroot\Assets\ComponentAssets\NavigationBar\data.png" />
+    <Content Remove="wwwroot\Assets\ComponentAssets\NavigationBar\money.png" />
+    <Content Remove="wwwroot\Assets\ComponentAssets\NavigationBar\pngegg.png" />
+    <Content Remove="wwwroot\Assets\ComponentAssets\NavigationBar\settings.png" />
+    <Content Remove="wwwroot\Assets\ComponentAssets\NavigationBar\user.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Assets\ComponentAssets\Banknotes\0.01lv.png" />
+    <None Include="wwwroot\Assets\ComponentAssets\Banknotes\0.02lv.png" />
+    <None Include="wwwroot\Assets\ComponentAssets\Banknotes\0.05lv.png" />
+    <None Include="wwwroot\Assets\ComponentAssets\Banknotes\0.1lv.png" />
+    <None Include="wwwroot\Assets\ComponentAssets\Banknotes\0.2lv.png" />
+    <None Include="wwwroot\Assets\ComponentAssets\Banknotes\0.5lv.png" />
+    <None Include="wwwroot\Assets\ComponentAssets\Banknotes\100lv.png" />
+    <None Include="wwwroot\Assets\ComponentAssets\Banknotes\10lv.png" />
+    <None Include="wwwroot\Assets\ComponentAssets\Banknotes\1lv.png" />
+    <None Include="wwwroot\Assets\ComponentAssets\Banknotes\20lv.png" />
+    <None Include="wwwroot\Assets\ComponentAssets\Banknotes\2lv.png" />
+    <None Include="wwwroot\Assets\ComponentAssets\Banknotes\50lv.png" />
+    <None Include="wwwroot\Assets\ComponentAssets\Banknotes\5lv.png" />
+    <None Include="wwwroot\Assets\ComponentAssets\DayReport\add-document.png" />
+    <None Include="wwwroot\Assets\ComponentAssets\DayReport\excelIcon.png" />
+    <None Include="wwwroot\Assets\ComponentAssets\delitaTradeLogo.png" />
+    <None Include="wwwroot\Assets\ComponentAssets\Exporter\xIcon.png" />
+    <None Include="wwwroot\Assets\ComponentAssets\Exporter\xIcon2.png" />
+    <None Include="wwwroot\Assets\ComponentAssets\googleMapIcon.png" />
+    <None Include="wwwroot\Assets\ComponentAssets\NavigationBar\daily-report.png" />
+    <None Include="wwwroot\Assets\ComponentAssets\NavigationBar\data.png" />
+    <None Include="wwwroot\Assets\ComponentAssets\NavigationBar\money.png" />
+    <None Include="wwwroot\Assets\ComponentAssets\NavigationBar\pngegg.png" />
+    <None Include="wwwroot\Assets\ComponentAssets\NavigationBar\settings.png" />
+    <None Include="wwwroot\Assets\ComponentAssets\NavigationBar\user.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.16" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.16" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.16" />
@@ -20,6 +80,13 @@
   <ItemGroup>
     <ProjectReference Include="..\DelitaTrade.Common\DelitaTrade.Common.csproj" />
     <ProjectReference Include="..\DelitaTrade.Core\DelitaTrade.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="wwwroot\Assets\ComponentAssets\DayReport\add.png" />
+    <Resource Include="wwwroot\Assets\ComponentAssets\DayReport\delete-file_40456.png" />
+    <Resource Include="wwwroot\Assets\ComponentAssets\DayReport\remove.png" />
+    <Resource Include="wwwroot\Assets\ComponentAssets\DayReport\update.png" />
   </ItemGroup>
 
 </Project>
