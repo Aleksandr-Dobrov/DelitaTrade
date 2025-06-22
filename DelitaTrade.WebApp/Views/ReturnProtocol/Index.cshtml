@@ -1,0 +1,24 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Home Page";
+    ViewData["Url"] = Url.Action("SearchProduct", "ReturnProtocol", null, Url.ActionContext.HttpContext.Request.Scheme);
+}
+<head>
+    <link rel="stylesheet" href="~/css/search.css" asp-append-version="true" />
+</head>
+<div>
+    <h1>Some products</h1>
+    <div id="search">
+        <textarea type="text" id="searchInput" placeholder="Search products..." ></textarea>
+    </div>
+    <ul id="products" class="searchList">
+    </ul>
+</div>
+<script src="~/js/ProductSearch/ServerProvider.js"></script>
+<script src="~/js/ProductSearch/HtmlUtil.js"></script>
+<script>
+    const searchProductUrl = '@ViewData["Url"]';
+</script>
+<script src="~/js/ProductSearch/search.js"></script>
