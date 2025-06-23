@@ -120,7 +120,8 @@ namespace DelitaTrade.Core.Services
         public async Task UpdateAsync(CompanyViewModel company)
         {
             var companyToUpdate = await repo.GetByIdAsync<Company>(company.Id) ?? throw new ArgumentNullException(ExceptionMessages.NotFound(nameof(Company)));
-
+            
+            companyToUpdate.Name = company.Name;
             companyToUpdate.Type = company.Type;
             companyToUpdate.Bulstad = company.Bulstad;
             await repo.SaveChangesAsync();

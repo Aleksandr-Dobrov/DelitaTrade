@@ -169,6 +169,7 @@ namespace DelitaTrade.Core.Services
                 objectToUpdate.Trader = trader;
             }
 
+            objectToUpdate.Name = companyObject.Name;
             objectToUpdate.IsBankPay = companyObject.IsBankPay;
 
             await repo.SaveChangesAsync();
