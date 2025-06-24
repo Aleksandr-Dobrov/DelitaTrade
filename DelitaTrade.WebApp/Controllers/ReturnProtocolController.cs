@@ -7,6 +7,7 @@ namespace DelitaTrade.WebApp.Controllers
 {
     public class ReturnProtocolController(IProductService productService, UserManager<DelitaUser> userManager) : BaseController(userManager)
     {
+        private const int _maxSearchResults = 20;
         public IActionResult Index()
         {
             return View();
@@ -18,7 +19,7 @@ namespace DelitaTrade.WebApp.Controllers
             {
                 return Json(new { success = false, message = "No data provided." });
             }
-            var products = await productService.GetFilteredProductsAsync(data.Split(' '));
+            var products = await productService.GetFilteredProductsAsync(data.Split(' '), _maxSearchResults);
 
             object result = products.Select(p => new
             {                

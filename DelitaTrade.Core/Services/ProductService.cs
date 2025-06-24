@@ -38,7 +38,7 @@ namespace DelitaTrade.Core.Services
             }
         }
 
-        public async Task<IEnumerable<ProductViewModel>> GetFilteredProductsAsync(string[] args)
+        public async Task<IEnumerable<ProductViewModel>> GetFilteredProductsAsync(string[] args, int limit)
         {
             IQueryable<Product> query = repo.AllReadonly<Product>()
                 .Where(p => p.Number != null);
@@ -58,7 +58,7 @@ namespace DelitaTrade.Core.Services
 
             query = query.OrderByDescending(p => EF.Functions.Like(p.Name, $"{orderArg}%"))
                 .ThenBy(p => p.Name)
-                .Take(20);
+                .Take(limit);
 
             return await query
                 .Select(p => new ProductViewModel

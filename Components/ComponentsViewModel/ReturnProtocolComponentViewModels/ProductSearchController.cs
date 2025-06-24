@@ -11,6 +11,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
 {
     public class ProductSearchController
     {
+        private const int _maxSearchResults = 20;
         private readonly SearchComboBoxViewModel<ProductViewModel> _productSearchModel;
         private readonly SearchComboBoxDescriptionValidationViewModel<ReturnedProductDescriptionViewModel> _descriptionSearchModel;
         private readonly DescriptionCategoryController _descriptionCategoryController;
@@ -50,7 +51,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.ReturnProtocolComponentView
             using var scope = _serviceProvider.CreateScope();
             var productService = scope.GetService<IProductService>();
 
-            var result = Task.Run(() => productService.GetFilteredProductsAsync(filter.Split(" ", StringSplitOptions.RemoveEmptyEntries)));
+            var result = Task.Run(() => productService.GetFilteredProductsAsync(filter.Split(" ", StringSplitOptions.RemoveEmptyEntries), _maxSearchResults));
             
             ProductSearchModel.UpdateItems(await result);
         }

@@ -11,7 +11,7 @@ namespace DelitaTrade.Core.Contracts
     {
         Task<IEnumerable<ProductViewModel>> GetAllAsync();
         Task<IEnumerable<ProductViewModel>> GetProductsAsync(string name);
-        Task<IEnumerable<ProductViewModel>> GetFilteredProductsAsync(string[] args);
+        Task<IEnumerable<ProductViewModel>> GetFilteredProductsAsync(string[] args, int limit);
         Task AddProductAsync(ProductViewModel dtoProduct);
         Task<int> AddRangeProductAsync(IEnumerable<ProductViewModel> dtoProduct);
     }
