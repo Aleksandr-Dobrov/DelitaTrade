@@ -1,4 +1,5 @@
-﻿using DelitaTrade.Core.Contracts;
+﻿using Azure.Identity;
+using DelitaTrade.Core.Contracts;
 using DelitaTrade.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
