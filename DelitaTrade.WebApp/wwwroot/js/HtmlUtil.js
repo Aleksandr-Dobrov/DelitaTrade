@@ -22,3 +22,9 @@ function isEmpty(obj) {
     });
     return isEmptyProperty;
 }
+
+function clearHtmlElement(element) {
+    if (element) {
+        element.innerHTML = '';
+    }
+}

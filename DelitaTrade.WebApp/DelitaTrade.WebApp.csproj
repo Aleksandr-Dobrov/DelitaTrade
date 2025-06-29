@@ -89,4 +89,8 @@
     <Resource Include="wwwroot\Assets\ComponentAssets\DayReport\update.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\js\ProductSearch\" />
+  </ItemGroup>
+
 </Project>

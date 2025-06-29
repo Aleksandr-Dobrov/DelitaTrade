@@ -1,4 +1,4 @@
-﻿.searchList {
+﻿.search-list {
     display: flex;
     flex-direction: column;
     gap: 0.0rem;
@@ -6,12 +6,38 @@
     list-style-type: none;
 }
 
-#search textarea {
-    background-color: aliceblue;
-    height: 32px;
-    border: none;
-    resize: none;
-    margin-bottom: -5px;
-    width: auto;
-    padding-left: 15px;
+#search {
+    width: fit-content;
 }
+
+    #search input {
+        background-color: aliceblue;
+        height: 32px;
+        border: none;
+        margin-bottom: -5px;
+        width: 100%;
+        min-width: 400px;
+        padding-left: 15px;
+    }
+
+#search :hover {
+    border: medium;
+    cursor: text;    
+}
+
+#search :focus + .search-list {
+    display: flex;
+}
+
+.search-list a {
+    text-decoration: none;
+    color: black;
+}
+
+    .search-list a:hover {
+        background-color: lightgray;
+        border-radius: 10px;
+        padding: 0px 10px;
+        margin: 0px 0px 0px -10px;
+    }
+
