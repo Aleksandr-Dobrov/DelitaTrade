@@ -11,6 +11,8 @@ namespace DelitaTrade.Core.Contracts
     {
         Task<IEnumerable<TraderViewModel>> GetAllAsync();
 
+        Task<TraderViewModel> GetByIdAsync(int id);
+
         Task<int> CreateAsync(TraderViewModel traderViewModel);
 
         Task UpdateAsync(TraderViewModel traderViewModel);

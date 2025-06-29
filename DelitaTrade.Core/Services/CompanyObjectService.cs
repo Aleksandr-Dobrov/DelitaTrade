@@ -210,7 +210,13 @@ namespace DelitaTrade.Core.Services
                     Name = o.Company.Name,
                     Type = o.Company.Type ?? "",
                     Bulstad = o.Company.Bulstad ?? ""
-                }
+                }, 
+                Trader = o.Trader != null ? new TraderViewModel
+                {
+                    Id = o.Trader.Id,
+                    Name = o.Trader.Name,
+                    PhoneNumber = o.Trader.PhoneNumber ?? ""
+                } : null
             };
         }
     }

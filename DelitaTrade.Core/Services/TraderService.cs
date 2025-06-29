@@ -57,5 +57,18 @@ namespace DelitaTrade.Core.Services
             traderToDelete.IsActive = false;
             await repo.SaveChangesAsync();
         }
+
+        public async Task<TraderViewModel> GetByIdAsync(int id)
+        {
+            
+            return await repo.AllReadonly<Trader>()
+                .Where(t => t.Id == id && t.IsActive)
+                .Select(t => new TraderViewModel
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    PhoneNumber = t.PhoneNumber
+                }).FirstOrDefaultAsync() ?? throw new ArgumentNullException(ExceptionMessages.NotFound(nameof(Trader)));
+        }
     }
 }

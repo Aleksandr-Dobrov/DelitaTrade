@@ -1,24 +1,92 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using DelitaTrade.Core.ViewModels;
+@model SearchReturnProtocolInputModel;
+
 @{
     ViewData["Title"] = "Home Page";
-    ViewData["Url"] = Url.Action("SearchProduct", "ReturnProtocol", null, Url.ActionContext.HttpContext.Request.Scheme);
+    ViewData["CompanyObjectSearchUrl"] = Url.Action("CompanyObjects", "Search", null, Url.ActionContext.HttpContext.Request.Scheme);
+    string today = DateTime.Now.ToString("yyyy-MM-dd");
+    string minDate = DateTime.Now.AddYears(-1).ToString("yyyy-MM-dd");
 }
+
 <head>
     <link rel="stylesheet" href="~/css/search.css" asp-append-version="true" />
 </head>
-<div>
-    <h1>Some products</h1>
-    <div id="search">
-        <textarea type="text" id="searchInput" placeholder="Search products..." ></textarea>
+
+<a class="btn btn-primary mb-3" asp-action="Create" asp-controller="ReturnProtocol">
+    <i class="fas fa-plus"></i> Create Return Protocol
+</a>
+
+<form asp-controller="ReturnProtocol" asp-action="GetProtocols" method="get">
+    <div class="col-sm-6 mb-2">
+        <label asp-for="@Model.StartDate" class="form-label-add-edit">From</label>
+        <input asp-for="@Model.StartDate" class="form-control" type="date" aria-required="true" value=@minDate/>
+        <span asp-validation-for="@Model.StartDate" class="text-danger"></span>
     </div>
-    <ul id="products" class="searchList">
-    </ul>
+    <div class="col-sm-6 mb-2">
+        <label asp-for="@Model.EndDate" class="form-label-add-edit">To</label>
+        <input asp-for="@Model.EndDate" class="form-control" type="date" aria-required="true" value=@today />
+        <span asp-validation-for="@Model.EndDate" class="text-danger"></span>
+    </div>
+    <div class="col-sm-6 mb-2">
+        <label asp-for="@Model.TraderName" class="form-label-add-edit">Select Trader</label>
+        <select asp-for="@Model.TraderName" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.Traders, "Name", "Name"))">
+            <option value="">...</option>
+        </select>
+        <span asp-validation-for="@Model.TraderName" class="text-danger"></span>
+    </div>
+    <div id="search">
+        <input asp-for="@Model.CompanyObjectName" type="text" id="item-value" item-id="@Model.CompanyObjectId" placeholder="Search object..." value="@Model.CompanyObjectName"/>
+        <input asp-for="@Model.CompanyObjectId" type="hidden" id="item-id" value="@Model.CompanyObjectId" />
+        <ul id="result-list" class="search-list">
+        </ul>
+    </div>
+    <div class="mb-2">
+        <button class="btn btn-warning btn-dark-text w-100 py-2 fw-bold rounded" type="submit">
+            <i class="fas fa-save"></i> Search
+        </button>
+    </div>
+</form>
+<div>
+    <h2>Return protocols</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Company object</th>
+                <th>Trader</th>
+            </tr>
+        </thead>
+        <tbody id="protocolsTableBody">
+            @if(Model.ReturnProtocols != null && Model.ReturnProtocols.Any())
+            {
+                foreach (var protocol in Model.ReturnProtocols)
+                {
+                        <tr>
+                            <td>
+                                <a asp-action="Details" asp-route-id="@protocol.Id">
+                                    @protocol.ReturnedDate.ToString("dd/MM/yyyy")
+                                </a>
+                                </td>
+                            <td>@protocol.CompanyObjectName</td>
+                            <td>@protocol.TraderName</td>
+                        </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="3" class="text-center">No protocols found.</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
 </div>
+
 <script src="~/js/ProductSearch/ServerProvider.js"></script>
 <script src="~/js/ProductSearch/HtmlUtil.js"></script>
 <script>
-    const searchProductUrl = '@ViewData["Url"]';
+    const companyObjectSearchUrl = '@ViewData["CompanyObjectSearchUrl"]';
 </script>
+<script src="~/js/ProductSearch/GetProtocolsCompanyObjectSearchResult.js"></script>
 <script src="~/js/ProductSearch/search.js"></script>

@@ -1,0 +1,64 @@
+﻿@using DelitaTrade.Core.ViewModels;
+@model DetailReturnProtocolViewModel;
+@{
+}
+
+<div>
+    <p>@Model.Id</p>
+    <p>@Model.ReturnedDate</p>
+    <p>@Model.CompanyObjectName</p>
+    <p>@Model.TraderName</p>
+    
+    <div>
+        <h2>Return products</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Best before</th>
+                    <th>Batch</th>
+                    <th>Return category</th>
+                    <th>Description</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="protocolsTableBody">
+                @if (Model.ReturnedProducts != null && Model.ReturnedProducts.Any())
+                {
+                    foreach (var product in Model.ReturnedProducts)
+                    {
+                        <tr>
+                            <td>@product.Product.Name</td>
+                            <td>@product.Quantity @product.Product.Unit</td>
+                            <td>@product.BestBefore.ToString("dd/MM/yyyy")</td>
+                            <td>@product.Batch</td>
+                            <td>@product.DescriptionCategory.Name</td>
+                            <td>@product.Description?.Description</td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-primary">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                            </td>
+                            <td>
+                                <form asp-action="Delete" asp-route-id="@product.Id" method="post">
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </form>
+                            
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="3" class="text-center">Empty</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>

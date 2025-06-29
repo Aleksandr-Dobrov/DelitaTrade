@@ -171,6 +171,62 @@ namespace DelitaTrade.Core.Services
                 }).ToListAsync();
         }
 
+
+        public async Task<IEnumerable<SimpleReturnProtocolViewModel>> GetSimpleFilteredAsync(UserViewModel user, string? trader, string? companyObjectId, DateTime? startDate, DateTime? endDate)
+        {
+            IQueryable<ReturnProtocol> query = SetDateInterval(GetFilteredProtocolsQuery(user, trader, companyObjectId), startDate ?? DateTime.MinValue, endDate ?? DateTime.Now);
+            return await query
+                .Select(r => new SimpleReturnProtocolViewModel
+                {
+                    Id = r.Id,
+                    PayMethod = r.PayMethod,
+                    ReturnedDate = r.ReturnedDate,
+                    TraderName = r.Trader.Name,
+                    CompanyObjectName = r.Object.Name                    
+                }).ToListAsync();
+        }
+
+
+        public async Task<DetailReturnProtocolViewModel?> GetByIdAsync(UserViewModel user, int id)
+        {
+            return await repo.AllReadonly<ReturnProtocol>()
+                .Where(r => r.IdentityUserId == user.Id
+                    && r.Id == id)
+                .Select(r => new DetailReturnProtocolViewModel
+                {
+                    Id = r.Id,
+                    PayMethod = r.PayMethod,
+                    ReturnedDate = r.ReturnedDate,
+                    TraderName = r.Trader.Name,
+                    CompanyObjectName = r.Object.Name,
+                    ReturnedProducts = r.ReturnedProducts
+                        .Select(p => new ReturnedProductViewModel
+                        {
+                           Id = p.Id,
+                           Batch = p.Batch,
+                           BestBefore = p.BestBefore,
+                            Quantity = p.Quantity,
+                           DescriptionCategory = new DescriptionCategoryViewModel 
+                           { 
+                               Id = p.DescriptionCategory.Id, 
+                               Name = p.DescriptionCategory.Name 
+                           },
+                           Product = new ProductViewModel
+                           {
+                               Name = p.Product.Name,
+                               Unit = p.Product.Unit,
+                               Number = p.Product.Number
+                           },
+                           Description = p.Description != null ? new ReturnedProductDescriptionViewModel
+                           {
+                               Id = p.Description.Id,
+                               Description = p.Description.Description                              
+                           } : null,
+                        }).ToList(),
+                }).FirstOrDefaultAsync();
+        }
+
+
         public async Task<int> CreateProtocolAsync(ReturnProtocolViewModel protocolViewModel)
         { 
             var user = await GetUserAsync(userManager, protocolViewModel.User)
@@ -256,9 +312,18 @@ namespace DelitaTrade.Core.Services
             return query;
         }
 
+        private IQueryable<ReturnProtocol> GetFilteredProtocolsQuery(UserViewModel user, string? trader, string? companyObjectId)
+        {
+            IQueryable<ReturnProtocol> query = repo.AllReadonly<ReturnProtocol>()
+                            .Where(r => r.IdentityUserId == user.Id
+                                && r.Trader.Name.Contains(trader ?? string.Empty)
+                                && r.Object.Name.Contains(companyObjectId ?? string.Empty));
+            return query;
+        }
+
         private IQueryable<ReturnProtocol> SetDateInterval(IQueryable<ReturnProtocol> query, DateTime startDate, DateTime endDate)
         {
-            return query.Where(p => p.ReturnedDate >= startDate.Date && p.ReturnedDate <= endDate.Date);
+            return query.Where(p => p.ReturnedDate.Date >= startDate.Date && p.ReturnedDate <= endDate.Date);
         }
 
         private async Task<DelitaUser> GetUserAsync(UserManager<DelitaUser> userManager, UserViewModel user)
