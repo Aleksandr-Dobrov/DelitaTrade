@@ -7,6 +7,8 @@ using DelitaTrade.Infrastructure.Data.Models;
 using DelitaTrade.Common;
 using Microsoft.AspNetCore.Identity;
 using static DelitaTrade.Common.ExceptionMessages;
+using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
+using System.Threading.Tasks;
 
 namespace DelitaTrade.Core.Services
 {
@@ -174,7 +176,7 @@ namespace DelitaTrade.Core.Services
 
         public async Task<IEnumerable<SimpleReturnProtocolViewModel>> GetSimpleFilteredAsync(UserViewModel user, string? trader, string? companyObjectId, DateTime? startDate, DateTime? endDate)
         {
-            IQueryable<ReturnProtocol> query = SetDateInterval(GetFilteredProtocolsQuery(user, trader, companyObjectId), startDate ?? DateTime.MinValue, endDate ?? DateTime.Now);
+            IQueryable<ReturnProtocol> query = SetDateInterval(GetFilteredProtocolsQuery(user, user.Roles, trader, companyObjectId), startDate ?? DateTime.MinValue, endDate ?? DateTime.Now);
             return await query
                 .Select(r => new SimpleReturnProtocolViewModel
                 {
@@ -182,10 +184,10 @@ namespace DelitaTrade.Core.Services
                     PayMethod = r.PayMethod,
                     ReturnedDate = r.ReturnedDate,
                     TraderName = r.Trader.Name,
-                    CompanyObjectName = r.Object.Name                    
+                    CompanyObjectName = r.Object.Name,
+                    DriverName = $"{r.IdentityUser.Name} {r.IdentityUser.LastName}"
                 }).ToListAsync();
         }
-
 
         public async Task<DetailReturnProtocolViewModel?> GetByIdAsync(UserViewModel user, int id)
         {
@@ -195,6 +197,7 @@ namespace DelitaTrade.Core.Services
                 .Select(r => new DetailReturnProtocolViewModel
                 {
                     Id = r.Id,
+                    DriverName = $"{r.IdentityUser.Name} {r.IdentityUser.LastName}",
                     PayMethod = r.PayMethod,
                     ReturnedDate = r.ReturnedDate,
                     TraderName = r.Trader.Name,
@@ -312,13 +315,26 @@ namespace DelitaTrade.Core.Services
             return query;
         }
 
-        private IQueryable<ReturnProtocol> GetFilteredProtocolsQuery(UserViewModel user, string? trader, string? companyObjectId)
-        {
-            IQueryable<ReturnProtocol> query = repo.AllReadonly<ReturnProtocol>()
-                            .Where(r => r.IdentityUserId == user.Id
-                                && r.Trader.Name.Contains(trader ?? string.Empty)
+        private IQueryable<ReturnProtocol> GetFilteredProtocolsQuery(UserViewModel user, IEnumerable<string> roles, string? trader, string? companyObjectId)
+        {            
+            IQueryable<ReturnProtocol> query;
+
+            if (roles.Contains(Admin) || roles.Contains(WarehouseManager))
+            {
+                query = repo.AllReadonly<ReturnProtocol>();
+            }
+            else if (roles.Contains(Driver))
+            {
+                query = repo.AllReadonly<ReturnProtocol>()
+                    .Where(r => r.IdentityUserId == user.Id);
+            }
+            else 
+            {
+                throw new UnauthorizedAccessException(NotAuthenticate(user));
+            }
+
+            return query.Where(r => r.Trader.Name.Contains(trader ?? string.Empty)
                                 && r.Object.Name.Contains(companyObjectId ?? string.Empty));
-            return query;
         }
 
         private IQueryable<ReturnProtocol> SetDateInterval(IQueryable<ReturnProtocol> query, DateTime startDate, DateTime endDate)

@@ -9,3 +9,7 @@
     flex-direction: column;
     gap: 1rem;
 }
+
+.light-gray-80 {
+    background-color: rgba(211, 211, 211, 0.8);
+}

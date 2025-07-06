@@ -18,7 +18,7 @@ namespace DelitaTrade.Core.Contracts
         Task<IEnumerable<ReturnProtocolViewModel>> GetFilteredAsync(UserViewModel user, string[] arg, DateTime startDate, DateTime endDate);
 
         Task<IEnumerable<SimpleReturnProtocolViewModel>> GetSimpleFilteredAsync(UserViewModel user, string? trader, string? companyObject, DateTime? startDate, DateTime? endDate);
-
+        
         Task<DetailReturnProtocolViewModel?> GetByIdAsync(UserViewModel user, int id);
 
         Task<int> CreateProtocolAsync(ReturnProtocolViewModel protocolViewModel);
@@ -26,6 +26,5 @@ namespace DelitaTrade.Core.Contracts
         Task UpdateProtocolAsync(ReturnProtocolViewModel returnProtocol);
 
         Task DeleteProtocol(int protocolId);
-
     }
 }

@@ -11,7 +11,7 @@
 
 <div>
     <main>        
-        <div class="details-display">
+        <div class="details-display light-gray-80">
             <div>
                 <p>@Model.ReturnedDate</p>
                 <p>@Model.CompanyObjectName</p>
@@ -49,7 +49,7 @@
                 {
                     foreach (var product in Model.ReturnedProducts)
                     {
-                        <tr>
+                        <tr class="light-gray-80">
                             <td>@product.Product.Name</td>
                             <td>@product.Quantity @product.Product.Unit</td>
                             <td>@product.BestBefore.ToString("dd/MM/yyyy")</td>

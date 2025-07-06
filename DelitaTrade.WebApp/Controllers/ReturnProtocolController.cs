@@ -1,13 +1,15 @@
 ﻿using DelitaTrade.Common.Constants;
-using DelitaTrade.Common.Enums;
 using DelitaTrade.Core.Contracts;
 using DelitaTrade.Core.ViewModels;
 using DelitaTrade.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
 
 namespace DelitaTrade.WebApp.Controllers
 {
+    [Authorize(Roles = $"{Admin},{Driver},{WarehouseManager}")]
     public class ReturnProtocolController(
             ITraderService traderService, 
             IReturnProtocolService returnProtocolService,
@@ -31,7 +33,9 @@ namespace DelitaTrade.WebApp.Controllers
         public async Task<IActionResult> GetProtocols(SearchReturnProtocolInputModel searchModel)
         {
             var userViewModel = await GetUserViewModelAsync();
-            searchModel.ReturnProtocols = await returnProtocolService.GetSimpleFilteredAsync(userViewModel, searchModel.TraderName, searchModel.CompanyObjectName, searchModel.StartDate, searchModel.EndDate);
+            
+            searchModel.ReturnProtocols = await returnProtocolService.GetSimpleFilteredAsync(userViewModel, searchModel.TraderName, searchModel.CompanyObjectName, searchModel.StartDate, searchModel.EndDate);               
+           
             searchModel.Traders = await traderService.GetAllAsync();
             if (searchModel.ReturnProtocols == null)
             {
@@ -54,6 +58,7 @@ namespace DelitaTrade.WebApp.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = Driver)]
         public async Task<IActionResult> Create()
         {
             if(IsUserAuthenticated() == false)
@@ -74,6 +79,7 @@ namespace DelitaTrade.WebApp.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = Driver)]
         public async Task<IActionResult> Create(ReturnProtocolInputModel returnProtocolInputModel)
         {
             if (ModelState.IsValid == false)

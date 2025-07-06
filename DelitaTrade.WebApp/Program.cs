@@ -1,10 +1,13 @@
+using DelitaTrade.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using System.Reflection;
+using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
 
 namespace DelitaTrade.WebApp
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
             // Add services to the container.
@@ -23,6 +26,31 @@ namespace DelitaTrade.WebApp
             builder.Services.AddApplicationServices();
 
             var app = builder.Build();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+                string[] roles = { Admin, Driver, WarehouseManager };
+                foreach (var role in roles)
+                {
+                    if (await roleManager.RoleExistsAsync(role) == false)
+                    {
+                        await roleManager.CreateAsync(new IdentityRole<Guid>(role));
+                    }
+                }
+
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<DelitaUser>>();
+                var aleks = await userManager.FindByNameAsync("AleksandrDobrov");
+                if (aleks != null && await userManager.IsInRoleAsync(aleks, Driver) == false)
+                {
+                    await userManager.AddToRoleAsync(aleks, Driver);
+                }
+                var admin = await userManager.FindByNameAsync("AdminDelita");
+                if (admin != null && await userManager.IsInRoleAsync(admin, Admin) == false)
+                {
+                    await userManager.AddToRoleAsync(admin, Admin);
+                }
+            }
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

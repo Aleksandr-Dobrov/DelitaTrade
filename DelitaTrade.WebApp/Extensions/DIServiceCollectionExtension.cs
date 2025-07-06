@@ -15,6 +15,7 @@ namespace Microsoft.Extensions.DependencyInjection
             })
                 .AddApplicationIdentityServices()
                 .AddDefaultUI();
+            
             return services;
         }
     }
