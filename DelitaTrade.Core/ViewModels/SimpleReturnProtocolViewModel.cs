@@ -7,5 +7,6 @@
         public required string PayMethod { get; set; }
         public required string CompanyObjectName { get; set; }
         public required string TraderName { get; set; }
+        public required string DriverName { get; set; }
     }
 }

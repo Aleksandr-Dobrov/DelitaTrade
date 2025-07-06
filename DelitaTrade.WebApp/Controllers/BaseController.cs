@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DelitaTrade.WebApp.Controllers
 {
-    [Authorize]
+    [Authorize]    
     public abstract class BaseController(UserManager<DelitaUser> userManager) : Controller
     {
         protected bool IsUserAuthenticated()
@@ -54,13 +54,24 @@ namespace DelitaTrade.WebApp.Controllers
         {
             var userId = GetUserId();
             var userName = GetUserName();
+            var roles = User.Claims
+                .Where(c => c.Type == ClaimTypes.Role)
+                .Select(c => c.Value)
+                .ToArray();
             var fullName = await GetUserFullName();
             return new UserViewModel
             {
                 Id = userId,
                 UserName = userName,
-                Name = fullName
+                Name = fullName,
+                Roles = roles
             };
         }
+
+        protected bool IsUserInRole(params string[] roles)
+        {
+            return IsUserAuthenticated() && roles.Any(User.IsInRole);
+        }
+
     }
 }

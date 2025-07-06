@@ -14,6 +14,7 @@ namespace DelitaTrade.Core.Contracts
         Task<int> AddProductAsync(ReturnedProductViewModel returnedProduct, int protocolId, UserViewModel user);
 
         Task<IEnumerable<ReturnedProductViewModel>> GetAllProductsAsync(int protocolId);
+        Task<ReturnedProductViewModel?> GetProductByIdAsync(int Id, UserViewModel userViewModel);
 
         Task UpdateProductAsync(ReturnedProductViewModel returnedProduct);
 

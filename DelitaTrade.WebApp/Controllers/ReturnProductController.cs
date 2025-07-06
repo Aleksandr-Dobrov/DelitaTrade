@@ -56,28 +56,35 @@ namespace DelitaTrade.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            // Assuming you have a service to get the return product by id
-            // var returnProduct = await _returnProductService.GetByIdAsync(id);
-            // if (returnProduct == null)
-            // {
-            //     return NotFound();
-            // }
-            // var model = new ReturnProductInputModel
-            // {
-            //     Id = returnProduct.Id,
-            //     Name = returnProduct.Name,
-            //     Quantity = returnProduct.Quantity,
-            //     Price = returnProduct.Price
-            // };
-            // return View(model);
-            return View(); // Placeholder for actual implementation
+            var productToEdit = await returnProductService.GetProductByIdAsync(id, await GetUserViewModelAsync());
+            if (productToEdit == null)
+            {
+                return NotFound();
+            }
+
+            var model = new ReturnProductEditModel()
+            {
+                Id = productToEdit.Id,
+                Batch = productToEdit.Batch,
+                BestBefore = productToEdit.BestBefore,
+                Quantity = productToEdit.Quantity,
+                ProductName = productToEdit.Product.Name,
+                Unit = productToEdit.Product.Unit,
+                DescriptionId = productToEdit.Description?.Id,
+                Description = productToEdit.Description?.Description,
+                DescriptionCategoryId = productToEdit.DescriptionCategory.Id,
+                DescriptionCategories = await descriptionCategoryService.GetAllAsync()
+            };
+
+            return View(model); 
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(ReturnedProductInputModel model)
+        public async Task<IActionResult> Edit(ReturnProductEditModel model)
         {
             if (!ModelState.IsValid)
             {
+                model.DescriptionCategories = await descriptionCategoryService.GetAllAsync();
                 return View(model);
             }
             var userViewModel = await GetUserViewModelAsync();

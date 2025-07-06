@@ -99,6 +99,41 @@ namespace DelitaTrade.Core.Services
             return outColl;
         }
 
+        public async Task<ReturnedProductViewModel?> GetProductByIdAsync(int Id, UserViewModel userViewModel)
+        {
+            
+            return await repo.AllReadonly<ReturnedProduct>()
+                .Where(p => p.Id == Id && p.ReturnProtocol.IdentityUserId == userViewModel.Id)
+                .Include(p => p.Product)
+                .Include(p => p.Description)
+                .Include(p => p.DescriptionCategory)
+                .Select(p => new ReturnedProductViewModel
+                {
+                    Id = p.Id,
+                    Batch = p.Batch,
+                    BestBefore = p.BestBefore,
+                    Quantity = p.Quantity,
+                    Product = new ProductViewModel
+                    {
+                        Name = p.Product.Name,
+                        Unit = p.Product.Unit,
+                        Number = p.Product.Number,
+                    },
+                    Description = p.Description != null ? new ReturnedProductDescriptionViewModel
+                    {
+                        Id = p.Description.Id,
+                        Description = p.Description.Description,
+                    } : null,
+                    DescriptionCategory = new DescriptionCategoryViewModel
+                    {
+                        Id = p.DescriptionCategory.Id,
+                        Name = p.DescriptionCategory.Name,
+                    }
+                    
+                })
+                .FirstOrDefaultAsync();
+        }
+
         public async Task UpdateProductAsync(ReturnedProductViewModel returnedProduct)
         {
             var productToUpdate = await repo.GetByIdAsync<ReturnedProduct>(returnedProduct.Id)
