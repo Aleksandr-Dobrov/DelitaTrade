@@ -1,13 +1,13 @@
 ﻿@using DelitaTrade.Core.ViewModels;
 @using System.Globalization
 @using static DelitaTrade.Common.Constants.ReturnProtocolPayMethods;
+@using static DelitaTrade.Common.Constants.FormatConstant.DateTimeFormat;
 @model ReturnProtocolInputModel
 
 @{
     ViewData["Title"] = "Create Return Protocol";
     ViewData["CompanyObjectSearchUrl"] = Url.Action("CompanyObjects", "Search", null, Url.ActionContext.HttpContext.Request.Scheme);
-    var today = DateTime.Now.ToString("yyyy-MM-dd");
-    string dateFormat = "dd-MM-yyyy";
+    var today = Model.ReturnDate.HasValue ? Model.ReturnDate.Value.ToString(BrowserDateFormat) : DateTime.Now.ToString(BrowserDateFormat);
 }
 
 <head>

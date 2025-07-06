@@ -1,4 +1,4 @@
-﻿using DelitaTrade.Common.Constants;
+﻿using static DelitaTrade.Common.Constants.FormatConstant.DateTimeFormat;
 
 namespace DelitaTrade.Core.ViewModels
 {
@@ -7,7 +7,7 @@ namespace DelitaTrade.Core.ViewModels
         public int Id { get; set; }
         public required DateTime Date { get; set; }
 
-        public string? FormattedDate => Date.ToString(FormatConstant.DateTimeFormat.DayReportHeader);
+        public string? FormattedDate => Date.ToString(AppDateFormat);
 
     }
 }

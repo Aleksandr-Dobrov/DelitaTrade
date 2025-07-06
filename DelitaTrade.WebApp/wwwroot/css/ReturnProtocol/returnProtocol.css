@@ -1,0 +1,11 @@
+﻿.details-display {
+    display: flex;
+    justify-content: space-between;
+}
+
+.action{
+    display: flex;
+    margin-block: auto;
+    flex-direction: column;
+    gap: 1rem;
+}

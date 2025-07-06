@@ -1,13 +1,32 @@
 ﻿@using DelitaTrade.Core.ViewModels;
 @model DetailReturnProtocolViewModel;
 @{
+    ViewData["Title"] = "Return Protocol Details";
 }
 
+<head>
+    <link rel="stylesheet" href="~/css/ReturnProtocol/returnProtocol.css" asp-append-version="true" />
+</head>
+
 <div>
-    <p>@Model.Id</p>
-    <p>@Model.ReturnedDate</p>
-    <p>@Model.CompanyObjectName</p>
-    <p>@Model.TraderName</p>
+    <main>        
+        <div class="details-display">
+            <div>
+                <p>@Model.ReturnedDate</p>
+                <p>@Model.CompanyObjectName</p>
+                <p>@Model.TraderName</p>
+                <p>@Model.PayMethod</p>
+            </div>
+            <div class="action">
+                <a asp-controller="ReturnProtocol" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary d-flex justify-content-center align-items-center flex-fill mx-1">
+                    <i class="fas fa-edit"></i> Edit
+                </a>
+                <a asp-controller="ReturnProtocol" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger d-flex justify-content-center align-items-center flex-fill mx-1">
+                    <i class="fas fa-trash"></i> Delete
+                </a>
+            </div>
+        </div>
+    </main>
     
     <div>
         <h2>Return products</h2>
@@ -37,12 +56,12 @@
                             <td>@product.DescriptionCategory.Name</td>
                             <td>@product.Description?.Description</td>
                             <td>
-                                <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-primary">
+                                <a asp-controller="ReturnProduct" asp-action="Edit" asp-route-id="@product.Id" class="btn btn-primary">
                                     <i class="fas fa-edit"></i> Edit
                                 </a>
                             </td>
                             <td>
-                                <form asp-action="Delete" asp-route-id="@product.Id" method="post">
+                                <form asp-controller="ReturnProduct" asp-action="Delete" asp-route-id="@product.Id" method="post">
                                     <button type="submit" class="btn btn-danger">
                                         <i class="fas fa-trash"></i> Delete
                                     </button>
@@ -60,5 +79,8 @@
 
             </tbody>
         </table>
+        <a asp-controller="ReturnProduct" asp-action="Create" asp-route-id="@Model.Id" class="btn btn-warning btn-dark-text w-100 py-2 fw-bold rounded">
+            <i class="fas fa-save"></i> Add
+        </a>
     </div>
 </div>

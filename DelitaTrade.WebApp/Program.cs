@@ -1,10 +1,3 @@
-using DelitaTrade.Core.Contracts;
-using DelitaTrade.Core.Services;
-using DelitaTrade.Infrastructure.Common;
-using DelitaTrade.Infrastructure.Data;
-using DelitaTrade.Infrastructure.Data.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.Reflection;
 
 namespace DelitaTrade.WebApp

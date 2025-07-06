@@ -1,7 +1,7 @@
 ﻿function addProductToList(list, item) {
     if (item && item.name) {
         const listItem = createHtmlEl('li', { className: 'product-item' }, list);
-        const linkEl = createHtmlEl('a', { href: '#', textContent: item.name + ' -> ' + item.companyName, onclick: onProductClick }, listItem);
+        const linkEl = createHtmlEl('a', { href: '#', textContent: item.name + ' -> ' + item.companyName, onclick: onItemClick }, listItem);
         linkEl.dataset.itemId = item.id;
         linkEl.dataset.itemName = item.name;
         linkEl.dataset.companyName = item.companyName;
@@ -13,7 +13,7 @@
     }
 }
 
-function onProductClick(event) {
+function onItemClick(event) {
     event.preventDefault();
     const itemName = event.target.dataset.itemName;
     const itemId = event.target.dataset.itemId;

@@ -101,5 +101,7 @@ namespace DelitaTrade.WebApp.Controllers
             int protocolId = await returnProtocolService.CreateProtocolAsync(protocolViewModel);
             return RedirectToAction(nameof(Details), new { id = protocolId });
         }
+
+
     }
 }

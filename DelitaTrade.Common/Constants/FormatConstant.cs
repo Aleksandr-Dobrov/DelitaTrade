@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DelitaTrade.Common.Constants
+﻿namespace DelitaTrade.Common.Constants
 {
     public class FormatConstant
     {
         public class DateTimeFormat
         {
             public const string DayReportHeader = "dd.MM.yyyy";
+            public const string BrowserDateFormat = "yyyy-MM-dd";
+            public const string AppDateFormat = "dd.MM.yyyy";
         }
     }
 }

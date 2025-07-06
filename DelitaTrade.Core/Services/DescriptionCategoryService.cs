@@ -46,6 +46,17 @@ namespace DelitaTrade.Core.Services
             }).ToArrayAsync();
         }
 
+        public Task<DescriptionCategoryViewModel> GetByIdAsync(int id)
+        {
+            return repo.AllReadonly<DescriptionCategory>()
+                .Where(p => p.Id == id)
+                .Select(p => new DescriptionCategoryViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name
+                }).FirstAsync();
+        }
+
         public async Task<bool> IsHaveReferences(int id)
         {
             return await repo.AllReadonly<ReturnedProduct>()

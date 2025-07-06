@@ -11,7 +11,7 @@ namespace DelitaTrade.Core.Services
     {
         public async Task<int> AddProductAsync(ReturnedProductViewModel returnedProduct, int protocolId)
         {
-            var protocol = await repo.GetByIdAsync<ReturnProtocol>(protocolId) 
+            var protocol = await repo.GetByIdAsync<ReturnProtocol>(protocolId)
                 ?? throw new ArgumentNullException(ExceptionMessages.NotFound(nameof(ReturnProtocol)));
 
             var product = await repo.All<Product>().FirstOrDefaultAsync(p => p.Name == returnedProduct.Product.Name && p.Unit == returnedProduct.Product.Unit)
@@ -21,9 +21,16 @@ namespace DelitaTrade.Core.Services
                 ?? throw new ArgumentNullException(ExceptionMessages.NotFound(nameof(DescriptionCategory)));
 
             ReturnedProductDescription? description = null;
-            if (returnedProduct.Description != null)
+            if (returnedProduct.Description != null && returnedProduct.Description.Id != 0)
             {
                 description = await repo.GetByIdAsync<ReturnedProductDescription>(returnedProduct.Description.Id);
+            }
+            else if (returnedProduct.Description != null && string.IsNullOrEmpty(returnedProduct.Description.Description) == false)
+            {
+                description = new ReturnedProductDescription
+                {
+                    Description = returnedProduct.Description.Description
+                };
             }
 
             var newProduct = new ReturnedProduct
@@ -39,7 +46,19 @@ namespace DelitaTrade.Core.Services
             await repo.AddAsync(newProduct);
             await repo.SaveChangesAsync();
             await repo.ReloadAsync(newProduct);
-            return newProduct.Id;            
+            return newProduct.Id;
+        }
+
+
+        public async Task<int> AddProductAsync(ReturnedProductViewModel returnedProduct, int protocolId, UserViewModel user)
+        {
+            
+            if (await IsAuthorizedAsync(protocolId, user) == false)
+            {
+                throw new UnauthorizedAccessException(ExceptionMessages.NotAuthenticate(user));
+            }
+
+            return await AddProductAsync(returnedProduct, protocolId);
         }
 
         public async Task<IEnumerable<ReturnedProductViewModel>> GetAllProductsAsync(int protocolId)
@@ -69,7 +88,7 @@ namespace DelitaTrade.Core.Services
                     {
                         Id = p.Description.Id,
                         Description = p.Description.Description,
-                    } : null,                    
+                    } : null,
                     DescriptionCategory = new DescriptionCategoryViewModel
                     {
                         Id = p.DescriptionCategory.Id,
@@ -114,10 +133,30 @@ namespace DelitaTrade.Core.Services
 
         public async Task DeleteProductAsync(int productId)
         {
-            var productToRemove = await repo.GetByIdAsync<ReturnedProduct>(productId) 
+            var productToRemove = await repo.GetByIdAsync<ReturnedProduct>(productId)
                 ?? throw new ArgumentNullException(ExceptionMessages.NotFound(nameof(ReturnedProduct)));
             repo.Remove(productToRemove);
             await repo.SaveChangesAsync();
+        }
+
+        public async Task DeleteProductAsync(int productId, UserViewModel user)
+        {
+            var protocolId = await repo.AllReadonly<ReturnedProduct>()
+                .Where(p => p.Id == productId)
+                .Select(p => p.ReturnProtocolId)
+                .FirstOrDefaultAsync();
+
+            if (await IsAuthorizedAsync(protocolId, user) == false)
+            {
+                throw new UnauthorizedAccessException(ExceptionMessages.NotAuthenticate(user));
+            }
+            await DeleteProductAsync(productId);
+        }
+
+        private async Task<bool> IsAuthorizedAsync(int protocolId, UserViewModel user)
+        {
+            return await repo.AllReadonly<ReturnProtocol>()
+                .AnyAsync(p => p.Id == protocolId && p.IdentityUserId == user.Id);
         }
     }
 }

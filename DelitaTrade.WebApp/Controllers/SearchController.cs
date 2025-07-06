@@ -5,7 +5,7 @@ namespace DelitaTrade.WebApp.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class SearchController(IProductService productService, ICompanyObjectService companyObjectService) : Controller
+    public class SearchController(IProductService productService, ICompanyObjectService companyObjectService, IProductDescriptionService productDescriptionService) : Controller
     {
         private const int _maxSearchResults = 20;
 
@@ -18,7 +18,10 @@ namespace DelitaTrade.WebApp.Controllers
                 return Json(new { success = false, message = "No data provided." });
             }
             var products = await productService.GetFilteredProductsAsync(data.Split(' '), _maxSearchResults);
-
+            if (products.Any() == false)
+            {
+                return NoContent();
+            }
             object result = products.Select(p => new
             {
                 p.Name,
@@ -38,6 +41,10 @@ namespace DelitaTrade.WebApp.Controllers
                 return Json(new { success = false, message = "No name provided." });
             }
             var companyObjects = await companyObjectService.GetFilteredAsync(data, _maxSearchResults);
+            if (companyObjects.Any() == false)
+            {
+                return NoContent();
+            }
             object result = companyObjects.Select(p => new
             {
                 p.Id,
@@ -46,6 +53,27 @@ namespace DelitaTrade.WebApp.Controllers
                 p.IsBankPay,
                 TraderId = p.Trader?.Id,
             });
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("descriptions")]
+        public async Task<IActionResult> Descriptions(string? data)
+        {
+            if (string.IsNullOrEmpty(data))
+            {
+                return Json(new { success = false, message = "No description provided." });
+            }
+            var descriptions = await productDescriptionService.GetFilteredDescriptions(data.Split(' '));
+            if (descriptions.Any() == false)
+            {
+                return NoContent();
+            }
+            object result = descriptions.Select(d => new
+            {
+                d.Id,
+                d.Description
+            });            
             return Ok(result);
         }
     }

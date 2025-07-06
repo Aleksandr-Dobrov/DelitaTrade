@@ -1,9 +1,9 @@
 ﻿function addProductToList(list, item) {
-    if (item && item.name) {
+    if (item && item.description) {
         const listItem = createHtmlEl('li', { className: 'product-item' }, list);
-        const linkEl = createHtmlEl('a', { href: '#', textContent: item.name + ' -> ' + item.companyName, onclick: onItemClick }, listItem);
+        const linkEl = createHtmlEl('a', { href: '#', textContent: item.description, onclick: onItemClick }, listItem);
         linkEl.dataset.itemId = item.id;
-        linkEl.dataset.itemName = item.name;
+        linkEl.dataset.itemName = item.description;
     }
     else {
         clearHtmlElement(list);
