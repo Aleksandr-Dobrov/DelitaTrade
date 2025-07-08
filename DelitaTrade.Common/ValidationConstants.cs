@@ -46,6 +46,8 @@ namespace DelitaTrade.Common
         public const int LicensePlateMaxLength = 15;
         public const int VehicleModelMaxLength = 80;
 
+        public const int WarehouseDescriptionMaxLength = 100;
+
         public class DelitaUserConstants
         {
             public const int NameMaxLength = 50;
