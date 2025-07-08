@@ -20,7 +20,7 @@ namespace DelitaTrade.WebApp.Controllers
             var products = await productService.GetFilteredProductsAsync(data.Split(' '), _maxSearchResults);
             if (products.Any() == false)
             {
-                return NoContent();
+                return Json(new { success = false, message = "No Content" });
             }
             object result = products.Select(p => new
             {
@@ -38,12 +38,12 @@ namespace DelitaTrade.WebApp.Controllers
         {
             if (string.IsNullOrEmpty(data))
             {
-                return Json(new { success = false, message = "No name provided." });
+                return Json(new { success = false, message = "No data provided." });
             }
             var companyObjects = await companyObjectService.GetFilteredAsync(data, _maxSearchResults);
             if (companyObjects.Any() == false)
             {
-                return NoContent();
+                return Json(new { success = false, message = "No Content"});
             }
             object result = companyObjects.Select(p => new
             {
@@ -67,7 +67,7 @@ namespace DelitaTrade.WebApp.Controllers
             var descriptions = await productDescriptionService.GetFilteredDescriptions(data.Split(' '));
             if (descriptions.Any() == false)
             {
-                return NoContent();
+                return Json(new { success = false, message = "No Content" });
             }
             object result = descriptions.Select(d => new
             {
