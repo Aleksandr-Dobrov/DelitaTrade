@@ -2,11 +2,13 @@
 using DelitaTrade.Core.Contracts;
 using DelitaTrade.Core.Extensions;
 using DelitaTrade.Core.ViewModels;
+using DelitaTrade.Core.ViewModels.DayReportModels;
 using DelitaTrade.Infrastructure.Common;
 using DelitaTrade.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using System.Threading.Tasks;
+using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
 using static DelitaTrade.Common.ExceptionMessages;
 
 namespace DelitaTrade.Core.Services
@@ -84,17 +86,40 @@ namespace DelitaTrade.Core.Services
                 }).ToArrayAsync();
         }
 
-        public async Task<IEnumerable<DayReportViewModel>> GetAllFilteredAsync(UserViewModel userViewModel, string filter, int limit)
+        public async Task<IEnumerable<UserViewModel>> GetAllUsersWhitReports(UserViewModel user)
         {
+            if (user.Roles.Contains(Admin) == false)
+            {
+                throw new UnauthorizedAccessException(NotAuthenticate(user));
+            }
+
             return await repo.AllReadonly<DayReport>()
-                .Where(d => d.IdentityUserId == userViewModel.Id)
-                .Take(limit)
-                .Select(d => new DayReportViewModel()
+                .Select(d => d.IdentityUser)
+                .Distinct()
+                .Select(u => new UserViewModel()
                 {
-                    Date = d.Date,
-                    Banknotes = d.Banknotes,
-                    User = userViewModel
+                    Id = u.Id,
+                    Name = $"{u.Name} {u.LastName}",
+                    UserName = u.UserName,
                 }).ToArrayAsync();
+        }
+
+        public async Task<IEnumerable<SimpleDayReportViewModel>> GetSimpleFilteredAsync(UserViewModel user, string? reporterId, DateTime? startDate, DateTime? endDate)
+        {
+            IQueryable<DayReport> query = SetDateInterval(GetFilteredDayReportsQuery(user, reporterId), startDate ?? DateTime.MinValue, endDate ?? DateTime.Now);
+
+            return await query.Select(d => new SimpleDayReportViewModel()
+            {
+                Id = d.Id,
+                ReporterName = $"{d.IdentityUser.Name} {d.IdentityUser.LastName}",
+                ReportedDate = d.Date,
+                TransmissionDate = d.Date,
+                TotalAmount = d.TotalAmount.ToString("C"),
+                TotalIncome = d.TotalIncome.ToString("C"),
+                TotalCash = d.TotalCash.ToString("C"),
+                VehicleLicensePlate = d.Vehicle != null ? d.Vehicle.LicensePlate : null
+
+            }).ToArrayAsync();
         }
 
         public async Task<DayReportBanknotesViewModel> GetBanknotesReadonlyAsync(UserViewModel user, int id)
@@ -111,13 +136,20 @@ namespace DelitaTrade.Core.Services
 
         public async Task<DayReportViewModel> GetByIdAsync(UserViewModel userViewModel, int id)
         {
-            var dayReport = await repo.All<DayReport>()
+            IQueryable<DayReport> query = repo.AllReadonly<DayReport>()
+                .Where(d => d.Id == id);
+            if (userViewModel.Roles.Contains(Admin) == false)
+            {
+                query = query.Where(d => d.IdentityUserId == userViewModel.Id);
+            }
+
+            var dayReport = await query
                 .Include(d => d.Vehicle)
                 .Include(d => d.Invoices)
                 .ThenInclude(i => i.Invoice)
                 .ThenInclude(i => i.CompanyObject)
                 .ThenInclude(i => i.Company)
-                .FirstOrDefaultAsync(d => d.IdentityUserId == userViewModel.Id && d.Id == id) ?? throw new ArgumentNullException(NotFound(nameof(DayReport)));
+                .FirstOrDefaultAsync() ?? throw new ArgumentNullException(NotFound(nameof(DayReport)));
             return MapToDayReportViewModel(dayReport, userViewModel);
         }
 
@@ -133,6 +165,38 @@ namespace DelitaTrade.Core.Services
         {
             return await userManager.FindByIdAsync(user.Id.ToString()) ??
                 throw new InvalidOperationException(NotAuthenticate(user));
+        }
+
+        private IQueryable<DayReport> SetDateInterval(IQueryable<DayReport> query, DateTime startDate, DateTime endDate)
+        {
+            return query.Where(p => p.Date >= startDate.Date && p.Date <= endDate.Date);
+        }
+
+        private IQueryable<DayReport> GetFilteredDayReportsQuery(UserViewModel user,  string? ReporterId)
+        {
+            IQueryable<DayReport> query;
+            if (user.Roles.Contains(Admin))
+            {
+                query = repo.AllReadonly<DayReport>();
+                if (string.IsNullOrEmpty(ReporterId) == false)
+                {
+                    var result = Guid.TryParse(ReporterId, out Guid resultId);
+                    if (result) 
+                    {
+                        query = query.Where(d => d.IdentityUserId == resultId);
+                    }
+                }
+            }
+            else if (user.Roles.Contains(Driver))
+            {
+                query = repo.AllReadonly<DayReport>()
+                    .Where(d => d.IdentityUserId == user.Id);
+            }
+            else
+            {
+                throw new UnauthorizedAccessException(NotAuthenticate(user));
+            }
+            return query;
         }
 
         private DayReportViewModel MapToDayReportViewModel(DayReport dayReport, UserViewModel userViewModel)
@@ -190,6 +254,6 @@ namespace DelitaTrade.Core.Services
             }).ToList();
             newDayReport.Invoices = invoices;
             return newDayReport;
-        }        
+        }
     }
 }

@@ -1,20 +1,77 @@
-﻿@using DelitaTrade.Core.ViewModels;
-@model IEnumerable<DayReportHeaderViewModel>
+﻿@using DelitaTrade.Core.ViewModels.DayReportModels;
+@using static DelitaTrade.Common.Constants.FormatConstant.DateTimeFormat;
+@using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
+
+@model SearchDayReportInputModel
 
 @{
     ViewData["Title"] = "All daily Reports";
-    ViewData["User"] = User?.Identity?.Name ?? "Anonymous";
+    string today = Model.EndDate.HasValue ? Model.EndDate.Value.ToString(BrowserDateFormat) : DateTime.Now.ToString(BrowserDateFormat);
+    string minDate = Model.StartDate.HasValue ? Model.StartDate.Value.ToString(BrowserDateFormat) : DateTime.Now.AddMonths(-1).ToString(BrowserDateFormat);
 }
 
-<h2>Daily Reports</h2>
-
-<div>
-    <ul>        
-        @foreach (var report in Model)
+<head>
+    <link rel="stylesheet" href="~/css/search.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/ReturnProtocol/warehouseBackground.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/ReturnProtocol/returnProtocol.css" asp-append-version="true" />
+</head>
+<main class="delita-shadow">
+    <div class="main-box light-gray-80">
+        <form asp-controller="DayReport" asp-action="SearchDayReport" method="post" class="protocol-filter">            
+            <div class="col-sm-6 mb-2">
+                <label asp-for="@Model.StartDate" class="form-label-add-edit">From</label>
+                <input asp-for="@Model.StartDate" class="form-control" type="date" aria-required="true" value="@minDate" />
+                <span asp-validation-for="@Model.StartDate" class="text-danger"></span>
+            </div>
+            <div class="col-sm-6 mb-2">
+                <label asp-for="@Model.EndDate" class="form-label-add-edit">To</label>
+                <input asp-for="@Model.EndDate" class="form-control" type="date" aria-required="true" value=@today />
+                <span asp-validation-for="@Model.EndDate" class="text-danger"></span>
+            </div>
+            @if(Model.Employees.Any())
+            {
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.ReporterName" class="form-label-add-edit">Select employee</label>
+                    <select asp-for="@Model.ReporterId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.Employees, "Id", "Name"))">
+                        <option value="">All</option>
+                    </select>
+                    <span asp-validation-for="@Model.ReporterName" class="text-danger"></span>
+                </div>                
+            }
+            <div class="mb-2">
+                <button class="btn btn-warning btn-dark-text w-100 py-2 fw-bold rounded" type="submit">
+                    <i class="fas fa-save"></i> Search
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="products-list gray-70">
+        @if (Model.DayReports != null && Model.DayReports.Any())
         {
-            <li>
-                <a asp-action="Details" asp-route-id="@report.Id">@report.FormattedDate</a>
-            </li>
+            <h2><strong>Return protocols</strong></h2>
+            foreach (var dayReport in Model.DayReports)
+            {
+                <div class="protocol-list-container">
+                    <a asp-action="Details" asp-route-id="@dayReport.Id">
+                        <div class="light-gray-80 protocol-list-item">
+                            <h4>Reported date: <strong>@dayReport.ReportedDate.ToString(AppDateFormat)</strong>г.</h4>
+                            <p>Reporter name: <strong>@dayReport.ReporterName</strong></p>
+                            <div class="protocol-authors">
+                                <div>
+                                    <p>Vehicle: <strong>@dayReport.VehicleLicensePlate</strong></p>
+                                    <p>Reported on: <strong>@dayReport.TransmissionDate</strong></p>
+                                </div>
+                                <div>
+                                    <p>Total amount: <strong>@dayReport.TotalAmount</strong></p>
+                                    <p>Total income: <strong>@dayReport.TotalIncome</strong></p>
+                                    <p>Total cash: <strong>@dayReport.TotalCash</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
         }
-    </ul>
-</div>
+    </div>
+</main>

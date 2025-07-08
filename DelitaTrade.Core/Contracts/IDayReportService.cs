@@ -1,4 +1,5 @@
 ﻿using DelitaTrade.Core.ViewModels;
+using DelitaTrade.Core.ViewModels.DayReportModels;
 using DelitaTrade.Infrastructure.Data.Models;
 
 namespace DelitaTrade.Core.Contracts
@@ -6,7 +7,8 @@ namespace DelitaTrade.Core.Contracts
     public interface IDayReportService
     {
         Task<IEnumerable<DayReportHeaderViewModel>> GetAllDatesAsync(UserViewModel user);
-        Task<IEnumerable<DayReportViewModel>> GetAllFilteredAsync(UserViewModel user, string filter, int limit);
+        Task<IEnumerable<SimpleDayReportViewModel>> GetSimpleFilteredAsync(UserViewModel user, string? reporterId, DateTime? startDate, DateTime? endDate);   
+        Task<IEnumerable<UserViewModel>> GetAllUsersWhitReports(UserViewModel user);
         Task<DayReportViewModel> GetByIdAsync(UserViewModel user, int id);
         Task<DayReportBanknotesViewModel> GetBanknotesReadonlyAsync(UserViewModel user, int id);
         Task<DayReportViewModel> CreateAsync(DayReportViewModel dayReport);
