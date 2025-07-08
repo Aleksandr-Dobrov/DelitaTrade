@@ -13,7 +13,7 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="https://www.delitatrade.com/img/logo-1677662036.jpg" alt="DelitaTrade Logo" style="height: 55px; width: auto; margin: -5px"/>
+                    <img src="~/Assets/delitaTradeLogo.png" alt="DelitaTrade Logo" style="height: 55px; width: auto; margin: -5px"/>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -30,6 +30,8 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="DayReport" asp-action="Index">DayReports</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ReturnProtocol" asp-action="Index">Return Protocol</a>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

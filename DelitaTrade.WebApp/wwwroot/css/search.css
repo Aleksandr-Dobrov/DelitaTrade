@@ -1,0 +1,17 @@
+﻿.searchList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.0rem;
+    background-color: aliceblue;
+    list-style-type: none;
+}
+
+#search textarea {
+    background-color: aliceblue;
+    height: 32px;
+    border: none;
+    resize: none;
+    margin-bottom: -5px;
+    width: auto;
+    padding-left: 15px;
+}
