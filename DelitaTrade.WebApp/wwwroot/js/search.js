@@ -4,6 +4,7 @@ const serverProvider = new ServerProvider(searchUrl);
 
 function init() {
     document.querySelector('#item-value').addEventListener('input', getDataFromServer);
+    document.querySelector('#item-value').addEventListener('keydown', onKeyDown);
 }
 
 function getDataFromServer(e) {
@@ -16,6 +17,13 @@ function getDataFromServer(e) {
         Object.values(result).forEach((data) => addProductToList(items, data))
     }, errorLog)
 
+}
+
+function onKeyDown(e) {
+    if (e.key === 'Escape') {
+        const items = document.querySelector('#result-list');
+        clearHtmlElement(items);
+    }
 }
 
 function errorLog(error) {

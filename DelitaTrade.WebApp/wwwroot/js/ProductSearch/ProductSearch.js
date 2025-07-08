@@ -4,6 +4,7 @@ const productServerProvider = new ServerProvider(productSearchUrl);
 
 function init() {
     document.querySelector('#product-item-value').addEventListener('input', getproductsFromServer);
+    document.querySelector('#product-item-value').addEventListener('keydown', onProductKeyDown);
 }
 
 function getproductsFromServer(e) {
@@ -16,6 +17,13 @@ function getproductsFromServer(e) {
         Object.values(result).forEach((data) => addDataToProductList(items, data))
     }, errorLog)
 
+}
+
+function onProductKeyDown(e) {
+    if (e.key === 'Escape') {
+        const items = document.querySelector('#product-result-list');
+        clearHtmlElement(items);
+    }
 }
 
 function errorLog(error) {
