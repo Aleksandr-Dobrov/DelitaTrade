@@ -54,3 +54,7 @@ body {
     flex-direction: column;
     border-radius: 0.5rem;
 }
+
+.align-center{
+    margin: auto;
+}
