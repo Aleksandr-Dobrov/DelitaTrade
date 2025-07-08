@@ -1,24 +1,36 @@
 ﻿.search-list {
     display: flex;
+    position: absolute;
+    align-items: stretch;
+    z-index: 1000;
     flex-direction: column;
     gap: 0.0rem;
-    background-color: aliceblue;
+    background-color: rgb(240,248,255,0.9);
     list-style-type: none;
+    border-radius: 0rem 0rem 0.5rem 0.5rem;
+    margin-top: 44px;
+    padding: 0rem 1.5rem;
+    cursor:pointer;
 }
+
+
 
 #search {
-    width: fit-content;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    width: max-content;
 }
 
-    #search input {
-        background-color: aliceblue;
-        height: 32px;
-        border: none;
-        margin-bottom: -5px;
-        width: 100%;
-        min-width: 400px;
-        padding-left: 15px;
-    }
+#search input {
+    background-color: aliceblue;
+    height: 34px;
+    border: none;
+    margin: 10px 0px;
+    width: 100%;
+    min-width: 400px;
+    padding: 0rem 1.5rem;
+}
 
 #search :hover {
     border: medium;
@@ -34,10 +46,27 @@
     color: black;
 }
 
-    .search-list a:hover {
+.product-item {
+    flex-grow: 1;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.product-item:hover {
+    background-color: lightgray;
+    border-radius: 10px;
+    padding: 0px 10px;
+    margin: 0px 0px 0px -10px;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+    .product-item :focus {
         background-color: lightgray;
         border-radius: 10px;
         padding: 0px 10px;
         margin: 0px 0px 0px -10px;
+        transition: 0.2s;
+        cursor: pointer;
     }
 
