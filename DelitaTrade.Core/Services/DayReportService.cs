@@ -104,22 +104,23 @@ namespace DelitaTrade.Core.Services
                 }).ToArrayAsync();
         }
 
-        public async Task<IEnumerable<SimpleDayReportViewModel>> GetSimpleFilteredAsync(UserViewModel user, string? reporterId, DateTime? startDate, DateTime? endDate)
+        public async Task<IEnumerable<SimpleDayReportViewModel>> GetSimpleFilteredAsync(UserViewModel user, string? reporterUserName, DateTime? startDate, DateTime? endDate)
         {
-            IQueryable<DayReport> query = SetDateInterval(GetFilteredDayReportsQuery(user, reporterId), startDate ?? DateTime.MinValue, endDate ?? DateTime.Now);
+            IQueryable<DayReport> query = SetDateInterval(GetFilteredDayReportsQuery(user, reporterUserName), startDate ?? DateTime.MinValue, endDate ?? DateTime.Now);
 
-            return await query.Select(d => new SimpleDayReportViewModel()
-            {
-                Id = d.Id,
-                ReporterName = $"{d.IdentityUser.Name} {d.IdentityUser.LastName}",
-                ReportedDate = d.Date,
-                TransmissionDate = d.Date,
-                TotalAmount = d.TotalAmount.ToString("C"),
-                TotalIncome = d.TotalIncome.ToString("C"),
-                TotalCash = d.TotalCash.ToString("C"),
-                VehicleLicensePlate = d.Vehicle != null ? d.Vehicle.LicensePlate : null
+            return await query.OrderByDescending(d => d.Date)
+                .Select(d => new SimpleDayReportViewModel()
+                {
+                    Id = d.Id,
+                    ReporterName = $"{d.IdentityUser.Name} {d.IdentityUser.LastName}",
+                    ReportedDate = d.Date,
+                    TransmissionDate = d.TransmissionDate,
+                    TotalAmount = d.TotalAmount.ToString("C"),
+                    TotalIncome = d.TotalIncome.ToString("C"),
+                    TotalCash = d.TotalCash.ToString("C"),
+                    VehicleLicensePlate = d.Vehicle != null ? d.Vehicle.LicensePlate : null
 
-            }).ToArrayAsync();
+                }).ToArrayAsync();
         }
 
         public async Task<DayReportBanknotesViewModel> GetBanknotesReadonlyAsync(UserViewModel user, int id)
@@ -172,19 +173,15 @@ namespace DelitaTrade.Core.Services
             return query.Where(p => p.Date >= startDate.Date && p.Date <= endDate.Date);
         }
 
-        private IQueryable<DayReport> GetFilteredDayReportsQuery(UserViewModel user,  string? ReporterId)
+        private IQueryable<DayReport> GetFilteredDayReportsQuery(UserViewModel user,  string? reporterUserName)
         {
             IQueryable<DayReport> query;
             if (user.Roles.Contains(Admin))
             {
                 query = repo.AllReadonly<DayReport>();
-                if (string.IsNullOrEmpty(ReporterId) == false)
-                {
-                    var result = Guid.TryParse(ReporterId, out Guid resultId);
-                    if (result) 
-                    {
-                        query = query.Where(d => d.IdentityUserId == resultId);
-                    }
+                if (string.IsNullOrEmpty(reporterUserName) == false)
+                {   
+                    query = query.Where(d => d.IdentityUser.UserName == reporterUserName);
                 }
             }
             else if (user.Roles.Contains(Driver))

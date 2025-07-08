@@ -20,7 +20,7 @@ namespace DelitaTrade.WebApp.Controllers
             return View(model);
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> SearchDayReport(SearchDayReportInputModel model)
         {
             var userViewModel = await GetUserViewModelAsync();
@@ -28,7 +28,7 @@ namespace DelitaTrade.WebApp.Controllers
             {
                 model.Employees = await dayReportService.GetAllUsersWhitReports(await GetUserViewModelAsync());
             }
-            model.DayReports = await dayReportService.GetSimpleFilteredAsync(userViewModel, model.ReporterId, model.StartDate, model.EndDate);
+            model.DayReports = await dayReportService.GetSimpleFilteredAsync(userViewModel, model.ReporterUserName, model.StartDate, model.EndDate);
             return View(nameof(Index), model);
         }
 

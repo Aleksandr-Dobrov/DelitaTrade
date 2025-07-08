@@ -18,7 +18,7 @@
 </head>
 <main class="delita-shadow">
     <div class="main-box light-gray-80">
-        <form asp-controller="DayReport" asp-action="SearchDayReport" method="post" class="protocol-filter">            
+        <form asp-controller="DayReport" asp-action="SearchDayReport" method="get" class="protocol-filter">            
             <div class="col-sm-6 mb-2">
                 <label asp-for="@Model.StartDate" class="form-label-add-edit">From</label>
                 <input asp-for="@Model.StartDate" class="form-control" type="date" aria-required="true" value="@minDate" />
@@ -33,7 +33,7 @@
             {
                 <div class="col-sm-6 mb-2">
                     <label asp-for="@Model.ReporterName" class="form-label-add-edit">Select employee</label>
-                    <select asp-for="@Model.ReporterId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.Employees, "Id", "Name"))">
+                    <select asp-for="@Model.ReporterUserName" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.Employees, "UserName", "Name"))">
                         <option value="">All</option>
                     </select>
                     <span asp-validation-for="@Model.ReporterName" class="text-danger"></span>
@@ -49,9 +49,11 @@
     <div class="products-list gray-70">
         @if (Model.DayReports != null && Model.DayReports.Any())
         {
-            <h2><strong>Return protocols</strong></h2>
+            <h2><strong>Day reports</strong></h2>
             foreach (var dayReport in Model.DayReports)
             {
+                string transmissionDate = dayReport.TransmissionDate.HasValue ? dayReport.TransmissionDate.Value.ToString(AppDateFormat) : "N/A";
+
                 <div class="protocol-list-container">
                     <a asp-action="Details" asp-route-id="@dayReport.Id">
                         <div class="light-gray-80 protocol-list-item">
@@ -60,7 +62,7 @@
                             <div class="protocol-authors">
                                 <div>
                                     <p>Vehicle: <strong>@dayReport.VehicleLicensePlate</strong></p>
-                                    <p>Reported on: <strong>@dayReport.TransmissionDate</strong></p>
+                                    <p>Reported on: <strong>@transmissionDate</strong></p>
                                 </div>
                                 <div>
                                     <p>Total amount: <strong>@dayReport.TotalAmount</strong></p>
@@ -72,6 +74,10 @@
                     </a>
                 </div>
             }
+        }
+        else
+        {
+            <h3 class="text-danger align-center"><strong>No results...</strong></h3>
         }
     </div>
 </main>

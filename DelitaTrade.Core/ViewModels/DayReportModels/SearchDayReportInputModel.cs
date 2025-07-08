@@ -7,7 +7,7 @@
         public DateTime? EndDate { get; set; }
 
         public string? ReporterName { get; set; }
-        public string? ReporterId { get; set; }
+        public string? ReporterUserName { get; set; }
 
         public IEnumerable<UserViewModel> Employees { get; set; } = new List<UserViewModel>();
 

@@ -7,7 +7,7 @@ namespace DelitaTrade.Core.Contracts
     public interface IDayReportService
     {
         Task<IEnumerable<DayReportHeaderViewModel>> GetAllDatesAsync(UserViewModel user);
-        Task<IEnumerable<SimpleDayReportViewModel>> GetSimpleFilteredAsync(UserViewModel user, string? reporterId, DateTime? startDate, DateTime? endDate);   
+        Task<IEnumerable<SimpleDayReportViewModel>> GetSimpleFilteredAsync(UserViewModel user, string? reporterUseName, DateTime? startDate, DateTime? endDate);   
         Task<IEnumerable<UserViewModel>> GetAllUsersWhitReports(UserViewModel user);
         Task<DayReportViewModel> GetByIdAsync(UserViewModel user, int id);
         Task<DayReportBanknotesViewModel> GetBanknotesReadonlyAsync(UserViewModel user, int id);
