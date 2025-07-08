@@ -6,6 +6,10 @@ namespace DelitaTrade.Common
     {
         private const string ObjectNotExists = "already exists in data base";
 
+        public const string ProtocolIsApproved = "Return protocol is approved and cannot be changed";
+
+        public const string ProtocolIsChanged = "Return protocol is changed and cannot be approved";
+
         public static string IsExists(IExceptionName obj)
         {
             return $"{obj.Name} {ObjectNotExists}";
