@@ -1,11 +1,11 @@
-html {
-  font-size: 14px;
-}
-
 @media (min-width: 768px) {
   html {
     font-size: 16px;
   }
+}
+
+html {
+    font-size: 14px;
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
@@ -19,6 +19,12 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+
+.logo {
+    position: absolute;
+    justify-self: anchor-center;
+    align-self: anchor-center;
 }
 
 .delita-shadow {
