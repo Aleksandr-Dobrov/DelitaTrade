@@ -29,28 +29,39 @@ namespace DelitaTrade.WebApp
 
             using (var scope = app.Services.CreateScope())
             {
-                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
-                string[] roles = { Admin, Driver, WarehouseManager };
-                foreach (var role in roles)
-                {
-                    if (await roleManager.RoleExistsAsync(role) == false)
-                    {
-                        await roleManager.CreateAsync(new IdentityRole<Guid>(role));
-                    }
-                }
+                //    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+                //    string[] roles = { Admin, Driver, WarehouseManager };
+                //    foreach (var role in roles)
+                //    {
+                //        if (await roleManager.RoleExistsAsync(role) == false)
+                //        {
+                //            await roleManager.CreateAsync(new IdentityRole<Guid>(role));
+                //        }
+                //    }
 
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<DelitaUser>>();
-                var aleks = await userManager.FindByNameAsync("AleksandrDobrov");
+                var aleks = await userManager.FindByNameAsync("StanislavNikov");
                 if (aleks != null && await userManager.IsInRoleAsync(aleks, Driver) == false)
                 {
                     await userManager.AddToRoleAsync(aleks, Driver);
                 }
-                var admin = await userManager.FindByNameAsync("AdminDelita");
-                if (admin != null && await userManager.IsInRoleAsync(admin, Admin) == false)
-                {
-                    await userManager.AddToRoleAsync(admin, Admin);
-                }
             }
+            //    var admin = await userManager.FindByNameAsync("AdminDelita");
+            //    if (admin != null && await userManager.IsInRoleAsync(admin, Admin) == false)
+            //    {
+            //        await userManager.AddToRoleAsync(admin, Admin);
+            //    }
+            //    var cvetomir = await userManager.FindByNameAsync("CvetomirSklad");
+            //    if (cvetomir != null && await userManager.IsInRoleAsync(cvetomir, WarehouseManager) == false)
+            //    {
+            //        await userManager.AddToRoleAsync(cvetomir, WarehouseManager);
+            //    }
+            //    var yoan = await userManager.FindByNameAsync("YoanPenchev");
+            //    if (yoan != null && await userManager.IsInRoleAsync(yoan, WarehouseManager) == false)
+            //    {
+            //        await userManager.AddToRoleAsync(yoan, WarehouseManager);
+            //    }
+            //}
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

@@ -9,16 +9,17 @@
 
 <head>
     <link rel="stylesheet" href="~/css/search.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 
 <div class="row">
-    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6 main-box light-gray-80">
         <form asp-controller="ReturnProduct" asp-action="Edit" method="post">
             <div>
                 <div id="search" class="col-sm-6 mb-2">
-                    <input asp-for="@Model.ProductName" class="form-label-add-edit" type="text" id="product-item-value" placeholder="Products..." value="@Model.ProductName" />
+                    <input asp-for="@Model.ProductName" class="form-label-add-edit" type="text" id="product-item-value" autocomplete="off" placeholder="Products..." value="@Model.ProductName" />
                     <span asp-validation-for="@Model.ProductName" class="text-danger"></span>
-                    <ul id="product-result-list" class="search-list">
+                    <ul id="product-result-list" class="search-list delita-shadow">
                     </ul>
                 </div>
                 <div class="mb-2">

@@ -20,3 +20,31 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.delita-shadow {
+    box-shadow: 4px 21px 19px 4px rgb(113 188 255 / 0.2);
+}
+
+.nav-background-color {
+    background: linear-gradient(0.25turn, rgb(98, 225, 106), white, rgb(238, 81, 81));
+}
+
+.navbar-item {
+    height: 55px; 
+    width: auto; 
+    margin: -5px
+}
+.light-gray-80 {
+    background-color: rgba(211, 211, 211, 0.8);
+}
+
+.gray-70 {
+    background-color: rgb(128, 128, 128, 0.7);
+}
+
+.main-box {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 0.5rem;
+}

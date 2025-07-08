@@ -59,7 +59,7 @@ namespace DelitaTrade.ViewModels.ReturnProtocolControllers
         {
             using var scope = _serviceProvider.CreateScope();
             var service = scope.GetService<IReturnProtocolService>();
-            await service.DeleteProtocol(returnProtocol.Id);
+            await service.DeleteProtocolAsync(returnProtocol.Id);
             ReturnProtocolUnSelected();
         }
 

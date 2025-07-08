@@ -8,5 +8,7 @@
         public required string CompanyObjectName { get; set; }
         public required string TraderName { get; set; }
         public required string DriverName { get; set; }
+        public string? ApproverName { get; set; }
+        public Guid? ApproverId { get; set; }
     }
 }

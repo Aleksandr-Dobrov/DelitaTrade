@@ -21,6 +21,10 @@ namespace DelitaTrade.Infrastructure.Data.Models
         [Column(TypeName = ValidationTypeConstants.NVarchar)]
         public string Batch { get; set; } = null!;
         public DateTime BestBefore { get; set; }
+        public bool? IsScrapped { get; set; }
+        [MaxLength(ValidationConstants.WarehouseDescriptionMaxLength)]
+        [Column(TypeName = ValidationTypeConstants.NVarchar)]
+        public string? WarehouseDescription { get; set; }
         public virtual Product Product { get; set; } = null!;
         public virtual ReturnedProductDescription? Description { get; set; }
         [DeleteBehavior(DeleteBehavior.Restrict)]

@@ -1,6 +1,7 @@
 ﻿@using DelitaTrade.Core.ViewModels;
 @using System.Globalization;
 @using static DelitaTrade.Common.Constants.FormatConstant.DateTimeFormat;
+@using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
 @model SearchReturnProtocolInputModel;
 
 @{
@@ -12,89 +13,85 @@
 
 <head>
     <link rel="stylesheet" href="~/css/search.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/ReturnProtocol/warehouseBackground.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/ReturnProtocol/returnProtocol.css" asp-append-version="true" />
 </head>
-
-<a class="btn btn-primary mb-3" asp-action="Create" asp-controller="ReturnProtocol">
-    <i class="fas fa-plus"></i> Create Return Protocol
-</a>
-
-<form asp-controller="ReturnProtocol" asp-action="GetProtocols" method="get">
-    <div class="col-sm-6 mb-2">
-        <label asp-for="@Model.StartDate" class="form-label-add-edit">From</label>
-        <input asp-for="@Model.StartDate" class="form-control" type="date" aria-required="true" value="@minDate"/>
-        <span asp-validation-for="@Model.StartDate" class="text-danger"></span>
-    </div>
-    <div class="col-sm-6 mb-2">
-        <label asp-for="@Model.EndDate" class="form-label-add-edit">To</label>
-        <input asp-for="@Model.EndDate" class="form-control" type="date" aria-required="true" value=@today />
-        <span asp-validation-for="@Model.EndDate" class="text-danger"></span>
-    </div>
-    <div class="col-sm-6 mb-2">
-        <label asp-for="@Model.TraderName" class="form-label-add-edit">Select Trader</label>
-        <select asp-for="@Model.TraderName" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.Traders, "Name", "Name"))">
-            <option value="">...</option>
-        </select>
-        <span asp-validation-for="@Model.TraderName" class="text-danger"></span>
-    </div>
-    <div id="search">
-        <input asp-for="@Model.CompanyObjectName" type="text" id="item-value" item-id="@Model.CompanyObjectId" placeholder="Search object..." value="@Model.CompanyObjectName"/>
-        <input asp-for="@Model.CompanyObjectId" type="hidden" id="item-id" value="@Model.CompanyObjectId" />
-        <ul id="result-list" class="search-list">
-        </ul>
-    </div>
-    <div class="mb-2">
-        <button class="btn btn-warning btn-dark-text w-100 py-2 fw-bold rounded" type="submit">
-            <i class="fas fa-save"></i> Search
-        </button>
-    </div>
-</form>
-<div>
-    <h2>Return protocols</h2>
-    <table class="table table-striped light-gray-80">
-        <thead>
-            <tr class="light-gray-80">
-                <th>Date</th>
-                <th>Company object</th>
-                <th>Trader</th>
-                @if(User.IsInRole("Admin") || User.IsInRole("WarehouseManager"))
-                {
-                    <th>Driver</th>
-                }
-
-            </tr>
-        </thead>
-        <tbody id="protocolsTableBody">
-            @if(Model.ReturnProtocols != null && Model.ReturnProtocols.Any())
+<main class="delita-shadow">    
+    <div class="main-box light-gray-80">
+        <form asp-controller="ReturnProtocol" asp-action="GetProtocols" method="get" class="protocol-filter">
+            @if (User.IsInRole(Driver))
             {
-                foreach (var protocol in Model.ReturnProtocols)
-                {
-                        <tr class="light-gray-80">
-                            <td>
-                                <a asp-action="Details" asp-route-id="@protocol.Id">
-                                    @protocol.ReturnedDate.ToString(AppDateFormat)
-                                </a>
-                                </td>
-                            <td>@protocol.CompanyObjectName</td>
-                            <td>@protocol.TraderName</td>
-                            @if(User.IsInRole("Admin") || User.IsInRole("WarehouseManager"))
-                            {
-                                <td>@protocol.DriverName</td>
-                        }
-                        </tr>
-                }
-            }
-            else
+                <a class="btn btn-primary mb-3" asp-action="Create" asp-controller="ReturnProtocol">
+                    <i class="fas fa-plus"></i> Create Return Protocol
+                </a>                
+            }    
+            <div class="col-sm-6 mb-2">
+                <label asp-for="@Model.StartDate" class="form-label-add-edit">From</label>
+                <input asp-for="@Model.StartDate" class="form-control" type="date" aria-required="true" value="@minDate"/>
+                <span asp-validation-for="@Model.StartDate" class="text-danger"></span>
+            </div>
+            <div class="col-sm-6 mb-2">
+                <label asp-for="@Model.EndDate" class="form-label-add-edit">To</label>
+                <input asp-for="@Model.EndDate" class="form-control" type="date" aria-required="true" value=@today />
+                <span asp-validation-for="@Model.EndDate" class="text-danger"></span>
+            </div>
+            <div class="col-sm-6 mb-2">
+                <label asp-for="@Model.TraderName" class="form-label-add-edit">Select Trader</label>
+                <select asp-for="@Model.TraderName" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.Traders, "Name", "Name"))">
+                    <option value="">...</option>
+                </select>
+                <span asp-validation-for="@Model.TraderName" class="text-danger"></span>
+            </div>
+            <div id="search">
+                <input asp-for="@Model.CompanyObjectName" type="text" id="item-value" item-id="@Model.CompanyObjectId" autocomplete="off" placeholder="Search object..." value="@Model.CompanyObjectName" />
+                <input asp-for="@Model.CompanyObjectId" type="hidden" id="item-id" value="@Model.CompanyObjectId" />
+                <ul id="result-list" class="search-list delita-shadow">
+                </ul>
+            </div>
+            <div class="mb-2">
+                <button class="btn btn-warning btn-dark-text w-100 py-2 fw-bold rounded" type="submit">
+                    <i class="fas fa-save"></i> Search
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="products-list gray-70">
+        @if(Model.ReturnProtocols != null && Model.ReturnProtocols.Any())
+        {
+            <h2><strong>Return protocols</strong></h2>
+            foreach (var protocol in Model.ReturnProtocols)
             {
-                <tr>
-                    <td colspan="3" class="text-center">No protocols found.</td>
-                </tr>
+                <div class="protocol-list-container">
+                    <a asp-action="Details" asp-route-id="@protocol.Id">
+                        <div class="light-gray-80 protocol-list-item">
+                            <h4>Return on: <strong>@protocol.ReturnedDate.ToString(AppDateFormat)</strong>г.</h4>
+                            <p>Company object: <strong>@protocol.CompanyObjectName</strong></p>
+                            <div class="protocol-authors">
+                                <div>
+                            <p>Trader name: <strong>@protocol.TraderName</strong></p>
+                            <p>Pay method: <strong>@protocol.PayMethod</strong></p>
+                                </div>
+                                <div>
+                            <p>Driver name: <strong>@protocol.DriverName</strong></p>
+                                @if (protocol.ApproverName == null)
+                                {
+                                <p class="text-danger"><strong>Not approved</strong></p>
+                                }
+                                else
+                                {
+                                <p>Approve by: <strong>@protocol.ApproverName</strong></p>
+                                }
+                                </div>
+                            </div>
+                        </div>
+                    </a>    
+                </div>                                                   
             }
+        }
+    </div>
+</main>
 
-        </tbody>
-    </table>
-</div>
 
 <script src="~/js/ServerProvider.js"></script>
 <script src="~/js/HtmlUtil.js"></script>

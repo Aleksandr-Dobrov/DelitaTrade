@@ -4,6 +4,7 @@ using DelitaTrade.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DelitaTrade.Infrastructure.Migrations
 {
     [DbContext(typeof(DelitaDbContext))]
-    partial class DelitaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250706194149_AddApprovingFeature")]
+    partial class AddApprovingFeature
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -379,9 +382,6 @@ namespace DelitaTrade.Infrastructure.Migrations
 
                     b.Property<Guid>("IdentityUserId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("LastChanged")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("PayMethod")
                         .IsRequired()

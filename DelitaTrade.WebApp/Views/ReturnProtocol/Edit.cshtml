@@ -2,10 +2,10 @@
 @using System.Globalization
 @using static DelitaTrade.Common.Constants.ReturnProtocolPayMethods;
 @using static DelitaTrade.Common.Constants.FormatConstant.DateTimeFormat;
-@model ReturnProtocolInputModel
+@model ReturnProtocolEditModel
 
 @{
-    ViewData["Title"] = "Create Return Protocol";
+    ViewData["Title"] = "Edit Return Protocol";
     ViewData["CompanyObjectSearchUrl"] = Url.Action("CompanyObjects", "Search", null, Url.ActionContext.HttpContext.Request.Scheme);
     var today = Model.ReturnDate.HasValue ? Model.ReturnDate.Value.ToString(BrowserDateFormat) : DateTime.Now.ToString(BrowserDateFormat);
 }
@@ -18,8 +18,9 @@
 
 <div class="row">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6 main-box light-gray-80">
-        <form asp-controller="ReturnProtocol" asp-action="Create" method="post">
+        <form asp-controller="ReturnProtocol" asp-action="Edit" method="post">
             <div class="row">
+                <input type="hidden" asp-for="@Model.Id" value="@Model.Id" />
                 <div id="search" class="col-sm-6 mb-2">
                     <input asp-for="@Model.CompanyObjectName" class="form-label-add-edit" type="text" id="item-value" autocomplete="off" placeholder="Search object..." value="@Model.CompanyObjectName" />
                     <input asp-for="@Model.CompanyObjectId" type="hidden" id="item-id" value="@Model.CompanyObjectId" />
@@ -47,13 +48,13 @@
 
             <div class="col-sm-6 mb-2">
                 <label asp-for="@Model.ReturnDate" class="form-label-add-edit">Created On</label>
-                <input asp-for="@Model.ReturnDate" class="form-control" type="date" aria-required="true" value="@today"/>
+                <input asp-for="@Model.ReturnDate" class="form-control" type="date" aria-required="true" value="@today" />
                 <span asp-validation-for="@Model.ReturnDate" class="text-danger"></span>
             </div>
 
             <div class="mb-2">
                 <button class="btn btn-warning btn-dark-text w-100 py-2 fw-bold rounded" type="submit">
-                    <i class="fas fa-save"></i> Create
+                    <i class="fas fa-save"></i> Save
                 </button>
             </div>
         </form>

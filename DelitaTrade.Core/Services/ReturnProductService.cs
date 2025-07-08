@@ -14,6 +14,12 @@ namespace DelitaTrade.Core.Services
             var protocol = await repo.GetByIdAsync<ReturnProtocol>(protocolId)
                 ?? throw new ArgumentNullException(ExceptionMessages.NotFound(nameof(ReturnProtocol)));
 
+
+            if (await ProtocolIsApprovedAsync(protocolId))
+            {
+                throw new InvalidOperationException(ExceptionMessages.ProtocolIsApproved);
+            }
+
             var product = await repo.All<Product>().FirstOrDefaultAsync(p => p.Name == returnedProduct.Product.Name && p.Unit == returnedProduct.Product.Unit)
                 ?? throw new ArgumentNullException(ExceptionMessages.NotFound(nameof(Product)));
 
@@ -44,6 +50,9 @@ namespace DelitaTrade.Core.Services
                 ReturnProtocolId = protocol.Id
             };
             await repo.AddAsync(newProduct);
+
+            protocol.LastChanged = DateTime.Now;
+
             await repo.SaveChangesAsync();
             await repo.ReloadAsync(newProduct);
             return newProduct.Id;
@@ -110,6 +119,7 @@ namespace DelitaTrade.Core.Services
                 .Select(p => new ReturnedProductViewModel
                 {
                     Id = p.Id,
+                    ReturnProtocolId = p.ReturnProtocolId,
                     Batch = p.Batch,
                     BestBefore = p.BestBefore,
                     Quantity = p.Quantity,
@@ -139,11 +149,19 @@ namespace DelitaTrade.Core.Services
             var productToUpdate = await repo.GetByIdAsync<ReturnedProduct>(returnedProduct.Id)
                 ?? throw new ArgumentNullException(ExceptionMessages.NotFound(nameof(ReturnedProduct)));
 
+            var protocol = await repo.GetByIdAsync<ReturnProtocol>(returnedProduct.ReturnProtocolId)
+                ?? throw new ArgumentNullException(ExceptionMessages.NotFound(nameof(ReturnProtocol)));
+
             var product = await repo.All<Product>().FirstOrDefaultAsync(p => p.Name == returnedProduct.Product.Name && p.Unit == returnedProduct.Product.Unit)
                 ?? throw new ArgumentNullException(ExceptionMessages.NotFound(nameof(Product)));
 
             var descriptionCategory = await repo.GetByIdAsync<DescriptionCategory>(returnedProduct.DescriptionCategory.Id)
                 ?? throw new ArgumentNullException(ExceptionMessages.NotFound(nameof(DescriptionCategory)));
+
+            if (await ProtocolIsApprovedAsync(returnedProduct.ReturnProtocolId))
+            {
+                throw new InvalidOperationException(ExceptionMessages.ProtocolIsApproved);
+            }
 
             if (returnedProduct.Description != null)
             {
@@ -162,6 +180,7 @@ namespace DelitaTrade.Core.Services
             productToUpdate.Quantity = returnedProduct.Quantity;
             productToUpdate.Product = product;
             productToUpdate.DescriptionCategory = descriptionCategory;
+            protocol.LastChanged = DateTime.Now;
 
             await repo.SaveChangesAsync();
         }
@@ -170,7 +189,18 @@ namespace DelitaTrade.Core.Services
         {
             var productToRemove = await repo.GetByIdAsync<ReturnedProduct>(productId)
                 ?? throw new ArgumentNullException(ExceptionMessages.NotFound(nameof(ReturnedProduct)));
+
+            var protocol = await repo.GetByIdAsync<ReturnProtocol>(productToRemove.ReturnProtocolId)
+                ?? throw new ArgumentNullException(ExceptionMessages.NotFound(nameof(ReturnProtocol)));
+
+            if (await ProtocolIsApprovedAsync(productToRemove.ReturnProtocolId))
+            {
+                throw new InvalidOperationException(ExceptionMessages.ProtocolIsApproved);
+            }            
+
             repo.Remove(productToRemove);
+            protocol.LastChanged = DateTime.Now;
+
             await repo.SaveChangesAsync();
         }
 
@@ -180,6 +210,11 @@ namespace DelitaTrade.Core.Services
                 .Where(p => p.Id == productId)
                 .Select(p => p.ReturnProtocolId)
                 .FirstOrDefaultAsync();
+
+            if (await ProtocolIsApprovedAsync(protocolId))
+            {
+                throw new InvalidOperationException(ExceptionMessages.ProtocolIsApproved);
+            }
 
             if (await IsAuthorizedAsync(protocolId, user) == false)
             {
@@ -192,6 +227,11 @@ namespace DelitaTrade.Core.Services
         {
             return await repo.AllReadonly<ReturnProtocol>()
                 .AnyAsync(p => p.Id == protocolId && p.IdentityUserId == user.Id);
+        }
+
+        private async Task<bool> ProtocolIsApprovedAsync(int protocolId)
+        {
+            return await repo.AllReadonly<ReturnProtocol>().Where(r => r.Id == protocolId && r.Approver != null).FirstOrDefaultAsync() != null;
         }
     }
 }

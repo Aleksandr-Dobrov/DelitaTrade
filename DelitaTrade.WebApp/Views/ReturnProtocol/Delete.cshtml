@@ -1,0 +1,19 @@
+﻿@using DelitaTrade.Core.ViewModels;
+
+@model ReturnProtocolEditModel
+
+@{
+    ViewData["Title"] = "Delete Return Protocol";
+}
+
+<div>
+    <h2>Delete Return Protocol</h2>
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="@Model.Id" value="@Model.Id"/>
+        <div class="alert alert-danger">
+            Are you sure you want to delete the return protocol for <strong>@Model.CompanyObjectName</strong> dated <strong>@Model.ReturnDate</strong>?
+        </div>
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a asp-controller="ReturnProtocol" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

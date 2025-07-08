@@ -1,6 +1,7 @@
 ﻿.details-display {
     display: flex;
     justify-content: space-between;
+    border-radius: 0.5rem;
 }
 
 .action{
@@ -10,6 +11,80 @@
     gap: 1rem;
 }
 
-.light-gray-80 {
-    background-color: rgba(211, 211, 211, 0.8);
+.protocol-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0rem;
+    padding: 1rem;
+    
+}
+
+.products-list {
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.5rem;
+}
+
+.products-list h2 {
+    margin: auto;
+}
+
+.protocol-filter {
+    text-align-last: center;
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+    padding: 0.5rem 0rem 0rem 0rem;
+}
+
+.protocol-list-container a {
+    text-decoration: none;
+    color: black;
+}
+
+.protocol-list-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0.5rem 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    transition: 0.2s;
+}
+
+.protocol-list-item:hover {
+    background-color: #f0f0f0;
+    padding: 1.5rem 1rem;
+    margin: 0rem;
+    transition: 0.2s;
+}
+
+.gap-one-rem{
+    gap: 1rem;
+}
+.protocol-list-container {
+    font-size: large;
+}
+
+.protocol-authors {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.protocol-detail {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+    margin: 0.5rem 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.products-header {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 1rem;
 }

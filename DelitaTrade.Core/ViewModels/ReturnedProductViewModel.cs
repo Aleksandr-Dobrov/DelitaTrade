@@ -11,5 +11,8 @@ namespace DelitaTrade.Core.ViewModels
         public DateTime BestBefore { get; set; }
         public ReturnedProductDescriptionViewModel? Description { get; set; }
         public required DescriptionCategoryViewModel DescriptionCategory { get; set; }
+        public int ReturnProtocolId { get; set; }
+        public string? WarehouseDescription { get; set; }
+        public bool IsScrapped { get; set; }
     }
 }

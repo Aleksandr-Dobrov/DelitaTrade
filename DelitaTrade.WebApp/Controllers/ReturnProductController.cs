@@ -1,16 +1,29 @@
 ﻿using DelitaTrade.Core.Contracts;
 using DelitaTrade.Core.ViewModels;
+using DelitaTrade.Common.Extensions;
 using DelitaTrade.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
 
 namespace DelitaTrade.WebApp.Controllers
 {
-    public class ReturnProductController(IDescriptionCategoryService descriptionCategoryService,IReturnProductService returnProductService, UserManager<DelitaUser> userManager) : BaseController(userManager)
+
+    [Authorize(Roles = Driver)]
+    public class ReturnProductController(
+            IDescriptionCategoryService descriptionCategoryService,
+            IReturnProductService returnProductService, 
+            IReturnProtocolService returnProtocolService,
+            UserManager<DelitaUser> userManager) : BaseController(userManager)
     {
         [HttpGet]
         public async Task<IActionResult> Create(int id)
         {
+            if (await returnProtocolService.IsApproved(id))
+            {
+                return RedirectToAction(nameof(ReturnProtocolController.Details), nameof(ReturnProtocolController).GetControllerName(), new { Id = id });
+            }
             ReturnedProductInputModel model = new ReturnedProductInputModel();
             model.ReturnProtocolId = id;
             model.DescriptionCategories = await descriptionCategoryService.GetAllAsync();
@@ -26,6 +39,7 @@ namespace DelitaTrade.WebApp.Controllers
                 model.DescriptionCategories = await descriptionCategoryService.GetAllAsync();
                 return View(model);
             }
+
             var userViewModel = await GetUserViewModelAsync();
             var returnedProduct = new ReturnedProductViewModel
             {
@@ -59,7 +73,11 @@ namespace DelitaTrade.WebApp.Controllers
             var productToEdit = await returnProductService.GetProductByIdAsync(id, await GetUserViewModelAsync());
             if (productToEdit == null)
             {
-                return NotFound();
+                return Unauthorized();
+            }
+            if (await returnProtocolService.IsApproved(productToEdit.ReturnProtocolId))
+            {
+                return RedirectToAction(nameof(ReturnProtocolController.Details), nameof(ReturnProtocolController).GetControllerName(), new { Id = productToEdit.ReturnProtocolId });
             }
 
             var model = new ReturnProductEditModel()
@@ -76,7 +94,7 @@ namespace DelitaTrade.WebApp.Controllers
                 DescriptionCategories = await descriptionCategoryService.GetAllAsync()
             };
 
-            return View(model); 
+            return View(model);
         }
 
         [HttpPost]
@@ -87,29 +105,55 @@ namespace DelitaTrade.WebApp.Controllers
                 model.DescriptionCategories = await descriptionCategoryService.GetAllAsync();
                 return View(model);
             }
-            var userViewModel = await GetUserViewModelAsync();
-            // Assuming you have a service to update the return product
-            // var returnProduct = await _returnProductService.GetByIdAsync(model.Id);
-            // if (returnProduct == null)
-            // {
-            //     return NotFound();
-            // }
-            // returnProduct.Name = model.Name;
-            // returnProduct.Quantity = model.Quantity;
-            // returnProduct.Price = model.Price;
-            // returnProduct.ModifiedBy = userViewModel.Id;
-            // returnProduct.ModifiedOn = DateTime.UtcNow;
-            // await _returnProductService.UpdateAsync(returnProduct);
-            return RedirectToAction("Index");
+            
+            var productToEdit = await returnProductService.GetProductByIdAsync(model.Id, await GetUserViewModelAsync());
+            if (productToEdit == null)
+            {
+                return Unauthorized();
+            }
+
+            productToEdit.Batch = model.Batch;
+            productToEdit.BestBefore = model.BestBefore;
+            productToEdit.Quantity = model.Quantity;
+            productToEdit.Product.Name = model.ProductName;
+            productToEdit.Product.Unit = model.Unit;
+            if(productToEdit.DescriptionCategory.Id != model.DescriptionCategoryId)
+            {
+                productToEdit.DescriptionCategory = await descriptionCategoryService.GetByIdAsync(model.DescriptionCategoryId);
+            }
+            productToEdit.Description = model.DescriptionId != null
+                    ? new ReturnedProductDescriptionViewModel
+                    {
+                        Id = model.DescriptionId.Value,
+                        Description = model.Description ?? string.Empty
+                    }
+                    : null;
+
+
+            await returnProductService.UpdateProductAsync(productToEdit);
+
+            return RedirectToAction("Details", "ReturnProtocol", new { Id = productToEdit.ReturnProtocolId });
+
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
             var userViewModel = await GetUserViewModelAsync();
+            var productToEdit = await returnProductService.GetProductByIdAsync(id, await GetUserViewModelAsync());
 
+            if (productToEdit == null)
+            {
+                return Unauthorized();
+            }
+            if (await returnProtocolService.IsApproved(productToEdit.ReturnProtocolId))
+            {
+                return RedirectToAction(nameof(ReturnProtocolController.Details), nameof(ReturnProtocolController).GetControllerName(), new { Id = productToEdit.ReturnProtocolId });
+            }
 
-            return View(); // Placeholder for actual implementation
+            await returnProductService.DeleteProductAsync(id, userViewModel);
+
+            return RedirectToAction("Details", "ReturnProtocol", new { Id = productToEdit.ReturnProtocolId });
         }
     }
 }

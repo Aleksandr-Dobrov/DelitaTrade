@@ -21,10 +21,16 @@ namespace DelitaTrade.Core.Contracts
         
         Task<DetailReturnProtocolViewModel?> GetByIdAsync(UserViewModel user, int id);
 
+        Task<EditableReturnProtocolViewModel?> GetEditableByIdAsync(UserViewModel user, int id);
+
         Task<int> CreateProtocolAsync(ReturnProtocolViewModel protocolViewModel);
 
         Task UpdateProtocolAsync(ReturnProtocolViewModel returnProtocol);
 
-        Task DeleteProtocol(int protocolId);
+        Task ApproveAsync(ReturnProtocolApproveModel detailReturnProtocol, UserViewModel user);
+
+        Task<bool> IsApproved(int protocolId);
+
+        Task DeleteProtocolAsync(int protocolId);
     }
 }
