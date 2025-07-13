@@ -1,0 +1,29 @@
+﻿.day-report-list-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0.5rem 1rem;
+    padding: 0.5rem;
+    font-size: medium;
+    border-radius: 0.5rem;
+    transition: 0.2s;
+}
+.day-report-list-item * {
+    margin: auto 0.5rem;
+}
+
+.totals {
+    display: flex;
+}
+
+.day-report-list-item:hover {
+    background-color: #f0f0f0;
+    padding: 1rem 1rem;
+    margin: 0rem;
+    transition: 0.2s;
+}
+
+.day-report-list-container a {
+    text-decoration: none;
+    color: black;
+}
