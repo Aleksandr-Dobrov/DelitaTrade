@@ -2,10 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 
 namespace DelitaTrade.WebApp.Controllers
-{
-    [ApiController]
-    [Route("api/[controller]")]
-    public class SearchController(IProductService productService, ICompanyObjectService companyObjectService, IProductDescriptionService productDescriptionService) : Controller
+{   
+    public class SearchController(IProductService productService, ICompanyObjectService companyObjectService, IProductDescriptionService productDescriptionService) : BaseApiController
     {
         private const int _maxSearchResults = 20;
 
@@ -15,12 +13,12 @@ namespace DelitaTrade.WebApp.Controllers
         {
             if (string.IsNullOrEmpty(data))
             {
-                return Json(new { success = false, message = "No data provided." });
+                return BadRequest();
             }
             var products = await productService.GetFilteredProductsAsync(data.Split(' '), _maxSearchResults);
             if (products.Any() == false)
             {
-                return Json(new { success = false, message = "No Content" });
+                return NotFound();
             }
             object result = products.Select(p => new
             {
@@ -38,12 +36,12 @@ namespace DelitaTrade.WebApp.Controllers
         {
             if (string.IsNullOrEmpty(data))
             {
-                return Json(new { success = false, message = "No data provided." });
+                return BadRequest();
             }
-            var companyObjects = await companyObjectService.GetFilteredAsync(data, _maxSearchResults);
+            var companyObjects = await companyObjectService.GetFilteredAsync(data.Split(' '), _maxSearchResults);
             if (companyObjects.Any() == false)
             {
-                return Json(new { success = false, message = "No Content"});
+                return NotFound();
             }
             object result = companyObjects.Select(p => new
             {
@@ -62,12 +60,12 @@ namespace DelitaTrade.WebApp.Controllers
         {
             if (string.IsNullOrEmpty(data))
             {
-                return Json(new { success = false, message = "No description provided." });
+                return BadRequest();
             }
             var descriptions = await productDescriptionService.GetFilteredDescriptions(data.Split(' '));
             if (descriptions.Any() == false)
             {
-                return Json(new { success = false, message = "No Content" });
+                return NotFound();
             }
             object result = descriptions.Select(d => new
             {
