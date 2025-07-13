@@ -15,6 +15,8 @@ namespace DelitaTrade.Infrastructure.Data.Models
         public required string Number { get; set; }
         [Column(TypeName = Money)]
         public decimal Amount { get; set; }
+
+        [Column(TypeName = WeightColumn)]
         public decimal Weight { get; set; }
         public bool IsPaid { get; set; }
         public int CompanyId { get; set; }

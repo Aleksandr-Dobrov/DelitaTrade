@@ -4,6 +4,7 @@ using DelitaTrade.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DelitaTrade.Infrastructure.Migrations
 {
     [DbContext(typeof(DelitaDbContext))]
-    partial class DelitaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250709100518_AddDeliveryEntity")]
+    partial class AddDeliveryEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -163,7 +166,7 @@ namespace DelitaTrade.Infrastructure.Migrations
                         .HasColumnType("money");
 
                     b.Property<decimal>("TotalWeight")
-                        .HasColumnType("decimal(10, 4)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("TransmissionDate")
                         .HasColumnType("datetime2");
@@ -331,7 +334,7 @@ namespace DelitaTrade.Infrastructure.Migrations
                         .HasColumnType("nvarchar(12)");
 
                     b.Property<decimal>("Weight")
-                        .HasColumnType("decimal(10, 4)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -750,7 +753,7 @@ namespace DelitaTrade.Infrastructure.Migrations
             modelBuilder.Entity("DelitaTrade.Infrastructure.Data.Models.Delivery", b =>
                 {
                     b.HasOne("DelitaTrade.Infrastructure.Data.Models.DayReport", "DayReport")
-                        .WithMany("Deliveries")
+                        .WithMany("deliveries")
                         .HasForeignKey("DayReportId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -968,9 +971,9 @@ namespace DelitaTrade.Infrastructure.Migrations
 
             modelBuilder.Entity("DelitaTrade.Infrastructure.Data.Models.DayReport", b =>
                 {
-                    b.Navigation("Deliveries");
-
                     b.Navigation("Invoices");
+
+                    b.Navigation("deliveries");
                 });
 
             modelBuilder.Entity("DelitaTrade.Infrastructure.Data.Models.Delivery", b =>

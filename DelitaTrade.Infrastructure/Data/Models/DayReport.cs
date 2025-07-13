@@ -21,6 +21,7 @@ namespace DelitaTrade.Infrastructure.Data.Models
         public decimal TotalNotPay { get; set; }
         [Column(TypeName = Money)]
         public decimal TotalOldInvoice { get; set; }
+        [Column(TypeName = WeightColumn)]
         public decimal TotalWeight { get; set; }        
         public required Dictionary<decimal, int> Banknotes { get; set; } = new();
         [Column(TypeName = Money)]
@@ -35,5 +36,7 @@ namespace DelitaTrade.Infrastructure.Data.Models
         [ForeignKey(nameof(VehicleId))]
         public Vehicle? Vehicle { get; set; }
         public ICollection<InvoiceInDayReport> Invoices { get; set; } = new List<InvoiceInDayReport>();
+
+        public ICollection<Delivery> Deliveries { get; set; } = new HashSet<Delivery>();
     }
 }

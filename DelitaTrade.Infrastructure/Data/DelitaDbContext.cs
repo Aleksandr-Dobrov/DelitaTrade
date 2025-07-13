@@ -41,5 +41,6 @@ namespace DelitaTrade.Infrastructure.Data
         public DbSet<DayReport> DayReports { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<InvoiceInDayReport> InvoicesInDayReports { get; set; }
+        public DbSet<Delivery> Deliveries { get; set; }
     }
 }
