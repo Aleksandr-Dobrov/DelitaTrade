@@ -1,6 +1,6 @@
 ﻿namespace DelitaTrade.Common.Extensions
 {
-    public static class StringExtension
+    public static class StringExtensions
     {
         public static string GetControllerName(this string controller)
         {
