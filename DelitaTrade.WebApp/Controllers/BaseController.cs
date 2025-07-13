@@ -68,6 +68,24 @@ namespace DelitaTrade.WebApp.Controllers
             };
         }
 
+        protected async Task<UserViewModel?> GetUserViewModelByUserNameAsync(string userName)
+        {
+            var user = await userManager.FindByNameAsync(userName);            
+            UserViewModel? result = null;
+            if (user != null) 
+            {
+                result = new UserViewModel
+                {
+                    Id = user.Id,
+                    UserName = user.UserName,
+                    Name = $"{user.Name} {user.LastName}",
+                    Roles = await userManager.GetRolesAsync(user)
+                };
+            }
+
+            return result;
+        }
+
         protected bool IsUserInRole(params string[] roles)
         {
             return IsUserAuthenticated() && roles.Any(User.IsInRole);

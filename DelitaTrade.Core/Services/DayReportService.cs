@@ -86,7 +86,7 @@ namespace DelitaTrade.Core.Services
                 }).ToArrayAsync();
         }
 
-        public async Task<IEnumerable<UserViewModel>> GetAllUsersWhitReports(UserViewModel user)
+        public async Task<IEnumerable<UserViewModel>> GetAllUsersWhitDayReports(UserViewModel user)
         {
             if (user.Roles.Contains(Admin) == false)
             {
@@ -102,6 +102,24 @@ namespace DelitaTrade.Core.Services
                     Name = $"{u.Name} {u.LastName}",
                     UserName = u.UserName,
                 }).ToArrayAsync();
+        }
+
+
+        public async Task<IEnumerable<UserViewModel>> GetAllDrivers(UserViewModel user)
+        {
+            if (user.Roles.Contains(Admin) == false && user.Roles.Contains(LogisticsManager) == false)
+            {
+                throw new UnauthorizedAccessException(NotAuthenticate(user));
+            }
+
+            var users = await userManager.GetUsersInRoleAsync(Driver);
+
+            return users.Select(u => new UserViewModel
+            {
+                Id = u.Id,
+                Name = $"{u.Name} {u.LastName}",
+                UserName= u.UserName
+            });
         }
 
         public async Task<IEnumerable<SimpleDayReportViewModel>> GetSimpleFilteredAsync(UserViewModel user, string? reporterUserName, DateTime? startDate, DateTime? endDate)
@@ -139,19 +157,20 @@ namespace DelitaTrade.Core.Services
         {
             IQueryable<DayReport> query = repo.AllReadonly<DayReport>()
                 .Where(d => d.Id == id);
-            if (userViewModel.Roles.Contains(Admin) == false)
+            if (userViewModel.Roles.Contains(Admin) == false && userViewModel.Roles.Contains(LogisticsManager) == false)
             {
                 query = query.Where(d => d.IdentityUserId == userViewModel.Id);
             }
 
             var dayReport = await query
+                .Include(d => d.IdentityUser)
                 .Include(d => d.Vehicle)
                 .Include(d => d.Invoices)
                 .ThenInclude(i => i.Invoice)
                 .ThenInclude(i => i.CompanyObject)
                 .ThenInclude(i => i.Company)
                 .FirstOrDefaultAsync() ?? throw new ArgumentNullException(NotFound(nameof(DayReport)));
-            return MapToDayReportViewModel(dayReport, userViewModel);
+            return MapToDayReportViewModel(dayReport);
         }
 
         public async Task UpdateAsync(DayReportViewModel dayReport)
@@ -196,7 +215,7 @@ namespace DelitaTrade.Core.Services
             return query;
         }
 
-        private DayReportViewModel MapToDayReportViewModel(DayReport dayReport, UserViewModel userViewModel)
+        private DayReportViewModel MapToDayReportViewModel(DayReport dayReport)
         {
             var newDayReport = new DayReportViewModel()
             {
@@ -211,7 +230,12 @@ namespace DelitaTrade.Core.Services
                 Banknotes = dayReport.Banknotes,
                 TotalCash = dayReport.TotalCash,
                 TransmissionDate = dayReport.TransmissionDate == null ? DateTime.Now : (DateTime)dayReport.TransmissionDate,
-                User = userViewModel,
+                User = new UserViewModel
+                {
+                    Id = dayReport.IdentityUserId,
+                    Name = $"{dayReport.IdentityUser.Name} {dayReport.IdentityUser.LastName}",
+                    UserName = dayReport.IdentityUser.UserName
+                },
                 Vehicle = dayReport.Vehicle == null ? null :
                     new VehicleViewModel()
                     {

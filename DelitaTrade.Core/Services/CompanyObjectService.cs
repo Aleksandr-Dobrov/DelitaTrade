@@ -32,8 +32,8 @@ namespace DelitaTrade.Core.Services
         public async Task<IEnumerable<CompanyObjectViewModel>> GetFilteredAsync(string arg, int limit = 100)
         {
             return await GetFilteredReadonlyObjects(o => o.IsActive && (o.Name.Contains(arg)
-                                                    || o.Address.Town.Contains(arg)
-                                                    || o.Address.StreetName.Contains(arg)
+                                                    || (o.Address != null && o.Address.Town.Contains(arg))
+                                                    || (o.Address != null && o.Address.StreetName != null && o.Address.StreetName.Contains(arg))
                                                     || o.Trader.Name.Contains(arg)
                                                     || o.Company.Name.Contains(arg)))
                 .Include(o => o.Company)
@@ -44,11 +44,28 @@ namespace DelitaTrade.Core.Services
                 .Select(ParseToViewModel()).ToArrayAsync();
         }
 
+        public async Task<IEnumerable<CompanyObjectViewModel>> GetFilteredAsync(string[] arg, int limit = 50)
+        {
+            IQueryable<CompanyObject> query = repo.AllReadonly<CompanyObject>();
+            foreach (var item in arg)
+            {
+                query = query.Where(o => o.IsActive && (o.Name.Contains(item)
+                                    || (o.Address != null && o.Address.Town.Contains(item))
+                                    || (o.Address != null && o.Address.StreetName != null && o.Address.StreetName.Contains(item))
+                                    || o.Trader.Name.Contains(item)
+                                    || o.Company.Name.Contains(item)));
+            }
+            return await query
+                .Take(limit)
+                .Select(ParseToViewModel())
+                .ToArrayAsync();
+        }
+
         public async Task<IEnumerable<CompanyObjectViewModel>> GetFilteredAsync(string arg, int companyId, int limit = 100)
         {
             return await GetFilteredReadonlyObjects(o => o.IsActive && o.CompanyId == companyId && (o.Name.Contains(arg)
-                                                    || o.Address.Town.Contains(arg)
-                                                    || o.Address.StreetName.Contains(arg)
+                                                    || (o.Address != null && o.Address.Town.Contains(arg))
+                                                    || (o.Address != null && o.Address.StreetName != null && o.Address.StreetName.Contains(arg))
                                                     || o.Trader.Name.Contains(arg)
                                                     || o.Company.Name.Contains(arg)))
                 .Include(o => o.Company)

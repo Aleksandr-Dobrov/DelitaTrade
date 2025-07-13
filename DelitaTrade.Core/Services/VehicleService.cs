@@ -21,6 +21,18 @@ namespace DelitaTrade.Core.Services
                 ).ToArrayAsync();
         }
 
+        public async Task<VehicleViewModel?> GetByIdAsync(int id)
+        {
+            return await repo.AllReadonly<Vehicle>()
+                .Select(v => new VehicleViewModel 
+                {
+                    Id = v.Id,
+                    LicensePlate = v.LicensePlate,
+                    Model = v.Model
+                })
+                .FirstOrDefaultAsync(v => v.Id == id);
+        }
+
         public async Task<VehicleViewModel> CreateAsync(VehicleViewModel vehicle)
         {
             if (await repo.GetByIdAsync<Vehicle>(vehicle.Id) != null) throw new ArgumentException(IsExists(vehicle));

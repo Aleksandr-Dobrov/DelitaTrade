@@ -1,0 +1,46 @@
+﻿@using DelitaTrade.Core.ViewModels;
+@using static DelitaTrade.Common.Constants.FormatConstant.DateTimeFormat;
+
+@model DelitaTrade.Core.ViewModels.DayReportModels.DayReportInputModel;
+
+@{
+    ViewData["Title"] = "Create day report";
+    var today = Model.ReportedDate.HasValue ? Model.ReportedDate.Value.ToString(BrowserDateFormat) : DateTime.Now.ToString(BrowserDateFormat);
+}
+
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6 main-box light-gray-80">
+        <form asp-controller="DayReport" asp-action="Create" method="post">
+                          
+            <div class="col-sm-6 mb-2">
+                <label asp-for="@Model.ReportedDate" class="form-label-add-edit">Created On</label>
+                <input asp-for="@Model.ReportedDate" class="form-control" type="date" aria-required="true" value="@today" />
+                <span asp-validation-for="@Model.ReportedDate" class="text-danger"></span>
+            </div>
+
+            <div class="col-sm-6 mb-2">
+                <label asp-for="@Model.UserName" class="form-label-add-edit">Trader</label>
+                <select asp-for="@Model.UserName" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.Users, "UserName", "Name"))">
+                    <option value="">...</option>
+                </select>
+                <span asp-validation-for="@Model.UserName" class="text-danger"></span>
+            </div>
+
+            <div class="col-sm-6 mb-2">
+                <label asp-for="@Model.VehicleId" class="form-label-add-edit">Trader</label>
+                <select asp-for="@Model.VehicleId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.Vehicles, "Id", "LicensePlate"))">
+                    <option value="">...</option>
+                </select>
+                <span asp-validation-for="@Model.VehicleId" class="text-danger"></span>
+            </div>
+                        
+            <div class="mb-2">
+                <button class="btn btn-warning btn-dark-text w-100 py-2 fw-bold rounded" type="submit">
+                    <i class="fas fa-save"></i> Create
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -33,6 +33,17 @@ namespace DelitaTrade.Core.Services
                 .ToArrayAsync();
         }
 
+        public async Task<IEnumerable<InvoiceViewModel>> GetById(IEnumerable<int> ids)
+        {
+            return await repo.AllReadonly<InvoiceInDayReport>()
+                .Where(i => ids.Contains(i.Id))
+                .Include(i => i.Invoice)
+                .ThenInclude(i => i.CompanyObject)
+                .ThenInclude(i => i.Company)
+                .Select(i => MapToDeepViewModel(i))
+                .ToArrayAsync();
+        }
+
         public async Task<InvoiceViewModel> LoadNotPaidInvoice(string number)
         {
             Invoice baseInvoice = await repo.AllReadonly<Invoice>()
@@ -48,30 +59,6 @@ namespace DelitaTrade.Core.Services
             var nonPayInvoice = MapToLoadedInvoice(baseInvoice);
             nonPayInvoice.Income = baseInvoice.Amount - totalIncome;
             return nonPayInvoice;
-        }
-
-        private static InvoiceViewModel MapToLoadedInvoice(Invoice i)
-        {
-            var newCompany = new CompanyViewModel()
-            {
-                Id = i.CompanyObject.Company.Id,
-                Name = i.CompanyObject.Company.Name,
-                Type = i.CompanyObject.Company.Type,
-            };
-            return new InvoiceViewModel()
-            {
-                Company = newCompany,
-                CompanyObject = new CompanyObjectViewModel()
-                {
-                    Id = i.CompanyObject.Id,
-                    Name = i.CompanyObject.Name,
-                    Company = newCompany,
-                    IsBankPay = i.CompanyObject.IsBankPay
-                },
-                Number = i.Number,
-                Amount = i.Amount,
-                Weight = i.Weight,
-            };
         }
 
         /// <summary>
@@ -242,7 +229,7 @@ namespace DelitaTrade.Core.Services
             };
         }
 
-        private InvoiceViewModel MapToDeepViewModel(InvoiceInDayReport i)
+        private static InvoiceViewModel MapToDeepViewModel(InvoiceInDayReport i)
         {
             var newCompany = new CompanyViewModel()
             {
@@ -314,6 +301,30 @@ namespace DelitaTrade.Core.Services
         private IQueryable<InvoiceInDayReport> GetFilteredReadonlyObjects(Expression<Func<InvoiceInDayReport, bool>> filter)
         {
             return repo.AllReadonly<InvoiceInDayReport>().Where(filter);
+        }
+
+        private static InvoiceViewModel MapToLoadedInvoice(Invoice i)
+        {
+            var newCompany = new CompanyViewModel()
+            {
+                Id = i.CompanyObject.Company.Id,
+                Name = i.CompanyObject.Company.Name,
+                Type = i.CompanyObject.Company.Type,
+            };
+            return new InvoiceViewModel()
+            {
+                Company = newCompany,
+                CompanyObject = new CompanyObjectViewModel()
+                {
+                    Id = i.CompanyObject.Id,
+                    Name = i.CompanyObject.Name,
+                    Company = newCompany,
+                    IsBankPay = i.CompanyObject.IsBankPay
+                },
+                Number = i.Number,
+                Amount = i.Amount,
+                Weight = i.Weight,
+            };
         }
     }
 }

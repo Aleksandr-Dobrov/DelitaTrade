@@ -1,11 +1,6 @@
 ﻿using DelitaTrade.Common.Enums;
 using DelitaTrade.Common.Interfaces;
 using DelitaTrade.Infrastructure.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DelitaTrade.Core.ViewModels
 {

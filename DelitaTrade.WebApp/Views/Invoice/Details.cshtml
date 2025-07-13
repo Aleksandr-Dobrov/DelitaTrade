@@ -1,0 +1,10 @@
+﻿@using DelitaTrade.Core.ViewModels;
+
+@model IEnumerable<InvoiceViewModel>
+
+    <div>
+    @foreach(var invoice in Model)
+    {
+        <p>@invoice.Number</p>
+    }
+</div>
