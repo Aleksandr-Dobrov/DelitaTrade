@@ -11,7 +11,9 @@ class ServerProvider {
     }
 
     readObject(arg, onSuccess, onError) {
-        fetch(this.url + '/' + arg)
+        fetch(this.url + '/' + arg, {
+            method: 'GET'
+        })
         .then((response) => response.json())
         .then(onSuccess)
         .catch(onError); 
