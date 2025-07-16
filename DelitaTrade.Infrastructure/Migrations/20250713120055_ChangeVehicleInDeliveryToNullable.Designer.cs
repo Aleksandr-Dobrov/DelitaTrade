@@ -4,6 +4,7 @@ using DelitaTrade.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DelitaTrade.Infrastructure.Migrations
 {
     [DbContext(typeof(DelitaDbContext))]
-    partial class DelitaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250713120055_ChangeVehicleInDeliveryToNullable")]
+    partial class ChangeVehicleInDeliveryToNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -265,7 +268,7 @@ namespace DelitaTrade.Infrastructure.Migrations
                     b.Property<int>("DayReportId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DeliveryAddressId")
+                    b.Property<int?>("DeliveryAddressId")
                         .HasColumnType("int");
 
                     b.Property<Guid>("EmployeeId")
@@ -364,9 +367,6 @@ namespace DelitaTrade.Infrastructure.Migrations
 
                     b.Property<int>("InvoiceId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("IsCompleted")
-                        .HasColumnType("bit");
 
                     b.Property<int>("PayMethod")
                         .HasColumnType("int");
@@ -761,8 +761,7 @@ namespace DelitaTrade.Infrastructure.Migrations
                     b.HasOne("DelitaTrade.Infrastructure.Data.Models.CompanyObject", "DeliveryAddress")
                         .WithMany()
                         .HasForeignKey("DeliveryAddressId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("DelitaTrade.Infrastructure.Data.Models.DelitaUser", "Employee")
                         .WithMany()
