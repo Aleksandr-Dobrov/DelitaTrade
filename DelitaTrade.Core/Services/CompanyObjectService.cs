@@ -30,7 +30,7 @@ namespace DelitaTrade.Core.Services
         }
 
         public async Task<IEnumerable<CompanyObjectViewModel>> GetFilteredAsync(string arg, int limit = 100)
-        {
+        {            
             return await GetFilteredReadonlyObjects(o => o.IsActive && (o.Name.Contains(arg)
                                                     || (o.Address != null && o.Address.Town.Contains(arg))
                                                     || (o.Address != null && o.Address.StreetName != null && o.Address.StreetName.Contains(arg))
@@ -56,6 +56,7 @@ namespace DelitaTrade.Core.Services
                                     || o.Company.Name.Contains(item)));
             }
             return await query
+                .OrderByDescending(c => EF.Functions.Like(c.Name, $"{arg[0]}%"))
                 .Take(limit)
                 .Select(ParseToViewModel())
                 .ToArrayAsync();
