@@ -39,12 +39,12 @@ namespace DelitaTrade.WebApp
                 //        }
                 //    }
 
-                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<DelitaUser>>();
-                var aleks = await userManager.FindByNameAsync("StanislavNikov");
-                if (aleks != null && await userManager.IsInRoleAsync(aleks, Driver) == false)
-                {
-                    await userManager.AddToRoleAsync(aleks, Driver);
-                }
+                //var userManager = scope.ServiceProvider.GetRequiredService<UserManager<DelitaUser>>();
+                //var aleks = await userManager.FindByNameAsync("StanislavNikov");
+                //if (aleks != null && await userManager.IsInRoleAsync(aleks, Driver) == false)
+                //{
+                //    await userManager.AddToRoleAsync(aleks, Driver);
+                //}
             }
             //    var admin = await userManager.FindByNameAsync("AdminDelita");
             //    if (admin != null && await userManager.IsInRoleAsync(admin, Admin) == false)
