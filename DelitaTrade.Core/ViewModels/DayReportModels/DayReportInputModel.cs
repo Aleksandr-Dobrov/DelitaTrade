@@ -6,6 +6,7 @@ namespace DelitaTrade.Core.ViewModels.DayReportModels
     {
         public DateTime? ReportedDate { get; set; }
 
+        [Range(1, int.MaxValue)]
         public int VehicleId { get; set; }
 
         [Required]

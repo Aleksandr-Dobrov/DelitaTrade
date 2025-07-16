@@ -1,4 +1,5 @@
-﻿using DelitaTrade.Infrastructure.Data.Models;
+﻿using DelitaTrade.Core.ViewModels.DeliveryModels;
+using DelitaTrade.Infrastructure.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -37,5 +38,6 @@ namespace DelitaTrade.Core.ViewModels
         public required UserViewModel User { get; set; }
         public VehicleViewModel? Vehicle { get; set; }
         public List<InvoiceViewModel> Invoices { get; set; } = new List<InvoiceViewModel>();
+        public List<DeliveryViewModel> Deliveries { get; set; } = new List<DeliveryViewModel>();
     }
 }

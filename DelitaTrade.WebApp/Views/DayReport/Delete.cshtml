@@ -1,0 +1,20 @@
+﻿@using DelitaTrade.Core.ViewModels.DayReportModels;
+@using static DelitaTrade.Common.Constants.FormatConstant.DateTimeFormat;
+
+@model DayReportDeleteModel;
+
+@{
+    ViewData["Title"] = "Delete day report";
+}
+
+<div>
+    <h2><strong>@ViewData["Title"]</strong></h2>
+    <form asp-controller="DayReport" asp-action="Delete" method="post">
+        <input type="hidden" asp-for="@Model.Id" value="@Model.Id" />
+        <div class="alert alert-danger">
+            <p>Are you sure you want to delete the <strong>Daily report</strong> of <strong>@Model.EmployeeName</strong> for <strong>@Model.ReportedDate.ToString(AppDateFormat)</strong> ?</p>
+        </div>
+        <a asp-controller="DayReport" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+</div>

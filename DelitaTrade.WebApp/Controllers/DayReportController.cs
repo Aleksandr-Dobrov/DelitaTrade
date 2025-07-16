@@ -52,14 +52,14 @@ namespace DelitaTrade.WebApp.Controllers
             var user = await GetUserViewModelByUserNameAsync(dayReportInput.UserName);
             if (user == null) 
             {
-                RedirectToAction(nameof(Index));//TODO: add error if user not found
+                return RedirectToAction(nameof(Index));//TODO: add error if user not found
             }
 
             var newDayReport = new DayReportViewModel()
             {
                 Date = dayReportInput.ReportedDate.HasValue ? dayReportInput.ReportedDate.Value : DateTime.Now,
                 User = user!,
-                Vehicle = dayReportInput.VehicleId != 0 ? await vehicleService.GetByIdAsync(dayReportInput.VehicleId) : null,                   
+                Vehicle = await vehicleService.GetByIdAsync(dayReportInput.VehicleId)                 
             };
 
             var createdDayReport = await dayReportService.CreateAsync(newDayReport);
@@ -91,8 +91,51 @@ namespace DelitaTrade.WebApp.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var userViewModel = await GetUserViewModelAsync();
-            var dayReport = await dayReportService.GetByIdAsync(userViewModel, id);
+            var dayReport = await dayReportService.GetDetailDayReportByIdAsync(userViewModel, id);
             return View(dayReport);            
+        }
+
+        [HttpGet]
+        [Authorize(Roles = Admin)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var user = await GetUserViewModelAsync();
+                var dayReport = await dayReportService.GetByIdAsync(user, id);
+
+                var dayReportToDelete = new DayReportDeleteModel 
+                {
+                    Id = dayReport.Id,
+                    ReportedDate = dayReport.Date,
+                    EmployeeName = dayReport.User.Name
+                };
+
+                return View(dayReportToDelete);
+            }
+            catch
+            {
+                return RedirectToAction(nameof(Details), new { Id = id });
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = Admin)]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(DayReportDeleteModel model)
+        {
+            try
+            {
+                var user = await GetUserViewModelAsync();
+
+                await dayReportService.DeleteAsync(user, model.Id);
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return RedirectToAction(nameof(Index));
+            }
         }
     }
 }

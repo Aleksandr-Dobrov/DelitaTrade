@@ -1,8 +1,11 @@
 ﻿using DelitaTrade.Common;
+using DelitaTrade.Common.Enums;
+using DelitaTrade.Core.Comparers;
 using DelitaTrade.Core.Contracts;
 using DelitaTrade.Core.Extensions;
 using DelitaTrade.Core.ViewModels;
 using DelitaTrade.Core.ViewModels.DayReportModels;
+using DelitaTrade.Core.ViewModels.DeliveryModels;
 using DelitaTrade.Infrastructure.Common;
 using DelitaTrade.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
@@ -13,7 +16,7 @@ using static DelitaTrade.Common.ExceptionMessages;
 
 namespace DelitaTrade.Core.Services
 {
-    public class DayReportService(IRepository repo, UserManager<DelitaUser> userManager) : IDayReportService
+    public class DayReportService(IRepository repo, UserManager<DelitaUser> userManager) : BaseService, IDayReportService
     {
         public async Task<DayReportViewModel> CreateAsync(DayReportViewModel dayReport)
         {
@@ -44,12 +47,13 @@ namespace DelitaTrade.Core.Services
         public async Task DeleteAsync(UserViewModel userViewModel, int id)
         {
             var dayReport = await repo.All<DayReport>()
+                .Include(d => d.Deliveries)
                 .Include(d => d.Invoices)
                 .ThenInclude(i => i.Invoice)
                 .ThenInclude(i => i.InvoicesInDayReports)
                 .FirstOrDefaultAsync(d => d.Id == id) ?? throw new ArgumentNullException(NotFound(nameof(DayReport)));
 
-            if (dayReport.IdentityUserId != userViewModel.Id) throw new InvalidOperationException(NotAuthenticate(userViewModel));
+            if (IsAtLeastInOneRole(userViewModel, Admin) == false && dayReport.IdentityUserId != userViewModel.Id) throw new InvalidOperationException(NotAuthenticate(userViewModel));
 
             if (dayReport.Invoices.Count > 0)
             {
@@ -69,6 +73,11 @@ namespace DelitaTrade.Core.Services
                         repo.Remove(innerInvoice);
                     }
                 }
+            }
+
+            if (dayReport.Deliveries.Count > 0) 
+            {
+                repo.RemoveRange(dayReport.Deliveries);
             }
 
             repo.Remove(dayReport);
@@ -153,13 +162,66 @@ namespace DelitaTrade.Core.Services
                 }).FirstOrDefaultAsync() ?? throw new ArgumentNullException(NotFound(nameof(DayReport)));
         }
 
-        public async Task<DayReportViewModel> GetByIdAsync(UserViewModel userViewModel, int id)
+        public async Task<DetailDayReportViewModel> GetDetailDayReportByIdAsync(UserViewModel user, int id)
         {
             IQueryable<DayReport> query = repo.AllReadonly<DayReport>()
                 .Where(d => d.Id == id);
-            if (userViewModel.Roles.Contains(Admin) == false && userViewModel.Roles.Contains(LogisticsManager) == false)
+            if (user.Roles.Contains(Admin) == false && user.Roles.Contains(LogisticsManager) == false)
             {
-                query = query.Where(d => d.IdentityUserId == userViewModel.Id);
+                query = query.Where(d => d.IdentityUserId == user.Id);
+            }
+            var result = await query.Select(d => new DetailDayReportViewModel()
+            {
+                Id = d.Id,
+                ReportedDate = d.Date,
+                EmployeeName = $"{d.IdentityUser.Name} {d.IdentityUser.LastName}",
+                TotalAmount = d.TotalAmount,
+                TotalIncome = d.TotalIncome,
+                TotalCash = d.TotalCash,
+                DeliveriesCount = d.Deliveries.Count,
+                PaymentsCount = d.Invoices.Count,
+                Deliveries = d.Deliveries
+                    .Select(dl => new DeliveryViewModel()
+                    {
+                        Id = dl.Id,
+                        EmployeeName = $"{dl.Employee.Name} {dl.Employee.LastName}",
+                        CompanyObjectName = dl.DeliveryAddress.Name,
+                        CompanyObjectId = dl.DeliveryAddressId,
+                        Address = dl.DeliveryAddress.Address != null ? $"{dl.DeliveryAddress.Address.Town} {dl.DeliveryAddress.Address.StreetName} {dl.DeliveryAddress.Address.Number}" : null,
+                        TotalIncome = dl.Payments.Sum(i => i.Income),
+                        Payments = dl.Payments
+                            .Select(p => new PaymentViewModel()
+                            {
+                                Id = p.Id,
+                                CompanyName = $"{p.Invoice.Company.Name} {p.Invoice.Company.Type}",
+                                CompanyObjectName = p.Invoice.CompanyObject.Name,
+                                InvoiceNumber = p.Invoice.Number,
+                                Amount = p.Invoice.Amount,
+                                Weight = p.Invoice.Weight,
+                                Income = p.Income,
+                                PayMethod = p.PayMethod,
+                                IsBank = p.Invoice.CompanyObject.IsBankPay,
+                                IsCompleted = p.IsCompleted
+                            })
+                    })
+
+            }).FirstOrDefaultAsync() ?? throw new ArgumentNullException(NotFound(nameof(DayReport)));
+
+            foreach (var delivery in result.Deliveries)
+            {
+                delivery.CalculateTotals();
+            }
+
+            return result;
+        }
+
+        public async Task<DayReportViewModel> GetByIdAsync(UserViewModel user, int id)
+        {
+            IQueryable<DayReport> query = repo.AllReadonly<DayReport>()
+                .Where(d => d.Id == id);
+            if (user.Roles.Contains(Admin) == false && user.Roles.Contains(LogisticsManager) == false)
+            {
+                query = query.Where(d => d.IdentityUserId == user.Id);
             }
 
             var dayReport = await query
@@ -273,6 +335,7 @@ namespace DelitaTrade.Core.Services
                 IsPaid = i.Invoice.IsPaid,
                 Weight = i.Invoice.Weight
             }).ToList();
+
             newDayReport.Invoices = invoices;
             return newDayReport;
         }

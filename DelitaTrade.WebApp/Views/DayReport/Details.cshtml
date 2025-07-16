@@ -1,13 +1,14 @@
-﻿@using DelitaTrade.Common.Extensions
-@using DelitaTrade.Core.ViewModels
+﻿@using DelitaTrade.Common.Extensions;
+@using DelitaTrade.Core.Comparers;
+@using DelitaTrade.Core.ViewModels.DayReportModels;
 @using DelitaTrade.Common.Enums;
 @using static DelitaTrade.Common.Constants.FormatConstant.DateTimeFormat;
+@using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
 
-@model DayReportViewModel
+@model DetailDayReportViewModel
 @{
-    ViewData["Title"] = $"Daily Report for {Model.FormattedDate}";
+    ViewData["Title"] = $"Daily Report for {Model.ReportedDate.ToString(AppDateFormat)}";
     ViewData["CashDifference"] = (Model.TotalIncome - Model.TotalCash).ToString("C");
-    var companyObjects = Model.Invoices.GroupBy(i => i.CompanyObject.Id).ToList();    
 }
 
 <head>
@@ -20,9 +21,12 @@
 <div class="delita-shadow">
     <main>
         <div class="details-display light-gray-80">
+            <div class="action">
+                <a asp-action="Index" class="btn btn-primary d-flex justify-content-center align-items-center flex-fill mx-1 back-button">Back</a>
+            </div>
             <div class="light-gray-80 protocol-detail">
-                <h2>Date of report: <strong>@Model.FormattedDate</strong>г.</h2>
-                <h4>Employee: <strong>@Model.User.Name</strong></h4>
+                <h2>Date of report: <strong>@Model.ReportedDate.ToString(AppDateFormat)</strong>г.</h2>
+                <h4>Employee: <strong>@Model.EmployeeName</strong></h4>
                 <div class="protocol-authors">
                     <div>
                         <p>Total amount: <strong>@Model.TotalAmount</strong></p>
@@ -31,41 +35,67 @@
                         <p>Cash difference: <strong>@ViewData["CashDifference"]</strong></p>
                     </div>
                     <div>
-                        <p>Objects count: <strong>@companyObjects.Count(o => o.Any(i => i.PayMethod != PayMethod.Expense))</strong></p>
-                        <p>Invoice count: <strong>@Model.Invoices.Count</strong></p>
+                        <p>Objects count: <strong>@Model.DeliveriesCount</strong></p>
+                        <p>Invoice count: <strong>@Model.PaymentsCount</strong></p>
                     </div>
                 </div>
-            </div>        
+            </div>
+            @if (User.IsInRole(Admin))
+            {
+                <div class="action">
+                    <a asp-controller="DayReport" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger d-flex justify-content-center align-items-center flex-fill mx-1">
+                        <i class="fas fa-trash"></i> Delete
+                    </a>
+                </div>
+            }
         </div>
     </main>
 </div>
 <div class="products-list gray-70">
-    @if (companyObjects.Any())
+    @if (Model.Deliveries.Any())
     {
-        foreach(var companyObject in companyObjects)
-        {
-            decimal amount = companyObject.Sum(o => o.Amount);
-            IEnumerable<int> invoiceIds = companyObject.Select(o => o.IdInDayReport);
+        foreach(var delivery in Model.Deliveries)
+        {            
+            string isCompleted = delivery.Payments.All(p => p.IsCompleted) ? "pay-success" : "";
+            bool isHavePayments = delivery.Payments.Any();
+            decimal totalAmount = isHavePayments ? delivery.TotalAmount : 0;
+            decimal totalIncome = isHavePayments ? delivery.TotalIncome : 0;
+            string payMethod = isHavePayments ? delivery.Payments.First().PayMethod.Translate() : "N/A";
             <div class="day-report-list-container">
-                <a asp-controller="Invoice" asp-action="Details" asp-route-invoiceIds="@string.Join(',', invoiceIds)">
-                    <div class="light-gray-80 day-report-list-item">
-                        <p>@companyObject.First().CompanyObject.Name</p>
+                <a asp-controller="Delivery" asp-action="Details" asp-route-id="@delivery.Id">
+                    <div class="light-gray-80 day-report-list-item @isCompleted">
+                        <p class="font-size-delivery">@delivery.CompanyObjectName</p>
                         <div class="totals">
                             <div>
+                                <p class="font-size-delivery"><strong>@payMethod</strong></p>
+                            </div>
+                            <div>
+                                @if(delivery.TotalWeight > 0)
+                                {
+                                    <p>Weight:</p>
+                                    <p><strong>@delivery.TotalWeight.ToWeight()</strong></p>                                    
+                                }
+                            </div>
+                            <div>
                                 <p>income:</p>
-                                <p><strong>@companyObject.Sum(i => i.Income).ToLev()</strong></p>
-                                <p><strong>@companyObject.First().PayMethod.Translate()</strong></p>
+                                <p><strong>@totalIncome.ToLev()</strong></p>
+                                <p><strong>@totalIncome.LevToEuro()</strong></p>
                             </div>
                             <div>
                                 <p>Amount:</p>
-                                <p><strong>@amount.ToLev()</strong></p>
-                                <p><strong>@amount.ToEuro()</strong></p>
+                                <p><strong>@totalAmount.ToLev()</strong></p>
+                                <p><strong>@totalAmount.LevToEuro()</strong></p>
                             </div>
-                        </div>
+                        </div>                        
                     </div>
                 </a>
             </div>
         }
     }
-</div>
-    <a asp-action="Index" class="btn btn-primary">Back to Reports</a>
+    @if(User.IsInRole(Admin) || User.IsInRole(LogisticsManager))
+    {
+        <a asp-controller="Delivery" asp-action="Create" asp-route-dayReportId="@Model.Id" class="btn btn-warning btn-dark-text w-100 py-2 fw-bold rounded">
+            <i class="fas fa-save"></i> Add delivery
+        </a>
+    }
+</div>    

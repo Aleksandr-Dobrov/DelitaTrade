@@ -11,6 +11,7 @@ namespace DelitaTrade.Core.Contracts
         Task<IEnumerable<UserViewModel>> GetAllUsersWhitDayReports(UserViewModel user);
         Task<IEnumerable<UserViewModel>> GetAllDrivers(UserViewModel user);
         Task<DayReportViewModel> GetByIdAsync(UserViewModel user, int id);
+        Task<DetailDayReportViewModel> GetDetailDayReportByIdAsync(UserViewModel user, int id);
         Task<DayReportBanknotesViewModel> GetBanknotesReadonlyAsync(UserViewModel user, int id);
         Task<DayReportViewModel> CreateAsync(DayReportViewModel dayReport);
         Task UpdateAsync(DayReportViewModel dayReport);
