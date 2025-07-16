@@ -9,20 +9,20 @@ namespace DelitaTrade.Infrastructure.Data.Models
         [Key]
         public int Id { get; set; }
 
-        public int? DeliveryAddressId { get; set; }
+        public int DeliveryAddressId { get; set; }
         [ForeignKey(nameof(DeliveryAddressId))]
         [DeleteBehavior(DeleteBehavior.Restrict)]
-        public virtual CompanyObject? DeliveryAddress { get; set; }
+        public virtual required CompanyObject DeliveryAddress { get; set; }
         
         public int DayReportId { get; set; }
         [ForeignKey(nameof(DayReportId))]
         [DeleteBehavior(DeleteBehavior.Restrict)]
         public virtual required DayReport DayReport { get; set; }
 
-        public int VehicleId { get; set; }
+        public int? VehicleId { get; set; }
         [ForeignKey(nameof(VehicleId))]
         [DeleteBehavior(DeleteBehavior.Restrict)]
-        public virtual required Vehicle Vehicle { get; set; }
+        public virtual Vehicle? Vehicle { get; set; }
 
         public Guid EmployeeId { get; set; }
         [ForeignKey(nameof(EmployeeId))]

@@ -1,11 +1,6 @@
 ﻿using DelitaTrade.Common.Enums;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static DelitaTrade.Common.ValidationTypeConstants;
 
 namespace DelitaTrade.Infrastructure.Data.Models
@@ -17,6 +12,7 @@ namespace DelitaTrade.Infrastructure.Data.Models
         [Column(TypeName = Money)]
         public decimal Income { get; set; }
         public PayMethod PayMethod { get; set; }
+        public bool IsCompleted { get; set; }
         public int DayReportId { get; set; }
         [ForeignKey(nameof(DayReportId))]
         public required DayReport DayReport { get; set; }
