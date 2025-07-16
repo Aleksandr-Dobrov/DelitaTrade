@@ -5,8 +5,14 @@ namespace DelitaTrade.Core.Contracts
 {
     public interface IDeliveryService
     {
-        Task AddDeliveryAsync(DeliveryInputModel deliveryInput);
-        Task AddRangeDeliveryAsync(IEnumerable<DeliveryInputModel> invoices);
-        Task AddPaymentAsync(InvoiceViewModel invoice);
+        Task<DeliveryViewModel> AddDeliveryAsync(DeliveryInputModel deliveryInput, UserViewModel user);
+        Task AddRangeDeliveryAsync(IEnumerable<DeliveryInputModel> deliveries);
+        Task AddInvoiceAsync(UserViewModel user, InvoiceInputModel invoice, int deliveryId);
+        Task AddCreditNoteAsync(UserViewModel user, CreditNoteInputModel creditNote, int deliveryId);
+        Task<DeliveryViewModel?> GetByIdAsync(UserViewModel user, int deliveryId);
+        Task CompleteAllAsync(UserViewModel user, int deliveryId);
+        Task<bool> IsCompleteAsync(UserViewModel user, int deliveryId);
+        Task<int> GetDayReportIdAsync(int deliveryId);
+        Task DeleteAsync(UserViewModel user, int deliveryId);
     }
 }

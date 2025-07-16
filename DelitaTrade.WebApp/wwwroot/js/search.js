@@ -13,7 +13,9 @@ function getDataFromServer(e) {
 
     serverProvider.readObject('?data=' + inputElement.value, (result) => {
         const items = document.querySelector('#result-list');
-        clearHtmlElement(items);
+        const inputIdElement = document.querySelector('#item-id');
+        inputIdElement.value = '';
+        clearHtmlElement(items);        
         Object.values(result).forEach((data) => addProductToList(items, data))
     }, errorLog)
 

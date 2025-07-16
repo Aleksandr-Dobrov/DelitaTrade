@@ -1,0 +1,138 @@
+﻿@using DelitaTrade.Common.Extensions
+@using DelitaTrade.Core.ViewModels.DeliveryModels;
+@using DelitaTrade.Common.Enums;
+@using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
+
+@model DelitaTrade.Core.ViewModels.DeliveryModels.DeliveryViewModel;
+
+<head>
+    <link rel="stylesheet" href="~/css/ReturnProtocol/returnProtocol.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/ReturnProtocol/warehouseBackground.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+
+<div class="delita-shadow">
+    <main>
+        <div class="details-display light-gray-80">
+            <div class="action">
+                <a asp-controller="DayReport" asp-action="Details" asp-route-id="@Model.dayReportId" class="btn btn-primary d-flex justify-content-center align-items-center flex-fill mx-1 back-button">Back</a>
+            </div>
+            <div class="light-gray-80 protocol-detail">
+                <h4>Company object: <strong>@Model.CompanyObjectName</strong></h4>
+                <p>Address: <strong>@Model.Address</strong></p> 
+                <div class="protocol-authors">
+                    <div>
+                        <p>Total: <strong>@Model.TotalAmount.ToLev()</strong></p>
+                    </div>
+                    <div>
+                        @if(Model.TotalBank != 0)
+                        {
+                            <P>Bank: <srtong>@Model.TotalBank.ToLev()</srtong></P>
+                        }
+                        else
+                        {                            
+                            <p>Cash: <strong>@Model.TotalCash.ToLev()</strong></p>
+                        }
+                    </div>
+                    <div>
+                        @if(Model.TotalIncome > 0)
+                        {
+                            <p>Income: <strong>@Model.TotalIncome.ToLev()</strong></p>
+                        }
+                    </div>
+                </div>
+            </div>            
+            <div class="action">
+                @if(User.IsInRole(Admin) || User.IsInRole(LogisticsManager))
+                {                    
+                    <a asp-controller="Delivery" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger d-flex justify-content-center align-items-center flex-fill mx-1">
+                        <i class="fas fa-trash"></i> Delete
+                    </a>
+                }
+                @if (User.IsInRole(Driver) && Model.Payments.Any(p => p.IsCompleted == true) == false)
+                {
+                    <a asp-controller="Delivery" asp-action="Complete" asp-route-id="@Model.Id" class="btn btn-primary d-flex justify-content-center align-items-center flex-fill mx-1">
+                        <i class="fas fa-edit"></i> Complete all
+                    </a>
+                }
+            </div>
+        </div>
+    </main>
+
+    <div class="products-list gray-70">
+        @if (Model.Payments != null && Model.Payments.Any())
+        {            
+            <div class="products-header">                
+                <h2><strong>Invoices</strong></h2>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Object</th>
+                        <th>Number</th>
+                        <th>Amount</th>
+                        <th>Balance</th>
+                        <th>Income</th>
+                        @if (User.IsInRole(Driver))
+                        {
+                            <th></th>
+                            <th></th>
+                        }
+                    </tr>
+                </thead>
+                <tbody id="protocolsTableBody">
+
+                    @foreach (var payment in Model.Payments)
+                    {
+                        <tr class="light-gray-80">
+                            <td>@payment.CompanyName</td>
+                            <td>@payment.CompanyObjectName</td>
+                            <td>@payment.InvoiceNumber</td>
+                            <td>@payment.Amount.ToLev()</td>
+                            <td>@payment.Balance.ToLev()</td>
+                            @if(payment.PayMethod == PayMethod.Bank)
+                            {
+                                <td>@payment.PayMethod.Translate()</td>
+                            }
+                            else
+                            {
+                                <td><strong>@payment.PayMethod.Translate(): -></strong> @payment.Income.ToLev()</td>                                
+                            }
+                            @if (User.IsInRole(Driver) && payment.IsCompleted == false)
+                            {
+
+                                <td>
+                                    <a asp-controller="Invoice" asp-action="AdvancePay" asp-route-id="@payment.Id" class="btn btn-warning">
+                                        <i class="fas fa-edit"></i> Advance pay
+                                    </a>
+                                </td>
+                                <td>
+                                    <a asp-controller="Invoice" asp-action="Complete" asp-route-id="@payment.Id" asp-route-deliveryId="@Model.Id" class="btn btn-primary">
+                                        <i class="fas fa-edit"></i> Complete
+                                    </a>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        }
+        else
+        {
+            <p class="text-center">No invoices.</p>
+        }
+
+        @if (User.IsInRole(Admin) || User.IsInRole(LogisticsManager))
+        {
+            <a asp-controller="Delivery" asp-action="AddInvoice" asp-route-deliveryId="@Model.Id" class="btn btn-warning btn-dark-text w-100 py-2 fw-bold rounded margin-bottom">
+                <i class="fas fa-save"></i> Add invoice
+            </a>
+        }
+
+        <a asp-controller="Delivery" asp-action="AddCreditNote" asp-route-deliveryId="@Model.Id" class="btn btn-success btn-dark-text w-100 py-2 fw-bold rounded margin-bottom">
+            <i class="fas fa-edit"></i> Add credit note
+        </a>
+    </div>
+</div>

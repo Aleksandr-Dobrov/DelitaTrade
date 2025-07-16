@@ -162,7 +162,7 @@ namespace DelitaTrade.Components.ComponentsViewModel.DayReportComponentViewModel
             var service = scope.GetService<IInvoiceInDayReportService>();
             var res = await Task.Run(() =>
             {
-                return service.LoadNotPaidInvoice(number);
+                return service.LoadNotPaidInvoiceAsync(number);
             });
             NonPaidInvoiceLoaded?.Invoke(res);
             _currencyViewModel.InvoiceNumberViewModel.InvoiceNotPaid(number);

@@ -17,6 +17,7 @@ namespace DelitaTrade.Core.ViewModels
         public decimal Weight { get; set; }
         public PayMethod PayMethod { get; set; }
         public bool IsPaid { get; set; }
+        public bool IsCompleted { get; set; }
 
         public string Name => nameof(InvoiceInDayReport);
     }

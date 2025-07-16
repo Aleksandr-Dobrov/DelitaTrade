@@ -1,0 +1,20 @@
+﻿@using DelitaTrade.Core.ViewModels.DeliveryModels;
+
+@model DeliveryDeleteModel;
+
+@{
+    ViewData["Title"] = "Delete delivery";
+}
+
+<div>
+    <h2><strong>@ViewData["Title"]</strong></h2>
+    <form asp-controller="Delivery" asp-action="Delete" method="post">
+        <input asp-for="@Model.DayReportId" type="hidden" value="@Model.DayReportId" />
+        <input asp-for="@Model.Id" type="hidden" value="@Model.Id" />
+        <div class="alert alert-danger">
+            <p>Are you sure you want to delete the <strong>Delivery</strong> of <strong>@Model.EmployeeName</strong> for <strong>@Model.DeliveryAddress</strong> with invoices: <strong>@string.Join(", ", Model.Payments)</strong> ?</p>
+        </div>
+        <a asp-controller="Delivery" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+</div>

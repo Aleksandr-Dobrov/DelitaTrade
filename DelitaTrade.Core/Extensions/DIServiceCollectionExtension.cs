@@ -50,7 +50,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 .AddScoped<IDayReportService, DayReportService>()
                 .AddScoped<IInvoicePaymentService, InvoicePaymentService>()
                 .AddScoped<IBanknotesService, BanknotesService>()
-                .AddScoped<IDescriptionCategoryService, DescriptionCategoryService>();
+                .AddScoped<IDescriptionCategoryService, DescriptionCategoryService>()
+                .AddScoped<IDeliveryService, DeliveryService>();
 
             return services;
         }

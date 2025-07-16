@@ -3,14 +3,16 @@ using DelitaTrade.Core.ViewModels;
 using DelitaTrade.Infrastructure.Common;
 using DelitaTrade.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using static DelitaTrade.Common.ExceptionMessages;
 using DelitaTrade.Common.Enums;
 using DelitaTrade.Core.Extensions;
 using System.Linq.Expressions;
+using DelitaTrade.Core.ViewModels.InvoiceModels;
+using static DelitaTrade.Common.ExceptionMessages;
+using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
 
 namespace DelitaTrade.Core.Services
 {
-    public class InvoiceInDayReportService(IRepository repo) : IInvoiceInDayReportService
+    public class InvoiceInDayReportService(IRepository repo) : BaseService, IInvoiceInDayReportService
     {
         public async Task<IEnumerable<InvoiceViewModel>> AllInDayReportAsync(int dayReportId)
         {
@@ -33,7 +35,7 @@ namespace DelitaTrade.Core.Services
                 .ToArrayAsync();
         }
 
-        public async Task<IEnumerable<InvoiceViewModel>> GetById(IEnumerable<int> ids)
+        public async Task<IEnumerable<InvoiceViewModel>> GetByIdAsync(IEnumerable<int> ids)
         {
             return await repo.AllReadonly<InvoiceInDayReport>()
                 .Where(i => ids.Contains(i.Id))
@@ -44,7 +46,23 @@ namespace DelitaTrade.Core.Services
                 .ToArrayAsync();
         }
 
-        public async Task<InvoiceViewModel> LoadNotPaidInvoice(string number)
+        public async Task<InvoiceInDayReportAdvanceViewModel?> GetAdvanceByIdAsync(int id)
+        {
+            return await repo.AllReadonly<InvoiceInDayReport>()
+                .Where(i => i.Id == id)
+                .Select(i => new InvoiceInDayReportAdvanceViewModel()
+                {
+                    Id = i.Id,
+                    DayReportId = i.DayReportId,
+                    DeliveryId = i.DayReport.Deliveries.First(i => i.Payments.Any(i => i.Id == id)).Id,
+                    InvoiceNumber = i.Invoice.Number,
+                    Amount = i.Invoice.Amount,
+                    Paid = i.Invoice.InvoicesInDayReports.Sum(i => i.Income),
+                    Balance = i.Invoice.Amount - i.Invoice.InvoicesInDayReports.Sum(i => i.Income)
+                }).FirstOrDefaultAsync();
+        }
+
+        public async Task<InvoiceViewModel> LoadNotPaidInvoiceAsync(string number)
         {
             Invoice baseInvoice = await repo.AllReadonly<Invoice>()
                 .Include(i => i.CompanyObject)
@@ -62,11 +80,12 @@ namespace DelitaTrade.Core.Services
         }
 
         /// <summary>
-        /// Create new Invoice if it not exists in storage and create new InvoiceInDayReport in day report.
+        /// Create new Invoice if it not exists in storage and add it to day report.
         /// </summary>
         /// <param name="newInvoice">DayReport is required to create invoice</param>
         /// <returns>Return view model with Id of created invoice in DayReport</returns>
         /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
         public async Task<InvoiceViewModel> CreateAsync(InvoiceViewModel newInvoice)
         {
             if (newInvoice.IdInDayReport != 0) throw new InvalidOperationException(InvalidEntry(newInvoice));
@@ -123,6 +142,38 @@ namespace DelitaTrade.Core.Services
             return newInvoice;
         }
 
+        public async Task UpdateAsync(InvoiceViewModel invoice)
+        {
+            if (invoice.DayReport == null) throw new ArgumentNullException(NotFound(nameof(DayReport)));
+
+            var invoiceToUpdate = await repo.All<InvoiceInDayReport>()
+                .Include(i => i.Invoice)
+                .ThenInclude(i => i.CompanyObject)
+                .ThenInclude(i => i.Company)
+                .Where(i => i.Id == invoice.IdInDayReport)
+                .FirstOrDefaultAsync()
+                ?? throw new ArgumentNullException(NotFound(nameof(InvoiceInDayReport)));
+
+            var dayReport = await repo.All<DayReport>()
+                .Include(d => d.Invoices)
+                .ThenInclude(i => i.Invoice)
+                .FirstOrDefaultAsync(d => d.Id == invoice.DayReport.Id) ?? throw new ArgumentNullException(NotFound(nameof(DayReport)));
+
+            dayReport.RemoveInvoiceFromTotals(invoiceToUpdate);
+            dayReport.Invoices.Remove(invoiceToUpdate);
+
+            invoiceToUpdate.Update(invoice);
+
+            dayReport.AddInvoiceToTotals(invoiceToUpdate);
+            dayReport.Invoices.Add(invoiceToUpdate);
+
+            await repo.SaveChangesAsync();
+
+            SetIsPaid(await repo.All<Invoice>().Include(i => i.InvoicesInDayReports).FirstAsync(i => i.Number == invoice.Number));
+
+            await repo.SaveChangesAsync();
+        }
+
         public async Task DeleteAsync(InvoiceViewModel invoice)
         {
             if (invoice.DayReport == null) throw new ArgumentNullException(NotFound(nameof(DayReport)));
@@ -171,39 +222,169 @@ namespace DelitaTrade.Core.Services
                 .ToArrayAsync();
         }
 
-        public async Task UpdateAsync(InvoiceViewModel invoice)
+        /// <summary>
+        /// Provide payment to data base. If the invoice was partially paid, adds a new payment to current delivery.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="payment"></param>
+        /// <param name="deliveryId"></param>
+        /// <returns></returns>
+        /// <exception cref="UnauthorizedAccessException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
+        public async Task AdvancePayAsync(UserViewModel user, InvoiceInDayReportAdvanceInputModel payment, int deliveryId)
         {
-            if (invoice.DayReport == null) throw new ArgumentNullException(NotFound(nameof(DayReport)));
+            if (IsAtLeastInOneRole(user, Driver) == false)
+            {
+                throw new UnauthorizedAccessException(nameof(DelitaUser));
+            }
 
-            var invoiceToUpdate = await repo.All<InvoiceInDayReport>()
-                .Include(i => i.Invoice)
-                .ThenInclude(i => i.CompanyObject)
-                .ThenInclude(i => i.Company)
-                .Where(i => i.Id == invoice.IdInDayReport)
-                .FirstOrDefaultAsync()
-                ?? throw new ArgumentNullException(NotFound(nameof(InvoiceInDayReport)));
+            var invoiceToUpdate = await repo.AllReadonly<InvoiceInDayReport>()
+                        .Where(i => i.Id == payment.Id
+                                  && i.Invoice.Number == payment.InvoiceNumber
+                                  && i.DayReport.IdentityUserId == user.Id
+                                  && i.DayReport.Deliveries.Any(d => d.Id == deliveryId))
+                        .Select(MapToInputModel())
+                        .FirstOrDefaultAsync() ?? throw new ArgumentNullException(nameof(InvoiceInDayReport));
 
-            var dayReport = await repo.All<DayReport>()
-                .Include(d => d.Invoices)
-                .ThenInclude(i => i.Invoice)
-                .FirstOrDefaultAsync(d => d.Id == invoice.DayReport.Id) ?? throw new ArgumentNullException(NotFound(nameof(DayReport)));
+            decimal balance = invoiceToUpdate.Amount - await repo.AllReadonly<InvoiceInDayReport>()
+                    .Where(i => i.Invoice.Number == payment.InvoiceNumber)
+                    .SumAsync(i => i.Income);
 
-            dayReport.RemoveInvoiceFromTotals(invoiceToUpdate);
-            dayReport.Invoices.Remove(invoiceToUpdate);
+            if (payment.Income > balance)
+            {
+                throw new InvalidOperationException("Income can not be greater than balance");
+            }
+            if (balance < invoiceToUpdate.Amount && payment.Reason == InvoiceAdvancePayMethods.Cancelation)
+            {
+                throw new InvalidOperationException("Invoice with payments cannot be canceled");
+            }
 
-            invoiceToUpdate.Update(invoice);
+            invoiceToUpdate.SetAdvancePayment(payment);
 
-            dayReport.AddInvoiceToTotals(invoiceToUpdate);
-            dayReport.Invoices.Add(invoiceToUpdate);
+            await UpdateAsync(invoiceToUpdate);
 
-            await repo.SaveChangesAsync();
-            
-            SetIsPaid(await repo.All<Invoice>().Include(i => i.InvoicesInDayReports).FirstAsync(i => i.Number == invoice.Number));            
+            if (payment.Reason == InvoiceAdvancePayMethods.Partial && balance > payment.Income)
+            {
+                var invoiceNextPart = new InvoiceViewModel()
+                {
+                    Company = invoiceToUpdate.Company,
+                    CompanyObject = invoiceToUpdate.CompanyObject,
+                    DayReport = new DayReportViewModel()
+                    {
+                        Id = payment.DayReportId,
+                        Date = DateTime.Now,
+                        User = new UserViewModel()
+                        {
+                            Id = user.Id,
+                            Name = user.Name,
+                        }
+                    },
+                    Number = invoiceToUpdate.Number,
+                    Amount = invoiceToUpdate.Amount,
+                    Weight = invoiceToUpdate.Weight,
+                    PayMethod = PayMethod.Cash
+                };
 
-            await repo.SaveChangesAsync();
+                var delivery = await repo.GetByIdAsync<Delivery>(deliveryId) ?? throw new ArgumentNullException(NotFound(nameof(Delivery)));
+
+                var newInvoice = await CreateAsync(invoiceNextPart);
+
+                var newInvoiceInDayReport = await repo.GetByIdAsync<InvoiceInDayReport>(newInvoice.IdInDayReport) ?? throw new ArgumentNullException(NotFound(nameof(InvoiceInDayReport)));
+
+                delivery.Payments.Add(newInvoiceInDayReport);
+                await repo.SaveChangesAsync();
+            }
         }
 
-        private InvoiceViewModel MapToViewModel(Invoice i)
+        public async Task CompleteAsync(UserViewModel user, PaymentCompleteInputModel payment)
+        {
+            if (IsAtLeastInOneRole(user, Driver) == false)
+            {
+                throw new UnauthorizedAccessException(nameof(DelitaUser));
+            }
+            if (payment.PaymentType != PayMethod.Cash 
+                && payment.PaymentType != PayMethod.Card 
+                && payment.PaymentType != PayMethod.Bank) 
+            {
+                throw new InvalidOperationException("Incorrect payment type");
+            }
+
+            var invoiceToComplete = await repo.AllReadonly<InvoiceInDayReport>()
+                        .Where(i => i.Id == payment.Id
+                                  && i.DayReport.IdentityUserId == user.Id
+                                  && i.DayReport.Deliveries.Any(d => d.Id == payment.DeliveryId))
+                        .Select(MapToInputModel())
+                        .FirstOrDefaultAsync() ?? throw new ArgumentNullException(nameof(InvoiceInDayReport));
+
+            
+
+            invoiceToComplete.PayMethod = payment.PaymentType;
+            if (payment.PaymentType == PayMethod.Cash || payment.PaymentType == PayMethod.Card)
+            {
+                decimal balance = invoiceToComplete.Amount - await repo.AllReadonly<InvoiceInDayReport>()
+                    .Where(i => i.Invoice.Number == invoiceToComplete.Number)
+                    .SumAsync(i => i.Income);
+
+                invoiceToComplete.Income = balance;
+            }
+            invoiceToComplete.IsCompleted = true;
+            await UpdateAsync(invoiceToComplete);
+        }
+
+        public async Task<bool> IsBankPayAsync(int id)
+        {
+            return await repo.AllReadonly<InvoiceInDayReport>()
+                .Where (i => i.Id == id)
+                .Select(i => i.PayMethod == PayMethod.Bank)
+                .FirstOrDefaultAsync();
+        }
+
+        private static Expression<Func<InvoiceInDayReport, InvoiceViewModel>> MapToInputModel()
+        {            
+            return i => new InvoiceViewModel()
+            {
+                Id = i.Invoice.Id,
+                IdInDayReport = i.Id,
+                Company = new CompanyViewModel()
+                {
+                    Id = i.Invoice.Company.Id,
+                    Name = i.Invoice.Company.Name,
+                    Type = i.Invoice.Company.Type,
+                },
+                CompanyObject = new CompanyObjectViewModel()
+                {
+                    Id = i.Invoice.CompanyObject.Id,
+                    Name = i.Invoice.CompanyObject.Name,
+                    Company = new CompanyViewModel()
+                    {
+                        Id = i.Invoice.Company.Id,
+                        Name = i.Invoice.Company.Name,
+                        Type = i.Invoice.Company.Type,
+                    },
+                    IsBankPay = i.Invoice.CompanyObject.IsBankPay
+                },
+                DayReport = new DayReportViewModel() 
+                {
+                    Id = i.DayReportId,
+                    Date = i.DayReport.Date,
+                    User = new UserViewModel() 
+                    {
+                        Id = i.DayReport.IdentityUserId,
+                        Name = string.Empty
+                    }
+                },
+                Number = i.Invoice.Number,
+                Amount = i.Invoice.Amount,
+                PayMethod = i.PayMethod,
+                Income = i.Income,
+                Weight = i.Invoice.Weight,
+                IsCompleted = i.IsCompleted,
+                IsPaid = i.Invoice.IsPaid
+            };
+        }
+
+        private static InvoiceViewModel MapToViewModel(Invoice i)
         {
             var newCompany = new CompanyViewModel()
             {

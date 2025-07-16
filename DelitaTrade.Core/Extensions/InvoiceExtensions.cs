@@ -1,5 +1,6 @@
 ﻿using DelitaTrade.Common.Enums;
 using DelitaTrade.Core.ViewModels;
+using DelitaTrade.Core.ViewModels.InvoiceModels;
 using DelitaTrade.Infrastructure.Data.Models;
 
 namespace DelitaTrade.Core.Extensions
@@ -14,6 +15,7 @@ namespace DelitaTrade.Core.Extensions
             if (invoiceToUpdate.Invoice.CompanyObjectId != invoice.CompanyObject.Id) invoiceToUpdate.Invoice.CompanyObjectId = invoice.CompanyObject.Id;
             if (invoiceToUpdate.Income != invoice.Income) invoiceToUpdate.Income = invoice.Income;
             if (invoiceToUpdate.PayMethod != invoice.PayMethod) invoiceToUpdate.PayMethod = invoice.PayMethod;
+            if (invoiceToUpdate.IsCompleted != invoice.IsCompleted) invoiceToUpdate.IsCompleted = invoice.IsCompleted;
         }
 
         public static bool IsBeUnpaid(this InvoiceViewModel invoice) 
@@ -77,6 +79,35 @@ namespace DelitaTrade.Core.Extensions
                 return true;
             }
             return false;
+        }
+
+        public static void SetAdvancePayment(this InvoiceViewModel invoice, InvoiceInDayReportAdvanceInputModel payment)
+        {
+            if (payment.Reason == InvoiceAdvancePayMethods.Cancelation)
+            {
+                invoice.PayMethod = PayMethod.Cancellation;
+                invoice.Income = 0;
+            }
+            else if (payment.Reason == InvoiceAdvancePayMethods.NotPay)
+            {
+                invoice.PayMethod = PayMethod.Cash;
+                invoice.Income = 0;
+            }
+            else if (payment.Reason == InvoiceAdvancePayMethods.ForCreditNote || payment.Reason == InvoiceAdvancePayMethods.Partial)
+            {
+                if (payment.PaymentType == PaymentType.Cash)
+                {
+                    invoice.PayMethod = PayMethod.Cash;
+                }
+                else if (payment.PaymentType == PaymentType.Card)
+                {
+                    invoice.PayMethod = PayMethod.Card;
+                }
+
+                invoice.Income = payment.Income;
+            }
+
+            invoice.IsCompleted = true;
         }
     }
 }

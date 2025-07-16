@@ -47,6 +47,7 @@ namespace DelitaTrade.WebApp.Controllers
             {
                 p.Id,
                 p.Name,
+                CompanyId = p.Company.Id,
                 CompanyName = $"{p.Company.Name} {p.Company.Type}",
                 p.IsBankPay,
                 TraderId = p.Trader?.Id,

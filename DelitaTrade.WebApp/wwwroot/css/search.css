@@ -28,6 +28,7 @@
     width: 100%;
     min-width: 400px;
     padding: 0rem 1.5rem;
+    border-radius: 0.5rem;
 }
 
 #search :hover {

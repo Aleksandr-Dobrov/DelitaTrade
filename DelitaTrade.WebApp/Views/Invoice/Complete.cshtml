@@ -1,0 +1,50 @@
+﻿@using DelitaTrade.Core.ViewModels.InvoiceModels;
+
+@model DelitaTrade.Core.ViewModels.InvoiceModels.PaymentCompleteInputModel;
+
+@{
+    ViewData["Title"] = "Complete?";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Invoice/AdvancePayStyles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+
+<div class="row">
+    <div class="main-box light-gray-80 delita-shadow main-container">
+        <div class="advance-row">
+            <h2><strong>@ViewData["Title"]</strong></h2>
+        </div>
+        <form asp-controller="Invoice" asp-action="Complete" method="post">
+            <input asp-for="@Model.DeliveryId" type="hidden" value="@Model.DeliveryId" />
+
+            <div class="advance-row">                
+                <div class="mb-2">
+                    <label asp-for="@Model.PaymentTypeId" class="form-label-add-edit">Payment type</label>
+                    <select asp-for="@Model.PaymentTypeId" id="trader-input" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.PaymentTypes, "Id", "Name"))">
+                        <option value="">...</option>
+                    </select>
+                    <span asp-validation-for="@Model.PaymentTypeId" class="text-danger"></span>
+                </div>
+                
+            </div>
+            <div class="mb-2 advance-row">
+                <div>
+                    <a asp-controller="Delivery" asp-action="Details" asp-route-id="@Model.DeliveryId" class="btn btn-primary btn-dark-text w-100 py-2 fw-bold rounded">
+                        <i class="fas fa-edit"></i> Cancel
+                    </a>
+                </div>
+                <div>
+                    <button class="btn btn-warning btn-dark-text w-100 py-2 fw-bold rounded" type="submit">
+                        <i class="fas fa-save"></i> Complete
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,55 @@
+﻿@using DelitaTrade.Core.ViewModels.DeliveryModels;
+@using DelitaTrade.Common.Enums;
+@using DelitaTrade.Common.Extensions;
+
+@model DelitaTrade.Core.ViewModels.DeliveryModels.DeliveryInputModel;
+
+@{
+    ViewData["Title"] = "Create delivery";
+    ViewData["CompanyObjectSearchUrl"] = Url.Action("CompanyObjects", "Search", null, Url.ActionContext.HttpContext.Request.Scheme);
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Invoice/AdvancePayStyles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/search.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6 main-box delita-shadow light-gray-80 main-container">
+        <form asp-controller="Delivery" asp-action="Create" method="post">
+            <input asp-for="@Model.DayReportId" type="hidden" value="@Model.DayReportId" />
+            <div>
+                <div id="search" class="col-sm-6 mb-2">
+                    <input asp-for="@Model.DeliveryAddressName" class="form-label-add-edit" type="text" id="item-value" autocomplete="off" placeholder="Search object..." value="@Model.DeliveryAddressName" />
+                    <input asp-for="@Model.DeliveryAddressId" type="hidden" id="item-id" value="@Model.DeliveryAddressId" />
+                    <span asp-validation-for="@Model.DeliveryAddressName" class="text-danger"></span>
+                    <ul id="result-list" class="search-list">
+                    </ul>
+                </div>
+            </div>      
+            <div class="mb-2 advance-row">
+                <div>
+                    <a asp-controller="DayReport" asp-action="Details" asp-route-id="@Model.DayReportId" class="btn btn-primary btn-dark-text w-100 py-2 fw-bold rounded">Back</a>
+                </div>
+                <div>
+                    <button class="btn btn-warning btn-dark-text w-100 py-2 fw-bold rounded" type="submit">
+                        <i class="fas fa-save"></i> Add
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="~/js/ServerProvider.js"></script>
+<script src="~/js/HtmlUtil.js"></script>
+<script>
+    const searchUrl = '@ViewData["CompanyObjectSearchUrl"]';   
+</script>
+<script src="~/js/DeliverySearch/CreateDeliveryCompanyObjectSearch.js"></script>
+<script src="~/js/search.js"></script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
