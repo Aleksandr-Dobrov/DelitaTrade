@@ -176,7 +176,9 @@ namespace DelitaTrade.Core.Services
                 .Where(d => d.Id == deliveryId                         
                          && d.EmployeeId == user.Id)
                 .Select(d => d.Payments
-                    .Where(i => i.IsCompleted == false)
+                    .Where(i => i.IsCompleted == false
+                            && (i.PayMethod == PayMethod.Bank
+                            || i.PayMethod == PayMethod.Cash))
                     .Select(i => new InvoiceViewModel()
                     {
                         Id = i.Invoice.Id,
