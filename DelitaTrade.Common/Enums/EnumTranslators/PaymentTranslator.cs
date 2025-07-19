@@ -8,11 +8,13 @@
             {
                 [PaymentType.Cash] = "Cash",
                 [PaymentType.Card] = "Card",
+                [PaymentType.Bank] = "Bank",
             },
             [DelitaLanguage.Bulgarian] = new()
             {
                 [PaymentType.Cash] = "В брой",
                 [PaymentType.Card] = "С карта",
+                [PaymentType.Bank] = "Банка",
             }
         };
         public static readonly Dictionary<DelitaLanguage, Dictionary<string, PaymentType>> CreditNoteMethodsToEnum = new()
@@ -21,11 +23,13 @@
             {
                 ["Cash"] = PaymentType.Cash,
                 ["Card"] = PaymentType.Card,
+                ["Bank"] = PaymentType.Bank,
             },
             [DelitaLanguage.Bulgarian] = new()
             {
                 ["В брой"] = PaymentType.Cash,
                 ["С карта"] = PaymentType.Card,
+                ["Банка"] = PaymentType.Bank,
             }
         };
 

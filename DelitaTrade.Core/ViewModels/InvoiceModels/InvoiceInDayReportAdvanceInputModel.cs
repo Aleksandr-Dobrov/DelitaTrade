@@ -30,6 +30,7 @@ namespace DelitaTrade.Core.ViewModels.InvoiceModels
         public IEnumerable<PaymentTypeViewModel> PaymentTypes { get; } =
         [
             new (){ PaymentType = PaymentType.Cash },
+            new (){ PaymentType = PaymentType.Bank },
             new (){ PaymentType = PaymentType.Card }
         ];
     }

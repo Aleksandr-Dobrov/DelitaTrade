@@ -3,6 +3,7 @@
     public enum PaymentType
     {
         Cash = 1,
-        Card = 2
+        Card = 2,
+        Bank = 3,
     }
 }
