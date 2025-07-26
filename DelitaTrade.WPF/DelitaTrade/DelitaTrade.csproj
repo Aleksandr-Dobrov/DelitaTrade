@@ -85,9 +85,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="DelitaTrade.Common\DelitaTrade.Common.csproj" />
-    <ProjectReference Include="DelitaTrade.Core\DelitaTrade.Core.csproj" />
-    <ProjectReference Include="DelitaTrade.WPFCore\DelitaTrade.WPFCore.csproj" />
+    <ProjectReference Include="..\..\DelitaTrade.Common\DelitaTrade.Common.csproj" />
+    <ProjectReference Include="..\..\DelitaTrade.Core\DelitaTrade.Core.csproj" />
+    <ProjectReference Include="..\..\DelitaTrade.WPFCore\DelitaTrade.WPFCore.csproj" />    
   </ItemGroup>
 
 </Project>

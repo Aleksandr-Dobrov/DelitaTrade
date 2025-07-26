@@ -11,11 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelitaTrade.Core", "DelitaT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelitaTrade.Infrastructure", "DelitaTrade.Infrastructure\DelitaTrade.Infrastructure.csproj", "{F61104A7-E84A-4344-B07A-94CE197636CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelitaTrade", "DelitaTrade.csproj", "{ACC31C86-E1B8-E8B3-4158-F9C224E36081}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelitaTrade.WPFCore", "DelitaTrade.WPFCore\DelitaTrade.WPFCore.csproj", "{14E6D5F3-D1DA-0E0C-007D-8056228A7FE9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelitaTrade.WebApp", "DelitaTrade.WebApp\DelitaTrade.WebApp.csproj", "{4BCDA01B-ABD9-454F-9868-D0AC47EB1486}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelitaTrade", "DelitaTrade.WPF\DelitaTrade\DelitaTrade.csproj", "{E2E8BD83-66B2-E6DE-0554-2A9CA752515C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +39,10 @@ Global
 		{F61104A7-E84A-4344-B07A-94CE197636CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F61104A7-E84A-4344-B07A-94CE197636CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F61104A7-E84A-4344-B07A-94CE197636CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACC31C86-E1B8-E8B3-4158-F9C224E36081}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACC31C86-E1B8-E8B3-4158-F9C224E36081}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACC31C86-E1B8-E8B3-4158-F9C224E36081}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACC31C86-E1B8-E8B3-4158-F9C224E36081}.Release|Any CPU.Build.0 = Release|Any CPU
 		{14E6D5F3-D1DA-0E0C-007D-8056228A7FE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{14E6D5F3-D1DA-0E0C-007D-8056228A7FE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14E6D5F3-D1DA-0E0C-007D-8056228A7FE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -47,10 +51,6 @@ Global
 		{4BCDA01B-ABD9-454F-9868-D0AC47EB1486}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4BCDA01B-ABD9-454F-9868-D0AC47EB1486}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4BCDA01B-ABD9-454F-9868-D0AC47EB1486}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E2E8BD83-66B2-E6DE-0554-2A9CA752515C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E2E8BD83-66B2-E6DE-0554-2A9CA752515C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E2E8BD83-66B2-E6DE-0554-2A9CA752515C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E2E8BD83-66B2-E6DE-0554-2A9CA752515C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
