@@ -27,25 +27,25 @@ namespace DelitaTrade.WebApp
 
             var app = builder.Build();
 
-            using (var scope = app.Services.CreateScope())
-            {
-                //    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
-                //    string[] roles = { Admin, Driver, WarehouseManager };
-                //    foreach (var role in roles)
-                //    {
-                //        if (await roleManager.RoleExistsAsync(role) == false)
-                //        {
-                //            await roleManager.CreateAsync(new IdentityRole<Guid>(role));
-                //        }
-                //    }
+            //using (var scope = app.Services.CreateScope())
+            //{
+            //    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+            //    string[] roles = { Admin, Driver, WarehouseManager, LogisticsManager };
+            //    foreach (var role in roles)
+            //    {
+            //        if (await roleManager.RoleExistsAsync(role) == false)
+            //        {
+            //            await roleManager.CreateAsync(new IdentityRole<Guid>(role));
+            //        }
+            //    }
 
-                //var userManager = scope.ServiceProvider.GetRequiredService<UserManager<DelitaUser>>();
-                //var aleks = await userManager.FindByNameAsync("StanislavNikov");
-                //if (aleks != null && await userManager.IsInRoleAsync(aleks, Driver) == false)
-                //{
-                //    await userManager.AddToRoleAsync(aleks, Driver);
-                //}
-            }
+            //    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<DelitaUser>>();
+            //    var aleks = await userManager.FindByNameAsync("StanislavCanov");
+            //    if (aleks != null && await userManager.IsInRoleAsync(aleks, LogisticsManager) == false)
+            //    {
+            //        await userManager.AddToRoleAsync(aleks, LogisticsManager);
+            //    }
+            //}
             //    var admin = await userManager.FindByNameAsync("AdminDelita");
             //    if (admin != null && await userManager.IsInRoleAsync(admin, Admin) == false)
             //    {

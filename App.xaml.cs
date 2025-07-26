@@ -17,7 +17,7 @@ namespace DelitaTrade
             AppHost = Host.CreateDefaultBuilder()
                 .ConfigureAppConfiguration(c =>
                 {
-                    c.AddJsonFile("delitaAppSetings.json", true)
+                    c.AddJsonFile("delitaAppSettings.json", true)
                     .AddJsonFile("userRememberAccount.json", false)
                     .AddUserSecrets(Assembly.GetEntryAssembly() ?? throw new ArgumentNullException("Assembly not found"));                  
                 })

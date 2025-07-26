@@ -1,0 +1,12 @@
+{
+  "ReturnProtocolConstants": {
+    "version": "01",
+    "versionDate": "19.04.2024",
+    "docNumber": "13-03"
+  },
+
+  "ReturnProtocolBuilder": {
+    "builder": "ExcelStupidCardReturnProtocolBuilder",
+    "inputPath": "../../../Models/Exporters/"
+  }
+}
