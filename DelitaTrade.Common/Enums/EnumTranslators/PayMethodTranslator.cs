@@ -24,7 +24,7 @@
                 [PayMethod.ForCreditNote] = "За кредитно",
                 [PayMethod.Cancellation] = "За анулиране",
                 [PayMethod.CreditNote] = "Кредитно",
-                [PayMethod.OldPayCash] = "Стара сметка",
+                [PayMethod.OldPayCash] = "Стара в брой",
                 [PayMethod.OldPayCard] = "Стара с карта",
                 [PayMethod.Expense] = "Разход"
             }
@@ -51,7 +51,7 @@
                 ["За кредитно"] = PayMethod.ForCreditNote,
                 ["За анулиране"] = PayMethod.Cancellation,
                 ["Кредитно"] = PayMethod.CreditNote,
-                ["Стара сметка"] = PayMethod.OldPayCash,
+                ["Стара в брой"] = PayMethod.OldPayCash,
                 ["Стара с карта"] = PayMethod.OldPayCard,
                 ["Разход"] = PayMethod.Expense
             }
