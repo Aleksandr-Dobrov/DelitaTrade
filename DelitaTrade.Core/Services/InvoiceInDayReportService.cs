@@ -12,7 +12,7 @@ using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
 
 namespace DelitaTrade.Core.Services
 {
-    public class InvoiceInDayReportService(IRepository repo) : BaseService, IInvoiceInDayReportService
+    public class InvoiceInDayReportService(IRepository repo, ICompanyObjectService companyObjectService) : BaseService, IInvoiceInDayReportService
     {
         public async Task<IEnumerable<InvoiceViewModel>> AllInDayReportAsync(int dayReportId)
         {
@@ -298,7 +298,7 @@ namespace DelitaTrade.Core.Services
         }
 
         public async Task CompleteAsync(UserViewModel user, PaymentCompleteInputModel payment)
-        {
+         {
             if (IsAtLeastInOneRole(user, Driver) == false)
             {
                 throw new UnauthorizedAccessException(nameof(DelitaUser));
@@ -317,8 +317,18 @@ namespace DelitaTrade.Core.Services
                         .Select(MapToInputModel())
                         .FirstOrDefaultAsync() ?? throw new ArgumentNullException(nameof(InvoiceInDayReport));
 
+            if (invoiceToComplete.CompanyObject.IsBankPay == false && payment.PaymentType == PayMethod.Bank)
+            {
+                invoiceToComplete.CompanyObject.IsBankPay = true;
+                await companyObjectService.UpdateIsBankStatus(invoiceToComplete.CompanyObject);
+            }
+            else if (invoiceToComplete.CompanyObject.IsBankPay == true 
+                && (payment.PaymentType == PayMethod.Cash || payment.PaymentType == PayMethod.Card))
+            {
+                invoiceToComplete.CompanyObject.IsBankPay = false;
+                await companyObjectService.UpdateIsBankStatus (invoiceToComplete.CompanyObject);
+            }
             
-
             invoiceToComplete.PayMethod = payment.PaymentType;
             if (payment.PaymentType == PayMethod.Cash || payment.PaymentType == PayMethod.Card)
             {
