@@ -1,4 +1,5 @@
-﻿using DelitaTrade.Core.ViewModels;
+﻿using DelitaTrade.Core.Models.ImportModels;
+using DelitaTrade.Core.ViewModels;
 using DelitaTrade.Core.ViewModels.DayReportModels;
 using DelitaTrade.Infrastructure.Data.Models;
 
@@ -15,6 +16,7 @@ namespace DelitaTrade.Core.Contracts
         Task<DayReportBanknotesViewModel> GetBanknotesReadonlyAsync(UserViewModel user, int id);
         Task<DayReportViewModel> CreateAsync(DayReportViewModel dayReport);
         Task UpdateAsync(DayReportViewModel dayReport);
+        Task UpdateBanknotesAsync(UserViewModel user, DayReportBanknotesViewModel dayReportBanknotes);
         Task DeleteAsync(UserViewModel userViewModel, int id);
     }
 }
