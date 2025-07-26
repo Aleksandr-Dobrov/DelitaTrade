@@ -363,3 +363,5 @@ MigrationBackup/
 FodyWeavers.xsd
 /DayReportsDataBase/ExportFiles/ExportedDayReport.xlsx
 /DayReportsDataBase/ExportFiles/ReturnProtocol.xlsx
+/DelitaTrade.WPF/DelitaTrade/DayReportsDataBase/ExportFiles/ExportedDayReport.xlsx
+/DelitaTrade.WPF/DelitaTrade/DayReportsDataBase/ExportFiles/ReturnProtocol.xlsx
