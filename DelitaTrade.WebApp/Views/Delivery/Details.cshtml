@@ -141,12 +141,6 @@
 
         <a asp-controller="Delivery" asp-action="AddCreditNote" asp-route-deliveryId="@Model.Id" class="btn btn-success btn-dark-text w-100 py-2 fw-bold rounded margin-bottom">
             <i class="fas fa-edit"></i> Add credit note
-        </a>
-        @if (User.IsInRole(Driver))
-        {
-            <a asp-controller="Delivery" asp-action="AddExpense" asp-route-deliveryId="@Model.Id" class="btn btn-warning btn-dark-text w-100 py-2 fw-bold rounded margin-bottom">
-                <i class="fas fa-edit"></i> Add Expense
-            </a>
-        }   
+        </a>         
     </div>
 </div>

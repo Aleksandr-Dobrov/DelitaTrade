@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
+using static DelitaTrade.Common.Constants.CompanyConstants;
+using static DelitaTrade.Common.DelitaDbConstants;
 using static DelitaTrade.Common.ExceptionMessages;
 
 namespace DelitaTrade.Core.Services
@@ -162,6 +164,14 @@ namespace DelitaTrade.Core.Services
                     Banknotes = d.Banknotes,
                     TotalIncome = d.TotalIncome
                 }).FirstOrDefaultAsync() ?? throw new ArgumentNullException(NotFound(nameof(DayReport)));
+        }
+
+        public Task<int?> GetVehicleIdFromDayReportAsync(int dayReportId)
+        {
+            return repo.AllReadonly<DayReport>()
+                .Where(d => d.Id == dayReportId)
+                .Select(d => d.VehicleId)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<DetailDayReportViewModel> GetDetailDayReportByIdAsync(UserViewModel user, int id)

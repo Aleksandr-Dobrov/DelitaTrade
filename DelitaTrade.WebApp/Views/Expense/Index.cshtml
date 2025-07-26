@@ -1,0 +1,88 @@
+﻿@using DelitaTrade.Common.Extensions
+@using DelitaTrade.Core.ViewModels.DeliveryModels;
+@using DelitaTrade.Common.Enums;
+@using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
+@using static DelitaTrade.Common.Constants.FormatConstant.DateTimeFormat;
+
+@model DelitaTrade.Core.ViewModels.ExpenseModels.ExpenseViewModel;
+
+@{
+    ViewData["Title"] = $"{Model.ExpenseDate} expenses";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/ReturnProtocol/returnProtocol.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Delivery/DeliveryBackground.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+
+<div class="delita-shadow">
+    <main>
+        <div class="details-display light-gray-80">
+            <div class="action">
+                <a asp-controller="DayReport" asp-action="Details" asp-route-id="@Model.DayReportId" class="btn btn-primary d-flex justify-content-center align-items-center flex-fill mx-1 back-button">Back</a>
+            </div>
+            <div class="light-gray-80 protocol-detail">
+                <h4>Date: <strong>@Model.ExpenseDate</strong></h4>
+                <div class="protocol-authors">
+                    <div>
+                        <p>Total: <strong>@Model.TotalExpense.ToLev()</strong></p>
+                    </div>
+                    </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="products-list gray-70">
+        @if (Model.Payments != null && Model.Payments.Any())
+        {
+            <div class="products-header">
+                <h2><strong>Invoices</strong></h2>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Object</th>
+                        <th>Number</th>
+                        <th>Expense</th>
+                        <th></th>
+                        <th></th>                        
+                    </tr>
+                </thead>
+                <tbody id="protocolsTableBody">
+
+                    @foreach (var payment in Model.Payments)
+                    {
+                        <tr class="light-gray-80">
+                            <td>@payment.CompanyName</td>
+                            <td>@payment.CompanyObjectName</td>
+                            <td>@payment.InvoiceNumber</td>
+                            <td>@payment.Income.ToLev()</td>
+                            <td>
+                                <a asp-controller="Expense" asp-action="UpdateExpense" asp-route-expenseId="@payment.Id" class="btn btn-primary">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                            </td>
+                            <td>
+                                <a asp-controller="Expense" asp-action="DeleteExpense" asp-route-id="@payment.Id" asp-route-dayReportId="@Model.DayReportId" class="btn btn-danger">
+                                    <i class="fas fa-edit"></i> Delete
+                                </a>
+                            </td>
+                            
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        }
+        else
+        {
+            <p class="text-center">No expense.</p>
+        }
+
+        <a asp-controller="Expense" asp-action="AddExpense" asp-route-dayReportId="@Model.DayReportId" class="btn btn-success btn-dark-text w-100 py-2 fw-bold rounded margin-bottom">
+            <i class="fas fa-edit"></i> Add expense
+        </a>
+    </div>
+</div>

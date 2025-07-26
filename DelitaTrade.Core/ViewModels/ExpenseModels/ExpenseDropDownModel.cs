@@ -1,4 +1,4 @@
-﻿namespace DelitaTrade.Core.ViewModels.DeliveryModels
+﻿namespace DelitaTrade.Core.ViewModels.ExpenseModels
 {
     public class ExpenseDropDownModel
     {

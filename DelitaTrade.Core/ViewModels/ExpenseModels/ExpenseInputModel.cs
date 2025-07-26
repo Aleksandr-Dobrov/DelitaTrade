@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using static DelitaTrade.Common.ValidationConstants;
 
-namespace DelitaTrade.Core.ViewModels.DeliveryModels
+namespace DelitaTrade.Core.ViewModels.ExpenseModels
 {
     public class ExpenseInputModel
     {
-        public int DeliveryId { get; set; }
+        public int DayReportId { get; set; }
         public int VehicleId { get; set; }
         [MinLength(CompanyObjectNameMinLength)]
         [MaxLength(CompanyObjectNameMaxLength)]

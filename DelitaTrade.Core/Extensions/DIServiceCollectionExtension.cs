@@ -19,7 +19,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddApplicationDatabase(this IServiceCollection service, IConfiguration configuration, string connectionStringSection = "DelitaConnection")
         {
             service.AddDbContext<DelitaDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString(connectionStringSection) ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.")));
+                options.UseSqlServer(configuration.GetConnectionString(connectionStringSection) ?? throw new InvalidOperationException("Connection string 'DelitaConnection' not found.")));
 
             return service;
         }
@@ -51,7 +51,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 .AddScoped<IInvoicePaymentService, InvoicePaymentService>()
                 .AddScoped<IBanknotesService, BanknotesService>()
                 .AddScoped<IDescriptionCategoryService, DescriptionCategoryService>()
-                .AddScoped<IDeliveryService, DeliveryService>();
+                .AddScoped<IDeliveryService, DeliveryService>()
+                .AddScoped<IExpenseService, ExpenseService>();
 
             return services;
         }

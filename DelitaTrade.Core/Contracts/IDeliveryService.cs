@@ -10,9 +10,7 @@ namespace DelitaTrade.Core.Contracts
         Task ImportPaymentsToDayReportAsync(UserViewModel user, int dayReportId, DayReportJsonImportModel dayReportJson);
         Task AddInvoiceAsync(UserViewModel user, InvoiceInputModel invoice, int deliveryId);
         Task AddCreditNoteAsync(UserViewModel user, CreditNoteInputModel creditNote, int deliveryId);
-        Task AddExpenseAsync(UserViewModel user, ExpenseInputModel expense, int deliveryId);
         Task<DeliveryViewModel?> GetByIdAsync(UserViewModel user, int deliveryId);
-        Task<IEnumerable<ExpenseDropDownModel>> GetAllExpensesAsync(int vehicleId);
         Task<int?> GetVehicleIdFromDeliveryAsync(int deliveryId);
         Task CompleteAllAsync(UserViewModel user, int deliveryId);
         Task<bool> IsCompleteAsync(UserViewModel user, int deliveryId);

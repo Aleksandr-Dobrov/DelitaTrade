@@ -187,20 +187,20 @@ namespace DelitaTrade.Core.Services
                 .ThenInclude(i => i.Invoice)
                 .FirstOrDefaultAsync(d => d.Id == invoice.DayReport.Id) ?? throw new ArgumentNullException(NotFound(nameof(DayReport)));
            
-            Invoice? invoiceInDb = await repo.All<Invoice>()
+            var invoiceInDb = await repo.All<Invoice>()
                 .Include(i => i.InvoicesInDayReports)
                 .FirstOrDefaultAsync(i => i.Number == invoiceToDelete.Invoice.Number) ?? throw new InvalidOperationException(NotFound(nameof(Invoice)));
 
             repo.Remove(invoiceToDelete);
             invoiceInDb.InvoicesInDayReports.Remove(invoiceToDelete);
 
-            if (invoiceInDb?.InvoicesInDayReports.Count == 0)
+            if (invoiceInDb.InvoicesInDayReports.Count == 0)
             {
                 repo.Remove(invoiceInDb);
             }
             else
             {
-                SetIsPaid(invoiceInDb!);
+                SetIsPaid(invoiceInDb);
             }
             
             dayReport.RemoveInvoiceFromTotals(invoiceToDelete);

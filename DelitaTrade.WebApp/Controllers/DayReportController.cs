@@ -1,18 +1,24 @@
 ﻿using DelitaTrade.Core.Contracts;
+using DelitaTrade.Core.Models.ImportModels;
+using DelitaTrade.Core.ViewModels;
 using DelitaTrade.Core.ViewModels.DayReportModels;
+using DelitaTrade.Core.ViewModels.ExpenseModels;
 using DelitaTrade.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
-using DelitaTrade.Core.ViewModels;
-using DelitaTrade.Core.Models.ImportModels;
 using System.Text.Json;
+using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
 
 namespace DelitaTrade.WebApp.Controllers
 {
     [Authorize(Roles = $"{Driver},{Admin},{LogisticsManager},{Cashier},{Accountant}")]
-    public class DayReportController(IDayReportService dayReportService, IVehicleService vehicleService, IDeliveryService deliveryService, UserManager<DelitaUser> userManager) : BaseController(userManager)
+    public class DayReportController(IDayReportService dayReportService,
+            IVehicleService vehicleService,
+            IDeliveryService deliveryService, 
+            ICompanyObjectService companyObjectService,
+            IExpenseService expenseService,
+            UserManager<DelitaUser> userManager) : BaseController(userManager)
     {
         [HttpGet]
         public async Task<IActionResult> Index(SearchDayReportInputModel? model)

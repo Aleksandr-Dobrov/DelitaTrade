@@ -1,0 +1,61 @@
+﻿@using DelitaTrade.Core.ViewModels.ExpenseModels
+@using static DelitaTrade.Common.DelitaAppConstants;
+
+@model ExpenseUpdateModel;
+
+@{
+    ViewData["Title"] = "Edit Expense";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/DayReport/DayReportBackground.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Invoice/AdvancePayStyles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6 main-box light-gray-80 main-container">
+        <form asp-controller="Expense" asp-action="UpdateExpense" method="post">
+            <input asp-for="@Model.VehicleId" type="hidden" value="@Model.VehicleId" />
+            <input asp-for="@Model.DayReportId" type="hidden" value="@Model.DayReportId" />
+            <input asp-for="@Model.Id" type="hidden" value="@Model.Id" />
+            <input id="select-value" type="hidden" value="@Model.ExpenseId" />
+            <div>
+                <div class="mb-2">
+                    <label asp-for="@Model.Expense" class="form-label-add-edit">Expense</label>
+                    <input asp-for="@Model.Expense" class="form-control" type="text" aria-required="false" />
+                    <span asp-validation-for="@Model.Expense" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-sm-6 mb-2">
+                <label asp-for="@Model.ExpenseId" class="form-label-add-edit">Select expense</label>
+                <select asp-for="@Model.ExpenseId" id="expense-select" class="form-control" asp-items="@(new SelectList(Model.Expenses, "Id", "Name"))">
+                    <option value="">...</option>
+                </select>
+                <span asp-validation-for="@Model.ExpenseId" class="text-danger"></span>
+            </div>
+            <div>
+                <div class="mb-2">
+                    <label asp-for="@Model.ExpenseAmount" class="form-label-add-edit">Expense</label>
+                    <input asp-for="@Model.ExpenseAmount" class="form-control" type="number" aria-required="false" />
+                    <span asp-validation-for="@Model.ExpenseAmount" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="mb-2 advance-row">
+                <div>
+                    <a asp-controller="Expense" asp-action="Index" asp-route-dayReportId="@Model.DayReportId" class="btn btn-primary btn-dark-text w-100 py-2 fw-bold rounded">Back</a>
+                </div>
+                <div>
+                    <button class="btn btn-warning btn-dark-text w-100 py-2 fw-bold rounded" type="submit">
+                        <i class="fas fa-save"></i> Update
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+<script src="~/js/Expense/setSelectionExpense.js" asp-append-version="true"></script>

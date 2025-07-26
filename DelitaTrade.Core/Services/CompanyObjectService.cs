@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
+﻿using DelitaTrade.Common;
 using DelitaTrade.Core.Contracts;
 using DelitaTrade.Core.ViewModels;
+using DelitaTrade.Core.ViewModels.ExpenseModels;
 using DelitaTrade.Infrastructure.Common;
 using DelitaTrade.Infrastructure.Data.Models;
-using DelitaTrade.Common;
+using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace DelitaTrade.Core.Services
 {
@@ -116,6 +117,21 @@ namespace DelitaTrade.Core.Services
                 }
             };
             return detailedCompanyObjectViewModel;
+        }
+        public async Task<IEnumerable<ExpenseDropDownModel>> GetAllExpensesAsync(int vehicleId)
+        {
+            var licensePlate = await repo.AllReadonly<Vehicle>()
+                    .Where(v => v.Id == vehicleId)
+                    .Select(v => v.LicensePlate)
+                    .FirstOrDefaultAsync();
+
+            return await repo.AllReadonly<CompanyObject>()
+                    .Where(o => o.Company.Name == licensePlate)
+                    .Select(o => new ExpenseDropDownModel()
+                    {
+                        Id = o.Id,
+                        Name = o.Name
+                    }).ToArrayAsync();
         }
 
         public async Task<int> CreateAsync(CompanyObjectDeepViewModel companyObject)

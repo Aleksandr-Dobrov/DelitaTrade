@@ -83,6 +83,9 @@
                             <option value="">...</option>
                         </select>
                     </div>
+                    <a asp-controller="Expense" asp-action="Index" asp-route-dayReportId="@Model.Id" class="btn btn-warning btn-dark-text w-100 py-2 fw-bold rounded margin-bottom">
+                        <i class="fas fa-edit"></i> Expenses
+                    </a>                    
                 </div>
             }
         </div>
