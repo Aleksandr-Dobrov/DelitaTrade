@@ -7,7 +7,7 @@ using DelitaTrade.Common;
 
 namespace DelitaTrade.Core.Services
 {
-    public class ReturnProductService(IRepository repo) : IReturnProductService
+    public class ReturnProductService(IRepository repo, IDescriptionCategoryService descriptionCategoryService) : IReturnProductService
     {
         public async Task<int> AddProductAsync(ReturnedProductViewModel returnedProduct, int protocolId)
         {
@@ -59,7 +59,7 @@ namespace DelitaTrade.Core.Services
         }
 
 
-        public async Task<int> AddProductAsync(ReturnedProductViewModel returnedProduct, int protocolId, UserViewModel user)
+        public async Task<int> AddProductAsync(ReturnedProductInputModel returnedProduct, int protocolId, UserViewModel user)
         {
             
             if (await IsAuthorizedAsync(protocolId, user) == false)
@@ -67,7 +67,32 @@ namespace DelitaTrade.Core.Services
                 throw new UnauthorizedAccessException(ExceptionMessages.NotAuthenticate(user));
             }
 
-            return await AddProductAsync(returnedProduct, protocolId);
+            var newReturnedProduct = new ReturnedProductViewModel
+            {
+                Batch = returnedProduct.Batch,
+                BestBefore = returnedProduct.BestBefore,
+                Quantity = returnedProduct.Quantity,
+                Product = new ProductViewModel()
+                {
+                    Name = returnedProduct.ProductName,
+                    Unit = returnedProduct.Unit
+                },
+                DescriptionCategory = await descriptionCategoryService.GetByIdAsync(returnedProduct.DescriptionCategoryId),
+                Description = returnedProduct.DescriptionId != null
+                    ? new ReturnedProductDescriptionViewModel
+                    {
+                        Id = returnedProduct.DescriptionId.Value,
+                        Description = returnedProduct.Description ?? string.Empty
+                    }
+                    : returnedProduct.Description != null ?
+                    new ReturnedProductDescriptionViewModel
+                    {
+                        Description = returnedProduct.Description,
+                    }
+                    : null
+            };
+
+            return await AddProductAsync(newReturnedProduct, protocolId);
         }
 
         public async Task<IEnumerable<ReturnedProductViewModel>> GetAllProductsAsync(int protocolId)
@@ -166,7 +191,11 @@ namespace DelitaTrade.Core.Services
             if (returnedProduct.Description != null)
             {
                 var description = await repo.All<ReturnedProductDescription>()
-                    .FirstOrDefaultAsync(d => d.Description == returnedProduct.Description.Description);
+                    .FirstOrDefaultAsync(d => d.Description == returnedProduct.Description.Description) 
+                    ?? new ReturnedProductDescription 
+                    {
+                        Description = returnedProduct.Description.Description,
+                    };
                 productToUpdate.Description = description;
             }
             else

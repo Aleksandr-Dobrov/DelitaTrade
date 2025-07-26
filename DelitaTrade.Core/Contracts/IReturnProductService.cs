@@ -10,8 +10,7 @@ namespace DelitaTrade.Core.Contracts
     public interface IReturnProductService
     {
         Task<int> AddProductAsync(ReturnedProductViewModel returnedProduct, int protocolId);
-
-        Task<int> AddProductAsync(ReturnedProductViewModel returnedProduct, int protocolId, UserViewModel user);
+        Task<int> AddProductAsync(ReturnedProductInputModel returnProduct, int protocolId, UserViewModel user);
 
         Task<IEnumerable<ReturnedProductViewModel>> GetAllProductsAsync(int protocolId);
         Task<ReturnedProductViewModel?> GetProductByIdAsync(int Id, UserViewModel userViewModel);

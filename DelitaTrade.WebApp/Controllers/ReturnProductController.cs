@@ -40,28 +40,9 @@ namespace DelitaTrade.WebApp.Controllers
                 return View(model);
             }
 
-            var userViewModel = await GetUserViewModelAsync();
-            var returnedProduct = new ReturnedProductViewModel
-            {
-                Batch = model.Batch,
-                BestBefore = model.BestBefore,
-                Quantity = model.Quantity,
-                Product = new ProductViewModel()
-                {
-                    Name = model.ProductName,
-                    Unit = model.Unit
-                },
-                DescriptionCategory = await descriptionCategoryService.GetByIdAsync(model.DescriptionCategoryId),
-                Description = model.DescriptionId != null 
-                    ? new ReturnedProductDescriptionViewModel
-                    {
-                        Id = model.DescriptionId.Value,
-                        Description = model.Description ?? string.Empty
-                    } 
-                    : null
-            };
+            var userViewModel = await GetUserViewModelAsync();            
 
-            await returnProductService.AddProductAsync(returnedProduct, model.ReturnProtocolId, userViewModel);
+            await returnProductService.AddProductAsync(model, model.ReturnProtocolId, userViewModel);
 
             return RedirectToAction("Details", "ReturnProtocol", new { Id = model.ReturnProtocolId });
 
@@ -126,6 +107,11 @@ namespace DelitaTrade.WebApp.Controllers
                     {
                         Id = model.DescriptionId.Value,
                         Description = model.Description ?? string.Empty
+                    }
+                    : model.Description != null ? 
+                    new ReturnedProductDescriptionViewModel 
+                    {
+                        Description = model.Description,
                     }
                     : null;
 
