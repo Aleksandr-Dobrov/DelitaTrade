@@ -104,6 +104,56 @@ namespace DelitaTrade.Core.Services
             await repo.SaveChangesAsync();
         }
 
+        public async Task AddOldInvoiceAsync(UserViewModel user, OldInvoiceInputModel oldInvoice, int deliveryId)
+        {
+            if (IsAtLeastInOneRole(user, Admin, LogisticsManager, Driver) == false)
+            {
+                throw new UnauthorizedAccessException(nameof(DelitaUser));
+            }
+
+            var companyObject = await repo.GetByIdAsync<CompanyObject>(oldInvoice.CompanyObjectId) ?? throw new ArgumentNullException(NotFound(nameof(CompanyObject)));
+            var company = await repo.GetByIdAsync<Company>(companyObject.CompanyId) ?? throw new ArgumentNullException(NotFound(nameof(Company)));
+            var delivery = await repo.GetByIdAsync<Delivery>(deliveryId) ?? throw new ArgumentNullException(NotFound(nameof(Delivery)));
+            var dayReport = await repo.GetByIdAsync<DayReport>(delivery.DayReportId) ?? throw new ArgumentNullException(NotFound(nameof(DayReport)));
+
+            var companyViewModel = new CompanyViewModel()
+            {
+                Id = company.Id,
+                Name = company.Name
+            };
+
+            var newInvoice = new InvoiceViewModel()
+            {
+                Company = companyViewModel,
+                CompanyObject = new CompanyObjectViewModel()
+                {
+                    Id = companyObject.Id,
+                    Name = companyObject.Name,
+                    Company = companyViewModel
+                },
+                DayReport = new DayReportViewModel()
+                {
+                    Id = dayReport.Id,
+                    Date = dayReport.Date,
+                    User = new UserViewModel()
+                    {
+                        Id = dayReport.IdentityUserId,
+                        Name = string.Empty
+                    }
+                },
+                Number = oldInvoice.Number,
+                Amount = oldInvoice.Amount,
+                PayMethod = oldInvoice.PaymentType,                
+            };
+
+            var addedInvoice = await invoiceInDayReportService.CreateAsync(newInvoice);
+
+            var newInvoiceInDayReport = await repo.GetByIdAsync<InvoiceInDayReport>(addedInvoice.IdInDayReport) ?? throw new ArgumentNullException(NotFound(nameof(InvoiceInDayReport)));
+
+            delivery.Payments.Add(newInvoiceInDayReport);
+            await repo.SaveChangesAsync();
+        }
+
         public async Task AddCreditNoteAsync(UserViewModel user, CreditNoteInputModel creditNote, int deliveryId)
         {
             if (IsAtLeastInOneRole(user, Admin, LogisticsManager, Driver) == false)
@@ -336,7 +386,8 @@ namespace DelitaTrade.Core.Services
                 .Select(d => d.Payments
                     .Where(i => i.IsCompleted == false
                             && (i.PayMethod == PayMethod.Bank
-                            || i.PayMethod == PayMethod.Cash))
+                            || i.PayMethod == PayMethod.Cash
+                            || i.PayMethod == PayMethod.OldPayCash))
                     .Select(i => new InvoiceViewModel()
                     {
                         Id = i.Invoice.Id,
@@ -378,7 +429,8 @@ namespace DelitaTrade.Core.Services
             {
                 if (item != null) 
                 {
-                    if (item.PayMethod == PayMethod.Cash)
+                    if (item.PayMethod == PayMethod.Cash
+                        || item.PayMethod == PayMethod.OldPayCash)
                     {
                         item.Income = item.Amount;
                     }

@@ -191,7 +191,7 @@ namespace DelitaTrade.Core.Services
                 TotalIncome = d.TotalIncome,
                 TotalCash = d.TotalCash,
                 DeliveriesCount = d.Deliveries.Count,
-                PaymentsCount = d.Invoices.Count,
+                PaymentsCount = d.Invoices.Count(i => i.PayMethod != PayMethod.Expense),
                 Deliveries = d.Deliveries
                     .Select(dl => new DeliveryViewModel()
                     {

@@ -1,4 +1,6 @@
-﻿namespace DelitaTrade.Core.ViewModels.InvoiceModels
+﻿using DelitaTrade.Common.Enums;
+
+namespace DelitaTrade.Core.ViewModels.InvoiceModels
 {
     public class InvoiceInDayReportAdvanceViewModel
     {
@@ -12,5 +14,6 @@
 
         public decimal Paid { get; set; }
         public decimal Balance { get; set; }
+        public PayMethod PayMethod { get; set; }
     }
 }

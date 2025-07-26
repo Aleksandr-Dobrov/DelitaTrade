@@ -140,7 +140,10 @@
         }
 
         <a asp-controller="Delivery" asp-action="AddCreditNote" asp-route-deliveryId="@Model.Id" class="btn btn-success btn-dark-text w-100 py-2 fw-bold rounded margin-bottom">
-            <i class="fas fa-edit"></i> Add credit note
-        </a>         
+            Add credit note
+        </a>
+        <a asp-controller="Delivery" asp-action="AddOldInvoice" asp-route-deliveryId="@Model.Id" class="btn btn-primary btn-dark-text w-100 py-2 fw-bold rounded margin-bottom">
+            Add old invoice
+        </a>
     </div>
 </div>

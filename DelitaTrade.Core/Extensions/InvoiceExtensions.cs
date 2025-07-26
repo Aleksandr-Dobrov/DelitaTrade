@@ -90,19 +90,12 @@ namespace DelitaTrade.Core.Extensions
             }
             else if (payment.Reason == InvoiceAdvancePayMethods.NotPay)
             {
-                invoice.PayMethod = PayMethod.Cash;
+                invoice.PayMethod = payment.PayMethod;
                 invoice.Income = 0;
             }
             else if (payment.Reason == InvoiceAdvancePayMethods.ForCreditNote || payment.Reason == InvoiceAdvancePayMethods.Partial)
-            {
-                if (payment.PaymentType == PaymentType.Cash)
-                {
-                    invoice.PayMethod = PayMethod.Cash;
-                }
-                else if (payment.PaymentType == PaymentType.Card)
-                {
-                    invoice.PayMethod = PayMethod.Card;
-                }
+            {                
+                invoice.PayMethod = payment.PayMethod;                
 
                 invoice.Income = payment.Income;
             }

@@ -25,48 +25,16 @@ namespace DelitaTrade.WebApp.Controllers
         {
             try
             {
-                if(await invoiceService.IsBankPayAsync(id))
-                {
-                    var user = await GetUserViewModelAsync();
-                    await invoiceService.CompleteAsync(user, new PaymentCompleteInputModel() 
-                    {
-                        Id = id,
-                        DeliveryId = deliveryId,
-                        PaymentTypeId = (int)PayMethod.Bank
-                    });
                 
-                    if (await deliveryService.IsCompleteAsync(user, deliveryId))
-                    {
-                        int dayReportId = await deliveryService.GetDayReportIdAsync(deliveryId);
-                        return RedirectToAction(nameof(DayReportController.Details), nameof(DayReportController).GetControllerName(), new { Id = dayReportId });
-                    }
-                
-                    return RedirectToAction(nameof(DeliveryController.Details), nameof(DeliveryController).GetControllerName(), new { Id = deliveryId });
+                var completeModel = await invoiceService.GetPaymentCompleteInputModelAsync(id, deliveryId);
+
+                if (completeModel == null)
+                { 
+                    return RedirectToAction(nameof(DayReportController.Index), nameof(DayReportController).GetControllerName());
                 }
                 
-                var completeModel = new PaymentCompleteInputModel() 
-                {
-                    Id = id,
-                    DeliveryId = deliveryId
-                };
-                
                 return View(completeModel);
             }
-            catch (UnauthorizedAccessException)
-            {
-                return Unauthorized();
-            }
-            catch (InvalidOperationException)
-            {
-                var completeModel = new PaymentCompleteInputModel()
-                {
-                    Id = id,
-                    DeliveryId = deliveryId
-                };
-                ModelState.AddModelError(nameof(completeModel.PaymentTypeId), "Incorrect payment type");
-                return View(completeModel);
-            }
-
             catch (ArgumentNullException)
             {
                 return RedirectToAction(nameof(DayReportController.Index), nameof(DayReportController).GetControllerName());
@@ -148,6 +116,19 @@ namespace DelitaTrade.WebApp.Controllers
 
                 if (ModelState.IsValid == false)
                 {
+                    var invoiceInDayReport = await invoiceService.GetAdvanceByIdAsync(model.Id);
+                    if (invoiceInDayReport == null)
+                    {
+                        return RedirectToAction(nameof(DayReportController.Index), nameof(DayReportController).GetControllerName());
+                    }
+
+                    var inputModel = invoiceInDayReport.GetInputModel();
+                    if (inputModel == null)
+                    {
+                        return RedirectToAction(nameof(DayReportController.Index), nameof(DayReportController).GetControllerName());
+                    }
+                    model.PaymentTypes = inputModel.PaymentTypes;
+                    model.Reasons = inputModel.Reasons;
                     return View(model);
                 }
 

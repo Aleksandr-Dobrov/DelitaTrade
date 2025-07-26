@@ -1,4 +1,5 @@
-﻿using DelitaTrade.Core.ViewModels;
+﻿using DelitaTrade.Common.Enums;
+using DelitaTrade.Core.ViewModels;
 using DelitaTrade.Core.ViewModels.InvoiceModels;
 
 namespace DelitaTrade.Core.Contracts
@@ -17,5 +18,6 @@ namespace DelitaTrade.Core.Contracts
         Task AdvancePayAsync(UserViewModel user, InvoiceInDayReportAdvanceInputModel payment, int deliveryId);
         Task CompleteAsync(UserViewModel user, PaymentCompleteInputModel payment);
         Task<bool> IsBankPayAsync(int id);
+        Task<PaymentCompleteInputModel?> GetPaymentCompleteInputModelAsync(int id, int deliveryId);
     }
 }

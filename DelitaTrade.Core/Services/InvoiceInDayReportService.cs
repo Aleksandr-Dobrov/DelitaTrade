@@ -9,6 +9,7 @@ using System.Linq.Expressions;
 using DelitaTrade.Core.ViewModels.InvoiceModels;
 using static DelitaTrade.Common.ExceptionMessages;
 using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
+using DelitaTrade.Core.ViewModels.DeliveryModels;
 
 namespace DelitaTrade.Core.Services
 {
@@ -58,7 +59,8 @@ namespace DelitaTrade.Core.Services
                     InvoiceNumber = i.Invoice.Number,
                     Amount = i.Invoice.Amount,
                     Paid = i.Invoice.InvoicesInDayReports.Sum(i => i.Income),
-                    Balance = i.Invoice.Amount - i.Invoice.InvoicesInDayReports.Sum(i => i.Income)
+                    Balance = i.Invoice.Amount - i.Invoice.InvoicesInDayReports.Sum(i => i.Income),
+                    PayMethod = i.PayMethod
                 }).FirstOrDefaultAsync();
         }
 
@@ -283,7 +285,7 @@ namespace DelitaTrade.Core.Services
                     Number = invoiceToUpdate.Number,
                     Amount = invoiceToUpdate.Amount,
                     Weight = invoiceToUpdate.Weight,
-                    PayMethod = PayMethod.Cash
+                    PayMethod = payment.PaymentType
                 };
 
                 var delivery = await repo.GetByIdAsync<Delivery>(deliveryId) ?? throw new ArgumentNullException(NotFound(nameof(Delivery)));
@@ -305,7 +307,9 @@ namespace DelitaTrade.Core.Services
             }
             if (payment.PaymentType != PayMethod.Cash 
                 && payment.PaymentType != PayMethod.Card 
-                && payment.PaymentType != PayMethod.Bank) 
+                && payment.PaymentType != PayMethod.Bank
+                && payment.PaymentType != PayMethod.OldPayCash
+                && payment.PaymentType != PayMethod.OldPayCard) 
             {
                 throw new InvalidOperationException("Incorrect payment type");
             }
@@ -330,7 +334,10 @@ namespace DelitaTrade.Core.Services
             }
             
             invoiceToComplete.PayMethod = payment.PaymentType;
-            if (payment.PaymentType == PayMethod.Cash || payment.PaymentType == PayMethod.Card)
+            if (payment.PaymentType == PayMethod.Cash 
+                || payment.PaymentType == PayMethod.Card
+                || payment.PaymentType == PayMethod.OldPayCash
+                || payment.PaymentType == PayMethod.OldPayCard)
             {
                 decimal balance = invoiceToComplete.Amount - await repo.AllReadonly<InvoiceInDayReport>()
                     .Where(i => i.Invoice.Number == invoiceToComplete.Number)
@@ -348,6 +355,46 @@ namespace DelitaTrade.Core.Services
                 .Where (i => i.Id == id)
                 .Select(i => i.PayMethod == PayMethod.Bank)
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<PaymentCompleteInputModel?> GetPaymentCompleteInputModelAsync(int id, int deliveryId)
+        {
+            var payMethod = await repo.AllReadonly<InvoiceInDayReport>()
+                .Where(i => i.Id == id)
+                .Select(i => i.PayMethod)
+                .FirstOrDefaultAsync();
+
+            switch (payMethod)
+            {
+                case PayMethod.Cash:
+                case PayMethod.Card:
+                case PayMethod.Bank:
+                    return new PaymentCompleteInputModel() 
+                    {
+                        Id = id,
+                        DeliveryId = deliveryId,
+                        PaymentTypes = new List<PayMethodViewModel>
+                        {
+                            new PayMethodViewModel { InvoiceType = PayMethod.Cash },
+                            new PayMethodViewModel { InvoiceType = PayMethod.Card },
+                            new PayMethodViewModel { InvoiceType = PayMethod.Bank }
+                        }
+                    };
+                case PayMethod.OldPayCard:
+                case PayMethod.OldPayCash:
+                    return new PaymentCompleteInputModel()
+                    {
+                        Id = id,
+                        DeliveryId = deliveryId,
+                        PaymentTypes = new List<PayMethodViewModel>
+                        {
+                            new PayMethodViewModel { InvoiceType = PayMethod.OldPayCash },
+                            new PayMethodViewModel { InvoiceType = PayMethod.OldPayCard }
+                        }
+                    };
+                default:
+                    return null;
+            }
         }
 
         private static Expression<Func<InvoiceInDayReport, InvoiceViewModel>> MapToInputModel()
@@ -472,8 +519,8 @@ namespace DelitaTrade.Core.Services
             {
                 totalIncome += item.Income;
             }
-            if (totalIncome < newInvoice.Amount) invoice.IsPaid = false;
-            else if (totalIncome > newInvoice.Amount) throw new InvalidOperationException(IncomeNotGreatestAmount());
+            if (totalIncome < invoice.Amount) invoice.IsPaid = false;
+            else if (totalIncome > invoice.Amount) throw new InvalidOperationException(IncomeNotGreatestAmount());
             else invoice.IsPaid = true;
         }
 

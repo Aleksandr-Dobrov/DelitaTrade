@@ -70,7 +70,7 @@ namespace DelitaTrade.WebApp.Controllers
                 return RedirectToAction(nameof(DayReportController.Index), nameof(DayReportController).GetControllerName());
             }
 
-            InvoiceInputModel invoiceInput = new()
+            var invoiceInput = new InvoiceInputModel()
             {
                 DeliveryId = deliveryId,
                 CompanyObject = delivery.CompanyObjectName,
@@ -92,6 +92,45 @@ namespace DelitaTrade.WebApp.Controllers
             var user = await GetUserViewModelAsync();
 
             await deliveryService.AddInvoiceAsync(user, invoiceInput, invoiceInput.DeliveryId);
+
+            return RedirectToAction(nameof(Details), new { Id = invoiceInput.DeliveryId });
+        }
+
+        [HttpGet]
+        [Authorize(Roles = $"{Admin},{LogisticsManager},{Driver}")]
+        public async Task<IActionResult> AddOldInvoice(int deliveryId)
+        {
+            var user = await GetUserViewModelAsync();
+
+            var delivery = await deliveryService.GetByIdAsync(user, deliveryId);
+
+            if (delivery == null)
+            {
+                return RedirectToAction(nameof(DayReportController.Index), nameof(DayReportController).GetControllerName());
+            }
+
+            var invoiceInput = new OldInvoiceInputModel()
+            {
+                DeliveryId = deliveryId,
+                CompanyObject = delivery.CompanyObjectName,
+                CompanyObjectId = delivery.CompanyObjectId,
+            };
+
+            return View(invoiceInput);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = $"{Admin},{LogisticsManager},{Driver}")]
+        public async Task<IActionResult> AddOldInvoice(OldInvoiceInputModel invoiceInput)
+        {
+            if (ModelState.IsValid == false)
+            {
+                return View(invoiceInput);
+            }
+
+            var user = await GetUserViewModelAsync();
+
+            await deliveryService.AddOldInvoiceAsync(user, invoiceInput, invoiceInput.DeliveryId);
 
             return RedirectToAction(nameof(Details), new { Id = invoiceInput.DeliveryId });
         }

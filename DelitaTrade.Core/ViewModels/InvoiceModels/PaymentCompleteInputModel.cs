@@ -10,17 +10,11 @@ namespace DelitaTrade.Core.ViewModels.InvoiceModels
         public int Id { get; set; }
 
         public int DeliveryId { get; set; }
-
-        [Range(0, 2)]
+                
         public int PaymentTypeId { get; set; }
 
         public PayMethod PaymentType => (PayMethod)PaymentTypeId;
 
-        public IEnumerable<PayMethodViewModel> PaymentTypes { get; } =
-        [
-            new () { InvoiceType = PayMethod.Cash },
-            new () { InvoiceType = PayMethod.Bank },
-            new () { InvoiceType = PayMethod.Card }
-        ];
+        public IEnumerable<PayMethodViewModel> PaymentTypes { get; set; } = new List<PayMethodViewModel>();
     }
 }
