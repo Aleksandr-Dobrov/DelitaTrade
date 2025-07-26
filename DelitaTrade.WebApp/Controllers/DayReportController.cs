@@ -15,9 +15,7 @@ namespace DelitaTrade.WebApp.Controllers
     [Authorize(Roles = $"{Driver},{Admin},{LogisticsManager},{Cashier},{Accountant}")]
     public class DayReportController(IDayReportService dayReportService,
             IVehicleService vehicleService,
-            IDeliveryService deliveryService, 
-            ICompanyObjectService companyObjectService,
-            IExpenseService expenseService,
+            IDeliveryService deliveryService,
             UserManager<DelitaUser> userManager) : BaseController(userManager)
     {
         [HttpGet]
