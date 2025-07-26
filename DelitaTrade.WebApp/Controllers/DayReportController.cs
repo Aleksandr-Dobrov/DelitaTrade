@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
 using DelitaTrade.Core.ViewModels;
+using DelitaTrade.Core.Models.ImportModels;
+using System.Text.Json;
 
 namespace DelitaTrade.WebApp.Controllers
 {
     [Authorize(Roles = $"{Driver},{Admin},{LogisticsManager},{Cashier},{Accountant}")]
-    public class DayReportController(IDayReportService dayReportService, IVehicleService vehicleService, UserManager<DelitaUser> userManager) : BaseController(userManager)
+    public class DayReportController(IDayReportService dayReportService, IVehicleService vehicleService, IDeliveryService deliveryService, UserManager<DelitaUser> userManager) : BaseController(userManager)
     {
         [HttpGet]
         public async Task<IActionResult> Index(SearchDayReportInputModel? model)
@@ -136,6 +138,30 @@ namespace DelitaTrade.WebApp.Controllers
             {
                 return RedirectToAction(nameof(Index));
             }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = $"{Admin},{LogisticsManager}")]
+        public async Task<IActionResult> ImportPayments(IFormFile file, int dayReportId)
+        {
+            if (file != null && file.Length > 0)
+            {
+                var user = await GetUserViewModelAsync();
+
+                using (var stream = new MemoryStream())
+                {
+                    await file.CopyToAsync(stream);
+                    stream.Position = 0;
+
+                    var importModel = await JsonSerializer.DeserializeAsync<DayReportJsonImportModel>(stream);
+                    if (importModel != null)
+                    {
+                        await deliveryService.ImportPaymentsToDayReportAsync(user, dayReportId, importModel);
+                    }
+                }
+            
+            }
+            return RedirectToAction(nameof(Details), new { Id = dayReportId });
         }
     }
 }

@@ -22,6 +22,7 @@ namespace DelitaTrade.Common
         public const int ReturnedProductBatchMaxLength = 30;
         public const int DescriptionCategoryMaxLength = 50;
 
+        public const int CompanyObjectNameMinLength = 3;
         public const int CompanyObjectNameMaxLength = 100;
         public const int CompanyObjectAddressMaxLength = 150;
 
