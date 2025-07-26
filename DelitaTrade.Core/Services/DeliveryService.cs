@@ -1,14 +1,18 @@
 ﻿using DelitaTrade.Common.Enums;
-using DelitaTrade.Core.Extensions;
+using DelitaTrade.Common.Extensions;
 using DelitaTrade.Core.Contracts;
+using DelitaTrade.Core.Extensions;
+using DelitaTrade.Core.Models.ImportModels;
 using DelitaTrade.Core.ViewModels;
 using DelitaTrade.Core.ViewModels.DeliveryModels;
 using DelitaTrade.Infrastructure.Common;
 using DelitaTrade.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
+using static DelitaTrade.Common.Constants.CompanyConstants;
+using static DelitaTrade.Common.DelitaDbConstants;
 using static DelitaTrade.Common.ExceptionMessages;
-using DelitaTrade.Core.ViewModels.InvoiceModels;
+using System.Threading.Tasks;
 
 namespace DelitaTrade.Core.Services
 {
@@ -160,9 +164,268 @@ namespace DelitaTrade.Core.Services
             await repo.SaveChangesAsync();
         }
 
-        public Task AddRangeDeliveryAsync(IEnumerable<DeliveryInputModel> deliveries)
+        public async Task AddExpenseAsync(UserViewModel user, ExpenseInputModel expense, int deliveryId)
         {
-            throw new NotImplementedException();
+            if(IsAtLeastInOneRole(user, Driver) == false)
+            {
+                throw new UnauthorizedAccessException(nameof(DelitaUser));
+            }
+
+            if (expense.ExpenseId.HasValue == false && expense.Expense == null)
+            {
+                throw new InvalidOperationException("Expense is required");
+            }
+
+            CompanyObject companyObject;
+            Company? company;
+
+            if (expense.ExpenseId.HasValue)
+            {
+                companyObject = await repo.GetByIdAsync<CompanyObject>(expense.ExpenseId) ?? throw new ArgumentNullException(NotFound(nameof(CompanyObject)));
+                company = await repo.GetByIdAsync<Company>(companyObject.CompanyId) ?? throw new ArgumentNullException(NotFound(nameof(Company)));                
+            }
+            else
+            {
+                var licensePlate = await repo.AllReadonly<Vehicle>()
+                        .Where(v => v.Id == expense.VehicleId)
+                        .Select(v => v.LicensePlate)
+                        .FirstOrDefaultAsync() ?? throw new ArgumentNullException(NotFound(nameof(Vehicle)));
+
+                company = await repo.AllReadonly<Company>()
+                        .Where(c => c.Name == licensePlate)
+                        .FirstOrDefaultAsync();
+
+                if (company == null) 
+                {
+                    var newCompany = new Company()
+                    { 
+                        Name = licensePlate,
+                        Type = ExpenseCompanyType                        
+                    };
+
+                    await repo.AddAsync(newCompany);
+                    await repo.SaveChangesAsync();
+
+                    company = await repo.AllReadonly<Company>()
+                        .Where(c => c.Name == licensePlate)
+                        .FirstOrDefaultAsync() ?? throw new InvalidOperationException("Can not create new expense");
+                }
+
+                var newCompanyObject = new CompanyObject()
+                {
+                    Name = expense.Expense ?? throw new InvalidOperationException("Expense is required"),
+                    Company = company,
+                    Trader = await repo.AllReadonly<Trader>().Where(t => t.Name == DefaultTraderName).FirstAsync()
+                };
+
+                await repo.AddAsync(newCompanyObject);
+                await repo.SaveChangesAsync();
+
+                companyObject = await repo.AllReadonly<CompanyObject>()
+                        .Where(o => o.Name == expense.Expense
+                                && o.CompanyId == company.Id)
+                        .FirstOrDefaultAsync() ?? throw new InvalidOperationException("Can not create new expense");
+            }
+
+            var delivery = await repo.GetByIdAsync<Delivery>(deliveryId) ?? throw new ArgumentNullException(NotFound(nameof(Delivery)));
+            var dayReport = await repo.GetByIdAsync<DayReport>(delivery.DayReportId) ?? throw new ArgumentNullException(NotFound(nameof(DayReport)));
+
+            var companyViewModel = new CompanyViewModel()
+            {
+                Id = company.Id,
+                Name = company.Name
+            };
+
+            var newExpense = new InvoiceViewModel()
+            {
+                Company = companyViewModel,
+                CompanyObject = new CompanyObjectViewModel()
+                {
+                    Id = companyObject.Id,
+                    Name = companyObject.Name,
+                    Company = companyViewModel
+                },
+                DayReport = new DayReportViewModel()
+                {
+                    Id = dayReport.Id,
+                    Date = dayReport.Date,
+                    User = new UserViewModel()
+                    {
+                        Id = dayReport.IdentityUserId,
+                        Name = string.Empty
+                    }
+                },
+                Number = await GetExpenseNumber(),
+                Income = expense.ExpenseAmount * -1,
+                PayMethod = PayMethod.Expense
+            };
+
+            var crestedExpense = await invoiceInDayReportService.CreateAsync(newExpense);
+            var newInvoiceInDayReport = await repo.GetByIdAsync<InvoiceInDayReport>(crestedExpense.IdInDayReport) ?? throw new ArgumentNullException(NotFound(nameof(InvoiceInDayReport)));
+
+            newInvoiceInDayReport.IsCompleted = true;
+
+            delivery.Payments.Add(newInvoiceInDayReport);
+            await repo.SaveChangesAsync();
+        }
+
+        public async Task ImportPaymentsToDayReportAsync(UserViewModel user, int dayReportId, DayReportJsonImportModel dayReportJson)
+        {               
+            if (IsAtLeastInOneRole(user, Admin, LogisticsManager) == false)
+            {
+                throw new UnauthorizedAccessException(nameof(DelitaUser));
+            }
+
+            var dayReport = await repo.All<DayReport>()
+                    .Include(d => d.Vehicle)
+                    .Include(d => d.IdentityUser)
+                    .Include(d => d.Deliveries)
+                    .ThenInclude(dl => dl.DeliveryAddress)
+                    .Include(d => d.Deliveries)
+                    .ThenInclude(dl => dl.Payments)
+                    .ThenInclude(p => p.Invoice)
+                    .ThenInclude(i => i.CompanyObject)
+                    .ThenInclude(o => o.Company)
+                    .FirstOrDefaultAsync(d => d.Id == dayReportId) ?? throw new ArgumentNullException(NotFound(nameof(DayReport)));
+
+            foreach (var invoice in dayReportJson.Invoices)
+            {
+                if (invoice.Company == null || invoice.CompanyObject == null) 
+                {
+                    continue;
+                }
+                if (await repo.All<Invoice>().AnyAsync(i => i.Number == invoice.Number))
+                {
+                    continue;
+                }
+
+                var delivery = dayReport.Deliveries.Where(d => d.DeliveryAddress.Name.ToLower() == invoice.CompanyObject.ToLower()).FirstOrDefault();
+                var companyObjects = await repo.All<CompanyObject>()
+                            .Where(o => o.Name.ToLower() == invoice.CompanyObject.ToLower())
+                            .ToListAsync() 
+                        ?? await repo.All<CompanyObject>()
+                            .Where(o => invoice.CompanyObject.Contains(o.Name) && o.IsActive)
+                            .ToListAsync()
+                        ?? await repo.All<CompanyObject>()
+                            .Where(o => o.Name.Contains(invoice.CompanyObject) && o.IsActive)
+                            .ToListAsync();
+
+                Company? company = await repo.All<Company>()
+                        .Include(c => c.Objects)
+                        .SingleOrDefaultAsync(c => c.Name.ToLower() == invoice.Company.GetCompanyName()!.ToLower());
+                CompanyObject? companyObject = null;
+
+                if (companyObjects.Count > 1 && company != null)
+                {
+                    if (companyObjects.Where(o => o.CompanyId == company.Id).Count() == 1)
+                    {
+                        companyObject = companyObjects.First();
+                    }
+                }
+                else if (companyObjects.Count > 1 && company == null)
+                {
+                    throw new InvalidOperationException("Company not found");
+                }
+                else if (companyObjects.Count == 1 && company == null)
+                {
+                    companyObject = companyObjects.First();
+                    company = await repo.All<Company>()
+                         .FirstOrDefaultAsync(c => c.Id == companyObject.CompanyId);
+                }
+                else if (companyObjects.Count == 1 && company != null)
+                {
+                    companyObject = companyObjects.First();
+                }
+                else if (companyObjects.Count == 0 && company != null)
+                {   
+                    decimal comparerCoeficient = 0.85m;
+
+                    Dictionary<decimal, CompanyObject> equalsResult = new Dictionary<decimal, CompanyObject>();
+                    foreach (var obj in company.Objects)
+                    {
+                        int equals = 0;
+                        List<string> args = [.. obj.Name.Split(' ', StringSplitOptions.RemoveEmptyEntries)];
+                        foreach (var arg in args)
+                        {
+                            if (invoice.CompanyObject.ToLower().Contains(arg.ToLower()))
+                            {
+                                equals++;
+                            }
+                        }
+                        equalsResult[(decimal)equals / args.Count] = obj;
+                    }
+
+                    if (equalsResult.OrderByDescending(o => o.Key).First().Key > comparerCoeficient)
+                    {
+                        companyObject = equalsResult.OrderByDescending(o => o.Key).First().Value;
+                    }                    
+                }
+
+                if (companyObject != null && companyObject.Name.ToLower() != invoice.CompanyObject.ToLower())
+                {
+                    companyObject.Name = invoice.CompanyObject;
+                }
+
+                if (company == null)
+                {
+                    company = new Company()
+                    {
+                        Type = invoice.Company.GetCompanyType(),
+                        Name = invoice.Company.GetCompanyName() ?? throw new ArgumentNullException(nameof(invoice.Company)),
+                    };
+                }
+
+                if (companyObject == null)
+                {
+                    companyObject = new CompanyObject()
+                    {
+                        Name = invoice.CompanyObject,
+                        Company = company,
+                        Trader = await repo.All<Trader>().Where(t => t.Name == DefaultTraderName).FirstAsync()                        
+                    };
+                    company.Objects.Add(companyObject);
+                }
+
+                if (delivery == null)
+                {
+
+                    delivery = new Delivery()
+                    {
+                        DayReport = dayReport,
+                        Employee = dayReport.IdentityUser,
+                        DeliveryAddress = companyObject,
+                        Vehicle = dayReport.Vehicle
+                    };
+
+                    dayReport.Deliveries.Add(delivery);
+
+                }
+
+                if (delivery.Payments.All(p => p.Invoice.Number != invoice.Number))
+                {
+                    var newInvoice = new Invoice()
+                    {
+                        Number = invoice.Number ?? invoice.DeliveryNumber![2..],
+                        Company = company,
+                        CompanyObject = companyObject,
+                        Weight = decimal.Parse(invoice.Weight ?? throw new ArgumentNullException(nameof(invoice.Weight))),
+                        Amount = decimal.Parse(invoice.Amount ?? throw new ArgumentNullException(nameof(invoice.Amount)))                       
+                    };
+
+                    var newPayment = new InvoiceInDayReport()
+                    {
+                        DayReport = dayReport,
+                        Invoice = newInvoice,
+                        PayMethod = companyObject.IsBankPay ? PayMethod.Bank : PayMethod.Cash
+                    };
+
+                    dayReport.AddInvoiceToTotals(newPayment);
+
+                    delivery.Payments.Add(newPayment);
+                    dayReport.Invoices.Add(newPayment);
+                }
+            }
+            await repo.SaveChangesAsync();
         }
 
         public async Task CompleteAllAsync(UserViewModel user, int deliveryId)
@@ -237,7 +500,7 @@ namespace DelitaTrade.Core.Services
             {
                 throw new UnauthorizedAccessException(nameof(DelitaUser));
             }
-
+                        
             var delivery = repo.AllReadonly<Delivery>()
                 .Where(d => d.Id == deliveryId);
             if (user.Roles.Contains(Driver))
@@ -277,6 +540,30 @@ namespace DelitaTrade.Core.Services
             return result;
         }
 
+        public async Task<IEnumerable<ExpenseDropDownModel>> GetAllExpensesAsync(int vehicleId)
+        {
+            var licensePlate = await repo.AllReadonly<Vehicle>()
+                    .Where(v => v.Id == vehicleId)
+                    .Select(v => v.LicensePlate)
+                    .FirstOrDefaultAsync();
+
+            return await repo.AllReadonly<CompanyObject>()
+                    .Where(o => o.Company.Name == licensePlate)
+                    .Select(o => new ExpenseDropDownModel()
+                    {
+                        Id = o.Id,
+                        Name = o.Name                        
+                    }).ToArrayAsync();
+        }
+
+        public async Task<int?> GetVehicleIdFromDeliveryAsync(int deliveryId)
+        {
+            return await repo.AllReadonly<Delivery>()
+                    .Where(d => d.Id == deliveryId)
+                    .Select(d => d.VehicleId)
+                    .FirstOrDefaultAsync();
+        }
+
         public Task<bool> IsCompleteAsync(UserViewModel user, int deliveryId)
         {
             return repo.AllReadonly<Delivery>()
@@ -311,7 +598,7 @@ namespace DelitaTrade.Core.Services
             {
                 var company = new CompanyViewModel()
                 {
-                    Name = "not needed"
+                    Name = string.Empty
                 };
 
                 var invoiceToDeleteViewModel = new InvoiceViewModel()
@@ -328,7 +615,7 @@ namespace DelitaTrade.Core.Services
                     CompanyObject = new CompanyObjectViewModel()
                     {
                         Company = company,
-                        Name = "not needed"
+                        Name = string.Empty
                     }
                 };
 
@@ -337,6 +624,16 @@ namespace DelitaTrade.Core.Services
 
             repo.Remove(delivery);
             await repo.SaveChangesAsync();
+        }
+
+        private async Task<string> GetExpenseNumber()
+        {
+            string number = $"E{DateTime.Now.Date:yy-MM-dd}".Replace("-", "");
+
+            var numbers = await repo.AllReadonly<Invoice>()
+                    .Where(i => i.Number.Contains(number))
+                    .ToListAsync();
+            return $"{number}{numbers.Count:D3}"; //TODO This could generate identical numbers if more than one users try to add expense at the same time. Find another way to generate unique numbers from SQL Server.
         }
     }
 }

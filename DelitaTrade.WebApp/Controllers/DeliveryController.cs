@@ -100,7 +100,7 @@ namespace DelitaTrade.WebApp.Controllers
         [Authorize(Roles = Driver)]
         public async Task<IActionResult> Complete(int id)
         {
-            var user = await GetUserViewModelAsync();//TODO: Add filter to complete only cash and bank invoice.
+            var user = await GetUserViewModelAsync();
 
             await deliveryService.CompleteAllAsync(user, id);
 
@@ -196,6 +196,52 @@ namespace DelitaTrade.WebApp.Controllers
             {
                 return RedirectToAction(nameof(Details), new { model.Id });
             }
+        }
+
+        [HttpGet]
+        [Authorize(Roles = Driver)]
+        public async Task<IActionResult> AddExpense(int deliveryId)
+        {
+            int? vehicleId = await deliveryService.GetVehicleIdFromDeliveryAsync(deliveryId);
+
+            if (vehicleId.HasValue == false) 
+            {
+                return RedirectToAction(nameof(Details), new { id = deliveryId });
+            }
+
+            var expenseModel = new ExpenseInputModel() 
+            {
+                DeliveryId = deliveryId,
+                VehicleId = vehicleId.Value,
+                Expenses = await deliveryService.GetAllExpensesAsync(vehicleId.Value)                
+            };
+
+            return View(expenseModel);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = Driver)]
+        public async Task<IActionResult> AddExpense(ExpenseInputModel model)
+        {
+            if (ModelState.IsValid == false)
+            {
+                model.Expenses = await deliveryService.GetAllExpensesAsync(model.VehicleId);
+
+                return View(model);
+            }
+            else if (model.ExpenseId == null && model.Expense == null)
+            {
+                ModelState.AddModelError(nameof(model.Expense), "You must fill in at least one field");
+                ModelState.AddModelError(nameof(model.ExpenseId), "You must fill in at least one field");
+                model.Expenses = await deliveryService.GetAllExpensesAsync(model.VehicleId);
+
+                return View(model);
+            }
+            var user = await GetUserViewModelAsync();
+
+            await deliveryService.AddExpenseAsync(user, model, model.DeliveryId);
+
+            return RedirectToAction(nameof(Details), new { Id = model.DeliveryId });
         }
     }
 }
