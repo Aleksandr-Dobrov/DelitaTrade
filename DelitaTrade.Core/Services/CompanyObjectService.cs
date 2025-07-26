@@ -193,6 +193,13 @@ namespace DelitaTrade.Core.Services
             await repo.SaveChangesAsync();
         }
 
+        public async Task UpdateIsBankStatus(CompanyObjectViewModel companyObject)
+        {
+            var objectToUpdate = await repo.GetByIdAsync<CompanyObject>(companyObject.Id) ?? throw new ArgumentNullException(ExceptionMessages.NotFound(nameof(CompanyObject)));
+            objectToUpdate.IsBankPay = companyObject.IsBankPay;
+            await repo.SaveChangesAsync();
+        }
+
         public async Task DeleteSoftAsync(CompanyObjectViewModel companyObjectId)
         {
             var objectToRemove = await repo.GetByIdAsync<CompanyObject>(companyObjectId.Id) ?? throw new ArgumentNullException(ExceptionMessages.NotFound(nameof(CompanyObject)));
@@ -200,7 +207,7 @@ namespace DelitaTrade.Core.Services
             objectToRemove.IsActive = false;
             await repo.SaveChangesAsync();
         }
-
+        
         private IQueryable<CompanyObject> GetFilteredReadonlyObjects(Expression<Func<CompanyObject, bool>> filter)
         {
             return repo.AllReadonly<CompanyObject>().Where(filter);

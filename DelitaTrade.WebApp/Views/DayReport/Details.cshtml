@@ -8,12 +8,20 @@
 @model DetailDayReportViewModel
 @{
     ViewData["Title"] = $"Daily Report for {Model.ReportedDate.ToString(AppDateFormat)}";
-    ViewData["CashDifference"] = (Model.TotalIncome - Model.TotalCash).ToString("C");
+    ViewData["CashDifference"] = (Model.TotalIncome - Model.TotalCash).ToLev();
+    decimal totalWeight = Model.Deliveries.Sum(d => d.TotalWeight);
+    decimal remainWeight = totalWeight - Model.Deliveries.Where(d => d.Payments.Any(p => p.IsCompleted)).Sum(d => d.TotalWeight);
+    decimal totalCash = Model.Deliveries.Sum(d => d.TotalAmount) - Model.Deliveries.Sum(d => d.TotalBank);
+    decimal totalCard = Model.Deliveries.Sum(d => d.TotalCard);
+    int remainAddress = Model.DeliveriesCount - Model.Deliveries.Where(d => d.Payments.All(p => p.IsCompleted)).Count();
+    List<string> filter = ["All", "Completed", "Not completed"];
+    string selectedValue = filter[2];
 }
 
 <head>
     <link rel="stylesheet" href="~/css/search.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Delivery/DeliveryBackground.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/ReturnProtocol/returnProtocol.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/DayReport/DayReport.css" asp-append-version="true" />
 </head>
@@ -29,39 +37,80 @@
                 <h4>Employee: <strong>@Model.EmployeeName</strong></h4>
                 <div class="protocol-authors">
                     <div>
-                        <p>Total amount: <strong>@Model.TotalAmount</strong></p>
-                        <p>Total income: <strong>@Model.TotalIncome</strong></p>
-                        <p>Total cash: <strong>@Model.TotalCash</strong></p>
-                        <p>Cash difference: <strong>@ViewData["CashDifference"]</strong></p>
+                        <p>Total amount: <strong>@Model.TotalAmount.ToLev()</strong></p>
+                        <p>Total non-bank: <strong>@totalCash.ToLev()</strong></p>
+                        <p>Total card: <strong>@totalCard.ToLev()</strong></p>
+                        <p>Total Weight: <strong>@totalWeight.ToWeight()</strong></p>
                     </div>
                     <div>
-                        <p>Objects count: <strong>@Model.DeliveriesCount</strong></p>
                         <p>Invoice count: <strong>@Model.PaymentsCount</strong></p>
+                        <p>Objects count: <strong>@Model.DeliveriesCount</strong></p>
+                        <p>Remain: <strong>@remainAddress</strong></p>
+                        <p>Remain weight: <strong>@remainWeight.ToWeight()</strong></p>
+                    </div>
+                    <div>
+                        <p>Total income: <strong>@Model.TotalIncome.ToLev()</strong></p>
+                        <p>Money: <strong>@Model.TotalCash.ToLev()</strong></p>
+                        <p>Cash difference: <strong>@ViewData["CashDifference"]</strong></p>
                     </div>
                 </div>
             </div>
-            @if (User.IsInRole(Admin))
+            @if(User.IsInRole(Admin) || User.IsInRole(LogisticsManager))
             {
                 <div class="action">
-                    <a asp-controller="DayReport" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger d-flex justify-content-center align-items-center flex-fill mx-1">
-                        <i class="fas fa-trash"></i> Delete
+                    <form asp-controller="DayReport" asp-action="ImportPayments" asp-route-dayReportId="@Model.Id" method="post" enctype="multipart/form-data" class="delita-import-style">
+                        <input type="file" name="file" />
+                        <button type="submit">Import</button>
+                    </form>
+
+                    @if (User.IsInRole(Admin))
+                    {
+                        <a asp-controller="DayReport" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger d-flex justify-content-center align-items-center flex-fill mx-1">
+                            <i class="fas fa-trash"></i> Delete
+                        </a>
+                    }
+                </div>
+            }         
+            else if (User.IsInRole(Driver))
+            {
+                <div class="action">                    
+                    <a asp-controller="PayDesk" asp-action="Index" asp-route-dayReportId="@Model.Id" class="btn btn-primary d-flex justify-content-center align-items-center flex-fill mx-1">
+                        <i class="fas fa-trash"></i> Pay desk
                     </a>
+                    <div class="filter">
+                        <label class="form-label-add-edit">Filter</label>
+                        <select asp-for="@selectedValue" id="filter-arg" class="form-control" aria-required="false" asp-items="@new SelectList(filter)">
+                            <option value="">...</option>
+                        </select>
+                    </div>
                 </div>
             }
         </div>
     </main>
 </div>
 <div class="products-list gray-70">
+    @if (User.IsInRole(Admin) || User.IsInRole(LogisticsManager))
+    {
+        <a asp-controller="Delivery" asp-action="Create" asp-route-dayReportId="@Model.Id" class="btn btn-warning btn-dark-text w-100 py-2 fw-bold rounded">
+            <i class="fas fa-save"></i> Add delivery
+        </a>
+    }
     @if (Model.Deliveries.Any())
     {
-        foreach(var delivery in Model.Deliveries)
+        foreach(var delivery in Model.Deliveries.OrderBy(d => d.Address).ThenBy(d => d.CompanyObjectName))
         {            
             string isCompleted = delivery.Payments.All(p => p.IsCompleted) ? "pay-success" : "";
+            string completed = delivery.Payments.All(p => p.IsCompleted) ? "completed" : "not-completed";
             bool isHavePayments = delivery.Payments.Any();
-            decimal totalAmount = isHavePayments ? delivery.TotalAmount : 0;
-            decimal totalIncome = isHavePayments ? delivery.TotalIncome : 0;
+            decimal forPayment = isHavePayments ? delivery.Payments
+                .Where(p => p.PayMethod != PayMethod.Bank
+                        && p.PayMethod != PayMethod.CreditNote)
+                .Sum(p => p.Balance) 
+                + (isCompleted == "" ? delivery.Payments.Where(p => p.PayMethod == PayMethod.CreditNote).Sum(p => p.Income) : 0)
+                : 0;
+            decimal income = isHavePayments ? delivery.TotalIncome : 0;
             string payMethod = isHavePayments ? delivery.Payments.First().PayMethod.Translate() : "N/A";
-            <div class="day-report-list-container">
+            <div class="day-report-list-container @completed">
                 <a asp-controller="Delivery" asp-action="Details" asp-route-id="@delivery.Id">
                     <div class="light-gray-80 day-report-list-item @isCompleted">
                         <p class="font-size-delivery">@delivery.CompanyObjectName</p>
@@ -75,27 +124,35 @@
                                     <p>Weight:</p>
                                     <p><strong>@delivery.TotalWeight.ToWeight()</strong></p>                                    
                                 }
-                            </div>
-                            <div>
-                                <p>income:</p>
-                                <p><strong>@totalIncome.ToLev()</strong></p>
-                                <p><strong>@totalIncome.LevToEuro()</strong></p>
-                            </div>
-                            <div>
-                                <p>Amount:</p>
-                                <p><strong>@totalAmount.ToLev()</strong></p>
-                                <p><strong>@totalAmount.LevToEuro()</strong></p>
-                            </div>
+                            </div> 
+                            @if(forPayment != 0)
+                            {
+                                <div>
+                                    <p>For payment:</p>
+                                    <p><strong>@forPayment.ToLev()</strong></p>
+                                    <p><strong>@forPayment.LevToEuro()</strong></p>
+                                </div>
+                            }
+                            @if (income != 0)
+                            {
+                                <div>
+                                    <p>Income:</p>
+                                    <p><strong>@income.ToLev()</strong></p>
+                                    <p><strong>@income.LevToEuro()</strong></p>
+                                </div>
+                            }                            
                         </div>                        
                     </div>
                 </a>
             </div>
         }
     }
-    @if(User.IsInRole(Admin) || User.IsInRole(LogisticsManager))
-    {
-        <a asp-controller="Delivery" asp-action="Create" asp-route-dayReportId="@Model.Id" class="btn btn-warning btn-dark-text w-100 py-2 fw-bold rounded">
-            <i class="fas fa-save"></i> Add delivery
-        </a>
-    }
 </div>    
+<script>
+    const oldClassName = 'day-report-list-item';
+    const newClassName = 'day-report-list-item-clicked';
+    const completed = ".completed";
+    const notCompleted = ".not-completed";
+</script>
+<script src="~/js/ClickEvents.js" ></script>
+<script src="~/js/DayReport/DayReportFilter.js" ></script>

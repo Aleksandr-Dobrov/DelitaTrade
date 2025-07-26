@@ -1,0 +1,56 @@
+﻿@using DelitaTrade.Common.Extensions
+@using DelitaTrade.Core.ViewModels.DayReportModels;
+
+@model BanknoteInputModel;
+
+@{
+    ViewData["Title"] = "Pay desk";
+    decimal totalSum = Model.BanknoteOldValues.Sum(b => b.Key * b.Value);
+    decimal difference = Model.TotalIncome - totalSum;
+}
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/css/PayDesk/PayDesk.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/PayDesk/PayDeskBackground.css" asp-append-version="true" />
+</head>
+
+<form asp-controller="PayDesk" asp-action="ApplyChanges" method="post">
+    <input asp-for="@Model.Id" type="hidden" value="@Model.Id" />
+    <input asp-for="@Model.Date" type="hidden" value="@Model.Date" />
+    <input asp-for="@Model.TotalIncome" type="hidden" value="@Model.TotalIncome" />
+    <div class="pay-desk">
+        @foreach(var banknote in Model.BanknoteOldValues)
+        {
+            int minValue = banknote.Value * -1;
+            decimal total = banknote.Key * banknote.Value;
+            string imageSource = $"Assets/ComponentAssets/Banknotes/{banknote.Key}lv.png";
+            <div class="bank">
+                <div class="banknote">
+                    <img src="~/@imageSource" style="height: 60px"/>
+                    <div class="amount">
+                        <input asp-for="@banknote.Key" type="hidden" value="@banknote.Key" />                        
+                        <p class="count"><input asp-for="@Model.BanknoteOldValues[banknote.Key]" value="@Model.BanknoteOldValues[banknote.Key]" readonly="readonly"/> бр.</p>
+                        <p class="total"><input value="@total.ToString("f2")" readonly="readonly" /> лв.</p>
+                    </div>
+                </div>
+                <div class="banknote-command">
+                    <button class="down"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                    <input asp-for="@Model.Banknotes[banknote.Key]" class="value" min="@minValue" max="1000" value="@Model.Banknotes[banknote.Key]" />
+                    <button class="up"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                </div>
+            </div>             
+        }
+        <div class="total-sum">
+            <p>Total reporting: <strong id="income">@Model.TotalIncome.ToString("f2")</strong> лв.</p>
+            <p>Total cash: <strong id="sum">@totalSum.ToString("f2")</strong> лв.</p>
+            <p>Difference: <strong id="dif">@difference.ToString("f2")</strong> лв.</p>
+        </div>
+        <a asp-controller="DayReport" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-primary btn-dark-text w-100 py-2 fw-bold rounded">Back</a>
+        <button class="btn btn-success btn-dark-text w-100 py-2 fw-bold rounded" type="submit">
+            Apply changes
+        </button>
+    </div>
+</form>
+
+<script src="~/js/PayDesk/BanknoteControl.js"></script>

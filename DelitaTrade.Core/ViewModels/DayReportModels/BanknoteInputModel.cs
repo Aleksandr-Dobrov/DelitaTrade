@@ -1,9 +1,8 @@
-﻿namespace DelitaTrade.Core.ViewModels
+﻿namespace DelitaTrade.Core.ViewModels.DayReportModels
 {
-    public class DayReportBanknotesViewModel : DayReportHeaderViewModel
+    public class BanknoteInputModel : DayReportBanknotesViewModel
     {
-        public decimal TotalIncome { get; set; }
-        public Dictionary<decimal, int> Banknotes { get; set; } = new Dictionary<decimal, int>
+        public Dictionary<decimal, int> BanknoteOldValues { get; set; } = new Dictionary<decimal, int>
         {
             { 0.01m, 0 },
             { 0.02m, 0 },
