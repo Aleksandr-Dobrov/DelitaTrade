@@ -52,6 +52,16 @@
     transition: 0.2s;
 }
 
+.protocol-list-item-click {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1.5rem 2rem;
+    padding: 0rem;
+    border-radius: 0.6rem;
+    transition: 0.08s;
+}
+
 .protocol-list-item:hover {
     background-color: #f0f0f0;
     padding: 1.5rem 1rem;

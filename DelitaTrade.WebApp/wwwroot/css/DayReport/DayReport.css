@@ -23,7 +23,30 @@
     transition: 0.2s;
 }
 
+.day-report-list-item-clicked {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 1rem;
+    padding: 0rem;
+    font-size: medium;
+    border-radius: 0.6rem;
+    transition: 0.08s;
+}
+
+.day-report-list-item-clicked * {
+    margin: auto 0.5rem;
+}
 .day-report-list-container a {
     text-decoration: none;
     color: black;
+}
+
+.delita-import-style {
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    background-color: aliceblue;
+    padding: 0.5rem;
+    border-style: outset;
 }
