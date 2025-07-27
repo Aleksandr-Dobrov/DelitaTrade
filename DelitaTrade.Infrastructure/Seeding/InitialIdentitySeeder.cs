@@ -1,4 +1,5 @@
 ﻿using DelitaTrade.Common.Extensions;
+using DelitaTrade.Infrastructure.Data;
 using DelitaTrade.Infrastructure.Data.Models;
 using DelitaTrade.Infrastructure.Seeding.Interfaces;
 using Microsoft.AspNetCore.Identity;

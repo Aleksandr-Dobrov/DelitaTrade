@@ -1,4 +1,5 @@
-﻿using DelitaTrade.Infrastructure.Seeding.Interfaces;
+﻿using DelitaTrade.Infrastructure.Data;
+using DelitaTrade.Infrastructure.Seeding.Interfaces;
 
 namespace DelitaTrade.WebApp.Extensions
 {

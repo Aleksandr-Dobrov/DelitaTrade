@@ -1,6 +1,5 @@
 ﻿using DelitaTrade.Infrastructure.Data;
 using DelitaTrade.Infrastructure.Data.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -11,8 +10,6 @@ using DelitaTrade.Core.Exporters.ExcelExporters;
 using DelitaTrade.Core.Interfaces;
 using DelitaTrade.Core.Stores;
 using System.Configuration;
-using DelitaTrade.Infrastructure.Seeding.Interfaces;
-using DelitaTrade.Infrastructure.Seeding;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
