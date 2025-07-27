@@ -26,7 +26,7 @@ namespace DelitaTrade
                     services.AddApplicationDatabase(hostContent.Configuration)
                         .AddApplicationConfigurationManager()
                         .AddApplicationServices()
-                        .AddApplicationIdentity()
+                        .AddWpfApplicationIdentity()
                         .AddWpfUserServiceAndUserUi()
                         .AddWpfApplicationExporterServices()
                         .AddWpfApplicationViewModelsAndControllers();

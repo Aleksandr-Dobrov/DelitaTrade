@@ -11,6 +11,8 @@ using DelitaTrade.Core.Exporters.ExcelExporters;
 using DelitaTrade.Core.Interfaces;
 using DelitaTrade.Core.Stores;
 using System.Configuration;
+using DelitaTrade.Infrastructure.Seeding.Interfaces;
+using DelitaTrade.Infrastructure.Seeding;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -24,13 +26,13 @@ namespace Microsoft.Extensions.DependencyInjection
             return service;
         }
 
-        public static IServiceCollection AddApplicationIdentity(this IServiceCollection services)
+        public static IServiceCollection AddWpfApplicationIdentity(this IServiceCollection services)
         {
             services.AddIdentity<DelitaUser, IdentityRole<Guid>>(options =>
             {
                 options.ApplicationIdentityConfiguration();
             })
-                .AddApplicationIdentityServices();
+            .AddApplicationIdentityServices();
 
             return services;
         }
