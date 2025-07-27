@@ -283,7 +283,7 @@ namespace DelitaTrade.Core.Services
                 }
                 else if (companyObjects.Count == 0 && company != null)
                 {   
-                    decimal comparerCoeficient = 0.85m;
+                    decimal comparerCoefficient = 0.85m;
 
                     Dictionary<decimal, CompanyObject> equalsResult = new Dictionary<decimal, CompanyObject>();
                     foreach (var obj in company.Objects)
@@ -300,7 +300,7 @@ namespace DelitaTrade.Core.Services
                         equalsResult[(decimal)equals / args.Count] = obj;
                     }
 
-                    if (equalsResult.OrderByDescending(o => o.Key).First().Key > comparerCoeficient)
+                    if (equalsResult.OrderByDescending(o => o.Key).First().Key > comparerCoefficient)
                     {
                         companyObject = equalsResult.OrderByDescending(o => o.Key).First().Value;
                     }                    
@@ -318,6 +318,7 @@ namespace DelitaTrade.Core.Services
                         Type = invoice.Company.GetCompanyType(),
                         Name = invoice.Company.GetCompanyName() ?? throw new ArgumentNullException(nameof(invoice.Company)),
                     };
+                    await repo.AddAsync(company);
                 }
 
                 if (companyObject == null)
@@ -328,7 +329,7 @@ namespace DelitaTrade.Core.Services
                         Company = company,
                         Trader = await repo.All<Trader>().Where(t => t.Name == DefaultTraderName).FirstAsync()                        
                     };
-                    company.Objects.Add(companyObject);
+                    await repo.AddAsync(companyObject);
                 }
 
                 if (delivery == null)
@@ -368,9 +369,11 @@ namespace DelitaTrade.Core.Services
 
                     delivery.Payments.Add(newPayment);
                     dayReport.Invoices.Add(newPayment);
+                
                 }
+
+                await repo.SaveChangesAsync();
             }
-            await repo.SaveChangesAsync();
         }
 
         public async Task CompleteAllAsync(UserViewModel user, int deliveryId)
