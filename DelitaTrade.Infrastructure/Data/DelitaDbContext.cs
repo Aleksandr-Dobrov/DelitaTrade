@@ -18,7 +18,9 @@ namespace DelitaTrade.Infrastructure.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<CompanyObject>().HasOne(a => a.Address);
             modelBuilder.Entity<Address>().HasMany(a => a.CompanyObjects);
-            modelBuilder.ApplyConfiguration(new DayReportConfiguration());            
+            modelBuilder.ApplyConfiguration(new DayReportConfiguration());
+            modelBuilder.ApplyConfiguration(new TraderConfiguration());
+            modelBuilder.ApplyConfiguration(new VehicleConfiguration());
         }
 
         //Remove comment on code below and add connection string before applying migrations

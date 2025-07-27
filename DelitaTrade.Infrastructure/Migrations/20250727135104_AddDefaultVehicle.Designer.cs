@@ -4,6 +4,7 @@ using DelitaTrade.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DelitaTrade.Infrastructure.Migrations
 {
     [DbContext(typeof(DelitaDbContext))]
-    partial class DelitaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250727135104_AddDefaultVehicle")]
+    partial class AddDefaultVehicle
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,7 +56,7 @@ namespace DelitaTrade.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Address", (string)null);
+                    b.ToTable("Address");
                 });
 
             modelBuilder.Entity("DelitaTrade.Infrastructure.Data.Models.Company", b =>
@@ -82,7 +85,7 @@ namespace DelitaTrade.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Companies", (string)null);
+                    b.ToTable("Companies");
                 });
 
             modelBuilder.Entity("DelitaTrade.Infrastructure.Data.Models.CompanyObject", b =>
@@ -123,7 +126,7 @@ namespace DelitaTrade.Infrastructure.Migrations
 
                     b.HasIndex("TraderId");
 
-                    b.ToTable("Objects", (string)null);
+                    b.ToTable("Objects");
                 });
 
             modelBuilder.Entity("DelitaTrade.Infrastructure.Data.Models.DayReport", b =>
@@ -177,7 +180,7 @@ namespace DelitaTrade.Infrastructure.Migrations
 
                     b.HasIndex("VehicleId");
 
-                    b.ToTable("DayReports", (string)null);
+                    b.ToTable("DayReports");
                 });
 
             modelBuilder.Entity("DelitaTrade.Infrastructure.Data.Models.DelitaUser", b =>
@@ -284,7 +287,7 @@ namespace DelitaTrade.Infrastructure.Migrations
 
                     b.HasIndex("VehicleId");
 
-                    b.ToTable("Deliveries", (string)null);
+                    b.ToTable("Deliveries");
                 });
 
             modelBuilder.Entity("DelitaTrade.Infrastructure.Data.Models.DescriptionCategory", b =>
@@ -302,7 +305,7 @@ namespace DelitaTrade.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DescriptionCategories", (string)null);
+                    b.ToTable("DescriptionCategories");
                 });
 
             modelBuilder.Entity("DelitaTrade.Infrastructure.Data.Models.Invoice", b =>
@@ -342,7 +345,7 @@ namespace DelitaTrade.Infrastructure.Migrations
                     b.HasIndex("Number")
                         .IsUnique();
 
-                    b.ToTable("Invoices", (string)null);
+                    b.ToTable("Invoices");
                 });
 
             modelBuilder.Entity("DelitaTrade.Infrastructure.Data.Models.InvoiceInDayReport", b =>
@@ -379,7 +382,7 @@ namespace DelitaTrade.Infrastructure.Migrations
 
                     b.HasIndex("InvoiceId");
 
-                    b.ToTable("InvoicesInDayReports", (string)null);
+                    b.ToTable("InvoicesInDayReports");
                 });
 
             modelBuilder.Entity("DelitaTrade.Infrastructure.Data.Models.Product", b =>
@@ -398,7 +401,7 @@ namespace DelitaTrade.Infrastructure.Migrations
 
                     b.HasKey("Name", "Unit");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("DelitaTrade.Infrastructure.Data.Models.ReturnProtocol", b =>
@@ -447,7 +450,7 @@ namespace DelitaTrade.Infrastructure.Migrations
 
                     b.HasIndex("TraderId");
 
-                    b.ToTable("ReturnProtocols", (string)null);
+                    b.ToTable("ReturnProtocols");
                 });
 
             modelBuilder.Entity("DelitaTrade.Infrastructure.Data.Models.ReturnedProduct", b =>
@@ -503,7 +506,7 @@ namespace DelitaTrade.Infrastructure.Migrations
 
                     b.HasIndex("ProductName", "ProductUnit");
 
-                    b.ToTable("ReturnedProduct", (string)null);
+                    b.ToTable("ReturnedProduct");
                 });
 
             modelBuilder.Entity("DelitaTrade.Infrastructure.Data.Models.ReturnedProductDescription", b =>
@@ -524,7 +527,7 @@ namespace DelitaTrade.Infrastructure.Migrations
                     b.HasIndex("Description")
                         .IsUnique();
 
-                    b.ToTable("ReturnedProductDescriptions", (string)null);
+                    b.ToTable("ReturnedProductDescriptions");
                 });
 
             modelBuilder.Entity("DelitaTrade.Infrastructure.Data.Models.Trader", b =>
@@ -549,7 +552,7 @@ namespace DelitaTrade.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Traders", (string)null);
+                    b.ToTable("Traders");
 
                     b.HasData(
                         new
@@ -582,7 +585,7 @@ namespace DelitaTrade.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Vehicles", (string)null);
+                    b.ToTable("Vehicles");
 
                     b.HasData(
                         new
