@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DelitaTradeProjectTests", "..\DelitaTradeProjectTests\DelitaTradeProjectTests.csproj", "{CA5BBA3C-F7D1-480C-B634-C63BA5CB9044}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelitaTrade.Common", "DelitaTrade.Common\DelitaTrade.Common.csproj", "{C65D45DC-44B1-4F56-A266-8B63A13A2FEA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelitaTrade.Core", "DelitaTrade.Core\DelitaTrade.Core.csproj", "{725E658C-D623-4223-B69F-C8C770692CD0}"
@@ -23,10 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CA5BBA3C-F7D1-480C-B634-C63BA5CB9044}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CA5BBA3C-F7D1-480C-B634-C63BA5CB9044}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CA5BBA3C-F7D1-480C-B634-C63BA5CB9044}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CA5BBA3C-F7D1-480C-B634-C63BA5CB9044}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C65D45DC-44B1-4F56-A266-8B63A13A2FEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C65D45DC-44B1-4F56-A266-8B63A13A2FEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C65D45DC-44B1-4F56-A266-8B63A13A2FEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
