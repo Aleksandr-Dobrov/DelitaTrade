@@ -21,7 +21,6 @@ namespace Microsoft.Extensions.DependencyInjection
 
         public static IdentityBuilder AddApplicationIdentityServices(this IdentityBuilder builder)
         {
-
             builder.AddUserManager<UserManager<DelitaUser>>()
             .AddRoleManager<RoleManager<IdentityRole<Guid>>>()
             .AddSignInManager<SignInManager<DelitaUser>>()

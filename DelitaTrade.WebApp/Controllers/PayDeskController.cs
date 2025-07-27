@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
 using Microsoft.AspNetCore.Identity;
 using DelitaTrade.Core.ViewModels;
-using DelitaTrade.Core.ModelBinders;
 using DelitaTrade.Core.ViewModels.DayReportModels;
 
 namespace DelitaTrade.WebApp.Controllers

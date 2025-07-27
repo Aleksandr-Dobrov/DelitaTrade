@@ -1,7 +1,7 @@
 ﻿using DelitaTrade.Infrastructure.Data.Models;
-using DelitaTrade.Infrastructure.Data;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using DelitaTrade.Infrastructure.Seeding.Interfaces;
+using DelitaTrade.Infrastructure.Seeding;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -15,7 +15,7 @@ namespace Microsoft.Extensions.DependencyInjection
             })
                 .AddApplicationIdentityServices()
                 .AddDefaultUI();
-            
+            services.AddTransient<IIdentitySeeder, InitialIdentitySeeder>();
             return services;
         }
     }
