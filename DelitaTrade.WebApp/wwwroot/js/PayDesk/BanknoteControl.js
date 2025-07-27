@@ -20,23 +20,23 @@ function addEvents() {
             }
         });
 
-        d.addEventListener('wheel', (e) => {
-            const el = d.querySelector('.value');
+        const inputEl = d.querySelector('.value');
+        inputEl.addEventListener('wheel', (e) => {
             if (e.deltaY > 0) {
                 e.preventDefault();
-                if (el.value > (countEl.value * -1)) {
-                    el.value--;
+                if (inputEl.value > (countEl.value * -1)) {
+                    inputEl.value--;
                 }
             }
             else if (e.deltaY < 0) {
                 e.preventDefault();
-                el.value++;
+                inputEl.value++;
             }
         });
                 
         const value = d.querySelector('.value');
 
-        d.addEventListener('wheel', calculateTotal);
+        inputEl.addEventListener('wheel', calculateTotal);
         value.addEventListener('input', calculateTotal);
         d.querySelectorAll('.banknote-command button').forEach((b) => b.addEventListener('click', calculateTotal));
 
