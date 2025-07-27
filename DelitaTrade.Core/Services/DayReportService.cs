@@ -42,7 +42,7 @@ namespace DelitaTrade.Core.Services
             };
             await repo.AddAsync(newDayReport);
             await repo.SaveChangesAsync();
-            await repo.ReloadAsync(newDayReport);
+            //await repo.ReloadAsync(newDayReport);
             dayReport.Id = newDayReport.Id;
             return dayReport;
         }

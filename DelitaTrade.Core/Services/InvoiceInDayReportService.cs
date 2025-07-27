@@ -117,7 +117,6 @@ namespace DelitaTrade.Core.Services
                 };
                 await repo.AddAsync(invoice);
                 await repo.SaveChangesAsync();
-                await repo.ReloadAsync(invoice);
             }
             else
             {
@@ -135,7 +134,6 @@ namespace DelitaTrade.Core.Services
             await repo.AddAsync(invoiceInDayReport);
 
             await repo.SaveChangesAsync();
-            await repo.ReloadAsync(invoiceInDayReport);
 
             newInvoice.Id = invoiceInDayReport.Invoice.Id;
             newInvoice.IdInDayReport = invoiceInDayReport.Id;

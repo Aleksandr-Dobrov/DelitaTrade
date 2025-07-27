@@ -113,7 +113,7 @@ namespace DelitaTrade.Core.Services
             };
             await repo.AddAsync(newCompany);
             await repo.SaveChangesAsync();
-            await repo.ReloadAsync(newCompany);
+            //await repo.ReloadAsync(newCompany);
             return newCompany.Id;
         }
 

@@ -52,34 +52,34 @@ namespace DelitaTrade.Core.Services
 
                 if (company == null)
                 {
-                    var newCompany = new Company()
+                    company = new Company()
                     {
                         Name = licensePlate,
                         Type = ExpenseCompanyType
                     };
 
-                    await repo.AddAsync(newCompany);
+                    await repo.AddAsync(company);
                     await repo.SaveChangesAsync();
 
-                    company = await repo.AllReadonly<Company>()
-                        .Where(c => c.Name == licensePlate)
-                        .FirstOrDefaultAsync() ?? throw new InvalidOperationException("Can not create new expense");
+                    //company = await repo.All<Company>()
+                    //    .Where(c => c.Name == licensePlate)
+                    //    .FirstOrDefaultAsync() ?? throw new InvalidOperationException("Can not create new expense");
                 }
 
-                var newCompanyObject = new CompanyObject()
+                companyObject = new CompanyObject()
                 {
                     Name = expense.Expense ?? throw new InvalidOperationException("Expense is required"),
                     Company = company,
                     Trader = await repo.All<Trader>().Where(t => t.Name == DefaultTraderName).FirstAsync()
                 };
 
-                await repo.AddAsync(newCompanyObject);
+                await repo.AddAsync(companyObject);
                 await repo.SaveChangesAsync();
 
-                companyObject = await repo.AllReadonly<CompanyObject>()
-                        .Where(o => o.Name == expense.Expense
-                                && o.CompanyId == company.Id)
-                        .FirstOrDefaultAsync() ?? throw new InvalidOperationException("Can not create new expense");
+                //companyObject = await repo.AllReadonly<CompanyObject>()
+                //        .Where(o => o.Name == expense.Expense
+                //                && o.CompanyId == company.Id)
+                //        .FirstOrDefaultAsync() ?? throw new InvalidOperationException("Can not create new expense");
             }
 
             var companyViewModel = new CompanyViewModel()
