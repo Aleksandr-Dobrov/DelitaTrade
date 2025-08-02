@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "Products Management";
+    ViewData["ProductSearchUrl"] = Url.Action("Products", "Search", null, Url.ActionContext.HttpContext.Request.Scheme);
+}
+<head>
+    <link rel="stylesheet" href="~/css/AdminArea/AdminStyles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/search.css" asp-append-version="true" />
+</head>
+
+<div class="main-dark-bg">
+    <h1 class="mb-4">@ViewData["Title"]</h1>   
+    <div id="search" class="col-sm-6 mb-2">
+        <input class="form-label-add-edit" autocomplete="off" type="text" id="product-item-value" placeholder="Products..." />
+        <input type="hidden" id="selected-product-name" />
+        <input type="hidden" id="selected-product-unit" />
+        <input type="hidden" id="selected-product-number" />
+        <ul id="product-result-list" class="search-list delita-shadow">
+        </ul>
+    </div>
+
+    <div class="mb-2">
+        <label class="form-label-add-edit">Name</label>
+        <input id="product-name-value" class="form-control" type="text" aria-required="true" />
+    </div>
+    <div class="mb-2">
+        <label class="form-label-add-edit">Unit</label>
+        <input id="product-unit-value" class="form-control" type="text" aria-required="true" />
+    </div>
+    <div class="mb-2">
+        <label class="form-label-add-edit">Number</label>
+        <input id="product-number-value" class="form-control" type="number" aria-required="true" />
+    </div>
+</div>
+<div class="d-flex justify-content-center align-items-center gap-2 flex-wrap">
+    <form asp-area="Admin" asp-controller="ProductsManagement" asp-action="Create" method="post" class="d-inline">
+        <input type="hidden" name="productNumber" id="create-product-number" />
+        <input type="hidden" name="productName" id="create-product-name" />
+        <input type="hidden" name="productUnit" id="create-product-unit" />
+        <button type="submit" class="btn btn-primary btn-sm fw-bold px-3 py-2"
+                onclick="onCreateProductClick()">
+            Create
+        </button>
+    </form>
+    <form asp-area="Admin" asp-controller="ProductsManagement" asp-action="Edit" method="post" class="d-inline">
+        <input type="hidden" name="editProductNumber" id="edited-product-number" />
+        <input type="hidden" name="editProductName" id="edited-product-name" />
+        <input type="hidden" name="editProductUnit" id="edited-product-unit" />
+
+        <input type="hidden" name="productNumber" id="edit-product-number" />
+        <input type="hidden" name="productName" id="edit-product-name" />
+        <input type="hidden" name="productUnit" id="edit-product-unit" />
+        <button type="submit" id="edit-button" class="btn btn-primary btn-sm fw-bold px-3 py-2" disabled
+                onclick="onEditProductClick()">
+            Edit
+        </button>
+    </form>
+</div>
+<div>
+    <form asp-area="Admin" asp-controller="ProductsManagement" asp-action="Import" method="post" enctype="multipart/form-data" class="delita-import-style">
+        <input type="file" name="file" />
+        <button type="submit">Import</button>
+    </form>
+</div>
+
+<script src="~/js/ServerProvider.js"></script>
+<script src="~/js/HtmlUtil.js"></script>
+<script>
+    const productSearchUrl = '@ViewData["ProductSearchUrl"]';
+</script>
+<script src="~/js/AdminArea/ProductManagement.js" asp-append-version="true"></script>
+<script src="~/js/ProductSearch/ProductSearch.js"></script>

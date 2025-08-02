@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "Admin Panel";
+}
+<head> 
+    <link rel="stylesheet" href="~/css/AdminArea/AdminStyles.css" asp-append-version="true" />
+</head>
+
+<div class="main-dark-bg">
+    <h1 class="mb-4">@ViewData["Title"]</h1>
+
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Users Management</h5>
+                    <p class="card-text">Manage application users, roles, and permissions.</p>
+                    <img class="card-image" src="~/Assets/ComponentAssets/AdminPanel/account.png" alt="Employees"/>
+                    <a asp-area="Admin" asp-controller="UsersManagement" asp-action="Index" class="btn btn-primary">Go to Users</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Companies Management</h5>
+                    <p class="card-text">Manage company profiles and related information.</p>
+                    <img class="card-image" src="~/Assets/ComponentAssets/AdminPanel/multinational-corporation.png" alt="Companies" />
+                    <a asp-area="Admin" asp-controller="CompaniesManagement" asp-action="Index" class="btn btn-primary">Go to Companies</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Products Management</h5>
+                    <p class="card-text">Manage products, categories, and inventory.</p>
+                    <img class="card-image" src="~/Assets/ComponentAssets/AdminPanel/products.png" alt="Products" />
+                    <a asp-area="Admin" asp-controller="ProductsManagement" asp-action="Index" class="btn btn-primary">Go to Products</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

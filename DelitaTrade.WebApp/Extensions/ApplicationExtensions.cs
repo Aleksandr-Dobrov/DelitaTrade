@@ -1,5 +1,5 @@
-﻿using DelitaTrade.Infrastructure.Data;
-using DelitaTrade.Infrastructure.Seeding.Interfaces;
+﻿using DelitaTrade.Infrastructure.Seeding.Interfaces;
+using DelitaTrade.WebApp.Middlewares;
 
 namespace DelitaTrade.WebApp.Extensions
 {
@@ -24,6 +24,22 @@ namespace DelitaTrade.WebApp.Extensions
                 identitySeeder.SeedApplicationUsersAsync().GetAwaiter().GetResult();
             }
 
+            return app;
+        }
+
+        /// <summary>
+        /// Adds middleware to the application's request pipeline that redirects users to the admin interface based on
+        /// admin role.
+        /// </summary>
+        /// <remarks>This extension method integrates the <see cref="AdminRedirectionMiddleware"/> into
+        /// the application's request pipeline. Use this method to enable automatic redirection to the admin interface
+        /// when applicable. Ensure that the middleware is added in the correct order relative to other middleware
+        /// components to achieve the desired behavior.</remarks>
+        /// <param name="app">The <see cref="IApplicationBuilder"/> instance to configure the middleware.</param>
+        /// <returns>The <see cref="IApplicationBuilder"/> instance, enabling further configuration.</returns>
+        public static IApplicationBuilder UseAdminRedirection(this IApplicationBuilder app) 
+        {
+            app.UseMiddleware<AdminRedirectionMiddleware>();
             return app;
         }
     }

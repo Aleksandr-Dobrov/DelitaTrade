@@ -10,7 +10,7 @@ namespace DelitaTrade.WebApp
             var builder = WebApplication.CreateBuilder(args);
             // Add services to the container.
             builder.Configuration.AddUserSecrets(Assembly.GetEntryAssembly() ?? throw new ArgumentException("Unable to get entry assembly"));
-            builder.Services.AddApplicationDatabase(builder.Configuration);
+            builder.Services.AddApplicationDatabase(builder.Configuration, "TestDelitaConnection");
             builder.Services.AddRazorPages();
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
             
@@ -22,6 +22,18 @@ namespace DelitaTrade.WebApp
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddApplicationServices();
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(policy =>
+                {
+                    {
+                        policy.WithOrigins("https://kit.fontawesome.com")
+                               .AllowAnyMethod()
+                               .AllowAnyHeader();
+                        //TODO: check if this is correct solution for missing FontAwesome icons
+                    }
+                });
+            });
 
             var app = builder.Build();
 
@@ -46,7 +58,12 @@ namespace DelitaTrade.WebApp
             app.UseRouting();
 
             app.UseAuthorization();
+ 
+            app.UseAdminRedirection();
 
+            app.MapControllerRoute(
+                name: "areas",
+                pattern: "{area}/{controller=Home}/{action=Index}/{id?}");
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");

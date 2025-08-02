@@ -1,7 +1,7 @@
 ﻿using DelitaTrade.Common.Constants;
 using DelitaTrade.Core.ViewModels;
 using DelitaTrade.Infrastructure.Data.Models;
-using DelitaTrade.Models.JsonModels;
+using DelitaTrade.Core.ViewModels.ProductsManagementModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
