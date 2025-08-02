@@ -1,0 +1,24 @@
+﻿@using static DelitaTrade.Common.Constants.AppMessageConstants;
+
+@if (TempData.ContainsKey(Info))
+{
+    <input type="hidden" id="info-message" value="@TempData[Info]" />
+}
+
+@if(TempData.ContainsKey(Success))
+{
+    <input type="hidden" id="success-message" value="@TempData[Success]"/>
+}
+
+@if (TempData.ContainsKey(Warning))
+{
+    <input type="hidden" id="warning-message" value="@TempData[Warning]" />
+}
+
+@if (TempData.ContainsKey(Error))
+{
+    <input type="hidden" id="error-message" value="@TempData[Error]" />
+}
+
+
+
