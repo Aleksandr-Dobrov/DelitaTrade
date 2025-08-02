@@ -61,9 +61,11 @@
 }
 
     .banknote-command button {
+        padding: 0px;
         width: 30px;
         border-radius: 0.5rem;
-        background-color: burlywood;
+        font-size: 17px;
+        background-color: burlywood;    
     }
 
     .banknote-command input {
