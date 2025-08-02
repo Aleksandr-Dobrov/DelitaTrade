@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
 using static DelitaTrade.Common.Constants.AppMessageConstants;
+using static DelitaTrade.Common.Constants.AppErrorMessage.DayReportErrorMessages;
+using static DelitaTrade.Common.Constants.FormatConstant.DateTimeFormat;
+using DelitaTrade.Common.Extensions;
 
 namespace DelitaTrade.WebApp.Controllers
 {
@@ -23,96 +26,139 @@ namespace DelitaTrade.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(SearchDayReportInputModel? model)
         {
-            model ??= new SearchDayReportInputModel();
-            var previousSearch = TempData.Peek("dayReports") as IEnumerable<int>;
-            if (previousSearch != null && previousSearch.Any())
+            try
             {
-                var user = await GetUserViewModelAsync();
-                model.DayReports = await dayReportService.GetSimpleByIdAsync(user, previousSearch);
-            }
+                model ??= new SearchDayReportInputModel();
+                var previousSearch = TempData.Peek("dayReports") as IEnumerable<int>;
+                if (previousSearch != null && previousSearch.Any())
+                {
+                    var user = await GetUserViewModelAsync();
+                    model.DayReports = await dayReportService.GetSimpleByIdAsync(user, previousSearch);
+                }
 
-            if (User.IsInRole(AdminRole) 
-                || User.IsInRole(LogisticsManagerRole)
-                || User.IsInRole(CashierRole)
-                || User.IsInRole(AccountantRole))
+                if (User.IsInRole(AdminRole) 
+                    || User.IsInRole(LogisticsManagerRole)
+                    || User.IsInRole(CashierRole)
+                    || User.IsInRole(AccountantRole))
+                {
+                    model.Employees = await dayReportService.GetAllUsersWhitDayReports(await GetUserViewModelAsync());
+                }
+
+                return View(model);
+            }
+            catch (Exception)
             {
-                model.Employees = await dayReportService.GetAllUsersWhitDayReports(await GetUserViewModelAsync());
+                TempData[Error] = SearchPageError;
+                return RedirectToAction(nameof(HomeController.Index), nameof(HomeController).GetControllerName());
             }
-
-            return View(model);
         }
 
         [HttpGet]
         [Authorize(Roles = $"{AdminRole},{LogisticsManagerRole}")]
         public async Task<IActionResult> Create()
         {
-            var user = await GetUserViewModelAsync();
-           
-            var dayReportInput = new DayReportInputModel()
+            try
             {
-                Users = await dayReportService.GetAllDrivers(user),
-                Vehicles = await vehicleService.AllAsync()
-            };
+                var user = await GetUserViewModelAsync();
+           
+                var dayReportInput = new DayReportInputModel()
+                {
+                    Users = await dayReportService.GetAllDrivers(user),
+                    Vehicles = await vehicleService.AllAsync()
+                };
 
-            return View(dayReportInput);
+                return View(dayReportInput);
+            }
+            catch (Exception)
+            {
+                TempData[Error] = CreateError;
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         [HttpPost]
         [Authorize(Roles = $"{AdminRole},{LogisticsManagerRole}")]
         public async Task<IActionResult> Create(DayReportInputModel dayReportInput)
         {
-            if (ModelState.IsValid == false) 
+            try
             {
-                return RedirectToAction(nameof(Create));
+                if (ModelState.IsValid == false) 
+                {
+                    return View();
+                }
+                var user = await GetUserViewModelByUserNameAsync(dayReportInput.UserName);
+                if (user == null) 
+                {
+                    TempData[Error] = UserNotFound;
+                    return RedirectToAction(nameof(Index));
+                }
+
+                var newDayReport = new DayReportViewModel()
+                {
+                    Date = dayReportInput.ReportedDate.HasValue ? dayReportInput.ReportedDate.Value : DateTime.Now,
+                    User = user!,
+                    Vehicle = await vehicleService.GetByIdAsync(dayReportInput.VehicleId)                 
+                };
+
+                var createdDayReport = await dayReportService.CreateAsync(newDayReport);
+                TempData[Success] = string.Format(CreateSuccess, createdDayReport.Date.ToString(AppDateFormat), createdDayReport.User.Name);
+
+                return RedirectToAction(nameof(Details), new { createdDayReport.Id });
             }
-            var user = await GetUserViewModelByUserNameAsync(dayReportInput.UserName);
-            if (user == null) 
+            catch (Exception)
             {
-                return RedirectToAction(nameof(Index));//TODO: add error if user not found
+                TempData[Error] = CreateError;
+                return RedirectToAction(nameof(Index));
             }
-
-            var newDayReport = new DayReportViewModel()
-            {
-                Date = dayReportInput.ReportedDate.HasValue ? dayReportInput.ReportedDate.Value : DateTime.Now,
-                User = user!,
-                Vehicle = await vehicleService.GetByIdAsync(dayReportInput.VehicleId)                 
-            };
-
-            var createdDayReport = await dayReportService.CreateAsync(newDayReport);
-
-            return RedirectToAction(nameof(Details), new { createdDayReport.Id });
         }
 
         [HttpGet]
         public async Task<IActionResult> SearchDayReport(SearchDayReportInputModel model)
         {
-            var userViewModel = await GetUserViewModelAsync();
-            if (ModelState.IsValid == false)
+            try
             {
-                model.Employees = await dayReportService.GetAllUsersWhitDayReports(userViewModel);
-                return View(model);
+                var userViewModel = await GetUserViewModelAsync();
+                if (ModelState.IsValid == false)
+                {
+                    model.Employees = await dayReportService.GetAllUsersWhitDayReports(userViewModel);
+                    return View(model);
+                }
+                if (User.IsInRole(AdminRole) 
+                    || User.IsInRole(LogisticsManagerRole)
+                    || User.IsInRole(CashierRole)
+                    || User.IsInRole(AccountantRole))
+                {
+                    model.Employees = await dayReportService.GetAllUsersWhitDayReports(userViewModel);
+                }
+                model.DayReports = await dayReportService.GetSimpleFilteredAsync(userViewModel, model.ReporterUserName, model.StartDate, model.EndDate);
+                if (model.DayReports != null)
+                {
+                    TempData["dayReports"] = model.DayReports.Select(d => d.Id).ToList();
+                    TempData[Success] = string.Format(SearchComplete, model.DayReports.Count());
+                }
+                return View(nameof(Index), model);
             }
-            if (User.IsInRole(AdminRole) 
-                || User.IsInRole(LogisticsManagerRole)
-                || User.IsInRole(CashierRole)
-                || User.IsInRole(AccountantRole))
+            catch (Exception)
             {
-                model.Employees = await dayReportService.GetAllUsersWhitDayReports(userViewModel);
+                TempData[Error] = SearchError;
+                return RedirectToAction(nameof(Index));
             }
-            model.DayReports = await dayReportService.GetSimpleFilteredAsync(userViewModel, model.ReporterUserName, model.StartDate, model.EndDate);
-            if (model.DayReports != null)
-            {
-                TempData["dayReports"] = model.DayReports.Select(d => d.Id).ToList();
-            }
-            return View(nameof(Index), model);
         }
 
         [HttpGet]        
         public async Task<IActionResult> Details(int id)
         {
-            var userViewModel = await GetUserViewModelAsync();            
-            var dayReport = await dayReportService.GetDetailDayReportByIdAsync(userViewModel, id);
-            return View(dayReport);            
+            try
+            {
+                var userViewModel = await GetUserViewModelAsync();            
+                var dayReport = await dayReportService.GetDetailDayReportByIdAsync(userViewModel, id);
+                return View(dayReport);  
+            }
+            catch (ArgumentNullException ex)
+            {
+                TempData[Error] = ex.Message;
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         [HttpGet]
@@ -150,10 +196,12 @@ namespace DelitaTrade.WebApp.Controllers
 
                 await dayReportService.DeleteAsync(user, model.Id);
 
+                TempData[Success] = string.Format(DeleteSuccess, model.ReportedDate.ToString(AppDateFormat), model.EmployeeName);
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
+                TempData[Error] = DeleteError;
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -162,17 +210,34 @@ namespace DelitaTrade.WebApp.Controllers
         [Authorize(Roles = $"{AdminRole},{LogisticsManagerRole}")]
         public async Task<IActionResult> ImportPayments(IFormFile file, int dayReportId)
         {
-            if (file != null && file.Length > 0)
+            try
             {
-                var user = await GetUserViewModelAsync();
-                
-                var importModel = await importService.ImportDeliveriesAsync(file);
-                if (importModel != null)
+                int importedPaymentsCount = 0;
+                if (file != null && file.Length > 0)
                 {
-                    await deliveryService.ImportPaymentsToDayReportAsync(user, dayReportId, importModel);
+                    var user = await GetUserViewModelAsync();
+                    
+                    var importModel = await importService.ImportDeliveriesAsync(file);
+                    if (importModel != null)
+                    {
+                        importedPaymentsCount = await deliveryService.ImportPaymentsToDayReportAsync(user, dayReportId, importModel);
+                    }
                 }
+                if (importedPaymentsCount > 0)
+                {
+                    TempData[Success] = string.Format(ImportPaymentsSuccess, importedPaymentsCount);
+                }
+                else
+                {
+                    TempData[Info] = NoPaymentsToImport;
+                }
+                return RedirectToAction(nameof(Details), new { Id = dayReportId });
             }
-            return RedirectToAction(nameof(Details), new { Id = dayReportId });
+            catch (Exception)
+            {
+                TempData[Error] = ImportPaymentsError;
+                return RedirectToAction(nameof(Details), new { Id = dayReportId });
+            }
         }
     }
 }

@@ -7,7 +7,7 @@ namespace DelitaTrade.Core.Contracts
     public interface IDeliveryService
     {
         Task<DeliveryViewModel> AddDeliveryAsync(DeliveryInputModel deliveryInput, UserViewModel user);
-        Task ImportPaymentsToDayReportAsync(UserViewModel user, int dayReportId, DayReportJsonImportModel dayReportJson);
+        Task<int> ImportPaymentsToDayReportAsync(UserViewModel user, int dayReportId, DayReportJsonImportModel dayReportJson);
         Task AddInvoiceAsync(UserViewModel user, InvoiceInputModel invoice, int deliveryId);
         Task AddOldInvoiceAsync(UserViewModel user, OldInvoiceInputModel oldInvoice, int deliveryId);
         Task AddCreditNoteAsync(UserViewModel user, CreditNoteInputModel creditNote, int deliveryId);

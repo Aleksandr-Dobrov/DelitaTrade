@@ -1,0 +1,20 @@
+﻿namespace DelitaTrade.Common.Constants
+{
+    public class AppErrorMessage
+    {
+        public class DayReportErrorMessages
+        {
+            public const string UserNotFound = "Selected user not exists!";
+            public const string CreateSuccess = "The daily report for {0} of {1} has been created successfully.";
+            public const string DeleteSuccess = "The daily report for {0} of {1} has been deleted successfully.";
+            public const string DeleteError = "An error occurred while deleting the daily report. Please contact developer team.";
+            public const string ImportPaymentsSuccess = "Successfully imported {0} payments.";
+            public const string NoPaymentsToImport = "No new payments to import.";
+            public const string ImportPaymentsError = "An error occurred while importing payments. Please contact developer team.";
+            public const string SearchComplete = "Search completed successfully. Found {0} results.";
+            public const string SearchError = "An error occurred while searching. Please try again with another parameters.";
+            public const string CreateError = "An error occurred while creating the daily report. Please contact developer team.";
+            public const string SearchPageError = "An error occurred while loading search page. Please contact developer team.";
+        }
+    }
+}

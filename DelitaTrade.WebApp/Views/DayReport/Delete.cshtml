@@ -11,6 +11,8 @@
     <h2><strong>@ViewData["Title"]</strong></h2>
     <form asp-controller="DayReport" asp-action="Delete" method="post">
         <input type="hidden" asp-for="@Model.Id" value="@Model.Id" />
+        <input type="hidden" asp-for="@Model.ReportedDate" value="@Model.ReportedDate" />
+        <input type="hidden" asp-for="@Model.EmployeeName" value="@Model.EmployeeName" />
         <div class="alert alert-danger">
             <p>Are you sure you want to delete the <strong>Daily report</strong> of <strong>@Model.EmployeeName</strong> for <strong>@Model.ReportedDate.ToString(AppDateFormat)</strong> ?</p>
         </div>

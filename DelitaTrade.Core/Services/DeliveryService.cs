@@ -214,12 +214,14 @@ namespace DelitaTrade.Core.Services
             await repo.SaveChangesAsync();
         }
 
-        public async Task ImportPaymentsToDayReportAsync(UserViewModel user, int dayReportId, DayReportJsonImportModel dayReportJson)
+        public async Task<int> ImportPaymentsToDayReportAsync(UserViewModel user, int dayReportId, DayReportJsonImportModel dayReportJson)
         {               
             if (IsAtLeastInOneRole(user, AdminRole, LogisticsManagerRole) == false)
             {
                 throw new UnauthorizedAccessException(nameof(DelitaUser));
             }
+
+            int count = 0;
 
             var dayReport = await repo.All<DayReport>()
                     .Include(d => d.Vehicle)
@@ -373,7 +375,9 @@ namespace DelitaTrade.Core.Services
                 }
 
                 await repo.SaveChangesAsync();
+                count++;
             }
+            return count;
         }
 
         public async Task CompleteAllAsync(UserViewModel user, int deliveryId)
