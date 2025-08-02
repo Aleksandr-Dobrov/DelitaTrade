@@ -25,16 +25,17 @@ namespace DelitaTrade.Core.Extensions
                                                            || i.PayMethod == PayMethod.ForCreditNote)
                                                            .Distinct(new PaymentViewModelEqualComparer())
                                                            .Sum(o => o.Amount) + creditNote;
+            
 
             delivery.TotalCard = delivery.Payments.Where(i => i.PayMethod == PayMethod.Card
                                                            || i.PayMethod == PayMethod.OldPayCard)
                                                            .Distinct(new PaymentViewModelEqualComparer())
-                                                           .Sum(o => o.Amount) + creditNote;
+                                                           .Sum(o => o.Amount);
 
             delivery.TotalOld = delivery.Payments.Where(i => i.PayMethod == PayMethod.OldPayCash
                                                           || i.PayMethod == PayMethod.OldPayCard)
                                                           .Distinct(new PaymentViewModelEqualComparer())
-                                                          .Sum(o => o.Amount) + creditNote;
+                                                          .Sum(o => o.Amount);
 
             delivery.TotalWeight = delivery.Payments.Distinct(new PaymentViewModelEqualComparer())
                                            .Sum(o => o.Weight);
