@@ -12,7 +12,7 @@ using static DelitaTrade.Common.Constants.FormatConstant.DateTimeFormat;
 
 namespace DelitaTrade.WebApp.Controllers
 {
-    [Authorize(Roles = Driver)]
+    [Authorize(Roles = DriverRole)]
     public class ExpenseController(IExpenseService expenseService,
             IDayReportService dayReportService,
             ICompanyObjectService companyObjectService,
@@ -27,7 +27,7 @@ namespace DelitaTrade.WebApp.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = Driver)]
+        [Authorize(Roles = DriverRole)]
         public async Task<IActionResult> AddExpense(int dayReportId)
         {
             int? vehicleId = await dayReportService.GetVehicleIdFromDayReportAsync(dayReportId);
@@ -48,7 +48,7 @@ namespace DelitaTrade.WebApp.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = Driver)]
+        [Authorize(Roles = DriverRole)]
         public async Task<IActionResult> AddExpense(ExpenseInputModel model)
         {
             if (ModelState.IsValid == false)
@@ -72,7 +72,7 @@ namespace DelitaTrade.WebApp.Controllers
             return RedirectToAction(nameof(Index), new { model.DayReportId });
         }
         [HttpGet]
-        [Authorize(Roles = Driver)]
+        [Authorize(Roles = DriverRole)]
         public async Task<IActionResult> UpdateExpense(int expenseId)
         {
             var user = await GetUserViewModelAsync();
@@ -91,7 +91,7 @@ namespace DelitaTrade.WebApp.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = Driver)]
+        [Authorize(Roles = DriverRole)]
         public async Task<IActionResult> UpdateExpense(ExpenseUpdateModel model)
         {
             if (ModelState.IsValid == false)
@@ -116,7 +116,7 @@ namespace DelitaTrade.WebApp.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = Driver)]
+        [Authorize(Roles = DriverRole)]
         public async Task<IActionResult> DeleteExpense(int id, int dayReportId)
         {
             var user = await GetUserViewModelAsync();

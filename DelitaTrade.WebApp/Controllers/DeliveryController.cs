@@ -10,7 +10,7 @@ using DelitaTrade.Core.Contracts;
 
 namespace DelitaTrade.WebApp.Controllers
 {
-    [Authorize(Roles = $"{Admin},{LogisticsManager},{Driver}")]
+    [Authorize(Roles = $"{AdminRole},{LogisticsManagerRole},{DriverRole}")]
     public class DeliveryController(IDeliveryService deliveryService, UserManager<DelitaUser> userManager) : BaseController(userManager)
     {
         public IActionResult Index()
@@ -19,7 +19,7 @@ namespace DelitaTrade.WebApp.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = $"{Admin},{LogisticsManager}")]
+        [Authorize(Roles = $"{AdminRole},{LogisticsManagerRole}")]
         public IActionResult Create(int dayReportId)
         {
             var deliveryInputModel = new DeliveryInputModel
@@ -32,7 +32,7 @@ namespace DelitaTrade.WebApp.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = $"{Admin},{LogisticsManager}")]
+        [Authorize(Roles = $"{AdminRole},{LogisticsManagerRole}")]
         public async Task<IActionResult> Create(DeliveryInputModel deliveryInputModel)
         {
             var user = await GetUserViewModelAsync();
@@ -58,7 +58,7 @@ namespace DelitaTrade.WebApp.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = $"{Admin},{LogisticsManager}")]
+        [Authorize(Roles = $"{AdminRole},{LogisticsManagerRole}")]
         public async Task<IActionResult> AddInvoice(int deliveryId) 
         {
             var user = await GetUserViewModelAsync();
@@ -81,7 +81,7 @@ namespace DelitaTrade.WebApp.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = $"{Admin},{LogisticsManager}")]
+        [Authorize(Roles = $"{AdminRole},{LogisticsManagerRole}")]
         public async Task<IActionResult> AddInvoice(InvoiceInputModel invoiceInput)
         {
             if (ModelState.IsValid == false) 
@@ -97,7 +97,7 @@ namespace DelitaTrade.WebApp.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = $"{Admin},{LogisticsManager},{Driver}")]
+        [Authorize(Roles = $"{AdminRole},{LogisticsManagerRole},{DriverRole}")]
         public async Task<IActionResult> AddOldInvoice(int deliveryId)
         {
             var user = await GetUserViewModelAsync();
@@ -120,7 +120,7 @@ namespace DelitaTrade.WebApp.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = $"{Admin},{LogisticsManager},{Driver}")]
+        [Authorize(Roles = $"{AdminRole},{LogisticsManagerRole},{DriverRole}")]
         public async Task<IActionResult> AddOldInvoice(OldInvoiceInputModel invoiceInput)
         {
             if (ModelState.IsValid == false)
@@ -136,7 +136,7 @@ namespace DelitaTrade.WebApp.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = Driver)]
+        [Authorize(Roles = DriverRole)]
         public async Task<IActionResult> Complete(int id)
         {
             var user = await GetUserViewModelAsync();
@@ -187,7 +187,7 @@ namespace DelitaTrade.WebApp.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = $"{Admin},{LogisticsManager}")]
+        [Authorize(Roles = $"{AdminRole},{LogisticsManagerRole}")]
         public async Task<IActionResult> Delete(int id) 
         {
             try
@@ -218,7 +218,7 @@ namespace DelitaTrade.WebApp.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = $"{Admin},{LogisticsManager}")]
+        [Authorize(Roles = $"{AdminRole},{LogisticsManagerRole}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(DeliveryDeleteModel model)
         {

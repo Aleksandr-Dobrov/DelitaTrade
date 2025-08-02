@@ -10,7 +10,7 @@ using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
 namespace DelitaTrade.WebApp.Controllers
 {
 
-    [Authorize(Roles = Driver)]
+    [Authorize(Roles = DriverRole)]
     public class ReturnProductController(
             IDescriptionCategoryService descriptionCategoryService,
             IReturnProductService returnProductService, 

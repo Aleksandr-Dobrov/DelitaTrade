@@ -19,7 +19,9 @@
     <main>
         <div class="details-display light-gray-80">
             <div class="action">
-                <a asp-controller="DayReport" asp-action="Details" asp-route-id="@Model.dayReportId" class="btn btn-primary d-flex justify-content-center align-items-center flex-fill mx-1 back-button">Back</a>
+                <a asp-controller="DayReport" asp-action="Details" asp-route-id="@Model.dayReportId" class="btn btn-primary d-flex justify-content-center align-items-center flex-fill mx-1 back-button">
+                    <i class="fa-solid fa-chevron-left"></i> Back
+                </a>
             </div>
             <div class="light-gray-80 protocol-detail">
                 <h4>Company object: <strong>@Model.CompanyObjectName</strong></h4>
@@ -51,16 +53,16 @@
                 </div>
             </div>            
             <div class="action">
-                @if(User.IsInRole(Admin) || User.IsInRole(LogisticsManager))
+                @if(User.IsInRole(AdminRole) || User.IsInRole(LogisticsManagerRole))
                 {                    
                     <a asp-controller="Delivery" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger d-flex justify-content-center align-items-center flex-fill mx-1">
                         <i class="fas fa-trash"></i> Delete
                     </a>
                 }
-                @if (User.IsInRole(Driver) && Model.Payments.Any(p => p.IsCompleted == false))
+                @if (User.IsInRole(DriverRole) && Model.Payments.Any(p => p.IsCompleted == false))
                 {
                     <a asp-controller="Delivery" asp-action="Complete" asp-route-id="@Model.Id" class="btn btn-primary d-flex justify-content-center align-items-center flex-fill mx-1">
-                        <i class="fas fa-edit"></i> Complete all
+                        <i class="fa-solid fa-check-double"></i> Complete all
                     </a>
                 }
             </div>
@@ -82,7 +84,7 @@
                         <th>Amount</th>
                         <th>Balance</th>
                         <th>Income</th>
-                        @if (User.IsInRole(Driver))
+                        @if (User.IsInRole(DriverRole))
                         {
                             <th></th>
                             <th></th>
@@ -107,17 +109,17 @@
                             {
                                 <td><strong>@payment.PayMethod.Translate(): -></strong> @payment.Income.ToLev()</td>                                
                             }
-                            @if (User.IsInRole(Driver) && payment.IsCompleted == false)
+                            @if (User.IsInRole(DriverRole) && payment.IsCompleted == false)
                             {
 
                                 <td>
                                     <a asp-controller="Invoice" asp-action="AdvancePay" asp-route-id="@payment.Id" class="btn btn-warning">
-                                        <i class="fas fa-edit"></i> Advance pay
+                                        <i class="fa-regular fa-credit-card"></i> Advance pay
                                     </a>
                                 </td>
                                 <td>
                                     <a asp-controller="Invoice" asp-action="Complete" asp-route-id="@payment.Id" asp-route-deliveryId="@Model.Id" class="btn btn-primary">
-                                        <i class="fas fa-edit"></i> Complete
+                                        <i class="fa-solid fa-check"></i> Complete
                                     </a>
                                 </td>
                             }
@@ -132,18 +134,18 @@
             <p class="text-center">No invoices.</p>
         }
 
-        @if (User.IsInRole(Admin) || User.IsInRole(LogisticsManager))
+        @if (User.IsInRole(AdminRole) || User.IsInRole(LogisticsManagerRole))
         {
             <a asp-controller="Delivery" asp-action="AddInvoice" asp-route-deliveryId="@Model.Id" class="btn btn-warning btn-dark-text w-100 py-2 fw-bold rounded margin-bottom">
-                <i class="fas fa-save"></i> Add invoice
+                <i class="fa-regular fa-square-plus"></i> Add invoice
             </a>
         }
 
         <a asp-controller="Delivery" asp-action="AddCreditNote" asp-route-deliveryId="@Model.Id" class="btn btn-success btn-dark-text w-100 py-2 fw-bold rounded margin-bottom">
-            Add credit note
+            <i class="fa-regular fa-square-plus"></i> Add credit note
         </a>
         <a asp-controller="Delivery" asp-action="AddOldInvoice" asp-route-deliveryId="@Model.Id" class="btn btn-primary btn-dark-text w-100 py-2 fw-bold rounded margin-bottom">
-            Add old invoice
+            <i class="fa-regular fa-square-plus"></i> Add old invoice
         </a>
     </div>
 </div>

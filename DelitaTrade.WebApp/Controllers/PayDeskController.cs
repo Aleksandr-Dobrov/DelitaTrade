@@ -9,11 +9,11 @@ using DelitaTrade.Core.ViewModels.DayReportModels;
 
 namespace DelitaTrade.WebApp.Controllers
 {
-    [Authorize(Roles = Driver)]
+    [Authorize(Roles = DriverRole)]
     public class PayDeskController(IDayReportService dayReportService, UserManager<DelitaUser> userManager) : BaseController(userManager)
     {
         [HttpGet]
-        [Authorize(Roles = Driver)]
+        [Authorize(Roles = DriverRole)]
         public async Task<IActionResult> Index(int dayReportId)
         {
             var user = await GetUserViewModelAsync();
@@ -31,7 +31,7 @@ namespace DelitaTrade.WebApp.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = Driver)]
+        [Authorize(Roles = DriverRole)]
         public async Task<IActionResult> ApplyChanges(BanknoteInputModel banknotesViewModel)
         {
             var banknoteModel = new DayReportBanknotesViewModel

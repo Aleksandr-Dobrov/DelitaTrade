@@ -15,9 +15,9 @@ namespace DelitaTrade.Infrastructure.Seeding
     {
         private readonly Dictionary<string, string> _roleUser = new()
         {
-            { Admin, "AdminUser" },
-            { LogisticsManager, "LogisticUser" },
-            { Driver, "DriverUser" }
+            { AdminRole, "AdminUser" },
+            { LogisticsManagerRole, "LogisticUser" },
+            { DriverRole, "DriverUser" }
         };
             
         public async Task SeedApplicationRolesAsync()

@@ -10,12 +10,12 @@
     ViewData["Title"] = $"Daily Report for {Model.ReportedDate.ToString(AppDateFormat)}";
     ViewData["CashDifference"] = (Model.TotalIncome - Model.TotalCash).ToLev();
     decimal totalWeight = Model.Deliveries.Sum(d => d.TotalWeight);
-    decimal remainWeight = totalWeight - Model.Deliveries.Where(d => d.Payments.Any(p => p.IsCompleted)).Sum(d => d.TotalWeight);
+    decimal remainWeight = totalWeight - Model.Deliveries.Where(d => d.Payments.All(p => p.IsCompleted)).Sum(d => d.TotalWeight);
     decimal totalCash = Model.Deliveries.Sum(d => d.TotalAmount) - Model.Deliveries.Sum(d => d.TotalBank);
     decimal totalCard = Model.Deliveries.Sum(d => d.TotalCard);
     int remainAddress = Model.DeliveriesCount - Model.Deliveries.Where(d => d.Payments.All(p => p.IsCompleted)).Count();
     List<string> filter = ["All", "Completed", "Not completed"];
-    string selectedValue = filter[2];
+    Model.Filter = filter[2];
 }
 
 <head>
@@ -30,7 +30,9 @@
     <main>
         <div class="details-display light-gray-80">
             <div class="action">
-                <a asp-action="Index" class="btn btn-primary d-flex justify-content-center align-items-center flex-fill mx-1 back-button">Back</a>
+                <a asp-action="Index" class="btn btn-primary d-flex justify-content-center align-items-center flex-fill mx-1 back-button">
+                    <i class="fa-solid fa-chevron-left"></i> Back
+                </a>
             </div>
             <div class="light-gray-80 protocol-detail">
                 <h2>Date of report: <strong>@Model.ReportedDate.ToString(AppDateFormat)</strong>г.</h2>
@@ -55,7 +57,7 @@
                     </div>
                 </div>
             </div>
-            @if(User.IsInRole(Admin) || User.IsInRole(LogisticsManager))
+            @if(User.IsInRole(AdminRole) || User.IsInRole(LogisticsManagerRole))
             {
                 <div class="action">
                     <form asp-controller="DayReport" asp-action="ImportPayments" asp-route-dayReportId="@Model.Id" method="post" enctype="multipart/form-data" class="delita-import-style">
@@ -63,7 +65,7 @@
                         <button type="submit">Import</button>
                     </form>
 
-                    @if (User.IsInRole(Admin))
+                    @if (User.IsInRole(AdminRole))
                     {
                         <a asp-controller="DayReport" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger d-flex justify-content-center align-items-center flex-fill mx-1">
                             <i class="fas fa-trash"></i> Delete
@@ -71,20 +73,20 @@
                     }
                 </div>
             }         
-            else if (User.IsInRole(Driver))
+            else if (User.IsInRole(DriverRole))
             {
-                <div class="action">                    
+                <div class="action">
+                    
                     <a asp-controller="PayDesk" asp-action="Index" asp-route-dayReportId="@Model.Id" class="btn btn-primary d-flex justify-content-center align-items-center flex-fill mx-1">
-                        <i class="fas fa-trash"></i> Pay desk
+                        <i class="fa-solid fa-money-bill-1-wave"></i> Pay desk
                     </a>
-                    <div class="filter">
-                        <label class="form-label-add-edit">Filter</label>
-                        <select asp-for="@selectedValue" id="filter-arg" class="form-control" aria-required="false" asp-items="@new SelectList(filter)">
-                            <option value="">...</option>
-                        </select>
+                    <div class="filter">                        
+                            <label class="form-label-add-edit">Filter</label>                       
+                            <select asp-for="@Model.Filter" id="filter-arg" class="form-select" aria-required="false" asp-items="@new SelectList(filter)">                                
+                            </select>
                     </div>
                     <a asp-controller="Expense" asp-action="Index" asp-route-dayReportId="@Model.Id" class="btn btn-warning btn-dark-text w-100 py-2 fw-bold rounded margin-bottom">
-                        <i class="fas fa-edit"></i> Expenses
+                        <i class="fa-solid fa-car-battery"></i> Expenses
                     </a>                    
                 </div>
             }
@@ -92,7 +94,7 @@
     </main>
 </div>
 <div class="products-list gray-70">
-    @if (User.IsInRole(Admin) || User.IsInRole(LogisticsManager))
+    @if (User.IsInRole(AdminRole) || User.IsInRole(LogisticsManagerRole))
     {
         <a asp-controller="Delivery" asp-action="Create" asp-route-dayReportId="@Model.Id" class="btn btn-warning btn-dark-text w-100 py-2 fw-bold rounded">
             <i class="fas fa-save"></i> Add delivery

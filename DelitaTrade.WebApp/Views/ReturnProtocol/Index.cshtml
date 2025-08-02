@@ -1,5 +1,4 @@
-﻿@using DelitaTrade.Core.ViewModels;
-@using System.Globalization;
+﻿@using System.Globalization;
 @using static DelitaTrade.Common.Constants.FormatConstant.DateTimeFormat;
 @using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
 @model SearchReturnProtocolInputModel;
@@ -20,10 +19,10 @@
 <main class="delita-shadow">    
     <div class="main-box light-gray-80">
         <form asp-controller="ReturnProtocol" asp-action="GetProtocols" method="get" class="protocol-filter">
-            @if (User.IsInRole(Driver))
+            @if (User.IsInRole(DriverRole))
             {
                 <a class="btn btn-primary mb-3" asp-action="Create" asp-controller="ReturnProtocol">
-                    <i class="fas fa-plus"></i> Create Return Protocol
+                    <i class="fa-regular fa-square-plus"></i> Create Return Protocol
                 </a>                
             }    
             <div class="col-sm-6 mb-2">
@@ -51,7 +50,7 @@
             </div>
             <div class="mb-2">
                 <button class="btn btn-warning btn-dark-text w-100 py-2 fw-bold rounded" type="submit">
-                    <i class="fas fa-save"></i> Search
+                    <i class="fa-solid fa-magnifying-glass"></i> Search
                 </button>
             </div>
         </form>

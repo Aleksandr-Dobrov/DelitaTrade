@@ -12,7 +12,7 @@ using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
 
 namespace DelitaTrade.WebApp.Controllers
 {
-    [Authorize(Roles = Driver)]
+    [Authorize(Roles = DriverRole)]
     public class InvoiceController(IInvoiceInDayReportService invoiceService, IDeliveryService deliveryService, UserManager<DelitaUser> userManager) : BaseController(userManager)
     {
         public IActionResult Index()

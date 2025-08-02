@@ -4,12 +4,12 @@
     {
         public class RoleNames
         {
-            public const string Admin = "Admin";
-            public const string Driver = "Driver";
-            public const string WarehouseManager = "WarehouseManager";
-            public const string LogisticsManager = "LogisticsManager";
-            public const string Cashier = "Cashier";
-            public const string Accountant = "Accountant";
+            public const string AdminRole = "Admin";
+            public const string DriverRole = "Driver";
+            public const string WarehouseManagerRole = "WarehouseManager";
+            public const string LogisticsManagerRole = "LogisticsManager";
+            public const string CashierRole = "Cashier";
+            public const string AccountantRole = "Accountant";
         }
     }
 }

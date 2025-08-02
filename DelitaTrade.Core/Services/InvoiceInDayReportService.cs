@@ -234,7 +234,7 @@ namespace DelitaTrade.Core.Services
         /// <exception cref="InvalidOperationException"></exception>
         public async Task AdvancePayAsync(UserViewModel user, InvoiceInDayReportAdvanceInputModel payment, int deliveryId)
         {
-            if (IsAtLeastInOneRole(user, Driver) == false)
+            if (IsAtLeastInOneRole(user, DriverRole) == false)
             {
                 throw new UnauthorizedAccessException(nameof(DelitaUser));
             }
@@ -299,7 +299,7 @@ namespace DelitaTrade.Core.Services
 
         public async Task CompleteAsync(UserViewModel user, PaymentCompleteInputModel payment)
          {
-            if (IsAtLeastInOneRole(user, Driver) == false)
+            if (IsAtLeastInOneRole(user, DriverRole) == false)
             {
                 throw new UnauthorizedAccessException(nameof(DelitaUser));
             }
@@ -332,6 +332,7 @@ namespace DelitaTrade.Core.Services
             }
             
             invoiceToComplete.PayMethod = payment.PaymentType;
+
             if (payment.PaymentType == PayMethod.Cash 
                 || payment.PaymentType == PayMethod.Card
                 || payment.PaymentType == PayMethod.OldPayCash
@@ -343,7 +344,8 @@ namespace DelitaTrade.Core.Services
 
                 invoiceToComplete.Income = balance;
             }
-            invoiceToComplete.IsCompleted = true;
+
+                invoiceToComplete.IsCompleted = true;
             await UpdateAsync(invoiceToComplete);
         }
 

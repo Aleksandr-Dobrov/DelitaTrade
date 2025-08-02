@@ -10,7 +10,7 @@ using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
 
 namespace DelitaTrade.WebApp.Controllers
 {
-    [Authorize(Roles = $"{Admin},{Driver},{WarehouseManager}")]
+    [Authorize(Roles = $"{AdminRole},{DriverRole},{WarehouseManagerRole}")]
     public class ReturnProtocolController(
             ITraderService traderService, 
             IReturnProtocolService returnProtocolService,
@@ -58,7 +58,7 @@ namespace DelitaTrade.WebApp.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = Driver)]
+        [Authorize(Roles = DriverRole)]
         public async Task<IActionResult> Create()
         {
             if(IsUserAuthenticated() == false)
@@ -79,7 +79,7 @@ namespace DelitaTrade.WebApp.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = Driver)]
+        [Authorize(Roles = DriverRole)]
         public async Task<IActionResult> Create(ReturnProtocolInputModel returnProtocolInputModel)
         {
             if (ModelState.IsValid == false)
@@ -110,7 +110,7 @@ namespace DelitaTrade.WebApp.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = Driver)]
+        [Authorize(Roles = DriverRole)]
         public async Task<IActionResult> Edit(int id) 
         {
             if (IsUserAuthenticated() == false)
@@ -153,7 +153,7 @@ namespace DelitaTrade.WebApp.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = Driver)]
+        [Authorize(Roles = DriverRole)]
         public async Task<IActionResult> Edit(ReturnProtocolEditModel returnProtocolInputModel)
         {
             if (ModelState.IsValid == false)
@@ -186,7 +186,7 @@ namespace DelitaTrade.WebApp.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = Driver)]
+        [Authorize(Roles = DriverRole)]
         public async Task<IActionResult> Delete(int id)
         {
             var userViewModel = await GetUserViewModelAsync();
@@ -210,7 +210,7 @@ namespace DelitaTrade.WebApp.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = Driver)]
+        [Authorize(Roles = DriverRole)]
         public async Task<IActionResult> Delete(ReturnProtocolEditModel returnProtocol)
         {
             var userViewModel = await GetUserViewModelAsync();
@@ -224,7 +224,7 @@ namespace DelitaTrade.WebApp.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = WarehouseManager)]
+        [Authorize(Roles = WarehouseManagerRole)]
         public async Task<IActionResult> Approve([ModelBinder(typeof(ApproveProductsModelBinder))]ReturnProtocolApproveModel detailReturnProtocol)
         {
             var userViewModel = await GetUserViewModelAsync();

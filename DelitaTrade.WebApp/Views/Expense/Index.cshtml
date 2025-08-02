@@ -20,7 +20,9 @@
     <main>
         <div class="details-display light-gray-80">
             <div class="action">
-                <a asp-controller="DayReport" asp-action="Details" asp-route-id="@Model.DayReportId" class="btn btn-primary d-flex justify-content-center align-items-center flex-fill mx-1 back-button">Back</a>
+                <a asp-controller="DayReport" asp-action="Details" asp-route-id="@Model.DayReportId" class="btn btn-primary d-flex justify-content-center align-items-center flex-fill mx-1 back-button">
+                    <i class="fa-solid fa-chevron-left"></i> Back
+                </a>
             </div>
             <div class="light-gray-80 protocol-detail">
                 <h4>Date: <strong>@Model.ExpenseDate</strong></h4>
@@ -66,7 +68,7 @@
                             </td>
                             <td>
                                 <a asp-controller="Expense" asp-action="DeleteExpense" asp-route-id="@payment.Id" asp-route-dayReportId="@Model.DayReportId" class="btn btn-danger">
-                                    <i class="fas fa-edit"></i> Delete
+                                    <i class="fas fa-trash"></i> Delete
                                 </a>
                             </td>
                             
@@ -82,7 +84,7 @@
         }
 
         <a asp-controller="Expense" asp-action="AddExpense" asp-route-dayReportId="@Model.DayReportId" class="btn btn-success btn-dark-text w-100 py-2 fw-bold rounded margin-bottom">
-            <i class="fas fa-edit"></i> Add expense
+            <i class="fa-regular fa-square-plus"></i> Add expense
         </a>
     </div>
 </div>

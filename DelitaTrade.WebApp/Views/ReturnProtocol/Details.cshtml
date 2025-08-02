@@ -1,5 +1,4 @@
-﻿@using DelitaTrade.Core.ViewModels;
-@using System.Security.Claims
+﻿@using System.Security.Claims
 @using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
 @using static DelitaTrade.Common.Constants.FormatConstant.DateTimeFormat;
 @model DetailReturnProtocolViewModel;
@@ -39,7 +38,7 @@
                 </div>
             </div>
             @{
-                if (User.IsInRole(Driver) && Model.ApproverName == null)
+                if (User.IsInRole(DriverRole) && Model.ApproverName == null)
                 {
                     <div class="action">
                         <a asp-controller="ReturnProtocol" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary d-flex justify-content-center align-items-center flex-fill mx-1">
@@ -67,7 +66,7 @@
                     bool isEditable = (Model.ApproverName == null || (isValidUserId && Model.ApproverId.HasValue && userId == Model.ApproverId.Value));
                 }
                 <div class="products-header">
-                    @if (User.IsInRole(WarehouseManager) && (Model.ApproverName == null || (isValidUserId && Model.ApproverId.HasValue && userId == Model.ApproverId.Value)))
+                    @if (User.IsInRole(WarehouseManagerRole) && (Model.ApproverName == null || (isValidUserId && Model.ApproverId.HasValue && userId == Model.ApproverId.Value)))
                     {
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-edit"></i> Approve
@@ -84,8 +83,8 @@
                             <th>Batch</th>
                             <th>Return category</th>
                             <th>Description</th>
-                            @if ((User.IsInRole(Driver) && Model.ApproverName == null)
-                                || (User.IsInRole(WarehouseManager)))
+                            @if ((User.IsInRole(DriverRole) && Model.ApproverName == null)
+                                || (User.IsInRole(WarehouseManagerRole)))
                             {
                                 <th></th>
                                 <th></th>
@@ -108,7 +107,7 @@
                             <td>@product.Batch</td>
                             <td>@product.DescriptionCategory.Name</td>
                             <td>@product.Description?.Description</td>
-                            @if (User.IsInRole(Driver) && Model.ApproverName == null)
+                            @if (User.IsInRole(DriverRole) && Model.ApproverName == null)
                             {
                                 <td>
                                     <a asp-controller="ReturnProduct" asp-action="Edit" asp-route-id="@product.Id" class="btn btn-primary">
@@ -123,7 +122,7 @@
                                     </form>
                                 </td>
                             }
-                            else if (User.IsInRole(WarehouseManager) && isEditable)
+                            else if (User.IsInRole(WarehouseManagerRole) && isEditable)
                             {
                                 <td>
                                     <input name="ReturnedProduct[@product.Id].Id" type="hidden" value="@product.Id" />
@@ -135,7 +134,7 @@
                                 <input name="ReturnedProducts[@product.Id].WarehouseDescription" type="text" class="form-label-add-edit" value="@product.WarehouseDescription" />
                                 </td>
                             }
-                            else if (User.IsInRole(WarehouseManager) && isEditable == false)
+                            else if (User.IsInRole(WarehouseManagerRole) && isEditable == false)
                             {
                                 <td>
                                     <input name="ReturnedProduct[@product.Id].Id" type="hidden" value="@product.Id" />
@@ -157,10 +156,10 @@
         {
             <p class="text-center">No products returned.</p>
         }
-        @if (User.IsInRole(Driver) && Model.ApproverName == null)
+        @if (User.IsInRole(DriverRole) && Model.ApproverName == null)
         {
             <a asp-controller="ReturnProduct" asp-action="Create" asp-route-id="@Model.Id" class="btn btn-warning btn-dark-text w-100 py-2 fw-bold rounded">
-                <i class="fas fa-save"></i> Add
+                <i class="fa-regular fa-square-plus"></i> Add
             </a>
         }
     </div>

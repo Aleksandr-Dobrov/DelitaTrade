@@ -20,7 +20,7 @@ namespace DelitaTrade.Core.Services
     {
         public async Task<DeliveryViewModel> AddDeliveryAsync(DeliveryInputModel deliveryInput, UserViewModel user)
         {
-            if(IsAtLeastInOneRole(user, Admin, LogisticsManager) == false)
+            if(IsAtLeastInOneRole(user, AdminRole, LogisticsManagerRole) == false)
             {
                 throw new UnauthorizedAccessException(nameof(DelitaUser));
             } 
@@ -55,7 +55,7 @@ namespace DelitaTrade.Core.Services
 
         public async Task AddInvoiceAsync(UserViewModel user, InvoiceInputModel invoice, int deliveryId)
         {
-            if (IsAtLeastInOneRole(user, Admin, LogisticsManager) == false)
+            if (IsAtLeastInOneRole(user, AdminRole, LogisticsManagerRole) == false)
             {
                 throw new UnauthorizedAccessException(nameof(DelitaUser));
             }
@@ -106,7 +106,7 @@ namespace DelitaTrade.Core.Services
 
         public async Task AddOldInvoiceAsync(UserViewModel user, OldInvoiceInputModel oldInvoice, int deliveryId)
         {
-            if (IsAtLeastInOneRole(user, Admin, LogisticsManager, Driver) == false)
+            if (IsAtLeastInOneRole(user, AdminRole, LogisticsManagerRole, DriverRole) == false)
             {
                 throw new UnauthorizedAccessException(nameof(DelitaUser));
             }
@@ -156,7 +156,7 @@ namespace DelitaTrade.Core.Services
 
         public async Task AddCreditNoteAsync(UserViewModel user, CreditNoteInputModel creditNote, int deliveryId)
         {
-            if (IsAtLeastInOneRole(user, Admin, LogisticsManager, Driver) == false)
+            if (IsAtLeastInOneRole(user, AdminRole, LogisticsManagerRole, DriverRole) == false)
             {
                 throw new UnauthorizedAccessException(nameof(DelitaUser));
             }
@@ -216,7 +216,7 @@ namespace DelitaTrade.Core.Services
 
         public async Task ImportPaymentsToDayReportAsync(UserViewModel user, int dayReportId, DayReportJsonImportModel dayReportJson)
         {               
-            if (IsAtLeastInOneRole(user, Admin, LogisticsManager) == false)
+            if (IsAtLeastInOneRole(user, AdminRole, LogisticsManagerRole) == false)
             {
                 throw new UnauthorizedAccessException(nameof(DelitaUser));
             }
@@ -378,7 +378,7 @@ namespace DelitaTrade.Core.Services
 
         public async Task CompleteAllAsync(UserViewModel user, int deliveryId)
         {
-            if (IsAtLeastInOneRole(user, Driver) == false) 
+            if (IsAtLeastInOneRole(user, DriverRole) == false) 
             {
                 throw new UnauthorizedAccessException(nameof(DelitaUser));
             }
@@ -446,14 +446,14 @@ namespace DelitaTrade.Core.Services
 
         public async Task<DeliveryViewModel?> GetByIdAsync(UserViewModel user, int deliveryId)
         {
-            if (IsAtLeastInOneRole(user, Admin, LogisticsManager, Driver) == false)
+            if (IsAtLeastInOneRole(user, AdminRole, LogisticsManagerRole, DriverRole) == false)
             {
                 throw new UnauthorizedAccessException(nameof(DelitaUser));
             }
                         
             var delivery = repo.AllReadonly<Delivery>()
                 .Where(d => d.Id == deliveryId);
-            if (user.Roles.Contains(Driver))
+            if (user.Roles.Contains(DriverRole))
             {
                 delivery = delivery.Where(d => d.EmployeeId == user.Id);
             }
@@ -516,7 +516,7 @@ namespace DelitaTrade.Core.Services
 
         public async Task DeleteAsync(UserViewModel user, int deliveryId)
         {
-            if (IsAtLeastInOneRole(user, Admin, LogisticsManager) == false) 
+            if (IsAtLeastInOneRole(user, AdminRole, LogisticsManagerRole) == false) 
             {
                 throw new UnauthorizedAccessException(nameof(DelitaUser));
             }

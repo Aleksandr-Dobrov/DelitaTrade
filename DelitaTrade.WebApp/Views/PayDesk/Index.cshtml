@@ -10,7 +10,6 @@
 }
 
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/css/PayDesk/PayDesk.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/PayDesk/PayDeskBackground.css" asp-append-version="true" />
 </head>
@@ -37,7 +36,7 @@
                 <div class="banknote-command">
                     <button class="down"><i class="fa fa-minus" aria-hidden="true"></i></button>
                     <input asp-for="@Model.Banknotes[banknote.Key]" class="value" min="@minValue" max="1000" value="@Model.Banknotes[banknote.Key]" />
-                    <button class="up"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                    <button class="up"><i class="fa-solid fa-plus"></i></button>
                 </div>
             </div>             
         }
@@ -46,9 +45,11 @@
             <p>Total cash: <strong id="sum">@totalSum.ToString("f2")</strong> лв.</p>
             <p>Difference: <strong id="dif">@difference.ToString("f2")</strong> лв.</p>
         </div>
-        <a asp-controller="DayReport" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-primary btn-dark-text w-100 py-2 fw-bold rounded">Back</a>
+        <a asp-controller="DayReport" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-primary btn-dark-text w-100 py-2 fw-bold rounded">
+            <i class="fa-solid fa-chevron-left"></i> Back
+        </a>
         <button class="btn btn-success btn-dark-text w-100 py-2 fw-bold rounded" type="submit">
-            Apply changes
+            <i class="fa-solid fa-piggy-bank"></i> Apply changes
         </button>
     </div>
 </form>

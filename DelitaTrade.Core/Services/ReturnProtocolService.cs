@@ -198,11 +198,11 @@ namespace DelitaTrade.Core.Services
         {
             IQueryable<ReturnProtocol> query;
 
-            if (user.Roles.Contains(Admin) || user.Roles.Contains(WarehouseManager))
+            if (user.Roles.Contains(AdminRole) || user.Roles.Contains(WarehouseManagerRole))
             {
                 query = repo.AllReadonly<ReturnProtocol>();
             }
-            else if (user.Roles.Contains(Driver))
+            else if (user.Roles.Contains(DriverRole))
             {
                 query = repo.AllReadonly<ReturnProtocol>()
                     .Where(r => r.IdentityUserId == user.Id);
@@ -258,11 +258,11 @@ namespace DelitaTrade.Core.Services
         {
             IQueryable<ReturnProtocol> query;
 
-            if (user.Roles.Contains(Admin) || user.Roles.Contains(WarehouseManager))
+            if (user.Roles.Contains(AdminRole) || user.Roles.Contains(WarehouseManagerRole))
             {
                 query = repo.AllReadonly<ReturnProtocol>();
             }
-            else if (user.Roles.Contains(Driver))
+            else if (user.Roles.Contains(DriverRole))
             {
                 query = repo.AllReadonly<ReturnProtocol>()
                     .Where(r => r.IdentityUserId == user.Id);
@@ -360,7 +360,7 @@ namespace DelitaTrade.Core.Services
 
         public async Task ApproveAsync(ReturnProtocolApproveModel detailReturnProtocol, UserViewModel user)
         {
-            if (user.Roles.Contains(WarehouseManager) == false)
+            if (user.Roles.Contains(WarehouseManagerRole) == false)
             {
                 throw new UnauthorizedAccessException(NotAuthenticate(user));
             }
@@ -444,11 +444,11 @@ namespace DelitaTrade.Core.Services
         {
             IQueryable<ReturnProtocol> query;
 
-            if (roles.Contains(Admin) || roles.Contains(WarehouseManager))
+            if (roles.Contains(AdminRole) || roles.Contains(WarehouseManagerRole))
             {
                 query = repo.AllReadonly<ReturnProtocol>();
             }
-            else if (roles.Contains(Driver))
+            else if (roles.Contains(DriverRole))
             {
                 query = repo.AllReadonly<ReturnProtocol>()
                     .Where(r => r.IdentityUserId == user.Id);

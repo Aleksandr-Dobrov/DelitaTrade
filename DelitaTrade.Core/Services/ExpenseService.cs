@@ -19,7 +19,7 @@ namespace DelitaTrade.Core.Services
         public async Task AddExpenseAsync(UserViewModel user, ExpenseInputModel expense)
         {
 
-            if (IsAtLeastInOneRole(user, Driver) == false)
+            if (IsAtLeastInOneRole(user, DriverRole) == false)
             {
                 throw new UnauthorizedAccessException(nameof(DelitaUser));
             }
@@ -123,7 +123,7 @@ namespace DelitaTrade.Core.Services
 
         public async Task UpdateExpenseAsync(UserViewModel user, ExpenseUpdateModel expense)
         {
-            if (IsAtLeastInOneRole(user, Driver) == false)
+            if (IsAtLeastInOneRole(user, DriverRole) == false)
             {
                 throw new UnauthorizedAccessException(nameof(DelitaUser));
             }
@@ -231,7 +231,7 @@ namespace DelitaTrade.Core.Services
 
         public async Task DeleteExpenseAsync(UserViewModel user, int expenseId, int dayReportId)
         {
-            if (IsAtLeastInOneRole(user, Driver) == false)
+            if (IsAtLeastInOneRole(user, DriverRole) == false)
             {
                 throw new UnauthorizedAccessException(nameof(DelitaUser));
             }
@@ -321,7 +321,7 @@ namespace DelitaTrade.Core.Services
 
         public async Task<ExpenseViewModel> GetExpenseByDayReportIdAsync(UserViewModel user, int dayReportId)
         {
-            if (IsAtLeastInOneRole(user, Driver) == false)
+            if (IsAtLeastInOneRole(user, DriverRole) == false)
             {
                 throw new UnauthorizedAccessException(nameof(DelitaUser));
             }
