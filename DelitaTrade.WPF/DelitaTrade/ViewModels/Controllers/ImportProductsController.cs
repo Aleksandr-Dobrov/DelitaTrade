@@ -2,8 +2,8 @@
 using DelitaTrade.Common;
 using DelitaTrade.Core.Contracts;
 using DelitaTrade.Core.ViewModels;
+using DelitaTrade.Core.ViewModels.ProductsManagementModels;
 using DelitaTrade.Infrastructure.Data.Models;
-using DelitaTrade.Models.JsonModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Win32;
 using System;
@@ -32,18 +32,16 @@ namespace DelitaTrade.ViewModels.Controllers
             string filePath = GetFilePath()!;
             if (filePath == null) return;
 
-            string jsonProducts = File.ReadAllText(filePath);
+            using var scope = _serviceProvider.CreateScope();
+            var productImportService = scope.GetService<IImportService>();
 
-            var products = JsonSerializer.Deserialize<ProductJsonModel[]>(jsonProducts);
+            var products = await productImportService.ImportProductsAsync(filePath);
 
             if (products == null) return;
-
-            var DelitaProducts = ParseProducts(products);
-            if (DelitaProducts == null || DelitaProducts.Any() == false) return;
-            using var scope = _serviceProvider.CreateScope();
+                        
             var productService = scope.GetService<IProductService>();
 
-            int changes = await productService.AddRangeProductAsync(DelitaProducts);
+            int changes = await productService.AddRangeProductAsync(products);
             string message = string.Empty;
 
             if (changes > 0)
