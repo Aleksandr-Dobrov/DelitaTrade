@@ -365,3 +365,7 @@ FodyWeavers.xsd
 /DayReportsDataBase/ExportFiles/ReturnProtocol.xlsx
 /DelitaTrade.WPF/DelitaTrade/DayReportsDataBase/ExportFiles/ExportedDayReport.xlsx
 /DelitaTrade.WPF/DelitaTrade/DayReportsDataBase/ExportFiles/ReturnProtocol.xlsx
+/DelitaTrade.WPF/DelitaTrade/Logger/Error.txt
+/DelitaTrade.WPF/DelitaTrade/Logger/Error-DESKTOP-SQ01BEO.txt
+/DelitaTrade.WPF/DelitaTrade/Logger/Information.txt
+/DelitaTrade.WPF/DelitaTrade/Logger/Warning.txt
