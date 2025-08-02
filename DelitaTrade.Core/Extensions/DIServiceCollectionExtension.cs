@@ -51,8 +51,9 @@ namespace Microsoft.Extensions.DependencyInjection
                 .AddScoped<IBanknotesService, BanknotesService>()
                 .AddScoped<IDescriptionCategoryService, DescriptionCategoryService>()
                 .AddScoped<IDeliveryService, DeliveryService>()
-                .AddScoped<IExpenseService, ExpenseService>();
-
+                .AddScoped<IExpenseService, ExpenseService>()
+                .AddScoped<IUserManagementService, UserManagementService>()
+                .AddScoped<IImportService, ImportService>();
             return services;
         }
 
