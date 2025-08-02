@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
 using static DelitaTrade.Common.Constants.AppMessageConstants;
-using static DelitaTrade.Common.Constants.AppErrorMessage.DayReportErrorMessages;
+using static DelitaTrade.Common.Constants.AppErrorMessage.DayReportMessages;
 using static DelitaTrade.Common.Constants.FormatConstant.DateTimeFormat;
 using DelitaTrade.Common.Extensions;
 

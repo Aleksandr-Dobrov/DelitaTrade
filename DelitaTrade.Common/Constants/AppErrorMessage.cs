@@ -2,7 +2,7 @@
 {
     public class AppErrorMessage
     {
-        public class DayReportErrorMessages
+        public class DayReportMessages
         {
             public const string UserNotFound = "Selected user not exists!";
             public const string CreateSuccess = "The daily report for {0} of {1} has been created successfully.";
@@ -15,6 +15,20 @@
             public const string SearchError = "An error occurred while searching. Please try again with another parameters.";
             public const string CreateError = "An error occurred while creating the daily report. Please contact developer team.";
             public const string SearchPageError = "An error occurred while loading search page. Please contact developer team.";
+        }
+
+        public class DeliveryMessages
+        {
+            public const string CreateSuccess = "The delivery has been created successfully.";
+            public const string CreateError = "An error occurred while creating the delivery. Please contact developer team.";
+            public const string DeleteSuccess = "The delivery has been deleted successfully.";
+            public const string DeleteError = "An error occurred while deleting the delivery. Please contact developer team.";
+            public const string CompleteSuccess = "The delivery has been completed successfully.";
+            public const string CompleteError = "An error occurred while completing the delivery. Please contact developer team.";
+            public const string AddInvoiceSuccess = "The invoice {0} add successfully.";
+            public const string AddInvoiceError = "An error occurred while adding the invoice. Please contact developer team.";
+            public const string DeliveryNotFound = "Delivery not found.";
+            public const string NotImplemented = "This functionality is not implemented yet.";
         }
     }
 }
