@@ -12,20 +12,28 @@ using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
 
 namespace DelitaTrade.WebApp.Controllers
 {
-    [Authorize(Roles = $"{Driver},{Admin},{LogisticsManager},{Cashier},{Accountant}")]
+    [Authorize(Roles = $"{DriverRole},{AdminRole},{LogisticsManagerRole},{CashierRole},{AccountantRole}")]
     public class DayReportController(IDayReportService dayReportService,
             IVehicleService vehicleService,
             IDeliveryService deliveryService,
+            IImportService importService,
             UserManager<DelitaUser> userManager) : BaseController(userManager)
     {
         [HttpGet]
         public async Task<IActionResult> Index(SearchDayReportInputModel? model)
         {
             model ??= new SearchDayReportInputModel();
-            if (User.IsInRole(Admin) 
-                || User.IsInRole(LogisticsManager)
-                || User.IsInRole(Cashier)
-                || User.IsInRole(Accountant))
+            var previousSearch = TempData.Peek("dayReports") as IEnumerable<int>;
+            if (previousSearch != null && previousSearch.Any())
+            {
+                var user = await GetUserViewModelAsync();
+                model.DayReports = await dayReportService.GetSimpleByIdAsync(user, previousSearch);
+            }
+
+            if (User.IsInRole(AdminRole) 
+                || User.IsInRole(LogisticsManagerRole)
+                || User.IsInRole(CashierRole)
+                || User.IsInRole(AccountantRole))
             {
                 model.Employees = await dayReportService.GetAllUsersWhitDayReports(await GetUserViewModelAsync());
             }
@@ -33,7 +41,7 @@ namespace DelitaTrade.WebApp.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = $"{Admin},{LogisticsManager}")]
+        [Authorize(Roles = $"{AdminRole},{LogisticsManagerRole}")]
         public async Task<IActionResult> Create()
         {
             var user = await GetUserViewModelAsync();
@@ -48,7 +56,7 @@ namespace DelitaTrade.WebApp.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = $"{Admin},{LogisticsManager}")]
+        [Authorize(Roles = $"{AdminRole},{LogisticsManagerRole}")]
         public async Task<IActionResult> Create(DayReportInputModel dayReportInput)
         {
             if (ModelState.IsValid == false) 
@@ -82,27 +90,31 @@ namespace DelitaTrade.WebApp.Controllers
                 model.Employees = await dayReportService.GetAllUsersWhitDayReports(userViewModel);
                 return View(model);
             }
-            if (User.IsInRole(Admin) 
-                || User.IsInRole(LogisticsManager)
-                || User.IsInRole(Cashier)
-                || User.IsInRole(Accountant))
+            if (User.IsInRole(AdminRole) 
+                || User.IsInRole(LogisticsManagerRole)
+                || User.IsInRole(CashierRole)
+                || User.IsInRole(AccountantRole))
             {
                 model.Employees = await dayReportService.GetAllUsersWhitDayReports(userViewModel);
             }
             model.DayReports = await dayReportService.GetSimpleFilteredAsync(userViewModel, model.ReporterUserName, model.StartDate, model.EndDate);
+            if (model.DayReports != null)
+            {
+                TempData["dayReports"] = model.DayReports.Select(d => d.Id).ToList();
+            }
             return View(nameof(Index), model);
         }
 
         [HttpGet]        
         public async Task<IActionResult> Details(int id)
         {
-            var userViewModel = await GetUserViewModelAsync();
+            var userViewModel = await GetUserViewModelAsync();            
             var dayReport = await dayReportService.GetDetailDayReportByIdAsync(userViewModel, id);
             return View(dayReport);            
         }
 
         [HttpGet]
-        [Authorize(Roles = Admin)]
+        [Authorize(Roles = AdminRole)]
         public async Task<IActionResult> Delete(int id)
         {
             try
@@ -126,7 +138,7 @@ namespace DelitaTrade.WebApp.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = Admin)]
+        [Authorize(Roles = AdminRole)]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(DayReportDeleteModel model)
         {
@@ -145,25 +157,18 @@ namespace DelitaTrade.WebApp.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = $"{Admin},{LogisticsManager}")]
+        [Authorize(Roles = $"{AdminRole},{LogisticsManagerRole}")]
         public async Task<IActionResult> ImportPayments(IFormFile file, int dayReportId)
         {
             if (file != null && file.Length > 0)
             {
                 var user = await GetUserViewModelAsync();
-
-                using (var stream = new MemoryStream())
+                
+                var importModel = await importService.ImportDeliveriesAsync(file);
+                if (importModel != null)
                 {
-                    await file.CopyToAsync(stream);
-                    stream.Position = 0;
-
-                    var importModel = await JsonSerializer.DeserializeAsync<DayReportJsonImportModel>(stream);
-                    if (importModel != null)
-                    {
-                        await deliveryService.ImportPaymentsToDayReportAsync(user, dayReportId, importModel);
-                    }
+                    await deliveryService.ImportPaymentsToDayReportAsync(user, dayReportId, importModel);
                 }
-            
             }
             return RedirectToAction(nameof(Details), new { Id = dayReportId });
         }

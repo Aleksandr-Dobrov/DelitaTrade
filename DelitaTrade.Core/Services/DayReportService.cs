@@ -12,10 +12,11 @@ using DelitaTrade.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
-using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
 using static DelitaTrade.Common.Constants.CompanyConstants;
+using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
 using static DelitaTrade.Common.DelitaDbConstants;
 using static DelitaTrade.Common.ExceptionMessages;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace DelitaTrade.Core.Services
 {
@@ -42,7 +43,6 @@ namespace DelitaTrade.Core.Services
             };
             await repo.AddAsync(newDayReport);
             await repo.SaveChangesAsync();
-            //await repo.ReloadAsync(newDayReport);
             dayReport.Id = newDayReport.Id;
             return dayReport;
         }
@@ -56,7 +56,7 @@ namespace DelitaTrade.Core.Services
                 .ThenInclude(i => i.InvoicesInDayReports)
                 .FirstOrDefaultAsync(d => d.Id == id) ?? throw new ArgumentNullException(NotFound(nameof(DayReport)));
 
-            if (IsAtLeastInOneRole(userViewModel, Admin) == false && dayReport.IdentityUserId != userViewModel.Id) throw new InvalidOperationException(NotAuthenticate(userViewModel));
+            if (IsAtLeastInOneRole(userViewModel, AdminRole) == false && dayReport.IdentityUserId != userViewModel.Id) throw new InvalidOperationException(NotAuthenticate(userViewModel));
 
             if (dayReport.Invoices.Count > 0)
             {
@@ -100,7 +100,7 @@ namespace DelitaTrade.Core.Services
 
         public async Task<IEnumerable<UserViewModel>> GetAllUsersWhitDayReports(UserViewModel user)
         {
-            if (IsAtLeastInOneRole(user, Admin, LogisticsManager) == false)
+            if (IsAtLeastInOneRole(user, AdminRole, LogisticsManagerRole) == false)
             {
                 throw new UnauthorizedAccessException(NotAuthenticate(user));
             }
@@ -119,12 +119,12 @@ namespace DelitaTrade.Core.Services
 
         public async Task<IEnumerable<UserViewModel>> GetAllDrivers(UserViewModel user)
         {
-            if (IsAtLeastInOneRole(user, Admin, LogisticsManager) == false)
+            if (IsAtLeastInOneRole(user, AdminRole, LogisticsManagerRole) == false)
             {
                 throw new UnauthorizedAccessException(NotAuthenticate(user));
             }
 
-            var users = await userManager.GetUsersInRoleAsync(Driver);
+            var users = await userManager.GetUsersInRoleAsync(DriverRole);
 
             return users.Select(u => new UserViewModel
             {
@@ -132,6 +132,28 @@ namespace DelitaTrade.Core.Services
                 Name = $"{u.Name} {u.LastName}",
                 UserName= u.UserName
             });
+        }
+
+        public async Task<IEnumerable<SimpleDayReportViewModel>> GetSimpleByIdAsync(UserViewModel user, IEnumerable<int> dayReportIds)
+        {
+            IQueryable<DayReport> query = repo.AllReadonly<DayReport>();
+            if (IsAtLeastInOneRole(user, AdminRole, LogisticsManagerRole) == false)
+            {
+                query = query.Where(d => d.IdentityUserId == user.Id);
+            }
+            return await query.Where(d => dayReportIds.Contains(d.Id)).OrderByDescending(d => d.Date)
+                .Select(d => new SimpleDayReportViewModel()
+                {
+                    Id = d.Id,
+                    ReporterName = $"{d.IdentityUser.Name} {d.IdentityUser.LastName}",
+                    ReportedDate = d.Date,
+                    TransmissionDate = d.TransmissionDate,
+                    TotalAmount = d.TotalAmount.ToString("C"),
+                    TotalIncome = d.TotalIncome.ToString("C"),
+                    TotalCash = d.TotalCash.ToString("C"),
+                    VehicleLicensePlate = d.Vehicle != null ? d.Vehicle.LicensePlate : null
+
+                }).ToArrayAsync();
         }
 
         public async Task<IEnumerable<SimpleDayReportViewModel>> GetSimpleFilteredAsync(UserViewModel user, string? reporterUserName, DateTime? startDate, DateTime? endDate)
@@ -178,7 +200,7 @@ namespace DelitaTrade.Core.Services
         {
             IQueryable<DayReport> query = repo.AllReadonly<DayReport>()
                 .Where(d => d.Id == id);
-            if (IsAtLeastInOneRole(user, Admin, LogisticsManager) == false)
+            if (IsAtLeastInOneRole(user, AdminRole, LogisticsManagerRole) == false)
             {
                 query = query.Where(d => d.IdentityUserId == user.Id);
             }
@@ -232,7 +254,7 @@ namespace DelitaTrade.Core.Services
         {
             IQueryable<DayReport> query = repo.AllReadonly<DayReport>()
                 .Where(d => d.Id == id);
-            if (IsAtLeastInOneRole(user, Admin, LogisticsManager) == false)
+            if (IsAtLeastInOneRole(user, AdminRole, LogisticsManagerRole) == false)
             {
                 query = query.Where(d => d.IdentityUserId == user.Id);
             }
@@ -258,7 +280,7 @@ namespace DelitaTrade.Core.Services
 
         public async Task UpdateBanknotesAsync(UserViewModel user, DayReportBanknotesViewModel dayReportBanknotes)
         {
-            if(IsAtLeastInOneRole(user, Driver) == false)
+            if(IsAtLeastInOneRole(user, DriverRole) == false)
             {
                 throw new UnauthorizedAccessException(nameof(DelitaUser));
             }
@@ -289,7 +311,7 @@ namespace DelitaTrade.Core.Services
         private IQueryable<DayReport> GetFilteredDayReportsQuery(UserViewModel user,  string? reporterUserName)
         {
             IQueryable<DayReport> query;
-            if (IsAtLeastInOneRole(user, Admin, LogisticsManager))
+            if (IsAtLeastInOneRole(user, AdminRole, LogisticsManagerRole))
             {
                 query = repo.AllReadonly<DayReport>();
                 if (string.IsNullOrEmpty(reporterUserName) == false)
@@ -297,7 +319,7 @@ namespace DelitaTrade.Core.Services
                     query = query.Where(d => d.IdentityUser.UserName == reporterUserName);
                 }
             }
-            else if (user.Roles.Contains(Driver))
+            else if (user.Roles.Contains(DriverRole))
             {
                 query = repo.AllReadonly<DayReport>()
                     .Where(d => d.IdentityUserId == user.Id);
