@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DelitaTrade.Core.ViewModels;
+using DelitaTrade.Core.ViewModels.ProductsManagementModels;
 
 namespace DelitaTrade.Core.Contracts
 {
@@ -14,5 +15,7 @@ namespace DelitaTrade.Core.Contracts
         Task<IEnumerable<ProductViewModel>> GetFilteredProductsAsync(string[] args, int limit);
         Task AddProductAsync(ProductViewModel dtoProduct);
         Task<int> AddRangeProductAsync(IEnumerable<ProductViewModel> dtoProduct);
+        Task CreateProduct(CreateProductInputModel model);
+        Task EditProduct(EditProductInputModel model);
     }
 }

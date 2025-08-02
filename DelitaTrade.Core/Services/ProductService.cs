@@ -5,6 +5,7 @@ using DelitaTrade.Core.Contracts;
 using DelitaTrade.Core.ViewModels;
 using DelitaTrade.Infrastructure.Common;
 using DelitaTrade.Infrastructure.Data.Models;
+using DelitaTrade.Core.ViewModels.ProductsManagementModels;
 
 namespace DelitaTrade.Core.Services
 {
@@ -90,10 +91,54 @@ namespace DelitaTrade.Core.Services
             return await repo.SaveChangesAsync();
         }
 
+        public async Task CreateProduct(CreateProductInputModel model)
+        {
+            if (string.IsNullOrWhiteSpace(model.ProductName) || string.IsNullOrWhiteSpace(model.ProductUnit) || string.IsNullOrWhiteSpace(model.ProductNumber))
+            {
+                throw new ArgumentException("Product name, unit, and number cannot be empty.");
+            }
+
+            if (await repo.AllReadonly<Product>().AnyAsync(p => (p.Unit == model.ProductUnit && p.Name == model.ProductName) || p.Number == model.ProductNumber))
+            {
+                throw new InvalidOperationException("Product already exists.");
+            }
+
+            await repo.AddAsync(new Product
+            {
+                Name = model.ProductName,
+                Unit = model.ProductUnit,
+                Number = model.ProductNumber
+            });
+            await repo.SaveChangesAsync();
+        }
+
+        public async Task EditProduct(EditProductInputModel model)
+        {            
+            throw new NotImplementedException("EditProduct method is not implemented yet.");
+            
+            if (string.IsNullOrWhiteSpace(model.ProductName) 
+                || string.IsNullOrWhiteSpace(model.ProductUnit) 
+                || string.IsNullOrWhiteSpace(model.ProductNumber)
+                || string.IsNullOrEmpty(model.EditProductNumber)
+                || string.IsNullOrEmpty(model.EditProductName)
+                || string.IsNullOrEmpty(model.EditProductUnit))
+            {
+                throw new ArgumentException("Product name, unit, number and selected product cannot be empty.");
+            }
+
+            var productToEdit = await repo.All<Product>()
+                    .FirstOrDefaultAsync(p => p.Name == model.EditProductName && p.Unit == model.EditProductUnit) 
+                ?? throw new InvalidOperationException("Product to edit does not exist.");
+
+            productToEdit.Name = model.ProductName;
+            productToEdit.Unit = model.ProductUnit;
+            productToEdit.Number = model.ProductNumber;
+            await repo.SaveChangesAsync();
+        }
+
         private IQueryable<Product> GetFilteredReadonlyProduct(Expression<Func<Product, bool>> predicate)
         {
             return repo.AllReadonly<Product>().Where(predicate);
         }
-
     }
 }
