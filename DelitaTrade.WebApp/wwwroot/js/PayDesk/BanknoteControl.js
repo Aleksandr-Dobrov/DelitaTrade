@@ -33,11 +33,15 @@ function addEvents() {
                 inputEl.value++;
             }
         });
-                
-        const value = d.querySelector('.value');
+
+        inputEl.addEventListener('input', (e) => {
+            if (inputEl.value < (countEl.value * -1)) {
+                inputEl.value = countEl.value * -1;
+            }
+        });
 
         inputEl.addEventListener('wheel', calculateTotal);
-        value.addEventListener('input', calculateTotal);
+        inputEl.addEventListener('input', calculateTotal);
         d.querySelectorAll('.banknote-command button').forEach((b) => b.addEventListener('click', calculateTotal));
 
         function calculateTotal(e) {
@@ -45,7 +49,7 @@ function addEvents() {
             const total = d.querySelector('.total input');
             const banknote = d.querySelector('.amount input');
 
-            total.value = ((parseFloat(count.value) + parseFloat(value.value)) * parseFloat(banknote.value)).toFixed(2);
+            total.value = ((parseFloat(count.value) + parseFloat(inputEl.value)) * parseFloat(banknote.value)).toFixed(2);
             calculateTotalSumAndDifference(totalSumEl, differenceEl, income);
         };
     });
