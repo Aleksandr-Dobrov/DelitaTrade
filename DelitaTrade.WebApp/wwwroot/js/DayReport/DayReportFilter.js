@@ -6,10 +6,10 @@ function initiateFilter(e) {
     if (filterArg == null) return;
     filteredObjects(filterArg.value, filteredElements);
     
-    filterArg.addEventListener('input', myfunction);
+    filterArg.addEventListener('input', filterChange);
 }
 
-function myfunction(e) {
+function filterChange(e) {
     const filterArg = document.querySelector('#filter-arg');
     const filteredElements = document.querySelectorAll('.day-report-list-container');
     filteredObjects(filterArg.value, filteredElements);
@@ -38,6 +38,11 @@ function filteredObjects(filterArg, filteredElement) {
         document.querySelectorAll(notCompleted).forEach((el) => {
             setVisible(el);
         });
+    }
+
+    const filter = document.querySelector('#filter');
+    if (filter) {
+        filter.value = filterArg;
     }
 }
 

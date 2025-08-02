@@ -7,6 +7,7 @@ namespace DelitaTrade.Core.ViewModels.DayReportModels
         public int Id { get; set; }
         public DateTime ReportedDate { get; set; }
         public required string EmployeeName { get; set; }
+        public string Filter { get; set; } = string.Empty;
 
         public decimal TotalAmount { get; set; }
 
