@@ -78,3 +78,12 @@ body {
     margin: 0rem 0rem 0rem 1rem;
 }
 
+.delita-import-style {
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    background-color: aliceblue;
+    padding: 0.5rem;
+    border-style: outset;
+}
+

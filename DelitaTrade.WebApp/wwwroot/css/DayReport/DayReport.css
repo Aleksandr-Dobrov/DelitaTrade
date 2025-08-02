@@ -41,12 +41,3 @@
     text-decoration: none;
     color: black;
 }
-
-.delita-import-style {
-    border-radius: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    background-color: aliceblue;
-    padding: 0.5rem;
-    border-style: outset;
-}
