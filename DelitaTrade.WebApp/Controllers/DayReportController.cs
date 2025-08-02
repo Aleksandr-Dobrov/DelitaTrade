@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
+using static DelitaTrade.Common.Constants.AppMessageConstants;
 
 namespace DelitaTrade.WebApp.Controllers
 {
@@ -37,6 +38,7 @@ namespace DelitaTrade.WebApp.Controllers
             {
                 model.Employees = await dayReportService.GetAllUsersWhitDayReports(await GetUserViewModelAsync());
             }
+
             return View(model);
         }
 

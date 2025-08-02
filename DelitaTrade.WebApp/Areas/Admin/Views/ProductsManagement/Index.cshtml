@@ -3,8 +3,10 @@
     ViewData["ProductSearchUrl"] = Url.Action("Products", "Search", null, Url.ActionContext.HttpContext.Request.Scheme);
 }
 <head>
-    <link rel="stylesheet" href="~/css/AdminArea/AdminStyles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/search.css" asp-append-version="true" />
+    @section Style{
+        <link rel="stylesheet" href="~/css/AdminArea/AdminStyles.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/search.css" asp-append-version="true" />
+    }
 </head>
 
 <div class="main-dark-bg">

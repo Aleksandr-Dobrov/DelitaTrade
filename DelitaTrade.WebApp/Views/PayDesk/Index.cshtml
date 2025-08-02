@@ -10,8 +10,10 @@
 }
 
 <head>
-    <link rel="stylesheet" href="~/css/PayDesk/PayDesk.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/PayDesk/PayDeskBackground.css" asp-append-version="true" />
+    @section Style{
+        <link rel="stylesheet" href="~/css/PayDesk/PayDesk.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/PayDesk/PayDeskBackground.css" asp-append-version="true" />
+    }
 </head>
 
 <form asp-controller="PayDesk" asp-action="ApplyChanges" method="post">

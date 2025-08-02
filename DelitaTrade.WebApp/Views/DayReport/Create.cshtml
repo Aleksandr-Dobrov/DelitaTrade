@@ -7,9 +7,11 @@
     var today = Model.ReportedDate.HasValue ? Model.ReportedDate.Value.ToString(BrowserDateFormat) : DateTime.Now.ToString(BrowserDateFormat);
 }
 <head>
-    <link rel="stylesheet" href="~/css/Invoice/AdvancePayStyles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/DayReport/DayReportBackground.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+     @section Style{
+        <link rel="stylesheet" href="~/css/Invoice/AdvancePayStyles.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/DayReport/DayReportBackground.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+     }
 </head>
 
 <div class="row">
