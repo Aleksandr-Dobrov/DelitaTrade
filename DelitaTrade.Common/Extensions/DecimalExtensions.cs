@@ -15,7 +15,7 @@
 
         public static string LevToEuro(this decimal levValue) 
         {
-            return $"{levValue / _levToEuro:f2}euro";
+            return $"{levValue / _levToEuro:f2}€";
         }
 
         public static string ToWeight(this decimal weight) 
