@@ -18,5 +18,37 @@
             { 50.0m, 0 },
             { 100.0m, 0 },
         };
+
+        public decimal TotalOldValue { get; private set; }
+        public decimal TotalNewValue { get; private set; }
+        public decimal Balance => TotalNewValue - TotalOldValue;
+
+        public DayReportBanknotesViewModel GetCalculatedBanknotes()
+        {
+
+            var banknoteModel = new DayReportBanknotesViewModel
+            {
+                Id = Id,
+                Date = Date,
+                TotalIncome = TotalIncome,
+            };
+
+            TotalOldValue = BanknoteOldValues.Sum(b => b.Key * b.Value);
+            
+            foreach (var banknote in BanknoteOldValues)
+            {
+
+                banknoteModel.Banknotes[banknote.Key] = banknote.Value + Banknotes[banknote.Key];
+
+                if (banknoteModel.Banknotes[banknote.Key] < 0)
+                {
+                    throw new InvalidOperationException("Banknote count cannot be negative.");
+                }
+            }
+
+            TotalNewValue = banknoteModel.Banknotes.Sum(b => b.Key * b.Value);
+
+            return banknoteModel;
+        }
     }
 }

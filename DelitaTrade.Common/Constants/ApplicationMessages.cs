@@ -41,5 +41,25 @@
             public const string UpdateError = "An error occurred while updating the expense. Please contact developer team.";
             public const string ExpenseNotFound = "Expense not found.";
         }
+
+        public class InvoiceMessages
+        {
+            public const string CreateSuccess = "The invoice has been created successfully.";
+            public const string CreateError = "An error occurred while creating the invoice. Please contact developer team.";
+            public const string DeleteSuccess = "The invoice has been deleted successfully.";
+            public const string DeleteError = "An error occurred while deleting the invoice. Please contact developer team.";
+            public const string UpdateSuccess = "The invoice has been updated successfully.";
+            public const string UpdateError = "An error occurred while updating the invoice. Please contact developer team.";
+            public const string InvoiceNotFound = "Invoice not found.";
+            public const string NotImplemented = "This functionality is not implemented yet.";
+        }
+
+        public class PayDeskMessages
+        {
+            public const string ApplyError = "An error occurred applying changes. Please contact developer team.";
+            public const string ApplySuccess = "Apply success, {0} {1} {2}";
+            public const string NoChange = "No change applying";
+            public const string PayDeskNotFound = "An error occurred while loading pay desk. Please contact developer team.";
+        }
     }
 }

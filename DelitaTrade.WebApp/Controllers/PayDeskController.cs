@@ -2,10 +2,12 @@
 using DelitaTrade.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
 using Microsoft.AspNetCore.Identity;
-using DelitaTrade.Core.ViewModels;
 using DelitaTrade.Core.ViewModels.DayReportModels;
+using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
+using static DelitaTrade.Common.Constants.AppMessageConstants;
+using static DelitaTrade.Common.Constants.ApplicationMessages.PayDeskMessages;
+using DelitaTrade.Common.Extensions;
 
 namespace DelitaTrade.WebApp.Controllers
 {
@@ -16,48 +18,65 @@ namespace DelitaTrade.WebApp.Controllers
         [Authorize(Roles = DriverRole)]
         public async Task<IActionResult> Index(int dayReportId)
         {
-            var user = await GetUserViewModelAsync();
-            var dayReport = await dayReportService.GetBanknotesReadonlyAsync(user, dayReportId);
-
-            var banknoteInputModel = new BanknoteInputModel
+            try
             {
-                Id = dayReport.Id,
-                Date = dayReport.Date,
-                BanknoteOldValues = dayReport.Banknotes,
-                TotalIncome = dayReport.TotalIncome,
-            };
+                var user = await GetUserViewModelAsync();
+                var dayReport = await dayReportService.GetBanknotesReadonlyAsync(user, dayReportId);
 
-            return View(banknoteInputModel);
+                var banknoteInputModel = new BanknoteInputModel
+                {
+                    Id = dayReport.Id,
+                    Date = dayReport.Date,
+                    BanknoteOldValues = dayReport.Banknotes,
+                    TotalIncome = dayReport.TotalIncome,
+                };
+
+                return View(banknoteInputModel);
+            }
+            catch (Exception) 
+            {
+                TempData[Error] = PayDeskNotFound;
+                return RedirectToAction(nameof(DayReportController.Details), nameof(DayReportController).GetControllerName(), new { Id = dayReportId });
+            }
         }
 
         [HttpPost]
         [Authorize(Roles = DriverRole)]
         public async Task<IActionResult> ApplyChanges(BanknoteInputModel banknotesViewModel)
-        {
-            var banknoteModel = new DayReportBanknotesViewModel
+        {           
+            try
             {
-                Id = banknotesViewModel.Id,
-                Date = banknotesViewModel.Date,
-                TotalIncome = banknotesViewModel.TotalIncome,
-                
-            };
+                var banknoteModel = banknotesViewModel.GetCalculatedBanknotes();
 
-            foreach (var banknote in banknotesViewModel.BanknoteOldValues)
-            {
-                banknoteModel.Banknotes[banknote.Key] = banknote.Value + banknotesViewModel.Banknotes[banknote.Key];
+                var user = await GetUserViewModelAsync();
 
-                if(banknoteModel.Banknotes[banknote.Key] < 0)
+                await dayReportService.UpdateBanknotesAsync(user, banknoteModel);
+
+                if (banknotesViewModel.Balance != 0)
                 {
-                    //TODO: implement custom error page
-                    return View(nameof(Index), banknotesViewModel);
+                    TempData[Success] = string.Format(
+                    ApplySuccess,
+                    banknotesViewModel.Balance > 0 ? "added" : "remove",
+                    Math.Abs(banknotesViewModel.Balance),
+                    "лв.");
                 }
+                else
+                {
+                    TempData[Info] = NoChange;
+                }
+
+                return RedirectToAction(nameof(Index), new { DayReportId = banknotesViewModel.Id });
             }
-
-            var user = await GetUserViewModelAsync();
-
-            await dayReportService.UpdateBanknotesAsync(user, banknoteModel);
-
-            return RedirectToAction(nameof(Index), new { DayReportId = banknotesViewModel.Id });
+            catch (InvalidOperationException ex)
+            {
+                TempData[Error] = ex.Message;
+                return View(nameof(Index), banknotesViewModel);
+            }
+            catch (Exception)
+            {
+                TempData[Error] = ApplyError;
+                return View(nameof(Index), banknotesViewModel);
+            }
         }
     }
 }
