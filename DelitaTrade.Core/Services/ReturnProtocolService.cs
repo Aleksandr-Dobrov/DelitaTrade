@@ -13,7 +13,7 @@ using static DelitaTrade.Common.ExceptionMessages;
 
 namespace DelitaTrade.Core.Services
 {
-    public class ReturnProtocolService(IRepository repo, UserManager<DelitaUser> userManager) : IReturnProtocolService
+    public class ReturnProtocolService(IRepository repo) : IReturnProtocolService
     {
         public async Task<IEnumerable<ReturnProtocolViewModel>> GetAllAsync(UserViewModel userViewModel)
         {
@@ -301,7 +301,7 @@ namespace DelitaTrade.Core.Services
 
         public async Task<int> CreateProtocolAsync(ReturnProtocolViewModel protocolViewModel)
         {
-            var user = await GetUserAsync(userManager, protocolViewModel.User)
+            var user = await GetUserAsync(protocolViewModel.User)
                 ?? throw new InvalidOperationException(NotAuthenticate(protocolViewModel.User));
 
             var trader = await repo.GetByIdAsync<Trader>(protocolViewModel.Trader.Id)
@@ -467,10 +467,11 @@ namespace DelitaTrade.Core.Services
             return query.Where(p => p.ReturnedDate.Date >= startDate.Date && p.ReturnedDate <= endDate.Date);
         }
 
-        private async Task<DelitaUser> GetUserAsync(UserManager<DelitaUser> userManager, UserViewModel user)
+        private async Task<DelitaUser> GetUserAsync(UserViewModel user)
         {
-            return await userManager.FindByIdAsync(user.Id.ToString()) ??
-                throw new InvalidOperationException(NotAuthenticate(user));
+            return await repo.All<DelitaUser>()
+                .FirstOrDefaultAsync(u => u.Id == user.Id) ??
+                throw new ArgumentNullException(NotFound(nameof(DelitaUser)));
         }
 
         private static bool IsDateTimeIdentical(DateTime? first, DateTime? second)
