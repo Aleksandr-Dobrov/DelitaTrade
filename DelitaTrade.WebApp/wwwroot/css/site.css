@@ -89,3 +89,22 @@ body {
     border-style: outset;
 }
 
+.login-link {
+    font-family: system-ui;
+    font-weight: 600;
+    font-size: large;
+    background-color: aliceblue;
+    border-radius: 0.5rem;
+    margin-left: 0.5rem;
+    border-style: inset;
+    border-width: thick;
+}
+
+    .login-link button {
+        background-color: transparent;
+        border: none;
+        font-size: large;
+        font-weight: 600;
+        font-family: system-ui;
+    }
+
