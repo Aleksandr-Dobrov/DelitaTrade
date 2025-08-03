@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
+using static DelitaTrade.Common.Constants.AppMessageConstants;
+using static DelitaTrade.Common.Constants.ApplicationMessages.InvoiceMessages;
 
 namespace DelitaTrade.WebApp.Controllers
 {
@@ -17,6 +19,7 @@ namespace DelitaTrade.WebApp.Controllers
     {
         public IActionResult Index()
         {
+            TempData[Warning] = NotImplemented;
             return View();
         }
 
@@ -24,8 +27,7 @@ namespace DelitaTrade.WebApp.Controllers
         public async Task<IActionResult> Complete(int id , int deliveryId) 
         {
             try
-            {
-                
+            {                
                 var completeModel = await invoiceService.GetPaymentCompleteInputModelAsync(id, deliveryId);
 
                 if (completeModel == null)
@@ -35,8 +37,9 @@ namespace DelitaTrade.WebApp.Controllers
                 
                 return View(completeModel);
             }
-            catch (ArgumentNullException)
+            catch (Exception)
             {
+                TempData[Error] = CompleteError;
                 return RedirectToAction(nameof(DayReportController.Index), nameof(DayReportController).GetControllerName());
             }
         }
@@ -57,10 +60,11 @@ namespace DelitaTrade.WebApp.Controllers
 
                 if(await deliveryService.IsCompleteAsync(user, model.DeliveryId))
                 {
+                    TempData[Success] = CompleteAllSuccess;
                     int dayReportId = await deliveryService.GetDayReportIdAsync(model.DeliveryId);
                     return RedirectToAction(nameof(DayReportController.Details), nameof(DayReportController).GetControllerName(), new { Id = dayReportId });
                 }
-
+                TempData[Success] = string.Format(CompleteSuccess, model.PaymentType.Translate());
                 return RedirectToAction(nameof(DeliveryController.Details), nameof(DeliveryController).GetControllerName(), new { Id = model.DeliveryId });
             }
             catch (UnauthorizedAccessException)
@@ -73,8 +77,14 @@ namespace DelitaTrade.WebApp.Controllers
                 return View(model);
             }
 
-            catch (ArgumentNullException)
+            catch (ArgumentNullException ex)
             {
+                TempData[Error] = ex.Message;
+                return RedirectToAction(nameof(DayReportController.Index), nameof(DayReportController).GetControllerName());
+            }
+            catch (Exception)
+            {
+                TempData[Error] = CompleteError;
                 return RedirectToAction(nameof(DayReportController.Index), nameof(DayReportController).GetControllerName());
             }
         }
@@ -96,6 +106,7 @@ namespace DelitaTrade.WebApp.Controllers
             }
             catch
             {
+                TempData[Error] = AdvancePaymentError;
                 return RedirectToAction(nameof(DayReportController.Index), nameof(DayReportController).GetControllerName());
             }
         }
@@ -119,12 +130,14 @@ namespace DelitaTrade.WebApp.Controllers
                     var invoiceInDayReport = await invoiceService.GetAdvanceByIdAsync(model.Id);
                     if (invoiceInDayReport == null)
                     {
+                        TempData[Error] = AdvancePaymentError;
                         return RedirectToAction(nameof(DayReportController.Index), nameof(DayReportController).GetControllerName());
                     }
 
                     var inputModel = invoiceInDayReport.GetInputModel();
                     if (inputModel == null)
                     {
+                        TempData[Error] = AdvancePaymentError;
                         return RedirectToAction(nameof(DayReportController.Index), nameof(DayReportController).GetControllerName());
                     }
                     model.PaymentTypes = inputModel.PaymentTypes;
@@ -136,6 +149,7 @@ namespace DelitaTrade.WebApp.Controllers
 
                 await invoiceService.AdvancePayAsync(user, model, model.DeliveryId);
 
+                TempData[Success] = AdvancePaymentSuccess;
                 return RedirectToAction(nameof(DeliveryController.Details), nameof(DeliveryController).GetControllerName(), new { Id = model.DeliveryId });
             }
             catch (UnauthorizedAccessException)
@@ -149,8 +163,14 @@ namespace DelitaTrade.WebApp.Controllers
                 return View(model);
             }
 
-            catch (ArgumentNullException)
+            catch (ArgumentNullException ex)
             {
+                TempData[Error] = ex.Message;
+                return RedirectToAction(nameof(DayReportController.Index), nameof(DayReportController).GetControllerName());
+            }
+            catch (Exception)
+            {
+                TempData[Error] = AdvancePaymentError;
                 return RedirectToAction(nameof(DayReportController.Index), nameof(DayReportController).GetControllerName());
             }
         }

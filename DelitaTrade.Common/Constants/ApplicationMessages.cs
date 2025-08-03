@@ -44,12 +44,11 @@
 
         public class InvoiceMessages
         {
-            public const string CreateSuccess = "The invoice has been created successfully.";
-            public const string CreateError = "An error occurred while creating the invoice. Please contact developer team.";
-            public const string DeleteSuccess = "The invoice has been deleted successfully.";
-            public const string DeleteError = "An error occurred while deleting the invoice. Please contact developer team.";
-            public const string UpdateSuccess = "The invoice has been updated successfully.";
-            public const string UpdateError = "An error occurred while updating the invoice. Please contact developer team.";
+            public const string CompleteSuccess = "The payment by {0} has been completed successfully.";
+            public const string CompleteAllSuccess = "All payments for the delivery have been completed successfully.";
+            public const string CompleteError = "An error occurred while completing the payment. Please contact developer team.";
+            public const string AdvancePaymentError = "An error occurred while processing the advance payment. Please contact developer team.";
+            public const string AdvancePaymentSuccess = "The advance payment has been processed successfully.";
             public const string InvoiceNotFound = "Invoice not found.";
             public const string NotImplemented = "This functionality is not implemented yet.";
         }
