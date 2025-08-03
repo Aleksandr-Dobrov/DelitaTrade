@@ -116,12 +116,10 @@
                                         <i class="fas fa-edit"></i> Edit
                                     </a>
                                 </td>
-                                <td>
-                                    <form asp-controller="ReturnProduct" asp-action="Delete" asp-route-id="@product.Id" method="post">
-                                        <button type="submit" class="btn btn-danger">
-                                            <i class="fas fa-trash"></i> Delete
-                                        </button>
-                                    </form>
+                                <td>                                    
+                                    <a asp-controller="ReturnProduct" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger">                                        
+                                        <i class="fas fa-trash"></i> Delete
+                                    </a>
                                 </td>
                             }
                             else if (User.IsInRole(WarehouseManagerRole) && isEditable)

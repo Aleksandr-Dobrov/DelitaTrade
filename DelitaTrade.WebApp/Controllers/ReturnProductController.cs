@@ -122,7 +122,7 @@ namespace DelitaTrade.WebApp.Controllers
 
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
             var userViewModel = await GetUserViewModelAsync();
