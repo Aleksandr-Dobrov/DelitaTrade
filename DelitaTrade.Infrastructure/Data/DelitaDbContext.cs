@@ -21,6 +21,7 @@ namespace DelitaTrade.Infrastructure.Data
             modelBuilder.ApplyConfiguration(new DayReportConfiguration());
             modelBuilder.ApplyConfiguration(new TraderConfiguration());
             modelBuilder.ApplyConfiguration(new VehicleConfiguration());
+            modelBuilder.ApplyConfiguration(new DescriptionCategoryConfiguration());
         }
 
         //Remove comment on code below and add connection string before applying migrations
