@@ -17,7 +17,7 @@ namespace TestProject.Services
         [SetUp]
         public void Setup()
         {
-            _repositoryMock = new Mock<IRepository>();
+            _repositoryMock = new Mock<IRepository>(MockBehavior.Loose);
             _traderService = new TraderService(_repositoryMock.Object);
         }
 
@@ -100,9 +100,18 @@ namespace TestProject.Services
                 IsActive = true
             };
 
+            var existingTraders = new List<Trader>
+            {
+                new() { Id = 2, Name = "Existing Trader", PhoneNumber = "1234567890", IsActive = true }
+            };
+
             _repositoryMock.Setup(repo => repo.AllReadonly<Trader>())
-                .Returns(new List<Trader>().BuildMock());
+                .Returns(existingTraders.BuildMock());
             _repositoryMock.Setup(repo => repo.AddAsync(trader))
+                .Returns(Task.CompletedTask);
+            _repositoryMock.Setup(repo => repo.SaveChangesAsync())
+                .ReturnsAsync(1);
+            _repositoryMock.Setup(repo => repo.ReloadAsync(trader))
                 .Returns(Task.CompletedTask);
 
             var result = await _traderService.CreateAsync(traderViewModel);
