@@ -60,10 +60,6 @@ namespace DelitaTrade.Core.Services
 
                     await repo.AddAsync(company);
                     await repo.SaveChangesAsync();
-
-                    //company = await repo.All<Company>()
-                    //    .Where(c => c.Name == licensePlate)
-                    //    .FirstOrDefaultAsync() ?? throw new InvalidOperationException("Can not create new expense");
                 }
 
                 companyObject = new CompanyObject()
@@ -75,11 +71,6 @@ namespace DelitaTrade.Core.Services
 
                 await repo.AddAsync(companyObject);
                 await repo.SaveChangesAsync();
-
-                //companyObject = await repo.AllReadonly<CompanyObject>()
-                //        .Where(o => o.Name == expense.Expense
-                //                && o.CompanyId == company.Id)
-                //        .FirstOrDefaultAsync() ?? throw new InvalidOperationException("Can not create new expense");
             }
 
             var companyViewModel = new CompanyViewModel()

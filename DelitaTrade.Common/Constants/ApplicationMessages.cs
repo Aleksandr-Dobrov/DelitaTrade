@@ -1,6 +1,6 @@
 ﻿namespace DelitaTrade.Common.Constants
 {
-    public class AppErrorMessage
+    public class ApplicationMessages
     {
         public class DayReportMessages
         {
@@ -29,6 +29,17 @@
             public const string AddInvoiceError = "An error occurred while adding the invoice. Please contact developer team.";
             public const string DeliveryNotFound = "Delivery not found.";
             public const string NotImplemented = "This functionality is not implemented yet.";
+        }
+
+        public class ExpenseMessages
+        {
+            public const string CreateSuccess = "The expense has been created successfully.";
+            public const string CreateError = "An error occurred while creating the expense. Please try again.";
+            public const string DeleteSuccess = "The expense has been deleted successfully.";
+            public const string DeleteError = "An error occurred while deleting the expense. Please contact developer team.";
+            public const string UpdateSuccess = "The expense has been updated successfully.";
+            public const string UpdateError = "An error occurred while updating the expense. Please contact developer team.";
+            public const string ExpenseNotFound = "Expense not found.";
         }
     }
 }

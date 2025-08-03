@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
-using static DelitaTrade.Common.Constants.AppErrorMessage.DeliveryMessages;
+using static DelitaTrade.Common.Constants.ApplicationMessages.DeliveryMessages;
 using static DelitaTrade.Common.Constants.AppMessageConstants;
 using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
 
