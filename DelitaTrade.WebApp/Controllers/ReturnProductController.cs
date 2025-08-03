@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using static DelitaTrade.Common.Constants.DelitaIdentityConstants.RoleNames;
+using static DelitaTrade.Common.Constants.AppMessageConstants;
+using static DelitaTrade.Common.Constants.ApplicationMessages.ReturnProductMessages;
 
 namespace DelitaTrade.WebApp.Controllers
 {
@@ -20,126 +22,170 @@ namespace DelitaTrade.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Create(int id)
         {
-            if (await returnProtocolService.IsApproved(id))
+            try
             {
+                if (await returnProtocolService.IsApproved(id))
+                {
+                    TempData[Warning] = IsApproved;
+                    return RedirectToAction(nameof(ReturnProtocolController.Details), nameof(ReturnProtocolController).GetControllerName(), new { Id = id });
+                }
+                ReturnedProductInputModel model = new ReturnedProductInputModel();
+                model.ReturnProtocolId = id;
+                model.DescriptionCategories = await descriptionCategoryService.GetAllAsync();
+
+                return View(model);
+            }
+            catch (Exception)
+            {
+                TempData[Error] = AddError;
                 return RedirectToAction(nameof(ReturnProtocolController.Details), nameof(ReturnProtocolController).GetControllerName(), new { Id = id });
             }
-            ReturnedProductInputModel model = new ReturnedProductInputModel();
-            model.ReturnProtocolId = id;
-            model.DescriptionCategories = await descriptionCategoryService.GetAllAsync();
-
-            return View(model);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(ReturnedProductInputModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                model.DescriptionCategories = await descriptionCategoryService.GetAllAsync();
-                return View(model);
+                if (!ModelState.IsValid)
+                {
+                    model.DescriptionCategories = await descriptionCategoryService.GetAllAsync();
+                    return View(model);
+                }
+
+                var userViewModel = await GetUserViewModelAsync();            
+
+                await returnProductService.AddProductAsync(model, model.ReturnProtocolId, userViewModel);
+
+                TempData[Success] = AddSuccess;
+                return RedirectToAction(nameof(ReturnProtocolController.Details), nameof(ReturnProtocolController).GetControllerName(), new { Id = model.ReturnProtocolId });
             }
-
-            var userViewModel = await GetUserViewModelAsync();            
-
-            await returnProductService.AddProductAsync(model, model.ReturnProtocolId, userViewModel);
-
-            return RedirectToAction("Details", "ReturnProtocol", new { Id = model.ReturnProtocolId });
+            catch (Exception)
+            {
+                TempData[Error] = AddError;
+                return RedirectToAction(nameof(ReturnProtocolController.Details), nameof(ReturnProtocolController).GetControllerName(), new { Id = model.ReturnProtocolId });
+            }
 
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var productToEdit = await returnProductService.GetProductByIdAsync(id, await GetUserViewModelAsync());
-            if (productToEdit == null)
+            try
             {
-                return Unauthorized();
-            }
-            if (await returnProtocolService.IsApproved(productToEdit.ReturnProtocolId))
-            {
-                return RedirectToAction(nameof(ReturnProtocolController.Details), nameof(ReturnProtocolController).GetControllerName(), new { Id = productToEdit.ReturnProtocolId });
-            }
+                var productToEdit = await returnProductService.GetProductByIdAsync(id, await GetUserViewModelAsync());
+                if (productToEdit == null)
+                {
+                    return Unauthorized();
+                }
+                if (await returnProtocolService.IsApproved(productToEdit.ReturnProtocolId))
+                {
+                    TempData[Warning] = IsApproved;
+                    return RedirectToAction(nameof(ReturnProtocolController.Details), nameof(ReturnProtocolController).GetControllerName(), new { Id = productToEdit.ReturnProtocolId });
+                }
 
-            var model = new ReturnProductEditModel()
-            {
-                Id = productToEdit.Id,
-                Batch = productToEdit.Batch,
-                BestBefore = productToEdit.BestBefore,
-                Quantity = productToEdit.Quantity,
-                ProductName = productToEdit.Product.Name,
-                Unit = productToEdit.Product.Unit,
-                DescriptionId = productToEdit.Description?.Id,
-                Description = productToEdit.Description?.Description,
-                DescriptionCategoryId = productToEdit.DescriptionCategory.Id,
-                DescriptionCategories = await descriptionCategoryService.GetAllAsync()
-            };
+                var model = new ReturnProductEditModel()
+                {
+                    Id = productToEdit.Id,
+                    Batch = productToEdit.Batch,
+                    BestBefore = productToEdit.BestBefore,
+                    Quantity = productToEdit.Quantity,
+                    ProductName = productToEdit.Product.Name,
+                    Unit = productToEdit.Product.Unit,
+                    DescriptionId = productToEdit.Description?.Id,
+                    Description = productToEdit.Description?.Description,
+                    DescriptionCategoryId = productToEdit.DescriptionCategory.Id,
+                    DescriptionCategories = await descriptionCategoryService.GetAllAsync()
+                };
 
-            return View(model);
+                return View(model);
+            }
+            catch (Exception)
+            {
+                TempData[Error] = UpdateError;
+                return RedirectToAction(nameof(ReturnProtocolController.Details), nameof(ReturnProtocolController).GetControllerName(), new { Id = id });
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(ReturnProductEditModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                model.DescriptionCategories = await descriptionCategoryService.GetAllAsync();
-                return View(model);
+                if (!ModelState.IsValid)
+                {
+                    model.DescriptionCategories = await descriptionCategoryService.GetAllAsync();
+                    return View(model);
+                }
+                
+                var productToEdit = await returnProductService.GetProductByIdAsync(model.Id, await GetUserViewModelAsync());
+                if (productToEdit == null)
+                {
+                    return Unauthorized();
+                }
+
+                productToEdit.Batch = model.Batch;
+                productToEdit.BestBefore = model.BestBefore;
+                productToEdit.Quantity = model.Quantity;
+                productToEdit.Product.Name = model.ProductName;
+                productToEdit.Product.Unit = model.Unit;
+                if(productToEdit.DescriptionCategory.Id != model.DescriptionCategoryId)
+                {
+                    productToEdit.DescriptionCategory = await descriptionCategoryService.GetByIdAsync(model.DescriptionCategoryId);
+                }
+                productToEdit.Description = model.DescriptionId != null
+                        ? new ReturnedProductDescriptionViewModel
+                        {
+                            Id = model.DescriptionId.Value,
+                            Description = model.Description ?? string.Empty
+                        }
+                        : model.Description != null ? 
+                        new ReturnedProductDescriptionViewModel 
+                        {
+                            Description = model.Description,
+                        }
+                        : null;
+
+
+                await returnProductService.UpdateProductAsync(productToEdit);
+                TempData[Success] = UpdateSuccess;
+                return RedirectToAction(nameof(ReturnProtocolController.Details), nameof(ReturnProtocolController).GetControllerName(), new { Id = productToEdit.ReturnProtocolId });
             }
-            
-            var productToEdit = await returnProductService.GetProductByIdAsync(model.Id, await GetUserViewModelAsync());
-            if (productToEdit == null)
+            catch (Exception)
             {
-                return Unauthorized();
+                TempData[Error] = UpdateError;
+                return RedirectToAction(nameof(ReturnProtocolController.Details), nameof(ReturnProtocolController).GetControllerName(), new { Id = model.ReturnProtocolId });
             }
-
-            productToEdit.Batch = model.Batch;
-            productToEdit.BestBefore = model.BestBefore;
-            productToEdit.Quantity = model.Quantity;
-            productToEdit.Product.Name = model.ProductName;
-            productToEdit.Product.Unit = model.Unit;
-            if(productToEdit.DescriptionCategory.Id != model.DescriptionCategoryId)
-            {
-                productToEdit.DescriptionCategory = await descriptionCategoryService.GetByIdAsync(model.DescriptionCategoryId);
-            }
-            productToEdit.Description = model.DescriptionId != null
-                    ? new ReturnedProductDescriptionViewModel
-                    {
-                        Id = model.DescriptionId.Value,
-                        Description = model.Description ?? string.Empty
-                    }
-                    : model.Description != null ? 
-                    new ReturnedProductDescriptionViewModel 
-                    {
-                        Description = model.Description,
-                    }
-                    : null;
-
-
-            await returnProductService.UpdateProductAsync(productToEdit);
-
-            return RedirectToAction("Details", "ReturnProtocol", new { Id = productToEdit.ReturnProtocolId });
 
         }
 
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            var userViewModel = await GetUserViewModelAsync();
-            var productToEdit = await returnProductService.GetProductByIdAsync(id, await GetUserViewModelAsync());
-
-            if (productToEdit == null)
+            try
             {
-                return Unauthorized();
+                var userViewModel = await GetUserViewModelAsync();
+                var productToDelete = await returnProductService.GetProductByIdAsync(id, userViewModel);
+
+                if (productToDelete == null)
+                {
+                    return Unauthorized();
+                }
+                if (await returnProtocolService.IsApproved(productToDelete.ReturnProtocolId))
+                {
+                    TempData[Warning] = IsApproved;
+                    return RedirectToAction(nameof(ReturnProtocolController.Details), nameof(ReturnProtocolController).GetControllerName(), new { Id = productToDelete.ReturnProtocolId });
+                }
+
+                await returnProductService.DeleteProductAsync(id, userViewModel);
+                TempData[Success] = string.Format(DeleteSuccess, productToDelete.Product.Name);
+                return RedirectToAction(nameof(ReturnProtocolController.Details), nameof(ReturnProtocolController).GetControllerName(), new { Id = productToDelete.ReturnProtocolId });
             }
-            if (await returnProtocolService.IsApproved(productToEdit.ReturnProtocolId))
+            catch (Exception)
             {
-                return RedirectToAction(nameof(ReturnProtocolController.Details), nameof(ReturnProtocolController).GetControllerName(), new { Id = productToEdit.ReturnProtocolId });
+                TempData[Error] = DeleteError;
+                return RedirectToAction(nameof(ReturnProtocolController.Index), nameof(ReturnProtocolController).GetControllerName());
             }
-
-            await returnProductService.DeleteProductAsync(id, userViewModel);
-
-            return RedirectToAction("Details", "ReturnProtocol", new { Id = productToEdit.ReturnProtocolId });
         }
     }
 }

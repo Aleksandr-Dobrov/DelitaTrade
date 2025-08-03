@@ -60,5 +60,17 @@
             public const string NoChange = "No change applying";
             public const string PayDeskNotFound = "An error occurred while loading pay desk. Please contact developer team.";
         }
+
+        public class ReturnProductMessages
+        {
+            public const string AddSuccess = "The product has been added successfully.";
+            public const string AddError = "An error occurred while added the product. Please contact developer team.";
+            public const string IsApproved = "The return protocol is already approved. You can not change it anymore.";
+            public const string UpdateSuccess = "The product has been updated successfully.";
+            public const string UpdateError = "An error occurred while updating the product. Please contact developer team.";
+            public const string DeleteSuccess = "The {0} has been deleted successfully.";
+            public const string DeleteError = "An error occurred while deleting the product. Please contact developer team.";
+            public const string ProductNotFound = "Product not found.";
+        }
     }
 }
