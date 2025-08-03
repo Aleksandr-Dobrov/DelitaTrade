@@ -72,5 +72,24 @@
             public const string DeleteError = "An error occurred while deleting the product. Please contact developer team.";
             public const string ProductNotFound = "Product not found.";
         }
+
+        public class ReturnProtocolMessages
+        {
+            public const string CreateSuccess = "The return protocol for {0} has been created successfully.";
+            public const string CreateError = "An error occurred while creating the return protocol. Please contact developer team.";
+            public const string DeleteSuccess = "The return protocol for {0} has been deleted successfully.";
+            public const string DeleteError = "An error occurred while deleting the return protocol. Please contact developer team.";
+            public const string UpdateSuccess = "The return protocol has been updated successfully.";
+            public const string UpdateError = "An error occurred while updating the return protocol. Please contact developer team.";
+            public const string ApproveSuccess = "The return protocol has been approved successfully.";
+            public const string ApproveError = "An error occurred while approving the return protocol. Please contact developer team.";
+            public const string ReturnProtocolNotFound = "Return protocol not found.";
+            public const string SearchComplete = "Search completed successfully. Found {0} results.";
+            public const string SearchNoResult = "Search completed successfully.No results found.";
+            public const string SearchError = "An error occurred while searching. Please try again with another parameters.";
+            public const string ReturnProtocolError = "An error occurred while processing the return protocol. Please contact developer team.";
+            public const string IsAlreadyApproved = "The return protocol is already approved. You can not change it anymore.";
+            public const string IsModify = "The return protocol has ben modify. Please refresh page and try again.";
+        }
     }
 }
