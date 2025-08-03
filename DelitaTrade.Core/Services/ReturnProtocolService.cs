@@ -326,7 +326,7 @@ namespace DelitaTrade.Core.Services
             };
             await repo.AddAsync(newReturnProtocol);
             await repo.SaveChangesAsync();
-            await repo.ReloadAsync(newReturnProtocol);
+
             return newReturnProtocol.Id;
         }
 
@@ -467,11 +467,10 @@ namespace DelitaTrade.Core.Services
             return query.Where(p => p.ReturnedDate.Date >= startDate.Date && p.ReturnedDate <= endDate.Date);
         }
 
-        private async Task<DelitaUser> GetUserAsync(UserViewModel user)
+        private async Task<DelitaUser?> GetUserAsync(UserViewModel user)
         {
             return await repo.All<DelitaUser>()
-                .FirstOrDefaultAsync(u => u.Id == user.Id) ??
-                throw new ArgumentNullException(NotFound(nameof(DelitaUser)));
+                .FirstOrDefaultAsync(u => u.Id == user.Id);
         }
 
         private static bool IsDateTimeIdentical(DateTime? first, DateTime? second)
