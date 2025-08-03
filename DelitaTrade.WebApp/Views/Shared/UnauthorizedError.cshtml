@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Unauthorized";
+}
+
+<link rel="stylesheet" href="~/css/ErrorPageStyles/ErrorStyles.css" asp-append-version="true" />
+
+<div class="not-found-container">
+    <div class="access-denied-icon">
+        <i class="fas fa-user-lock"></i>
+    </div>
+    <div class="access-denied-title">Unauthorized</div>
+    <div class="not-found-message">
+        You are not authorized to access this page.<br />
+        Please log in with the appropriate credentials or contact your administrator if you believe this is an error.
+    </div>
+    <a href="~/" class="not-found-link">
+        &larr; Back to Home
+    </a>
+</div>

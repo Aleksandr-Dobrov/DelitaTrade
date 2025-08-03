@@ -4,7 +4,25 @@
     ViewData["Title"] = "Access denied";
 }
 
-<header>
-    <h1 class="text-danger">@ViewData["Title"]</h1>
-    <p class="text-danger">You do not have access to this resource.</p>
-</header>
+<head>
+    @section Style{
+        <link rel="stylesheet" href="~/css/ErrorPageStyles/ErrorStyles.css" />
+    }
+</head>
+
+<div class="not-found-container">
+
+    <div class="access-denied-icon">
+        <i class="fas fa-ban"></i>
+    </div>
+    <img src="~/Assets/Background/ErrorPages/AccessDenied.jpg" />
+
+    <div class="access-denied-title">403</div>
+    <div class="not-found-message">
+        Sorry, you do not have permission to view this page.<br />
+        If you believe this is an error, please contact your administrator.
+    </div>
+    <a href="~/" class="not-found-link">
+        &larr; Back to Home
+    </a>
+</div>
