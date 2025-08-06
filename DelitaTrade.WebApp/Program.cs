@@ -10,7 +10,7 @@ namespace DelitaTrade.WebApp
             var builder = WebApplication.CreateBuilder(args);
             // Add services to the container.
             builder.Configuration.AddUserSecrets(Assembly.GetEntryAssembly() ?? throw new ArgumentException("Unable to get entry assembly"));
-            builder.Services.AddApplicationDatabase(builder.Configuration, "TestDelitaConnection");
+            builder.Services.AddApplicationDatabase(builder.Configuration, "DelitaConnection");
             builder.Services.AddRazorPages();
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
             

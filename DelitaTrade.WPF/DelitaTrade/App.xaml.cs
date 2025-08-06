@@ -23,7 +23,7 @@ namespace DelitaTrade
                 })
                 .ConfigureServices((hostContent, services) =>
                 {
-                    services.AddApplicationDatabase(hostContent.Configuration, "TestDelitaConnection")
+                    services.AddApplicationDatabase(hostContent.Configuration, "DelitaConnection")
                         .AddApplicationConfigurationManager()
                         .AddApplicationServices()
                         .AddWpfApplicationIdentity()
