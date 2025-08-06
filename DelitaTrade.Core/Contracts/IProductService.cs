@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DelitaTrade.Core.ViewModels;
+﻿using DelitaTrade.Core.ViewModels;
 using DelitaTrade.Core.ViewModels.ProductsManagementModels;
 
 namespace DelitaTrade.Core.Contracts
