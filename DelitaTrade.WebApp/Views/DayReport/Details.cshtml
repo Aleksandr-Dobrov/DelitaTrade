@@ -63,7 +63,7 @@
                 <div class="action">
                     <form asp-controller="DayReport" asp-action="ImportPayments" asp-route-dayReportId="@Model.Id" method="post" enctype="multipart/form-data" class="delita-import-style">
                         <input type="file" name="file" />
-                        <button type="submit">Import</button>
+                        <button type="submit">Import Payments</button>
                     </form>
 
                     @if (User.IsInRole(AdminRole))
