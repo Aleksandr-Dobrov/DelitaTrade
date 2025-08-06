@@ -54,7 +54,6 @@ namespace DelitaTrade.Core.Services
             protocol.LastChanged = DateTime.Now;
 
             await repo.SaveChangesAsync();
-            await repo.ReloadAsync(newProduct);
             return newProduct.Id;
         }
 
