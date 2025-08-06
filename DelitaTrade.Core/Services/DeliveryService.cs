@@ -466,7 +466,7 @@ namespace DelitaTrade.Core.Services
             {
                 Id = deliveryId,
                 dayReportId = d.DayReportId,
-                EmployeeName = $"{d.Employee.Name} {d.Employee.LastName}",
+                EmployeeName = $"{d.Employee.Name} {d.Employee.LastName}".Trim(),
                 CompanyObjectName = d.DeliveryAddress.Name,
                 CompanyObjectId = d.DeliveryAddressId,
                 IsBank = d.DeliveryAddress.IsBankPay,
